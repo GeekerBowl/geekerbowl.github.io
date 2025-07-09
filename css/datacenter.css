@@ -12,6 +12,19 @@
   display: block;
 }
 
+/* ICF Editor 特定样式 */
+.iframe-container {
+  min-height: 800px;
+  position: relative;
+}
+
+.icf-editor-iframe {
+  width: 100%;
+  min-height: 800px;
+  border: none;
+  background: transparent;
+}
+
 /* 其余样式保持不变 */
 :root {
   --sidebar-width: 250px;

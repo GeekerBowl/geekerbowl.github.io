@@ -85,14 +85,14 @@ document.addEventListener("DOMContentLoaded", function() {
         'nav-download-text': 'Downloads',
         'nav-about-text': 'About',
         'language-text': 'Language',
-		// 侧边栏
+        // 侧边栏
         'sidebar-home': 'Top Page',
         'sidebar-data': 'Download',
         'sidebar-settings': 'Settings',
         'sidebar-help': 'Help',
         'sidebar-game-download': 'Game Downloads',
         'sidebar-archive': 'Archive',
-		
+        
         'download-heading': 'Download',
         'game-heading': 'Game Downloads',
         'archive-heading': 'Archive',
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
         'access-code': 'アクセスコード/パスワード',
         'validity': '有効期限',
         'unlimited': '無期限',
-		'unlimited2': '無期限',
+        'unlimited2': '無期限',
         'download-note': '当サイトのすべてのリソースは',
         'resource-provider': '当サイトのすべてのリソースは',
         'and': 'と',
@@ -502,8 +502,8 @@ document.addEventListener("DOMContentLoaded", function() {
       </div>
     `,
     
-	// ICF Editor
-	  icfeditor: `
+    // ICF Editor
+    icfeditor: `
     <div class="game-detail">
       <h1 class="page-title">ICF Editor</h1>
       <button class="back-button" data-page="download">
@@ -511,11 +511,11 @@ document.addEventListener("DOMContentLoaded", function() {
         <span id="back-to-home">返回</span>
       </button>
       
-      <div class="section">
+      <div class="section iframe-container">
         <iframe 
           src="icfemain.html" 
-          style="width:100%; height:80vh; border:none;"
-          onload="this.style.height = this.contentWindow.document.body.scrollHeight + 'px'">
+          frameborder="0"
+          class="icf-editor-iframe">
         </iframe>
       </div>
       
@@ -525,7 +525,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </footer>
     </div>
    `,
-	
+    
     // 其他页面模板
     sdez: `<div class="game-detail">...coming soon...</div>`,
     sddt: `<div class="game-detail">...coming soon...</div>`,
@@ -561,6 +561,31 @@ document.addEventListener("DOMContentLoaded", function() {
             loadPage(this.getAttribute('data-page'));
           });
         }
+        
+        // 处理 iframe 高度
+        const iframe = contentContainer.querySelector('.icf-editor-iframe');
+        if (iframe) {
+          // 设置默认高度
+          iframe.style.height = '800px';
+          
+          // 尝试调整高度
+          const adjustIframeHeight = () => {
+            try {
+              const bodyHeight = iframe.contentWindow.document.body.scrollHeight;
+              if (bodyHeight > 0) {
+                iframe.style.height = (bodyHeight + 20) + 'px';
+              }
+            } catch (e) {
+              console.log('跨域安全限制，无法自动调整高度');
+            }
+          };
+          
+          // 初始调整
+          adjustIframeHeight();
+          
+          // 添加事件监听
+          iframe.addEventListener('load', adjustIframeHeight);
+        }
       } else {
         contentContainer.innerHTML = `<div class="section"><h1>页面未找到</h1><p>请求的页面不存在</p></div>`;
       }
@@ -571,18 +596,6 @@ document.addEventListener("DOMContentLoaded", function() {
       // 更新活动菜单项
       updateActiveMenuItem(pageId);
     }, 300);
-	  // 添加iframe高度自适应
-	  const iframe = contentContainer.querySelector('iframe');
-	  if (iframe) {
-		iframe.onload = function() {
-		  try {
-			const bodyHeight = iframe.contentWindow.document.body.scrollHeight;
-			iframe.style.height = bodyHeight + 'px';
-		  } catch (e) {
-			console.log('跨域安全限制，无法自动调整高度');
-		  }
-		};
-	  }
   }
 
   // 更新活动菜单项
