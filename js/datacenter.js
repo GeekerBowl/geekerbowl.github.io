@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
         'access-code': '提取码/访问密码',
         'validity': '资源有效期',
         'unlimited': '无期限',
+		'unlimited2': '无期限',
         'download-note': '本站全部资源仅提供',
         'resource-provider': '本站全部资源仅提供',
         'and': '与',
@@ -128,10 +129,11 @@ document.addEventListener("DOMContentLoaded", function() {
         'download-list-title': 'Download List',
         'last-update-label': 'Last Update',
         'download-method': 'Download Method',
-        'file-count': 'File Count',
+        'file-count': 'Files',
         'access-code': 'Access Code/Password',
         'validity': 'Validity',
         'unlimited': 'Unlimited',
+		'unlimited2': 'Unlimited',
         'download-note': 'All resources are only available via',
         'resource-provider': 'All resources are only available via',
         'and': 'and',
@@ -442,7 +444,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </footer>
     `,
     
-    // 游戏详情页示例
+    // Chusan
     sdhd: `
       <div class="game-detail">
         <h1 class="page-title">CHUNITHM VERSE</h1>
@@ -485,13 +487,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 </tbody>
               </table>
             </div>
-            
-            <div class="download-info">
-              <p><strong id="download-note"><span id="resource-provider">本站全部资源仅提供</span> 
-                <a href="#">「百度网盘」</a> <span id="and">与</span> <a href="#">「One Drive」</a> 
-                <span id="as-download">作为下载方式</span></strong></p>
-              <p><strong id="temp-page-note"><span id="temp-page-text">此页面暂为临时下载页面</span></strong></p>
-            </div>
           </div>
         </div>
         
@@ -502,6 +497,112 @@ document.addEventListener("DOMContentLoaded", function() {
       </div>
     `,
     
+	// maimai DX
+	    sdez: `
+      <div class="game-detail">
+        <h1 class="page-title">maimai DX PRiSM Plus</h1>
+        <button class="back-button" data-page="download">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <h2 class="section-title">
+            <i class="fas fa-download"></i>
+            <span id="download-list-title">下载列表</span>
+          </h2>
+          
+          <div class="mb-4">
+            <p><span id="last-update-label">最后更新</span>: 2025/07/10</p>
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td id="download-method">下载方式</td>
+                    <td id="file-count">文件数</td>
+                    <td id="access-code">提取码/访问密码</td>
+                    <td id="validity">资源有效期</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th><a href="https://pan.baidu.com/s/1PZ063rVUacNHkA6Z50mAdg" target="_blank">百度网盘</a></th>
+                    <td>15</td>
+                    <td>sdez</td>
+                    <td id="unlimited">无期限</td>
+                  </tr>
+                  <tr>
+                    <th><a href="https://hitiko-my.sharepoint.com/:f:/p/evilleaker/EtAuHY2d1JlOrkaUWLu35KsBk4Tjx1olbsKaT1ZEChx0qA?e=0ilcCu" target="_blank">OneDrive</a></th>
+                    <td>15</td>
+                    <td>D706C7573</td>
+                    <td id="unlimited2">无期限</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+	// ongeki
+	    sddt: `
+      <div class="game-detail">
+        <h1 class="page-title">O.N.G.E.K.I Re:Fresh</h1>
+        <button class="back-button" data-page="download">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <h2 class="section-title">
+            <i class="fas fa-download"></i>
+            <span id="download-list-title">下载列表</span>
+          </h2>
+          
+          <div class="mb-4">
+            <p><span id="last-update-label">最后更新</span>: 2025/03/28</p>
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td id="download-method">下载方式</td>
+                    <td id="file-count">文件数</td>
+                    <td id="access-code">提取码/访问密码</td>
+                    <td id="validity">资源有效期</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th><a href="https://pan.baidu.com/s/1zjY3OAwxdtK5K3G2c2QgnQ" target="_blank">百度网盘</a></th>
+                    <td>3</td>
+                    <td>sddt</td>
+                    <td id="unlimited">无期限</td>
+                  </tr>
+                  <tr>
+                    <th><a href="https://hitiko-my.sharepoint.com/:f:/p/evilleaker/EnKo8ijjrkVCgZcpphFIHzwBFlHq1FLSjwu9oNOIQf1wdg" target="_blank">OneDrive</a></th>
+                    <td>3</td>
+                    <td>98ce1395</td>
+                    <td id="unlimited2">无期限</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
     // ICF Editor
     icfeditor: `
     <div class="game-detail">
@@ -527,8 +628,6 @@ document.addEventListener("DOMContentLoaded", function() {
    `,
     
     // 其他页面模板
-    sdez: `<div class="game-detail">...coming soon...</div>`,
-    sddt: `<div class="game-detail">...coming soon...</div>`,
     sded: `<div class="game-detail">...coming soon...</div>`,
     sdbt: `<div class="game-detail">...coming soon...</div>`,
     lmnp: `<div class="game-detail">...coming soon...</div>`,
