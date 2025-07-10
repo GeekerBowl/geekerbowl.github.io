@@ -607,7 +607,7 @@ document.addEventListener("DOMContentLoaded", function() {
     icfeditor: `
     <div class="game-detail">
       <h1 class="page-title">ICF Editor</h1>
-      <button class="back-button" data-page="download">
+      <button class="back-button" data-page="tools">
         <i class="fas fa-arrow-left me-2"></i>
         <span id="back-to-home">返回</span>
       </button>
@@ -626,7 +626,60 @@ document.addEventListener("DOMContentLoaded", function() {
       </footer>
     </div>
    `,
-    
+
+	// tools
+	    tools: `
+      <div class="game-detail">
+        <h1 class="page-title">实用工具</h1>
+        <button class="back-button" data-page="home">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <h2 class="section-title">
+            <i class="fas fa-download"></i>
+            <span id="download-list-title">工具列表</span>
+          </h2>
+          
+          <div class="mb-4">
+            <p><span id="last-update-label">最后更新</span>: 2025/07/10</p>
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td id="download-method">下载方式</td>
+                    <td id="file-count">文件数</td>
+                    <td id="access-code">提取码/访问密码</td>
+                    <td id="validity">资源有效期</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th><a href="#" data-page="icfeditor">ICF Editor</a></th>
+                    <td>3</td>
+                    <td>sddt</td>
+                    <td id="unlimited">无期限</td>
+                  </tr>
+                  <tr>
+                    <th><a href="https://hitiko-my.sharepoint.com/:f:/p/evilleaker/EnKo8ijjrkVCgZcpphFIHzwBFlHq1FLSjwu9oNOIQf1wdg" target="_blank">OneDrive</a></th>
+                    <td>3</td>
+                    <td>98ce1395</td>
+                    <td id="unlimited2">无期限</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
     // 其他页面模板
     sded: `<div class="game-detail">...coming soon...</div>`,
     sdbt: `<div class="game-detail">...coming soon...</div>`,
