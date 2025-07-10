@@ -637,38 +637,105 @@ document.addEventListener("DOMContentLoaded", function() {
         </button>
         
         <div class="section">
-          <h2 class="section-title">
-            <i class="fas fa-download"></i>
-            <span id="download-list-title">工具列表</span>
-          </h2>
+          <div class="tool-grid-header">
+            <h2 class="section-title">
+              <i class="fas fa-tools"></i>
+              <span>工具列表</span>
+            </h2>
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="搜索工具...">
+            </div>
+          </div>
           
-          <div class="mb-4">
-            <p><span id="last-update-label">最后更新</span>: 2025/07/10</p>
-            <div class="table-container">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <td id="download-method">下载方式</td>
-                    <td id="file-count">文件数</td>
-                    <td id="access-code">提取码/访问密码</td>
-                    <td id="validity">资源有效期</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th><a href="#" data-page="icfeditor">ICF Editor</a></th>
-                    <td>3</td>
-                    <td>sddt</td>
-                    <td id="unlimited">无期限</td>
-                  </tr>
-                  <tr>
-                    <th><a href="https://hitiko-my.sharepoint.com/:f:/p/evilleaker/EnKo8ijjrkVCgZcpphFIHzwBFlHq1FLSjwu9oNOIQf1wdg" target="_blank">OneDrive</a></th>
-                    <td>3</td>
-                    <td>98ce1395</td>
-                    <td id="unlimited2">无期限</td>
-                  </tr>
-                </tbody>
-              </table>
+          <div class="tools-container">
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-file-code"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">ICF 编辑器</h3>
+                <p class="tool-description">用于编辑和查看ICF文件</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
+                </div>
+                <a href="#" class="tool-link" data-page="icfeditor">使用</a>
+              </div>
+            </div>
+            
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-file-archive"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">7zip</h3>
+                <p class="tool-description">可提取HDD镜像中的数据</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
+                  <span><i class="fas fa-download"></i> 28MB</span>
+                </div>
+                <a href="https://oss.am-all.com.cn/download/files/7-Zip.rar" class="tool-link" target="_blank" rel="noopener">下载</a>
+              </div>
+            </div>
+            
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-palette"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">皮肤编辑器</h3>
+                <p class="tool-description">创建和编辑游戏UI皮肤，支持实时预览和模板导出功能。</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/02</span>
+                  <span><i class="fas fa-download"></i> 42MB</span>
+                </div>
+                <a href="#" class="tool-link">下载工具</a>
+              </div>
+            </div>
+            
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-database"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">资源解包工具</h3>
+                <p class="tool-description">解压游戏资源文件，支持多种加密格式和批量处理功能。</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/06/15</span>
+                  <span><i class="fas fa-download"></i> 18MB</span>
+                </div>
+                <a href="#" class="tool-link">下载工具</a>
+              </div>
+            </div>
+            
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">数据统计器</h3>
+                <p class="tool-description">分析游戏成绩数据，生成可视化图表和统计数据报告。</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/05</span>
+                  <span><i class="fas fa-download"></i> 32MB</span>
+                </div>
+                <a href="#" class="tool-link">下载工具</a>
+              </div>
+            </div>
+            
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-file-archive"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">资源打包工具</h3>
+                <p class="tool-description">将修改后的资源重新打包为游戏可用的格式，支持压缩和加密。</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/06/20</span>
+                  <span><i class="fas fa-download"></i> 22MB</span>
+                </div>
+                <a href="#" class="tool-link">下载工具</a>
+              </div>
             </div>
           </div>
         </div>
@@ -737,6 +804,28 @@ document.addEventListener("DOMContentLoaded", function() {
           
           // 添加事件监听
           iframe.addEventListener('load', adjustIframeHeight);
+        }
+
+        // 添加工具搜索功能
+        if (pageId === 'tools') {
+          const searchInput = contentContainer.querySelector('.search-box input');
+          if (searchInput) {
+            searchInput.addEventListener('input', function() {
+              const searchTerm = this.value.toLowerCase();
+              const toolCards = contentContainer.querySelectorAll('.tool-card');
+              
+              toolCards.forEach(card => {
+                const title = card.querySelector('.tool-title').textContent.toLowerCase();
+                const desc = card.querySelector('.tool-description').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+                  card.style.display = 'block';
+                } else {
+                  card.style.display = 'none';
+                }
+              });
+            });
+          }
         }
       } else {
         contentContainer.innerHTML = `<div class="section"><h1>页面未找到</h1><p>请求的页面不存在</p></div>`;
