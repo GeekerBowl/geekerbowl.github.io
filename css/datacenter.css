@@ -25,6 +25,17 @@
   background: transparent;
 }
 
+/* 主内容区滚动修复 */
+.main-content {
+  margin-top: 70px;
+  margin-left: var(--sidebar-width);
+  padding: 30px;
+  transition: all 0.4s ease;
+  /* 添加滚动容器设置 */
+  overflow-y: auto;
+  height: calc(100vh - 70px);
+}
+
 /* 其余样式保持不变 */
 :root {
   --sidebar-width: 250px;
@@ -311,14 +322,7 @@ body {
   display: none;
 }
 
-/* 主内容区 */
-.main-content {
-  margin-top: 70px;
-  margin-left: var(--sidebar-width);
-  padding: 30px;
-  transition: all 0.4s ease;
-}
-
+/* 主内容区 - 修复后位置 */
 .main-content.collapsed {
   margin-left: var(--sidebar-collapsed-width);
 }

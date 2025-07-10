@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
         'access-code': '提取码/访问密码',
         'validity': '资源有效期',
         'unlimited': '无期限',
-		'unlimited2': '无期限',
+        'unlimited2': '无期限',
         'download-note': '本站全部资源仅提供',
         'resource-provider': '本站全部资源仅提供',
         'and': '与',
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function() {
         'access-code': 'Access Code/Password',
         'validity': 'Validity',
         'unlimited': 'Unlimited',
-		'unlimited2': 'Unlimited',
+        'unlimited2': 'Unlimited',
         'download-note': 'All resources are only available via',
         'resource-provider': 'All resources are only available via',
         'and': 'and',
@@ -497,8 +497,8 @@ document.addEventListener("DOMContentLoaded", function() {
       </div>
     `,
     
-	// maimai DX
-	    sdez: `
+  // maimai DX
+      sdez: `
       <div class="game-detail">
         <h1 class="page-title">maimai DX PRiSM Plus</h1>
         <button class="back-button" data-page="download">
@@ -550,8 +550,8 @@ document.addEventListener("DOMContentLoaded", function() {
       </div>
     `,
 
-	// ongeki
-	    sddt: `
+  // ongeki
+      sddt: `
       <div class="game-detail">
         <h1 class="page-title">O.N.G.E.K.I Re:Fresh</h1>
         <button class="back-button" data-page="download">
@@ -672,7 +672,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <p class="tool-description">可提取HDD镜像中的数据</p>
                 <div class="tool-meta">
                   <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
-                  <span><i class="fas fa-download"></i> 28MB</span>
+                  <span><i class="fas fa-download"></i> 1.54MB</span>
                 </div>
                 <a href="https://oss.am-all.com.cn/download/files/7-Zip.rar" class="tool-link" target="_blank" rel="noopener">下载</a>
               </div>
@@ -683,13 +683,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 <i class="fas fa-palette"></i>
               </div>
               <div class="tool-content">
-                <h3 class="tool-title">皮肤编辑器</h3>
-                <p class="tool-description">创建和编辑游戏UI皮肤，支持实时预览和模板导出功能。</p>
+                <h3 class="tool-title">Runtime</h3>
+                <p class="tool-description">Windows运行时安装包，运行HDD所必要的系统组件。</p>
                 <div class="tool-meta">
-                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/02</span>
-                  <span><i class="fas fa-download"></i> 42MB</span>
+                  <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
+                  <span><i class="fas fa-download"></i> 180MB</span>
                 </div>
-                <a href="#" class="tool-link">下载工具</a>
+                <a href="https://hitiko-my.sharepoint.com/:u:/p/evilleaker/EffD9kk4fiFEnJVcOrSgVI0B3gOx86gw9WBRLqdUIxvvjg" class="tool-link" target="_blank" rel="noopener">下载</a>
               </div>
             </div>
             
@@ -698,13 +698,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 <i class="fas fa-database"></i>
               </div>
               <div class="tool-content">
-                <h3 class="tool-title">资源解包工具</h3>
-                <p class="tool-description">解压游戏资源文件，支持多种加密格式和批量处理功能。</p>
+                <h3 class="tool-title">MaiChartManager</h3>
+                <p class="tool-description">可以管理某8键游戏Mod与游戏资源</p>
                 <div class="tool-meta">
-                  <span><i class="fas fa-history"></i> 最后更新: 2025/06/15</span>
-                  <span><i class="fas fa-download"></i> 18MB</span>
+                  <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
+                  <span><i class="fas fa-download"></i> 1.05MB</span>
                 </div>
-                <a href="#" class="tool-link">下载工具</a>
+                <a href="https://get.microsoft.com/installer/download/9P1JDKQ60G4G" class="tool-link" target="_blank" rel="noopener">下载</a>
               </div>
             </div>
             
@@ -765,6 +765,9 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // 显示加载状态
     document.body.classList.add('spa-loading');
+    
+    // 关键修复：重置主内容区的滚动位置
+    contentContainer.scrollTop = 0;
     
     // 模拟网络延迟
     setTimeout(() => {
