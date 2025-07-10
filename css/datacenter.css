@@ -1,15 +1,17 @@
+/* datacenter.css - 完整修复版 */
+
 /* 添加SPA加载指示器样式 */
 .spa-loader {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-  display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    display: none;
 }
 
 .spa-loading .spa-loader {
-  display: block;
+    display: block;
 }
 
 /* ICF Editor 特定样式 */
@@ -25,15 +27,75 @@
   background: transparent;
 }
 
+/* 添加iframe加载指示器 */
+.iframe-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 10;
+  text-align: center;
+  padding: 20px;
+}
+
+.iframe-loader p {
+  margin-top: 15px;
+  font-size: 1.2rem;
+  color: #3498db;
+}
+
+/* 修复弹窗显示问题 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+  transform: translateY(0);
+}
+
 /* 主内容区滚动修复 */
 .main-content {
   margin-top: 70px;
   margin-left: var(--sidebar-width);
   padding: 30px;
   transition: all 0.4s ease;
-  /* 添加滚动容器设置 */
   overflow-y: auto;
   height: calc(100vh - 70px);
+  position: relative;
 }
 
 /* 其余样式保持不变 */
@@ -544,59 +606,18 @@ footer {
 }
 
 /* 弹窗样式 */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 2000;
-  justify-content: center;
-  align-items: center;
-}
-
 .modal.show {
   display: flex;
 }
 
-.modal-content {
-  background: white;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-}
-
-.modal-header {
-  background: linear-gradient(135deg, var(--dark-bg), var(--primary-color));
-  color: white;
-  padding: 20px;
-  position: relative;
-}
-
-.modal-header h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
 .modal-close {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 2rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .modal-close:hover {
-  color: var(--secondary-color);
-  transform: scale(1.1);
+  color: #3498db;
+  transform: scale(1.2);
 }
 
 .modal-body {
@@ -669,8 +690,8 @@ footer {
 
 .back-button:hover {
   background: #2980b9;
-  transform: translateY(-2px);
-  box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.5);
 }
 
 /* ======== 新增工具卡片样式 ======== */
@@ -744,6 +765,15 @@ footer {
   transition: all 0.3s ease;
 }
 
+/* 导航链接特殊样式 */
+.tool-link[data-page] {
+  background: #27ae60;
+}
+
+.tool-link[data-page]:hover {
+  background: #219653;
+}
+
 .tool-link:hover {
   background: #2980b9;
   transform: translateY(-2px);
@@ -799,4 +829,21 @@ footer {
   .search-box {
     width: 100%;
   }
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+.main-content {
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+}
+
+/* 优化加载动画 */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.3em;
 }

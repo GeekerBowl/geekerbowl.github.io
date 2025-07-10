@@ -19,8 +19,36 @@
     .spa-loading .spa-loader {
       display: block;
     }
+    
+    /* 修复侧边栏问题 */
+    .sidebar {
+      transition: all 0.3s ease;
+    }
+    .sidebar.collapsed {
+      width: 60px;
+    }
+    .sidebar.show {
+      transform: translateX(0);
+    }
+    
+    /* 修复弹窗样式 */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+    }
+    .modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
   <link rel="stylesheet" href="css/datacenter.css">
+  
+  <!-- 修复JS加载顺序 -->
+  <script src="js/language.js"></script>
+  <script src="js/datacenter.js"></script>
+  <script src="js/spa.js"></script>
 </head>
 <body>
   <!-- 顶部导航栏 -->
@@ -68,7 +96,7 @@
     <!-- 添加侧边栏标题区域 -->
     <div class="sidebar-header">
       <span class="sidebar-title">&nbsp;&nbsp;</span>
-	  <span class="sidebar-title">&nbsp;&nbsp;</span>
+      <span class="sidebar-title">&nbsp;&nbsp;</span>
       <span class="sidebar-title">&nbsp;&nbsp;</span>
       <button class="sidebar-toggle">
         <i class="fas fa-chevron-left"></i>
@@ -84,10 +112,10 @@
         <i class="fas fa-download"></i>
         <span id="sidebar-data">下载</span>
       </a></li>
-	  <li><a href="#" data-page="tools">
-		<i class="fas fa-edit"></i>
-		<span>实用工具</span>
-	  </a></li>
+      <li><a href="#" data-page="tools">
+        <i class="fas fa-edit"></i>
+        <span>实用工具</span>
+      </a></li>
       <li><a href="#" data-page="settings">
         <i class="fas fa-cog"></i>
         <span id="sidebar-settings">设置</span>
@@ -145,7 +173,11 @@
   
   <!-- 主内容区 -->
   <div class="main-content" id="content-container">
-    <!-- 内容将动态加载到这里 -->
+    <!-- 初始内容 - 会被SPA替换 -->
+    <div class="section">
+      <h1 class="page-title">欢迎来到数据中心</h1>
+      <p>请从左侧菜单选择功能</p>
+    </div>
   </div>
 
   <!-- 加载指示器 -->
@@ -170,7 +202,5 @@
       </div>
     </div>
   </div>
-  
-  <script src="js/datacenter.js"></script>
 </body>
 </html>
