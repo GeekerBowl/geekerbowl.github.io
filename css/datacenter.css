@@ -216,6 +216,7 @@ body {
   width: 180px;
   overflow: hidden;
   display: none;
+  z-index: 1001;
 }
 
 .language-dropdown.show {

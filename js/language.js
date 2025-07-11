@@ -205,16 +205,37 @@ const languageModule = (function() {
                 }
             }
         }
+        
+        // 更新URL中的lang参数，不重新加载页面
+        const url = new URL(window.location);
+        url.searchParams.set('lang', lang);
+        window.history.replaceState(null, '', url);
     }
 
     // 初始化语言
     function initLanguage() {
         // 获取URL中的语言参数
         const urlParams = new URLSearchParams(window.location.search);
-        const lang = urlParams.get('lang') || 'zh-cn';
+        let lang = urlParams.get('lang');
+        
+        // 检查是否有记忆的语言设置
+        const rememberLanguage = localStorage.getItem('rememberLanguage') === 'true';
+        const savedLanguage = localStorage.getItem('savedLanguage');
+        
+        // 优先级：URL参数 > 记忆的语言 > 默认语言
+        if (!lang && rememberLanguage && savedLanguage) {
+            lang = savedLanguage;
+        } else if (!lang) {
+            lang = 'zh-cn'; // 默认语言
+        }
         
         // 设置语言
         setLanguage(lang);
+        
+        // 保存当前语言（如果开启了记忆功能）
+        if (rememberLanguage) {
+            localStorage.setItem('savedLanguage', lang);
+        }
     }
 
     // 公共API
@@ -238,20 +259,40 @@ document.addEventListener("DOMContentLoaded", function() {
         item.addEventListener('click', function(e) {
             e.preventDefault();
             const lang = this.getAttribute('href').split('=')[1];
-            window.location.search = `?lang=${lang}`;
+            
+            // 保存语言选择
+            localStorage.setItem('language', lang);
+            const rememberLanguage = localStorage.getItem('rememberLanguage') === 'true';
+            if (rememberLanguage) {
+                localStorage.setItem('savedLanguage', lang);
+            }
+            
+            // 设置语言（不重新加载页面）
+            languageModule.setLanguage(lang);
+            
+            // 关闭下拉菜单
+            if (languageDropdown) {
+                languageDropdown.classList.remove('show');
+            }
         });
     });
 
     // 语言下拉菜单显示/隐藏功能
-    languageBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        languageDropdown.classList.toggle('show');
-    });
+    if (languageBtn) {
+        languageBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (languageDropdown) {
+                languageDropdown.classList.toggle('show');
+            }
+        });
+    }
     
     // 点击页面其他地方关闭下拉菜单
     document.addEventListener('click', function(e) {
-        if (!languageBtn.contains(e.target) && !languageDropdown.contains(e.target)) {
-            languageDropdown.classList.remove('show');
+        if (languageDropdown && languageDropdown.classList.contains('show')) {
+            if (!e.target.closest('.language-selector')) {
+                languageDropdown.classList.remove('show');
+            }
         }
     });
 });

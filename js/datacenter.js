@@ -12,23 +12,31 @@ document.addEventListener("DOMContentLoaded", function() {
     const modalOk = document.getElementById('modal-ok');
     
     // 侧边栏折叠功能 - 只处理侧边栏和主内容区
-    sidebarToggle.addEventListener('click', function() {
-        sidebar.classList.toggle('collapsed');
-        mainContent.classList.toggle('collapsed');
-        
-        // 保存折叠状态
-        localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
-    });
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('collapsed');
+            if (mainContent) {
+                mainContent.classList.toggle('collapsed');
+            }
+            
+            // 保存折叠状态
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        });
+    }
     
-    mobileToggle.addEventListener('click', function() {
-        sidebar.classList.toggle('show');
-    });
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('show');
+        });
+    }
     
     // 初始化折叠状态 - 只处理侧边栏和主内容区
     const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-    if (isCollapsed) {
+    if (isCollapsed && sidebar) {
         sidebar.classList.add('collapsed');
-        mainContent.classList.add('collapsed');
+        if (mainContent) {
+            mainContent.classList.add('collapsed');
+        }
     }
     
     // 弹窗功能
@@ -36,31 +44,41 @@ document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener('click', function(e) {
         if (e.target.closest('#nav-about')) {
             e.preventDefault();
-            modal.classList.add('show');
-            
-            // 确保弹窗内容使用当前语言
-            if (typeof languageModule !== 'undefined') {
-                languageModule.initLanguage();
+            if (modal) {
+                modal.classList.add('show');
+                
+                // 确保弹窗内容使用当前语言
+                if (typeof languageModule !== 'undefined') {
+                    languageModule.initLanguage();
+                }
             }
         }
     });
 
     // 关闭弹窗
     function closeModal() {
-        modal.classList.remove('show');
+        if (modal) {
+            modal.classList.remove('show');
+        }
     }
 
-    modalClose.addEventListener('click', closeModal);
-    modalOk.addEventListener('click', closeModal);
+    if (modalClose) {
+        modalClose.addEventListener('click', closeModal);
+    }
+    if (modalOk) {
+        modalOk.addEventListener('click', closeModal);
+    }
 
     // 点击外部关闭弹窗
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    }
     
-    // 公告详情弹窗功能
+    // 公告详情弹窗功能 - 修复位置：移出DOMContentLoaded嵌套
     document.addEventListener('click', function(e) {
         const card = e.target.closest('.announcement-card');
         if (card) {
@@ -80,9 +98,13 @@ function showAnnouncementModal(id) {
     
     if (announcement) {
         // 更新弹窗内容
-        document.getElementById('announcement-title').textContent = announcement.title;
-        document.getElementById('announcement-date').textContent = announcement.date;
-        document.getElementById('announcement-content').innerHTML = announcement.content;
+        const titleElement = document.getElementById('announcement-title');
+        const dateElement = document.getElementById('announcement-date');
+        const contentElement = document.getElementById('announcement-content');
+        
+        if (titleElement) titleElement.textContent = announcement.title;
+        if (dateElement) dateElement.textContent = announcement.date;
+        if (contentElement) contentElement.innerHTML = announcement.content;
         
         // 显示弹窗
         modal.classList.add('show');

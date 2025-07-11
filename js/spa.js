@@ -1,5 +1,3 @@
-// spa.js - 单页应用路由功能模块（完整修复版）
-
 // 页面内容定义
 const pages = {
     download: `
@@ -460,7 +458,58 @@ const pages = {
     
     // 其他页面
     'data-center': `<div class="section"><h1>数据中心</h1><p>数据中心内容...</p></div>`,
-    settings: `<div class="section"><h1>设置</h1><p>设置内容...</p></div>`,
+    settings: `
+      <div class="settings-container">
+        <h1 class="page-title">设置</h1>
+        <button class="back-button" data-page="home">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="setting-card">
+          <div class="setting-header">
+            <i class="fas fa-language me-2"></i>
+            <span>语言设置</span>
+          </div>
+          <div class="setting-body">
+            <div class="setting-item">
+              <div>
+                <span>记住语言偏好</span>
+                <div class="setting-description">下次访问时自动使用您选择的语言</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="remember-language">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="setting-card">
+          <div class="setting-header">
+            <i class="fas fa-download me-2"></i>
+            <span>下载设置</span>
+          </div>
+          <div class="setting-body">
+            <div class="setting-item">
+              <div>
+                <span>默认下载方式</span>
+                <div class="setting-description">优先使用百度网盘或OneDrive</div>
+              </div>
+              <div class="btn-group">
+                <button class="btn btn-outline-primary btn-sm">百度网盘</button>
+                <button class="btn btn-outline-primary btn-sm">OneDrive</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <button class="save-btn" id="save-settings">
+          <i class="fas fa-save me-2"></i>
+          <span>保存设置</span>
+        </button>
+      </div>
+    `,
     help: `<div class="section"><h1>帮助</h1><p>帮助内容...</p></div>`,
     
     // 更新后的首页
@@ -658,6 +707,43 @@ function loadPage(pageId) {
                         }
                     });
                 });
+            }
+            
+            // 设置页面初始化
+            if (pageId === 'settings') {
+                // 初始化语言记忆开关状态
+                const rememberLanguage = localStorage.getItem('rememberLanguage') === 'true';
+                const rememberLanguageSwitch = document.getElementById('remember-language');
+                if (rememberLanguageSwitch) {
+                    rememberLanguageSwitch.checked = rememberLanguage;
+                }
+                
+                // 保存设置按钮事件
+                const saveBtn = document.getElementById('save-settings');
+                if (saveBtn) {
+                    saveBtn.addEventListener('click', function() {
+                        // 保存语言记忆设置
+                        const rememberLanguage = document.getElementById('remember-language').checked;
+                        localStorage.setItem('rememberLanguage', rememberLanguage);
+                        
+                        // 显示保存成功提示
+                        const modal = document.getElementById('about-modal');
+                        if (modal) {
+                            document.getElementById('modal-title').textContent = '设置已保存';
+                            document.getElementById('modal-content').textContent = '您的设置已成功保存，下次访问时将自动应用。';
+                            modal.classList.add('show');
+                            
+                            // 添加关闭事件监听
+                            document.querySelector('.modal-close').addEventListener('click', () => {
+                                modal.classList.remove('show');
+                            });
+                            
+                            document.getElementById('modal-ok').addEventListener('click', () => {
+                                modal.classList.remove('show');
+                            });
+                        }
+                    });
+                }
             }
         } else {
             contentContainer.innerHTML = `<div class="section"><h1>页面未找到</h1><p>请求的页面不存在</p></div>`;
