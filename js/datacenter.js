@@ -131,18 +131,15 @@ function getAnnouncementById(id) {
             date: '2025/07/11',
             content: `
                 <div class="announcement-content">
-                    <p>本站OneDrive下载渠道将于2025年8月1日正式下线，请用户尽快下载所需资源。</p>
+                    <p>本站OneDrive下载渠道将于近期下线。</p>
                     
                     <h4>影响范围</h4>
                     <ul>
-                        <li>所有游戏资源下载链接</li>
-                        <li>存档文件下载</li>
-                        <li>工具资源下载</li>
+                        <li>所有资源下载链接</li>
                     </ul>
                     
                     <h4>替代方案</h4>
-                    <p>请使用百度网盘下载资源，所有资源已迁移至百度网盘并保持更新。</p>
-                    <p>如有任何疑问，请联系管理员：support@evilleaker.com</p>
+                    <p>请使用百度网盘下载资源，正在寻找替代渠道。</p>
                 </div>
             `
         },
@@ -168,7 +165,7 @@ function getAnnouncementById(id) {
         },
         '3': {
             title: '数据中心新功能上线',
-            date: '2025/07/05',
+            date: '2025/07/11',
             content: `
                 <div class="announcement-content">
                     <p>数据中心新增实用工具模块，包含多个实用工具，帮助您更好地管理游戏资源。</p>

@@ -331,7 +331,7 @@ const pages = {
       </div>
     `,
 
-    // tools - 修复后的版本
+    // tools
     tools: `
       <div class="game-detail">
         <h1 class="page-title">实用工具</h1>
@@ -348,7 +348,7 @@ const pages = {
             </h2>
             <div class="search-box">
               <i class="fas fa-search"></i>
-              <input type="text" placeholder="搜索工具...">
+              <input type="text" placeholder="搜索...">
             </div>
           </div>
           
@@ -411,38 +411,6 @@ const pages = {
                 <a href="https://get.microsoft.com/installer/download/9P1JDKQ60G4G" class="tool-link" target="_blank" rel="noopener">下载</a>
               </div>
             </div>
-            
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-chart-line"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">数据统计器</h3>
-                <p class="tool-description">分析游戏成绩数据，生成可视化图表和统计数据报告。</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/05</span>
-                  <span><i class="fas fa-download"></i> 32MB</span>
-                </div>
-                <a href="#" class="tool-link">下载工具</a>
-              </div>
-            </div>
-            
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-file-archive"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">资源打包工具</h3>
-                <p class="tool-description">将修改后的资源重新打包为游戏可用的格式，支持压缩和加密。</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-history"></i> 最后更新: 2025/06/20</span>
-                  <span><i class="fas fa-download"></i> 22MB</span>
-                </div>
-                <a href="#" class="tool-link">下载工具</a>
-              </div>
-            </div>
-          </div>
-        </div>
         
         <footer>
           <p>SEGAY FEIWU</p>
@@ -485,25 +453,6 @@ const pages = {
           </div>
         </div>
         
-        <div class="setting-card">
-          <div class="setting-header">
-            <i class="fas fa-download me-2"></i>
-            <span>下载设置</span>
-          </div>
-          <div class="setting-body">
-            <div class="setting-item">
-              <div>
-                <span>默认下载方式</span>
-                <div class="setting-description">优先使用百度网盘或OneDrive</div>
-              </div>
-              <div class="btn-group">
-                <button class="btn btn-outline-primary btn-sm">百度网盘</button>
-                <button class="btn btn-outline-primary btn-sm">OneDrive</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        
         <button class="save-btn" id="save-settings">
           <i class="fas fa-save me-2"></i>
           <span>保存设置</span>
@@ -512,7 +461,7 @@ const pages = {
     `,
     help: `<div class="section"><h1>帮助</h1><p>帮助内容...</p></div>`,
     
-    // 更新后的首页
+    // 首页
     home: `
       <div class="section">
         <h1 class="page-title">首页</h1>
@@ -573,7 +522,7 @@ const pages = {
         <div class="welcome-section mt-5">
           <h2 class="section-title">
             <i class="fas fa-star"></i>
-            <span>欢迎使用数据中心</span>
+            <span>哼，哼，啊啊啊啊啊啊。。。</span>
           </h2>
           <p>请从左侧菜单选择功能</p>
         </div>
