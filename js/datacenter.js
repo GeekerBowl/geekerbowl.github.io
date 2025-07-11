@@ -59,4 +59,111 @@ document.addEventListener("DOMContentLoaded", function() {
             closeModal();
         }
     });
+    
+    // 公告详情弹窗功能
+    document.addEventListener('click', function(e) {
+        const card = e.target.closest('.announcement-card');
+        if (card) {
+            const id = card.getAttribute('data-id');
+            showAnnouncementModal(id);
+        }
+    });
 });
+
+// 显示公告详情弹窗
+function showAnnouncementModal(id) {
+    const modal = document.getElementById('announcement-modal');
+    if (!modal) return;
+    
+    // 根据ID获取公告内容
+    const announcement = getAnnouncementById(id);
+    
+    if (announcement) {
+        // 更新弹窗内容
+        document.getElementById('announcement-title').textContent = announcement.title;
+        document.getElementById('announcement-date').textContent = announcement.date;
+        document.getElementById('announcement-content').innerHTML = announcement.content;
+        
+        // 显示弹窗
+        modal.classList.add('show');
+        
+        // 绑定弹窗内的页面导航
+        const pageLinks = modal.querySelectorAll('[data-page]');
+        pageLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.classList.remove('show');
+                if (typeof loadPage === 'function') {
+                    loadPage(this.getAttribute('data-page'));
+                }
+            });
+        });
+    }
+}
+
+// 获取公告数据
+function getAnnouncementById(id) {
+    const announcements = {
+        '1': {
+            title: 'OneDrive下载渠道下线通知',
+            date: '2025/07/11',
+            content: `
+                <div class="announcement-content">
+                    <p>本站OneDrive下载渠道将于2025年8月1日正式下线，请用户尽快下载所需资源。</p>
+                    
+                    <h4>影响范围</h4>
+                    <ul>
+                        <li>所有游戏资源下载链接</li>
+                        <li>存档文件下载</li>
+                        <li>工具资源下载</li>
+                    </ul>
+                    
+                    <h4>替代方案</h4>
+                    <p>请使用百度网盘下载资源，所有资源已迁移至百度网盘并保持更新。</p>
+                    <p>如有任何疑问，请联系管理员：support@evilleaker.com</p>
+                </div>
+            `
+        },
+        '2': {
+            title: 'maimai DX PRiSM PLUS 更新',
+            date: '2025/07/10',
+            content: `
+                <div class="announcement-content">
+                    <p>maimai DX PRiSM PLUS (SDEZ) 版本 1.56 资源已更新，包含14个文件。</p>
+                    
+                    <h4>更新内容</h4>
+                    <ul>
+                        <li>新增15首曲目</li>
+                        <li>修复角色显示异常问题</li>
+                        <li>优化游戏性能</li>
+                        <li>新增3个游戏活动</li>
+                    </ul>
+                    
+                    <h4>下载方式</h4>
+                    <p>请前往<a href="#" data-page="sdez">下载中心</a>获取最新版本</p>
+                </div>
+            `
+        },
+        '3': {
+            title: '数据中心新功能上线',
+            date: '2025/07/05',
+            content: `
+                <div class="announcement-content">
+                    <p>数据中心新增实用工具模块，包含多个实用工具，帮助您更好地管理游戏资源。</p>
+                    
+                    <h4>新增工具</h4>
+                    <ul>
+                        <li>ICF编辑器：用于编辑和查看ICF文件</li>
+                        <li>7zip：可提取HDD镜像中的数据</li>
+                        <li>Runtime：运行HDD所必要的系统组件</li>
+                        <li>MaiChartManager：管理游戏Mod与资源</li>
+                    </ul>
+                    
+                    <p>请前往<a href="#" data-page="tools">实用工具</a>页面使用这些工具</p>
+                </div>
+            `
+        }
+    };
+    
+    return announcements[id] || null;
+}

@@ -462,7 +462,74 @@ const pages = {
     'data-center': `<div class="section"><h1>数据中心</h1><p>数据中心内容...</p></div>`,
     settings: `<div class="section"><h1>设置</h1><p>设置内容...</p></div>`,
     help: `<div class="section"><h1>帮助</h1><p>帮助内容...</p></div>`,
-    home: `<div class="section"><h1>首页</h1><p>首页内容...</p></div>`,
+    
+    // 更新后的首页
+    home: `
+      <div class="section">
+        <h1 class="page-title">首页</h1>
+        
+        <!-- 公告栏 -->
+        <div class="announcements-section">
+          <h2 class="section-title">
+            <i class="fas fa-bullhorn"></i>
+            <span id="announcements-title">最新公告</span>
+          </h2>
+          
+          <div class="announcements-container">
+            <div class="announcement-card" data-id="1">
+              <div class="announcement-header">
+                <span class="badge bg-primary">重要</span>
+                <span class="announcement-date">2025/07/11</span>
+              </div>
+              <h3 class="announcement-title">OneDrive下载渠道下线通知</h3>
+              <div class="announcement-preview">
+                <p>本站OneDrive下载渠道将于近期下线，请尽快下载所需资源...</p>
+              </div>
+              <div class="announcement-footer">
+                <span class="more-link">查看详情 <i class="fas fa-chevron-right"></i></span>
+              </div>
+            </div>
+            
+            <div class="announcement-card" data-id="2">
+              <div class="announcement-header">
+                <span class="badge bg-success">更新</span>
+                <span class="announcement-date">2025/07/10</span>
+              </div>
+              <h3 class="announcement-title">maimai DX PRiSM PLUS 更新</h3>
+              <div class="announcement-preview">
+                <p>maimai DX PRiSM PLUS (SDEZ) 版本 1.56 资源已更新...</p>
+              </div>
+              <div class="announcement-footer">
+                <span class="more-link">查看详情 <i class="fas fa-chevron-right"></i></span>
+              </div>
+            </div>
+            
+            <div class="announcement-card" data-id="3">
+              <div class="announcement-header">
+                <span class="badge bg-info">通知</span>
+                <span class="announcement-date">2025/07/05</span>
+              </div>
+              <h3 class="announcement-title">数据中心新功能上线</h3>
+              <div class="announcement-preview">
+                <p>数据中心新增实用工具模块，包含多个实用工具...</p>
+              </div>
+              <div class="announcement-footer">
+                <span class="more-link">查看详情 <i class="fas fa-chevron-right"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 其他内容 -->
+        <div class="welcome-section mt-5">
+          <h2 class="section-title">
+            <i class="fas fa-star"></i>
+            <span>欢迎使用数据中心</span>
+          </h2>
+          <p>请从左侧菜单选择功能</p>
+        </div>
+      </div>
+    `,
 };
 
 // 加载页面内容
@@ -643,7 +710,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // 处理弹窗关闭按钮
         const modalClose = e.target.closest('.modal-close, .modal-footer button');
         if (modalClose) {
-            const modal = document.getElementById('about-modal');
+            const modal = document.querySelector('.modal.show');
             if (modal) {
                 modal.classList.remove('show');
             }
