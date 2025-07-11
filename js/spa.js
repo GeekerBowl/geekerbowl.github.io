@@ -331,93 +331,95 @@ const pages = {
       </div>
     `,
 
-    // tools
-    tools: `
-      <div class="game-detail">
-        <h1 class="page-title">实用工具</h1>
-        <button class="back-button" data-page="home">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
-        </button>
-        
-        <div class="section">
-          <div class="tool-grid-header">
-            <h2 class="section-title">
-              <i class="fas fa-tools"></i>
-              <span>工具列表</span>
-            </h2>
-            <div class="search-box">
-              <i class="fas fa-search"></i>
-              <input type="text" placeholder="搜索...">
-            </div>
-          </div>
-          
-          <div class="tools-container">
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-file-code"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">ICF 编辑器</h3>
-                <p class="tool-description">用于编辑和查看ICF文件</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
-                </div>
-                <a href="#" class="tool-link" data-page="icfeditor">使用</a>
-              </div>
-            </div>
-            
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-file-archive"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">7zip</h3>
-                <p class="tool-description">可提取HDD镜像中的数据</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
-                  <span><i class="fas fa-download"></i> 1.54MB</span>
-                </div>
-                <a href="https://oss.am-all.com.cn/download/files/7-Zip.rar" class="tool-link" target="_blank" rel="noopener">下载</a>
-              </div>
-            </div>
-            
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-palette"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">Runtime</h3>
-                <p class="tool-description">Windows运行时安装包，运行HDD所必要的系统组件。</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
-                  <span><i class="fas fa-download"></i> 180MB</span>
-                </div>
-                <a href="https://hitiko-my.sharepoint.com/:u:/p/evilleaker/EffD9kk4fiFEnJVcOrSgVI0B3gOx86gw9WBRLqdUIxvvjg" class="tool-link" target="_blank" rel="noopener">下载</a>
-              </div>
-            </div>
-            
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-database"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">MaiChartManager</h3>
-                <p class="tool-description">可以管理某8键游戏Mod与游戏资源</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
-                  <span><i class="fas fa-download"></i> 1.05MB</span>
-                </div>
-                <a href="https://get.microsoft.com/installer/download/9P1JDKQ60G4G" class="tool-link" target="_blank" rel="noopener">下载</a>
-              </div>
-            </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
+// tools
+tools: `
+  <div class="game-detail">
+    <h1 class="page-title">实用工具</h1>
+    <button class="back-button" data-page="home">
+      <i class="fas fa-arrow-left me-2"></i>
+      <span id="back-to-home">返回</span>
+    </button>
+    
+    <div class="section">
+      <div class="tool-grid-header">
+        <h2 class="section-title">
+          <i class="fas fa-tools"></i>
+          <span>工具列表</span>
+        </h2>
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="搜索...">
+        </div>
       </div>
-    `,
+      
+      <div class="tools-container">
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-file-code"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">ICF 编辑器</h3>
+            <p class="tool-description">用于编辑和查看ICF文件</p>
+            <div class="tool-meta">
+              <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
+            </div>
+            <a href="#" class="tool-link" data-page="icfeditor">使用</a>
+          </div>
+        </div>
+        
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-file-archive"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">7zip</h3>
+            <p class="tool-description">可提取HDD镜像中的数据</p>
+            <div class="tool-meta">
+              <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
+              <span><i class="fas fa-download"></i> 1.54MB</span>
+            </div>
+            <a href="https://oss.am-all.com.cn/download/files/7-Zip.rar" class="tool-link" target="_blank" rel="noopener">下载</a>
+          </div>
+        </div>
+        
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-palette"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Runtime</h3>
+            <p class="tool-description">Windows运行时安装包，运行HDD所必要的系统组件。</p>
+            <div class="tool-meta">
+              <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
+              <span><i class="fas fa-download"></i> 180MB</span>
+            </div>
+            <a href="https://hitiko-my.sharepoint.com/:u:/p/evilleaker/EffD9kk4fiFEnJVcOrSgVI0B3gOx86gw9WBRLqdUIxvvjg" class="tool-link" target="_blank" rel="noopener">下载</a>
+          </div>
+        </div>
+        
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-database"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">MaiChartManager</h3>
+            <p class="tool-description">可以管理某8键游戏Mod与游戏资源</p>
+            <div class="tool-meta">
+              <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
+              <span><i class="fas fa-download"></i> 1.05MB</span>
+            </div>
+            <a href="https://get.microsoft.com/installer/download/9P1JDKQ60G4G" class="tool-link" target="_blank" rel="noopener">下载</a>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <p>SEGAY FEIWU</p>
+        <p>1145141919810</p>
+      </footer>
+    </div>
+  </div>
+`,
 
     // 其他页面模板
     sded: `<div class="game-detail">...coming soon...</div>`,
