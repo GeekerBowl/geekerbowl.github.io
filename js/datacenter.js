@@ -145,21 +145,18 @@ function getAnnouncementById(id) {
         },
         '2': {
             title: 'maimai DX PRiSM PLUS 更新',
-            date: '2025/07/10',
+            date: '2025/07/11',
             content: `
                 <div class="announcement-content">
-                    <p>maimai DX PRiSM PLUS (SDEZ) 版本 1.56 资源已更新，包含14个文件。</p>
+                    <p>maimai DX PRiSM PLUS opt更新</p>
                     
                     <h4>更新内容</h4>
                     <ul>
-                        <li>新增15首曲目</li>
-                        <li>修复角色显示异常问题</li>
-                        <li>优化游戏性能</li>
-                        <li>新增3个游戏活动</li>
+                        <li>option包中增加K021</li>
                     </ul>
                     
                     <h4>下载方式</h4>
-                    <p>请前往<a href="#" data-page="sdez">下载中心</a>获取最新版本</p>
+                    <p>请前往<a href="#" data-page="sdez">下载中心</a>下载最新option包</p>
                 </div>
             `
         },
@@ -178,7 +175,7 @@ function getAnnouncementById(id) {
                         <li>MaiChartManager：管理游戏Mod与资源</li>
                     </ul>
                     
-                    <p>请前往<a href="#" data-page="tools">实用工具</a>页面使用这些工具</p>
+                    <p>请前往<a href="#" data-page="tools">实用工具</a>页面使用或下载这些工具</p>
                 </div>
             `
         }

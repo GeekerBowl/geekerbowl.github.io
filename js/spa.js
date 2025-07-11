@@ -411,8 +411,23 @@ tools: `
             <a href="https://get.microsoft.com/installer/download/9P1JDKQ60G4G" class="tool-link" target="_blank" rel="noopener">下载</a>
           </div>
         </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-database"></i>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Leak2pack</h3>
+            <p class="tool-description">强大的HDD工具集</p>
+            <div class="tool-meta">
+              <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
+              <span><i class="fas fa-download"></i> 1.05MB</span>
+            </div>
+            <a href="#" class="tool-link">下载</a>
+          </div>
+        </div>
       </div>
-      
+
       <footer>
         <p>SEGAY FEIWU</p>
         <p>1145141919810</p>
@@ -478,7 +493,7 @@ tools: `
           <div class="announcements-container">
             <div class="announcement-card" data-id="1">
               <div class="announcement-header">
-                <span class="badge bg-primary">重要</span>
+                <span class="badge bg-danger">重要</span>
                 <span class="announcement-date">2025/07/11</span>
               </div>
               <h3 class="announcement-title">OneDrive下载渠道下线通知</h3>
@@ -495,9 +510,9 @@ tools: `
                 <span class="badge bg-success">更新</span>
                 <span class="announcement-date">2025/07/10</span>
               </div>
-              <h3 class="announcement-title">maimai DX PRiSM PLUS 更新</h3>
+              <h3 class="announcement-title">maimai DX PRiSM PLUS opt更新</h3>
               <div class="announcement-preview">
-                <p>maimai DX PRiSM PLUS (SDEZ) 版本 1.56 资源已更新...</p>
+                <p>maimai DX PRiSM PLUS (SDEZ) option K021 已更新</p>
               </div>
               <div class="announcement-footer">
                 <span class="more-link">查看详情 <i class="fas fa-chevron-right"></i></span>
@@ -509,9 +524,9 @@ tools: `
                 <span class="badge bg-info">通知</span>
                 <span class="announcement-date">2025/07/05</span>
               </div>
-              <h3 class="announcement-title">数据中心新功能上线</h3>
+              <h3 class="announcement-title">实用工具新功能上线</h3>
               <div class="announcement-preview">
-                <p>数据中心新增实用工具模块，包含多个实用工具...</p>
+                <p>实用工具页面新增「ICF 编辑器」功能</p>
               </div>
               <div class="announcement-footer">
                 <span class="more-link">查看详情 <i class="fas fa-chevron-right"></i></span>
