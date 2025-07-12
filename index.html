@@ -169,25 +169,40 @@
       body.mobile-sidebar-open {
         overflow: hidden;
       }
-    }
-    
-    /* 添加过渡效果 */
-    .main-content {
-      transition: transform 0.3s ease;
-    }
-    
-    /* 移动端侧边栏样式优化 */
-    @media (max-width: 992px) {
+      
+      /* 修复移动端侧边栏滚动问题 */
       .sidebar {
         width: 250px;
         transform: translateX(-100%);
         z-index: 900;
         box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+        /* 关键修复：高度计算和定位 */
+        height: calc(100vh - 70px); /* 减去顶部导航栏高度 */
+        top: 70px; /* 从导航栏下方开始 */
+        overflow-y: auto; /* 确保可以滚动 */
+        -webkit-overflow-scrolling: touch; /* iOS平滑滚动 */
       }
       
       .sidebar.show {
         transform: translateX(0);
       }
+      
+      /* 确保底部内容有足够空间 */
+      .sidebar-nav:last-child {
+        margin-bottom: 50px;
+      }
+      
+      /* 防止底部内容被遮挡 */
+      .sidebar::after {
+        content: '';
+        display: block;
+        height: 30px;
+      }
+    }
+    
+    /* 添加过渡效果 */
+    .main-content {
+      transition: transform 0.3s ease;
     }
   </style>
   <link rel="stylesheet" href="css/datacenter.css">
@@ -315,6 +330,27 @@
         <i class="fas fa-folder-open"></i>
         <span>CHUNITHM LUMINOUS PLUS</span>
       </a></li>
+      <!-- 添加更多选项用于测试滚动 -->
+      <li><a href="#" data-page="test1">
+        <i class="fas fa-cog"></i>
+        <span>测试选项1</span>
+      </a></li>
+      <li><a href="#" data-page="test2">
+        <i class="fas fa-cog"></i>
+        <span>测试选项2</span>
+      </a></li>
+      <li><a href="#" data-page="test3">
+        <i class="fas fa-cog"></i>
+        <span>测试选项3</span>
+      </a></li>
+      <li><a href="#" data-page="test4">
+        <i class="fas fa-cog"></i>
+        <span>测试选项4</span>
+      </a></li>
+      <li><a href="#" data-page="test5">
+        <i class="fas fa-cog"></i>
+        <span>测试选项5</span>
+      </a></li>
     </ul>
   </div>
   
@@ -324,6 +360,10 @@
     <div class="section">
       <h1 class="page-title">欢迎来到数据中心</h1>
       <p>请从左侧菜单选择功能</p>
+      <div class="alert alert-info mt-4">
+        <i class="fas fa-info-circle me-2"></i>
+        移动端侧边栏滚动问题已修复 - 现在可以滚动到底部查看所有选项
+      </div>
     </div>
   </div>
 

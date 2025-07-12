@@ -1113,3 +1113,23 @@ html, body {
     min-width: 600px;
   }
 }
+
+/* 修复移动端侧边栏滚动问题 */
+@media (max-width: 992px) {
+  .sidebar {
+    overflow-y: auto; /* 确保可以滚动 */
+    -webkit-overflow-scrolling: touch; /* iOS平滑滚动 */
+  }
+  
+  /* 确保底部内容有足够空间 */
+  .sidebar-nav:last-child {
+    margin-bottom: 50px;
+  }
+  
+  /* 防止底部内容被遮挡 */
+  .sidebar::after {
+    content: '';
+    display: block;
+    height: 30px;
+  }
+}
