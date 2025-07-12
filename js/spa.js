@@ -445,7 +445,7 @@ tools: `
     'data-center': `<div class="section"><h1>数据中心</h1><p>数据中心内容...</p></div>`,
     settings: `
       <div class="settings-container">
-        <h1 class="page-title">设置</h1>
+        <h1 class="page-title" id="option-title">设置</h1>
         <button class="back-button" data-page="home">
           <i class="fas fa-arrow-left me-2"></i>
           <span id="back-to-home">返回</span>
@@ -454,13 +454,13 @@ tools: `
         <div class="setting-card">
           <div class="setting-header">
             <i class="fas fa-language me-2"></i>
-            <span>语言设置</span>
+            <span id="lang-option">语言设置</span>
           </div>
           <div class="setting-body">
             <div class="setting-item">
               <div>
-                <span>记住语言偏好</span>
-                <div class="setting-description">下次访问时自动使用您选择的语言</div>
+                <span id="option-item">记住语言偏好</span>
+                <div class="setting-description" id="option-text">下次访问时自动使用您选择的语言</div>
               </div>
               <label class="switch">
                 <input type="checkbox" id="remember-language">
@@ -472,7 +472,7 @@ tools: `
         
         <button class="save-btn" id="save-settings">
           <i class="fas fa-save me-2"></i>
-          <span>保存设置</span>
+          <span id="option-save">保存设置</span>
         </button>
       </div>
     `,
@@ -481,7 +481,7 @@ tools: `
     // 首页
     home: `
       <div class="section">
-        <h1 class="page-title">首页</h1>
+        <h1 class="page-title" id="top-page">首页</h1>
         
         <!-- 公告栏 -->
         <div class="announcements-section">
@@ -493,7 +493,7 @@ tools: `
           <div class="announcements-container">
             <div class="announcement-card" data-id="1">
               <div class="announcement-header">
-                <span class="badge bg-danger">重要</span>
+                <span class="badge bg-danger" id="bg-type-dgr">重要</span>
                 <span class="announcement-date">2025/07/11</span>
               </div>
               <h3 class="announcement-title">OneDrive下载渠道下线通知</h3>
@@ -501,13 +501,13 @@ tools: `
                 <p>本站OneDrive下载渠道将于近期下线，请尽快下载所需资源...</p>
               </div>
               <div class="announcement-footer">
-                <span class="more-link">查看详情 <i class="fas fa-chevron-right"></i></span>
+                <span class="more-link click-detail">查看详情 <i class="fas fa-chevron-right"></i></span>
               </div>
             </div>
             
             <div class="announcement-card" data-id="2">
               <div class="announcement-header">
-                <span class="badge bg-success">更新</span>
+                <span class="badge bg-success" id="bg-type-upd">更新</span>
                 <span class="announcement-date">2025/07/10</span>
               </div>
               <h3 class="announcement-title">maimai DX PRiSM PLUS opt更新</h3>
@@ -515,13 +515,13 @@ tools: `
                 <p>maimai DX PRiSM PLUS (SDEZ) option K021 已更新</p>
               </div>
               <div class="announcement-footer">
-                <span class="more-link">查看详情 <i class="fas fa-chevron-right"></i></span>
+                <span class="more-link click-detail">查看详情 <i class="fas fa-chevron-right"></i></span>
               </div>
             </div>
             
             <div class="announcement-card" data-id="3">
               <div class="announcement-header">
-                <span class="badge bg-info">通知</span>
+                <span class="badge bg-info" id="bg-type-notice">通知</span>
                 <span class="announcement-date">2025/07/05</span>
               </div>
               <h3 class="announcement-title">实用工具新功能上线</h3>
@@ -529,7 +529,7 @@ tools: `
                 <p>实用工具页面新增「ICF 编辑器」功能</p>
               </div>
               <div class="announcement-footer">
-                <span class="more-link">查看详情 <i class="fas fa-chevron-right"></i></span>
+                <span class="more-link click-detail">查看详情 <i class="fas fa-chevron-right"></i></span>
               </div>
             </div>
           </div>
@@ -577,6 +577,16 @@ function loadPage(pageId) {
                     e.preventDefault();
                     loadPage(this.getAttribute('data-page'));
                 });
+            }
+            
+            // 移动端切换页面后自动关闭侧边栏
+            if (window.innerWidth <= 992) {
+                const sidebar = document.querySelector('.sidebar');
+                if (sidebar) {
+                    sidebar.classList.remove('show');
+                    document.body.classList.remove('mobile-sidebar-open');
+                    document.body.classList.add('mobile-sidebar-closed');
+                }
             }
             
             // 处理 iframe 高度

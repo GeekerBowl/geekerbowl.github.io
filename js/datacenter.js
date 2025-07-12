@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // 侧边栏折叠功能 - 只处理侧边栏和主内容区
     if (sidebarToggle) {
         sidebarToggle.addEventListener('click', function() {
+            // 移动端不处理折叠按钮点击
+            if (window.innerWidth <= 992) return;
+            
             sidebar.classList.toggle('collapsed');
             if (mainContent) {
                 mainContent.classList.toggle('collapsed');
@@ -27,12 +30,18 @@ document.addEventListener("DOMContentLoaded", function() {
     if (mobileToggle) {
         mobileToggle.addEventListener('click', function() {
             sidebar.classList.toggle('show');
+            
+            // 移动端展开时添加特殊标记
+            if (window.innerWidth <= 992) {
+                document.body.classList.toggle('mobile-sidebar-open', sidebar.classList.contains('show'));
+                document.body.classList.toggle('mobile-sidebar-closed', !sidebar.classList.contains('show'));
+            }
         });
     }
     
     // 初始化折叠状态 - 只处理侧边栏和主内容区
     const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-    if (isCollapsed && sidebar) {
+    if (isCollapsed && sidebar && window.innerWidth > 992) {
         sidebar.classList.add('collapsed');
         if (mainContent) {
             mainContent.classList.add('collapsed');
@@ -78,12 +87,23 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
     
-    // 公告详情弹窗功能 - 修复位置：移出DOMContentLoaded嵌套
+    // 公告详情弹窗功能
     document.addEventListener('click', function(e) {
         const card = e.target.closest('.announcement-card');
         if (card) {
             const id = card.getAttribute('data-id');
             showAnnouncementModal(id);
+        }
+    });
+    
+    // 点击遮罩层关闭侧边栏
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 992 && 
+            document.body.classList.contains('mobile-sidebar-open') && 
+            e.target === document.body.querySelector('::after')) {
+            sidebar.classList.remove('show');
+            document.body.classList.remove('mobile-sidebar-open');
+            document.body.classList.add('mobile-sidebar-closed');
         }
     });
 });
@@ -115,11 +135,28 @@ function showAnnouncementModal(id) {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 modal.classList.remove('show');
+                
+                // 移动端切换页面时关闭侧边栏
+                if (window.innerWidth <= 992) {
+                    const sidebar = document.querySelector('.sidebar');
+                    if (sidebar) sidebar.classList.remove('show');
+                    document.body.classList.remove('mobile-sidebar-open');
+                    document.body.classList.add('mobile-sidebar-closed');
+                }
+                
                 if (typeof loadPage === 'function') {
                     loadPage(this.getAttribute('data-page'));
                 }
             });
         });
+        
+        // 绑定关闭按钮
+        const closeBtn = document.getElementById('announcement-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                modal.classList.remove('show');
+            });
+        }
     }
 }
 

@@ -20,7 +20,7 @@ const languageModule = (function() {
                 'sidebar-game-download': '游戏下载',
                 'sidebar-archive': '存档下载',
                 
-                // 主内容
+                // 主内容-下载
                 'download-heading': '下载',
                 'game-heading': '游戏',
                 'archive-heading': '资源存档',
@@ -66,14 +66,32 @@ const languageModule = (function() {
                 'and': '与',
                 'as-download': '作为下载方式',
                 'temp-page-note': '此页面暂为临时下载页面',
-                'temp-page-text': '此页面暂为临时下载页面'
+                'temp-page-text': '此页面暂为临时下载页面',
+
+                // 语言设置
+                'option-title': '设置',
+                'lang-option': '语言设置',
+                'option-item': '记住语言偏好',
+                'option-text': '下次访问时自动使用您选择的语言',
+                'option-save': '保存',
+
+                // 首页
+                'top-page': '首页',
+                'announcements-title': '最新公告',
+                'bg-type-dgr': '重要',
+                'bg-type-upd': '更新',
+                'bg-type-notice': '通知',
+                'click-detail': '查看详情'
             },
+
             'en-us': {
+                // 导航栏
                 'navbar-brand': 'DATA CENTER',
                 'nav-home-text': 'Home Page',
                 'nav-download-text': 'Downloads',
                 'nav-about-text': 'About',
                 'language-text': 'Language',
+
                 // 侧边栏
                 'sidebar-home': 'Top Page',
                 'sidebar-data': 'Download',
@@ -81,7 +99,8 @@ const languageModule = (function() {
                 'sidebar-help': 'Help',
                 'sidebar-game-download': 'Game Downloads',
                 'sidebar-archive': 'Archive',
-                
+
+                // 主内容-下载
                 'download-heading': 'Download',
                 'game-heading': 'Game Downloads',
                 'archive-heading': 'Archive',
@@ -109,7 +128,7 @@ const languageModule = (function() {
                 
                 // 弹窗文本
                 'modal-title': 'About EVIL LEAKER',
-                'modal-content': 'This is the about page content. This site provides various game resources for download. All resources are for learning and exchange purposes only. Do not use for commercial purposes. Please delete within 24 hours after download.',
+                'modal-content': 'All resources are for learning and exchange purposes only. Do not use for commercial purposes. Please delete within 24 hours after download.',
                 'modal-ok': 'OK',
                 
                 // SPA新增翻译
@@ -127,8 +146,24 @@ const languageModule = (function() {
                 'and': 'and',
                 'as-download': 'as download methods',
                 'temp-page-note': 'This is a temporary download page',
-                'temp-page-text': 'This is a temporary download page'
+                'temp-page-text': 'This is a temporary download page',
+
+                // 语言设置
+                'option-title': 'Setting',
+                'lang-option': 'Language Setting',
+                'option-item': 'Remember language preference',
+                'option-text': 'Use your selected language automatically next time',
+                'option-save': 'SAVE',
+                
+                // 首页
+                'top-page': 'Top Page',
+                'announcements-title': 'Information',
+                'bg-type-dgr': 'IMPORTANT',
+                'bg-type-upd': 'UPDATE',
+                'bg-type-notice': 'NOTICE',
+                'click-detail': 'Details'
             },
+
             'ja-jp': {
                 'navbar-brand': 'DATA CENTER',
                 'nav-home-text': 'ホームページ',
@@ -168,7 +203,7 @@ const languageModule = (function() {
                 
                 // 弹窗文本
                 'modal-title': 'EVIL LEAKER について',
-                'modal-content': 'これは概要ページの内容です。当サイトは様々なゲームリソースを提供しています。すべてのリソースは学習と交流目的のみで使用し、商用利用は禁止です。ダウンロード後24時間以内に削除してください。',
+                'modal-content': 'すべてのリソースは学習と交流目的のみで使用し、商用利用は禁止です。ダウンロード後24時間以内に削除してください。',
                 'modal-ok': '確認',
                 
                 // SPA新增翻译
@@ -186,7 +221,22 @@ const languageModule = (function() {
                 'and': 'と',
                 'as-download': 'でのみ提供されます',
                 'temp-page-note': 'このページは一時的なダウンロードページです',
-                'temp-page-text': 'このページは一時的なダウンロードページです'
+                'temp-page-text': 'このページは一時的なダウンロードページです',
+
+                // 语言设置
+                'option-title': 'システム設定',
+                'lang-option': '言語設定',
+                'option-item': '言語設定を記憶',
+                'option-text': '次回から選択した言語を自動的に使用します',
+                'option-save': 'セーブ',
+                
+                // 首页
+                'top-page': 'トップページ',
+                'announcements-title': 'ニュース',
+                'bg-type-dgr': '重要なお知らせ',
+                'bg-type-upd': 'アップデート',
+                'bg-type-notice': 'お知らせ',
+                'click-detail': '詳しく'
             }
         };
 
@@ -203,6 +253,14 @@ const languageModule = (function() {
                 } else {
                     element.textContent = text;
                 }
+            }
+        }
+        
+        // 处理类名为"click-detail"的元素
+        const clickDetailElements = document.getElementsByClassName('click-detail');
+        if (clickDetailElements.length > 0 && langData['click-detail']) {
+            for (let i = 0; i < clickDetailElements.length; i++) {
+                clickDetailElements[i].textContent = langData['click-detail'];
             }
         }
         
