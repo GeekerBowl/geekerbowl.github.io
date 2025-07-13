@@ -94,6 +94,12 @@ document.addEventListener("DOMContentLoaded", function() {
             const id = card.getAttribute('data-id');
             showAnnouncementModal(id);
         }
+        
+        const listItem = e.target.closest('.announcement-item');
+        if (listItem) {
+            const id = listItem.getAttribute('data-id');
+            showAnnouncementModal(id);
+        }
     });
     
     // 点击遮罩层关闭侧边栏
@@ -213,6 +219,61 @@ function getAnnouncementById(id) {
                     </ul>
                     
                     <p>请前往<a href="#" data-page="tools">实用工具</a>页面使用或下载这些工具</p>
+                </div>
+            `
+        },
+        '4': {
+            title: '数据中心维护通知',
+            date: '2025/07/04',
+            content: `
+                <div class="announcement-content">
+                    <p>数据中心将于本周日进行系统维护。</p>
+                    
+                    <h4>维护时间</h4>
+                    <ul>
+                        <li>开始时间：2025年7月6日 02:00 (UTC+8)</li>
+                        <li>预计时长：2小时</li>
+                    </ul>
+                    
+                    <h4>影响范围</h4>
+                    <p>维护期间，所有下载服务将暂时不可用，其他功能不受影响。</p>
+                </div>
+            `
+        },
+        '5': {
+            title: 'CHUNITHM VERSE 新版本发布',
+            date: '2025/07/01',
+            content: `
+                <div class="announcement-content">
+                    <p>CHUNITHM VERSE 2.31版本现已上线。</p>
+                    
+                    <h4>新增内容</h4>
+                    <ul>
+                        <li>10首全新曲目</li>
+                        <li>3个新角色</li>
+                        <li>世界模式新增第7章</li>
+                    </ul>
+                    
+                    <h4>下载方式</h4>
+                    <p>请前往<a href="#" data-page="sdhd">CHUNITHM VERSE下载页面</a>获取最新版本</p>
+                </div>
+            `
+        },
+        '6': {
+            title: '下载方式变更通知',
+            date: '2025/06/28',
+            content: `
+                <div class="announcement-content">
+                    <p>百度网盘下载方式已更新。</p>
+                    
+                    <h4>变更内容</h4>
+                    <ul>
+                        <li>所有资源提取码已更新</li>
+                        <li>新增文件校验功能</li>
+                    </ul>
+                    
+                    <h4>注意事项</h4>
+                    <p>请使用最新提取码下载资源，旧提取码已失效。</p>
                 </div>
             `
         }

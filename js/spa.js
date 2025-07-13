@@ -491,6 +491,7 @@ tools: `
           </h2>
           
           <div class="announcements-container">
+            <!-- 前三个公告：卡片样式 -->
             <div class="announcement-card" data-id="1">
               <div class="announcement-header">
                 <span class="badge bg-danger" id="bg-type-dgr">重要</span>
@@ -533,6 +534,40 @@ tools: `
               </div>
             </div>
           </div>
+          
+          <!-- 剩下的公告：列表样式 -->
+          <ul class="announcements-list">
+            <li class="announcement-item" data-id="4">
+              <div class="announcement-item-header">
+                <span class="badge bg-danger" id="bg-type-dgr">重要</span>
+                <span class="announcement-item-date">2025/07/04</span>
+                <span class="announcement-item-title">数据中心维护通知</span>
+              </div>
+              <div class="announcement-item-preview">
+                数据中心将于本周日进行系统维护，预计停机2小时...
+              </div>
+            </li>
+            <li class="announcement-item" data-id="5">
+              <div class="announcement-item-header">
+                <span class="badge bg-success" id="bg-type-upd">更新</span>
+                <span class="announcement-item-date">2025/07/01</span>
+                <span class="announcement-item-title">CHUNITHM VERSE 新版本发布</span>
+              </div>
+              <div class="announcement-item-preview">
+                CHUNITHM VERSE 2.31版本现已上线，包含10首新曲目...
+              </div>
+            </li>
+            <li class="announcement-item" data-id="6">
+              <div class="announcement-item-header">
+                <span class="badge bg-info" id="bg-type-notice">通知</span>
+                <span class="announcement-item-date">2025/06/28</span>
+                <span class="announcement-item-title">下载方式变更通知</span>
+              </div>
+              <div class="announcement-item-preview">
+                百度网盘下载方式已更新，请使用最新提取码...
+              </div>
+            </li>
+          </ul>
         </div>
         
         <!-- 其他内容 -->
@@ -776,6 +811,13 @@ document.addEventListener("DOMContentLoaded", function() {
             if (modal) {
                 modal.classList.remove('show');
             }
+        }
+        
+        // 处理公告列表项点击
+        const announcementItem = e.target.closest('.announcement-item');
+        if (announcementItem) {
+            const id = announcementItem.getAttribute('data-id');
+            showAnnouncementModal(id);
         }
     });
 
