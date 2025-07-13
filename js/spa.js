@@ -1,3 +1,55 @@
+// 公告详细数据
+const announcementsData = [
+  {
+    id: "1",
+    type: "dgr",
+    date: "2025/07/11",
+    title: "OneDrive下载渠道下线通知",
+    preview: "本站OneDrive下载渠道将于近期下线，请尽快下载所需资源...",
+    content: "由于OneDrive服务政策调整，本站的OneDrive下载渠道将于2025年8月1日正式下线。请用户尽快下载所需资源。下线后，所有资源将只通过百度网盘提供下载服务。"
+  },
+  {
+    id: "2",
+    type: "upd",
+    date: "2025/07/10",
+    title: "maimai DX PRiSM PLUS opt更新",
+    preview: "maimai DX PRiSM PLUS (SDEZ) option K021 已更新",
+    content: "maimai DX PRiSM PLUS (SDEZ) 的 option K021 已更新至最新版本，包含新的曲目和功能优化。建议所有用户及时更新以获得最佳游戏体验。"
+  },
+  {
+    id: "3",
+    type: "notice",
+    date: "2025/07/05",
+    title: "实用工具新功能上线",
+    preview: "实用工具页面新增「ICF 编辑器」功能",
+    content: "实用工具页面现已新增「ICF 编辑器」功能，用户可以直接在浏览器中编辑和查看ICF文件，无需下载额外软件。该工具支持实时预览和多种导出格式。"
+  },
+  {
+    id: "4",
+    type: "dgr",
+    date: "2025/07/04",
+    title: "数据中心维护通知",
+    preview: "数据中心将于本周日进行系统维护，预计停机2小时...",
+    content: "数据中心将于2025年7月6日（周日）凌晨2:00至4:00进行系统维护。维护期间所有服务将暂时不可用。建议用户提前安排下载计划，避免维护期间操作。"
+  },
+  {
+    id: "5",
+    type: "upd",
+    date: "2025/07/01",
+    title: "CHUNITHM VERSE 新版本发布",
+    preview: "CHUNITHM VERSE 2.31版本现已上线，包含10首新曲目...",
+    content: "CHUNITHM VERSE 2.31版本现已正式发布，新增10首高品质曲目，优化了游戏性能和UI界面。同时修复了之前版本中报告的多个问题，提升了游戏稳定性。"
+  },
+  {
+    id: "6",
+    type: "notice",
+    date: "2025/06/28",
+    title: "下载方式变更通知",
+    preview: "百度网盘下载方式已更新，请使用最新提取码...",
+    content: "百度网盘下载方式已更新，所有资源的提取码已更换为更安全的版本。请用户在下载时使用新提供的提取码。旧提取码将于2025年7月15日失效。"
+  }
+];
+
 // 页面内容定义
 const pages = {
     download: `
@@ -331,110 +383,110 @@ const pages = {
       </div>
     `,
 
-// tools
-tools: `
-  <div class="game-detail">
-    <h1 class="page-title">实用工具</h1>
-    <button class="back-button" data-page="home">
-      <i class="fas fa-arrow-left me-2"></i>
-      <span id="back-to-home">返回</span>
-    </button>
-    
-    <div class="section">
-      <div class="tool-grid-header">
-        <h2 class="section-title">
-          <i class="fas fa-tools"></i>
-          <span>工具列表</span>
-        </h2>
-        <div class="search-box">
-          <i class="fas fa-search"></i>
-          <input type="text" placeholder="搜索...">
+    // tools
+    tools: `
+      <div class="game-detail">
+        <h1 class="page-title">实用工具</h1>
+        <button class="back-button" data-page="home">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <div class="tool-grid-header">
+            <h2 class="section-title">
+              <i class="fas fa-tools"></i>
+              <span>工具列表</span>
+            </h2>
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="搜索...">
+            </div>
+          </div>
+          
+          <div class="tools-container">
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-file-code"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">ICF 编辑器</h3>
+                <p class="tool-description">用于编辑和查看ICF文件</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
+                </div>
+                <a href="#" class="tool-link" data-page="icfeditor">使用</a>
+              </div>
+            </div>
+            
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-file-archive"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">7zip</h3>
+                <p class="tool-description">可提取HDD镜像中的数据</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
+                  <span><i class="fas fa-download"></i> 1.54MB</span>
+                </div>
+                <a href="https://oss.am-all.com.cn/download/files/7-Zip.rar" class="tool-link" target="_blank" rel="noopener">下载</a>
+              </div>
+            </div>
+            
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-palette"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">Runtime</h3>
+                <p class="tool-description">Windows运行时安装包，运行HDD所必要的系统组件。</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
+                  <span><i class="fas fa-download"></i> 180MB</span>
+                </div>
+                <a href="https://hitiko-my.sharepoint.com/:u:/p/evilleaker/EffD9kk4fiFEnJVcOrSgVI0B3gOx86gw9WBRLqdUIxvvjg" class="tool-link" target="_blank" rel="noopener">下载</a>
+              </div>
+            </div>
+            
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-database"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">MaiChartManager</h3>
+                <p class="tool-description">可以管理某8键游戏Mod与游戏资源</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
+                  <span><i class="fas fa-download"></i> 1.05MB</span>
+                </div>
+                <a href="https://get.microsoft.com/installer/download/9P1JDKQ60G4G" class="tool-link" target="_blank" rel="noopener">下载</a>
+              </div>
+            </div>
+
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-database"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">Leak2pack</h3>
+                <p class="tool-description">强大的HDD工具集</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
+                  <span><i class="fas fa-download"></i> 1.05MB</span>
+                </div>
+                <a href="#" class="tool-link">下载</a>
+              </div>
+            </div>
+          </div>
+
+          <footer>
+            <p>SEGAY FEIWU</p>
+            <p>1145141919810</p>
+          </footer>
         </div>
       </div>
-      
-      <div class="tools-container">
-        <div class="tool-card">
-          <div class="tool-icon">
-            <i class="fas fa-file-code"></i>
-          </div>
-          <div class="tool-content">
-            <h3 class="tool-title">ICF 编辑器</h3>
-            <p class="tool-description">用于编辑和查看ICF文件</p>
-            <div class="tool-meta">
-              <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
-            </div>
-            <a href="#" class="tool-link" data-page="icfeditor">使用</a>
-          </div>
-        </div>
-        
-        <div class="tool-card">
-          <div class="tool-icon">
-            <i class="fas fa-file-archive"></i>
-          </div>
-          <div class="tool-content">
-            <h3 class="tool-title">7zip</h3>
-            <p class="tool-description">可提取HDD镜像中的数据</p>
-            <div class="tool-meta">
-              <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
-              <span><i class="fas fa-download"></i> 1.54MB</span>
-            </div>
-            <a href="https://oss.am-all.com.cn/download/files/7-Zip.rar" class="tool-link" target="_blank" rel="noopener">下载</a>
-          </div>
-        </div>
-        
-        <div class="tool-card">
-          <div class="tool-icon">
-            <i class="fas fa-palette"></i>
-          </div>
-          <div class="tool-content">
-            <h3 class="tool-title">Runtime</h3>
-            <p class="tool-description">Windows运行时安装包，运行HDD所必要的系统组件。</p>
-            <div class="tool-meta">
-              <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
-              <span><i class="fas fa-download"></i> 180MB</span>
-            </div>
-            <a href="https://hitiko-my.sharepoint.com/:u:/p/evilleaker/EffD9kk4fiFEnJVcOrSgVI0B3gOx86gw9WBRLqdUIxvvjg" class="tool-link" target="_blank" rel="noopener">下载</a>
-          </div>
-        </div>
-        
-        <div class="tool-card">
-          <div class="tool-icon">
-            <i class="fas fa-database"></i>
-          </div>
-          <div class="tool-content">
-            <h3 class="tool-title">MaiChartManager</h3>
-            <p class="tool-description">可以管理某8键游戏Mod与游戏资源</p>
-            <div class="tool-meta">
-              <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
-              <span><i class="fas fa-download"></i> 1.05MB</span>
-            </div>
-            <a href="https://get.microsoft.com/installer/download/9P1JDKQ60G4G" class="tool-link" target="_blank" rel="noopener">下载</a>
-          </div>
-        </div>
-
-        <div class="tool-card">
-          <div class="tool-icon">
-            <i class="fas fa-database"></i>
-          </div>
-          <div class="tool-content">
-            <h3 class="tool-title">Leak2pack</h3>
-            <p class="tool-description">强大的HDD工具集</p>
-            <div class="tool-meta">
-              <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
-              <span><i class="fas fa-download"></i> 1.05MB</span>
-            </div>
-            <a href="#" class="tool-link">下载</a>
-          </div>
-        </div>
-      </div>
-
-      <footer>
-        <p>SEGAY FEIWU</p>
-        <p>1145141919810</p>
-      </footer>
-    </div>
-  </div>
-`,
+    `,
 
     // 其他页面模板
     sded: `<div class="game-detail">...coming soon...</div>`,
@@ -478,7 +530,7 @@ tools: `
     `,
     help: `<div class="section"><h1>帮助</h1><p>帮助内容...</p></div>`,
     
-    // 首页
+    // 首页 - 动态生成版本
     home: `
       <div class="section">
         <h1 class="page-title" id="top-page">首页</h1>
@@ -491,82 +543,38 @@ tools: `
           </h2>
           
           <div class="announcements-container">
-            <!-- 前三个公告：卡片样式 -->
-            <div class="announcement-card" data-id="1">
-              <div class="announcement-header">
-                <span class="badge bg-danger announcement-badge" data-type="dgr"></span>
-                <span class="announcement-date">2025/07/11</span>
+            <!-- 前四个公告：卡片样式 -->
+            ${announcementsData.slice(0, 4).map(item => `
+              <div class="announcement-card" data-id="${item.id}">
+                <div class="announcement-header">
+                  <span class="badge bg-${item.type === 'dgr' ? 'danger' : item.type === 'upd' ? 'success' : 'info'} announcement-badge" data-type="${item.type}"></span>
+                  <span class="announcement-date">${item.date}</span>
+                </div>
+                <h3 class="announcement-title">${item.title}</h3>
+                <div class="announcement-preview">
+                  <p>${item.preview}</p>
+                </div>
+                <div class="announcement-footer">
+                  <span class="more-link click-detail">查看详情 <i class="fas fa-chevron-right"></i></span>
+                </div>
               </div>
-              <h3 class="announcement-title">OneDrive下载渠道下线通知</h3>
-              <div class="announcement-preview">
-                <p>本站OneDrive下载渠道将于近期下线，请尽快下载所需资源...</p>
-              </div>
-              <div class="announcement-footer">
-                <span class="more-link click-detail">查看详情 <i class="fas fa-chevron-right"></i></span>
-              </div>
-            </div>
-            
-            <div class="announcement-card" data-id="2">
-              <div class="announcement-header">
-                <span class="badge bg-success announcement-badge" data-type="upd"></span>
-                <span class="announcement-date">2025/07/10</span>
-              </div>
-              <h3 class="announcement-title">maimai DX PRiSM PLUS opt更新</h3>
-              <div class="announcement-preview">
-                <p>maimai DX PRiSM PLUS (SDEZ) option K021 已更新</p>
-              </div>
-              <div class="announcement-footer">
-                <span class="more-link click-detail">查看详情 <i class="fas fa-chevron-right"></i></span>
-              </div>
-            </div>
-            
-            <div class="announcement-card" data-id="3">
-              <div class="announcement-header">
-                <span class="badge bg-info announcement-badge" data-type="notice"></span>
-                <span class="announcement-date">2025/07/05</span>
-              </div>
-              <h3 class="announcement-title">实用工具新功能上线</h3>
-              <div class="announcement-preview">
-                <p>实用工具页面新增「ICF 编辑器」功能</p>
-              </div>
-              <div class="announcement-footer">
-                <span class="more-link click-detail">查看详情 <i class="fas fa-chevron-right"></i></span>
-              </div>
-            </div>
+            `).join('')}
           </div>
           
           <!-- 剩下的公告：列表样式 -->
           <ul class="announcements-list">
-            <li class="announcement-item" data-id="4">
-              <div class="announcement-item-header">
-                <span class="badge bg-danger announcement-badge" data-type="dgr"></span>
-                <span class="announcement-item-date">2025/07/04</span>
-                <span class="announcement-item-title">数据中心维护通知</span>
-              </div>
-              <div class="announcement-item-preview">
-                数据中心将于本周日进行系统维护，预计停机2小时...
-              </div>
-            </li>
-            <li class="announcement-item" data-id="5">
-              <div class="announcement-item-header">
-                <span class="badge bg-success announcement-badge" data-type="upd"></span>
-                <span class="announcement-item-date">2025/07/01</span>
-                <span class="announcement-item-title">CHUNITHM VERSE 新版本发布</span>
-              </div>
-              <div class="announcement-item-preview">
-                CHUNITHM VERSE 2.31版本现已上线，包含10首新曲目...
-              </div>
-            </li>
-            <li class="announcement-item" data-id="6">
-              <div class="announcement-item-header">
-                <span class="badge bg-info announcement-badge" data-type="notice"></span>
-                <span class="announcement-item-date">2025/06/28</span>
-                <span class="announcement-item-title">下载方式变更通知</span>
-              </div>
-              <div class="announcement-item-preview">
-                百度网盘下载方式已更新，请使用最新提取码...
-              </div>
-            </li>
+            ${announcementsData.slice(4).map(item => `
+              <li class="announcement-item" data-id="${item.id}">
+                <div class="announcement-item-header">
+                  <span class="badge bg-${item.type === 'dgr' ? 'danger' : item.type === 'upd' ? 'success' : 'info'} announcement-badge" data-type="${item.type}"></span>
+                  <span class="announcement-item-date">${item.date}</span>
+                  <span class="announcement-item-title">${item.title}</span>
+                </div>
+                <div class="announcement-item-preview">
+                  ${item.preview}
+                </div>
+              </li>
+            `).join('')}
           </ul>
         </div>
         
@@ -581,6 +589,50 @@ tools: `
       </div>
     `,
 };
+
+// 显示公告详情弹窗
+function showAnnouncementModal(id) {
+  const announcement = announcementsData.find(item => item.id === id);
+  if (!announcement) return;
+  
+  // 获取当前语言设置
+  const urlParams = new URLSearchParams(window.location.search);
+  const lang = urlParams.get('lang') || 'zh-cn';
+  
+  // 定义弹窗标题文本
+  const modalTitles = {
+    'zh-cn': '公告详情',
+    'en-us': 'Announcement Details',
+    'ja-jp': 'お知らせの詳細'
+  };
+  
+  // 更新弹窗内容
+  document.getElementById('modal-title').textContent = modalTitles[lang] || modalTitles['zh-cn'];
+  
+  // 创建详细内容HTML
+  const contentHTML = `
+    <div class="announcement-modal-content">
+      <div class="announcement-modal-header">
+        <span class="badge bg-${announcement.type === 'dgr' ? 'danger' : announcement.type === 'upd' ? 'success' : 'info'}">
+          ${announcement.type === 'dgr' ? '重要' : announcement.type === 'upd' ? '更新' : '通知'}
+        </span>
+        <span class="announcement-modal-date">${announcement.date}</span>
+      </div>
+      <h3 class="announcement-modal-title">${announcement.title}</h3>
+      <div class="announcement-modal-body">
+        <p>${announcement.content}</p>
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('modal-content').innerHTML = contentHTML;
+  
+  // 显示弹窗
+  const modal = document.getElementById('about-modal');
+  if (modal) {
+    modal.classList.add('show');
+  }
+}
 
 // 加载页面内容
 function loadPage(pageId) {
@@ -647,6 +699,37 @@ function loadPage(pageId) {
                 
                 // 添加事件监听
                 iframe.addEventListener('load', adjustIframeHeight);
+            }
+
+            // 添加公告点击事件绑定（仅当加载首页时）
+            if (pageId === 'home') {
+                // 绑定公告卡片点击事件
+                document.querySelectorAll('.announcement-card').forEach(card => {
+                    card.addEventListener('click', function(e) {
+                        // 防止点击链接时触发
+                        if (e.target.closest('.more-link')) return;
+                        
+                        const id = this.getAttribute('data-id');
+                        showAnnouncementModal(id);
+                    });
+                });
+                
+                // 绑定公告列表项点击事件
+                document.querySelectorAll('.announcement-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        showAnnouncementModal(id);
+                    });
+                });
+                
+                // 绑定"查看详情"链接点击事件
+                document.querySelectorAll('.click-detail').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const id = this.closest('.announcement-card').getAttribute('data-id');
+                        showAnnouncementModal(id);
+                    });
+                });
             }
 
             // 添加工具搜索功能
@@ -811,13 +894,6 @@ document.addEventListener("DOMContentLoaded", function() {
             if (modal) {
                 modal.classList.remove('show');
             }
-        }
-        
-        // 处理公告列表项点击
-        const announcementItem = e.target.closest('.announcement-item');
-        if (announcementItem) {
-            const id = announcementItem.getAttribute('data-id');
-            showAnnouncementModal(id);
         }
     });
 
