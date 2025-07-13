@@ -663,27 +663,6 @@ footer {
   padding: 10px 10px;
 }
 
-/* 返回按钮样式 */
-.back-button {
-  background: var(--secondary-color);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  margin-bottom: 20px;
-  display: inline-flex;
-  align-items: center;
-}
-
-.back-button:hover {
-  background: #2980b9;
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.5);
-}
-
 /* ======== 新增工具卡片样式 ======== */
 .tools-container {
   display: grid;
@@ -1177,4 +1156,58 @@ html, body {
 .announcement-item-preview {
   color: #666;
   line-height: 1.5;
+}
+
+/* 公告列表项标签间距 */
+.announcement-item-header .badge {
+  margin-right: 12px !important;
+}
+
+/* 优化公告列表项布局 */
+.announcement-item-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.announcement-item-date {
+  min-width: 90px; /* 确保日期有足够空间 */
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+  .announcement-item-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .announcement-item-header .badge {
+    margin-right: 8px !important;
+  }
+}
+
+/* 添加返回按钮样式 */
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  background: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.back-button:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+}
+
+.back-button i {
+  margin-right: 8px;
 }

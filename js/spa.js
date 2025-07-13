@@ -494,7 +494,7 @@ tools: `
             <!-- 前三个公告：卡片样式 -->
             <div class="announcement-card" data-id="1">
               <div class="announcement-header">
-                <span class="badge bg-danger" id="bg-type-dgr">重要</span>
+                <span class="badge bg-danger announcement-badge" data-type="dgr"></span>
                 <span class="announcement-date">2025/07/11</span>
               </div>
               <h3 class="announcement-title">OneDrive下载渠道下线通知</h3>
@@ -508,7 +508,7 @@ tools: `
             
             <div class="announcement-card" data-id="2">
               <div class="announcement-header">
-                <span class="badge bg-success" id="bg-type-upd">更新</span>
+                <span class="badge bg-success announcement-badge" data-type="upd"></span>
                 <span class="announcement-date">2025/07/10</span>
               </div>
               <h3 class="announcement-title">maimai DX PRiSM PLUS opt更新</h3>
@@ -522,7 +522,7 @@ tools: `
             
             <div class="announcement-card" data-id="3">
               <div class="announcement-header">
-                <span class="badge bg-info" id="bg-type-notice">通知</span>
+                <span class="badge bg-info announcement-badge" data-type="notice"></span>
                 <span class="announcement-date">2025/07/05</span>
               </div>
               <h3 class="announcement-title">实用工具新功能上线</h3>
@@ -539,7 +539,7 @@ tools: `
           <ul class="announcements-list">
             <li class="announcement-item" data-id="4">
               <div class="announcement-item-header">
-                <span class="badge bg-danger" id="bg-type-dgr">重要</span>
+                <span class="badge bg-danger announcement-badge" data-type="dgr"></span>
                 <span class="announcement-item-date">2025/07/04</span>
                 <span class="announcement-item-title">数据中心维护通知</span>
               </div>
@@ -549,7 +549,7 @@ tools: `
             </li>
             <li class="announcement-item" data-id="5">
               <div class="announcement-item-header">
-                <span class="badge bg-success" id="bg-type-upd">更新</span>
+                <span class="badge bg-success announcement-badge" data-type="upd"></span>
                 <span class="announcement-item-date">2025/07/01</span>
                 <span class="announcement-item-title">CHUNITHM VERSE 新版本发布</span>
               </div>
@@ -559,7 +559,7 @@ tools: `
             </li>
             <li class="announcement-item" data-id="6">
               <div class="announcement-item-header">
-                <span class="badge bg-info" id="bg-type-notice">通知</span>
+                <span class="badge bg-info announcement-badge" data-type="notice"></span>
                 <span class="announcement-item-date">2025/06/28</span>
                 <span class="announcement-item-title">下载方式变更通知</span>
               </div>

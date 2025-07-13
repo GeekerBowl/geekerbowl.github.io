@@ -74,14 +74,16 @@ const languageModule = (function() {
                 'option-item': '记住语言偏好',
                 'option-text': '下次访问时自动使用您选择的语言',
                 'option-save': '保存',
-
+                
                 // 首页
                 'top-page': '首页',
                 'announcements-title': '最新公告',
-                'bg-type-dgr': '重要',
-                'bg-type-upd': '更新',
-                'bg-type-notice': '通知',
-                'click-detail': '查看详情'
+                'click-detail': '查看详情',
+                
+                // 公告标签
+                'badge-dgr': '重要',
+                'badge-upd': '更新',
+                'badge-notice': '通知'
             },
 
             'en-us': {
@@ -158,10 +160,12 @@ const languageModule = (function() {
                 // 首页
                 'top-page': 'Top Page',
                 'announcements-title': 'Information',
-                'bg-type-dgr': 'IMPORTANT',
-                'bg-type-upd': 'UPDATE',
-                'bg-type-notice': 'NOTICE',
-                'click-detail': 'Details'
+                'click-detail': 'Details',
+                
+                // 公告标签
+                'badge-dgr': 'IMPORTANT',
+                'badge-upd': 'UPDATE',
+                'badge-notice': 'NOTICE'
             },
 
             'ja-jp': {
@@ -233,10 +237,12 @@ const languageModule = (function() {
                 // 首页
                 'top-page': 'トップページ',
                 'announcements-title': 'ニュース',
-                'bg-type-dgr': '重要なお知らせ',
-                'bg-type-upd': 'アップデート',
-                'bg-type-notice': 'お知らせ',
-                'click-detail': '詳しく'
+                'click-detail': '詳しく',
+                
+                // 公告标签
+                'badge-dgr': '重要なお知らせ',
+                'badge-upd': 'アップデート',
+                'badge-notice': 'お知らせ'
             }
         };
 
@@ -263,6 +269,14 @@ const languageModule = (function() {
                 clickDetailElements[i].textContent = langData['click-detail'];
             }
         }
+        
+        // 更新公告标签文本
+        document.querySelectorAll('.announcement-badge').forEach(badge => {
+            const type = badge.getAttribute('data-type');
+            if (langData[`badge-${type}`]) {
+                badge.textContent = langData[`badge-${type}`];
+            }
+        });
         
         // 更新URL中的lang参数，不重新加载页面
         const url = new URL(window.location);
