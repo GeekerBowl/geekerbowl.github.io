@@ -1211,3 +1211,35 @@ html, body {
 .back-button i {
   margin-right: 8px;
 }
+
+/* icfe帮助弹窗样式 */
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.icf-help-content h4 {
+  margin-top: 20px;
+  color: #2c3e50;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.icf-help-content ul {
+  padding-left: 20px;
+  margin: 15px 0;
+}
+
+.icf-help-content li {
+  margin-bottom: 10px;
+}
+
+.icf-help-content p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+}

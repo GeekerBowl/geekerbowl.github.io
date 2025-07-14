@@ -456,7 +456,12 @@ const pages = {
     // ICF Editor
     icfeditor: `
       <div class="game-detail">
-        <h1 class="page-title">ICF Editor</h1>
+        <div class="d-flex align-items-center">
+          <h1 class="page-title me-2">ICF Editor</h1>
+          <button id="icf-help-btn" class="btn btn-sm btn-circle btn-outline-secondary">
+            <i class="fas fa-question"></i>
+          </button>
+        </div>
         <button class="back-button" data-page="tools">
           <i class="fas fa-arrow-left me-2"></i>
           <span id="back-to-home">返回</span>
@@ -694,6 +699,39 @@ function showAnnouncementModal(id) {
   }
 }
 
+// ICF帮助弹窗
+function showICFHelpModal() {
+  const modal = document.getElementById('about-modal');
+  if (!modal) return;
+  
+  document.getElementById('modal-title').textContent = 'ICF Editor 使用帮助';
+  
+  const helpContent = `
+    <div class="icf-help-content">
+      <h4>基本功能</h4>
+      <ul>
+        <li><strong>导入ICF文件</strong>：将ICF文件直接拖拽到修改区域即可加载</li>
+        <li><strong>编辑内容</strong>：在编辑区按官方文件格式填写对应的pack、app以及opt文件名</li>
+        <li><strong>保存文件</strong>：编辑完成后点击"SAVE ICF"导出新的ICF文件</li>
+      </ul>
+      
+      <h4>注意事项</h4>
+      <ul>
+        <li>开头SDXXACA0为游戏代码，必须填写</li>
+        <li>请填写正确格式的pack、app以及opt文件名</li>
+        <li>导入后页面会一直保留上次修改的内容，如需清除请点击"Clear Editor"清除页面</li>
+      </ul>
+      
+      <h4>常见问题</h4>
+      <p><strong>Q: 为什么导入后数据显示不正确？</strong><br>
+      A: 如果导入文件后右侧显示红字可能此ICF已经被游戏修改但未正常保存，如果什么都不显示请检查ICF文件是否正确</p>
+    </div>
+  `;
+  
+  document.getElementById('modal-content').innerHTML = helpContent;
+  modal.classList.add('show');
+}
+
 // 加载页面内容
 function loadPage(pageId) {
     const contentContainer = document.getElementById('content-container');
@@ -736,6 +774,14 @@ function loadPage(pageId) {
                 }
             }
             
+		    // 为ICF帮助按钮添加事件
+            if (pageId === 'icfeditor') {
+                const helpBtn = contentContainer.querySelector('#icf-help-btn');
+                if (helpBtn) {
+                    helpBtn.addEventListener('click', showICFHelpModal);
+                }
+            }
+			
             // 处理 iframe 高度
             const iframe = contentContainer.querySelector('.icf-editor-iframe');
             if (iframe) {
