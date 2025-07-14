@@ -89,10 +89,6 @@ const pages = {
             </tbody>
           </table>
         </div>
-        <a href="#" class="download-link">
-          <i class="fas fa-download"></i>
-          <span id="download-all">未使用</span>
-        </a>
       </div>
       
       <div class="section">
@@ -117,30 +113,6 @@ const pages = {
                 <td>vhd</td>
                 <td>1.00~1.51</td>
                 <td>11</td>
-              </tr>
-              <tr>
-                <td><a href="#"><i class="fas fa-link me-2"></i> CHUNITHM NEW / NEW PLUS</a></td>
-                <td>N/A</td>
-                <td>2.00 / 2.05</td>
-                <td>N/A</td>
-              </tr>
-              <tr>
-                <td><a href="#"><i class="fas fa-link me-2"></i> CHUNITHM SUN / SUN PLUS</a></td>
-                <td>N/A</td>
-                <td>2.10 / 2.15</td>
-                <td>N/A</td>
-              </tr>
-              <tr>
-                <td><a href="#"><i class="fas fa-link me-2"></i> CHUNITHM LUMINOUS</a></td>
-                <td>N/A</td>
-                <td>2.20</td>
-                <td>N/A</td>
-              </tr>
-              <tr>
-                <td><a href="#" data-page="lmnp"><i class="fas fa-link me-2"></i> CHUNITHM LUMINOUS PLUS</a></td>
-                <td>vhd</td>
-                <td>2.27</td>
-                <td>6</td>
               </tr>
             </tbody>
           </table>
@@ -174,10 +146,6 @@ const pages = {
         <div class="warning mt-4">
           <strong><i class="fas fa-info-circle me-2"></i> <span id="download-info-text">下载说明：</span></strong>
           <span id="download-info-detail">本站全部资源仅提供<a href="#" class="mx-1">「百度网盘」</a>与<a href="#" class="mx-1">「One Drive」</a>作为下载方式</span>
-        </div>
-        <div class="warning">
-          <strong><i class="fas fa-exclamation-triangle me-2"></i> <span id="notice-text">注意：</span></strong>
-          <span id="notice-detail">此页面暂为临时下载页面，正式页面正在开发中</span>
         </div>
       </div>
       
