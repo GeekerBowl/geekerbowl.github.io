@@ -2,51 +2,43 @@
 const announcementsData = [
   {
     id: "1",
-    type: "dgr",
-    date: "2025/07/11",
-    title: "OneDrive下载渠道下线通知",
-    preview: "本站OneDrive下载渠道将于近期下线，请尽快下载所需资源...",
-    content: "由于OneDrive服务政策调整，本站的OneDrive下载渠道将于2025年8月1日正式下线。请用户尽快下载所需资源。下线后，所有资源将只通过百度网盘提供下载服务。"
+    type: "notice",
+    date: "2025/07/14",
+    title: "EvilLeaker 新下载站开放",
+    preview: "欢迎使用新的下载站",
+    content: "由于旧下载站属于临时页面，为了使用体验以及增加更多功能，所有下载资源已转至本站。另外本站整体还在测试中，如果在使用体验中有任何问题欢迎反馈。"
   },
   {
     id: "2",
-    type: "upd",
-    date: "2025/07/10",
-    title: "maimai DX PRiSM PLUS opt更新",
-    preview: "maimai DX PRiSM PLUS (SDEZ) option K021 已更新",
-    content: "maimai DX PRiSM PLUS (SDEZ) 的 option K021 已更新至最新版本，包含新的曲目和功能优化。建议所有用户及时更新以获得最佳游戏体验。"
+    type: "dgr",
+    date: "2025/07/14",
+    title: "OneDrive下载渠道下线通知",
+    preview: "本站OneDrive下载渠道将于近期下线。",
+    content: "本站OneDrive下载渠道将于近日下线。"
   },
   {
     id: "3",
-    type: "notice",
-    date: "2025/07/05",
-    title: "实用工具新功能上线",
-    preview: "实用工具页面新增「ICF 编辑器」功能",
-    content: "实用工具页面现已新增「ICF 编辑器」功能，用户可以直接在浏览器中编辑和查看ICF文件，无需下载额外软件。该工具支持实时预览和多种导出格式。"
+    type: "upd",
+    date: "2025/07/14",
+    title: "CHUNITHM VERSE option更新",
+    preview: "增加新的opt包",
+    content: "新增加 'A163~A191(Verse final)' ,请至下载页面进行下载。"
   },
   {
     id: "4",
-    type: "dgr",
-    date: "2025/07/04",
-    title: "数据中心维护通知",
-    preview: "数据中心将于本周日进行系统维护，预计停机2小时...",
-    content: "数据中心将于2025年7月6日（周日）凌晨2:00至4:00进行系统维护。维护期间所有服务将暂时不可用。建议用户提前安排下载计划，避免维护期间操作。"
+    type: "upd",
+    date: "2025/07/14",
+    title: "maimai DX PRiSM Plus(SDEZ) opt更新",
+    preview: "增加新的opt包。",
+    content: "option数据包新增K021，请至下载页面进行下载"
   },
   {
     id: "5",
-    type: "upd",
-    date: "2025/07/01",
-    title: "CHUNITHM VERSE 新版本发布",
-    preview: "CHUNITHM VERSE 2.31版本现已上线，包含10首新曲目...",
-    content: "CHUNITHM VERSE 2.31版本现已正式发布，新增10首高品质曲目，优化了游戏性能和UI界面。同时修复了之前版本中报告的多个问题，提升了游戏稳定性。"
-  },
-  {
-    id: "6",
     type: "notice",
-    date: "2025/06/28",
-    title: "下载方式变更通知",
-    preview: "百度网盘下载方式已更新，请使用最新提取码...",
-    content: "百度网盘下载方式已更新，所有资源的提取码已更换为更安全的版本。请用户在下载时使用新提供的提取码。旧提取码将于2025年7月15日失效。"
+    date: "2025/07/14",
+    title: "增加实用工具页面",
+    preview: "新增「ICF 编辑器」等常用工具。",
+    content: "实用工具页面现已新增「ICF 编辑器」功能，现在你可以直接在浏览器中编辑和查看以及导入和导出ICF文件。"
   }
 ];
 
@@ -353,7 +345,146 @@ const pages = {
         </footer>
       </div>
     `,
+	
+	// CARD MAKER
+	sded: `
+      <div class="game-detail">
+        <h1 class="page-title">CARD MAKER</h1>
+        <button class="back-button" data-page="download">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <h2 class="section-title">
+            <i class="fas fa-download"></i>
+            <span id="download-list-title">下载列表</span>
+          </h2>
+          
+          <div class="mb-4">
+            <p><span id="last-update-label">最后更新</span>: 2025/03/28</p>
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td id="download-method">下载方式</td>
+                    <td id="file-count">文件数</td>
+                    <td id="access-code">提取码/访问密码</td>
+                    <td id="validity">资源有效期</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th><a href="https://pan.baidu.com/s/1rkKLqWKckMtKbbbrEYN8HA" target="_blank">百度网盘</a></th>
+                    <td>3</td>
+                    <td>cdmk</td>
+                    <td id="unlimited">无期限</td>
+                  </tr>
+                  <tr>
+                    <th><a href="https://hitiko-my.sharepoint.com/:f:/p/evilleaker/Et3Z5hQJ0zxEnggVxEbbngoBawmJQtgxu4ZHRnlV4vGarQ?e=ZTR3yZ" target="_blank">OneDrive</a></th>
+                    <td>3</td>
+                    <td>9d79b7d3</td>
+                    <td id="unlimited2">无期限</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
 
+	// Archive相关页面
+	sdbt: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM OLD (SDBT)</h1>
+        <button class="back-button" data-page="download">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <h2 class="section-title">
+            <i class="fas fa-download"></i>
+            <span id="download-list-title">下载列表</span>
+          </h2>
+          
+          <div class="mb-4">
+            <p><span id="last-update-label">最后更新</span>: 2025/03/28</p>
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td id="download-method">下载方式</td>
+                    <td id="file-count">文件数</td>
+                    <td id="access-code">提取码/访问密码</td>
+                    <td id="validity">资源有效期</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th><a href="https://pan.baidu.com/s/17M-tfyYGJ5wRwHAnjsyLRg" target="_blank">百度网盘</a></th>
+                    <td>11</td>
+                    <td>sdbt</td>
+                    <td id="unlimited">无期限</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+    // 其他页面模板
+    'sdhd-archive': `<div class="game-detail">准备中...</div>`,
+    
+    // 其他页面
+    'data-center': `<div class="section"><h1>数据中心</h1><p>数据中心内容...</p></div>`,
+    settings: `
+      <div class="settings-container">
+        <h1 class="page-title" id="option-title">设置</h1>
+        <button class="back-button" data-page="home">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="setting-card">
+          <div class="setting-header">
+            <i class="fas fa-language me-2"></i>
+            <span id="lang-option">语言设置</span>
+          </div>
+          <div class="setting-body">
+            <div class="setting-item">
+              <div>
+                <span id="option-item">记住语言偏好</span>
+                <div class="setting-description" id="option-text">下次访问时自动使用您选择的语言</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="remember-language">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <button class="save-btn" id="save-settings">
+          <i class="fas fa-save me-2"></i>
+          <span id="option-save">保存设置</span>
+        </button>
+      </div>
+    `,
+	
     // ICF Editor
     icfeditor: `
       <div class="game-detail">
@@ -469,8 +600,8 @@ const pages = {
                 <i class="fas fa-database"></i>
               </div>
               <div class="tool-content">
-                <h3 class="tool-title">Leak2pack</h3>
-                <p class="tool-description">强大的HDD工具集</p>
+                <h3 class="tool-title">Leak</h3>
+                <p class="tool-description">HDD工具集</p>
                 <div class="tool-meta">
                   <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
                   <span><i class="fas fa-download"></i> 1.05MB</span>
@@ -488,49 +619,10 @@ const pages = {
       </div>
     `,
 
-    // 其他页面模板
-    sded: `<div class="game-detail">...coming soon...</div>`,
-    sdbt: `<div class="game-detail">...coming soon...</div>`,
-    lmnp: `<div class="game-detail">...coming soon...</div>`,
+	// 帮助页面
+    help: `<div class="section"><h1>帮助</h1><p>准备中...</p></div>`,
     
-    // 其他页面
-    'data-center': `<div class="section"><h1>数据中心</h1><p>数据中心内容...</p></div>`,
-    settings: `
-      <div class="settings-container">
-        <h1 class="page-title" id="option-title">设置</h1>
-        <button class="back-button" data-page="home">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
-        </button>
-        
-        <div class="setting-card">
-          <div class="setting-header">
-            <i class="fas fa-language me-2"></i>
-            <span id="lang-option">语言设置</span>
-          </div>
-          <div class="setting-body">
-            <div class="setting-item">
-              <div>
-                <span id="option-item">记住语言偏好</span>
-                <div class="setting-description" id="option-text">下次访问时自动使用您选择的语言</div>
-              </div>
-              <label class="switch">
-                <input type="checkbox" id="remember-language">
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-        </div>
-        
-        <button class="save-btn" id="save-settings">
-          <i class="fas fa-save me-2"></i>
-          <span id="option-save">保存设置</span>
-        </button>
-      </div>
-    `,
-    help: `<div class="section"><h1>帮助</h1><p>帮助内容...</p></div>`,
-    
-    // 首页 - 动态生成版本
+    // 首页
     home: `
       <div class="section">
         <h1 class="page-title" id="top-page">首页</h1>
@@ -603,7 +695,7 @@ function showAnnouncementModal(id) {
   const modalTitles = {
     'zh-cn': '公告详情',
     'en-us': 'Announcement Details',
-    'ja-jp': 'お知らせの詳細'
+    'ja-jp': 'お知らせ'
   };
   
   // 更新弹窗内容
@@ -767,15 +859,15 @@ function loadPage(pageId) {
                         const noticeTexts = {
                             'zh-cn': {
                                 title: '提示',
-                                content: '该资源暂未提供下载链接，请稍后再试'
+                                content: '该资源未开放下载'
                             },
                             'en-us': {
                                 title: 'Notice',
-                                content: 'Download link is not available yet. Please try again later.'
+                                content: 'Download link is not available yet.'
                             },
                             'ja-jp': {
                                 title: 'お知らせ',
-                                content: 'ダウンロードリンクはまだ提供されていません。後でもう一度お試しください。'
+                                content: 'ダウンロードはまだ提供されていません。'
                             }
                         };
                         

@@ -19,6 +19,7 @@ const languageModule = (function() {
                 'sidebar-help': '帮助',
                 'sidebar-game-download': '游戏下载',
                 'sidebar-archive': '存档下载',
+				'sidebar-tools': '实用工具',
                 
                 // 主内容-下载
                 'download-heading': '下载',
@@ -101,6 +102,7 @@ const languageModule = (function() {
                 'sidebar-help': 'Help',
                 'sidebar-game-download': 'Game Downloads',
                 'sidebar-archive': 'Archive',
+				'sidebar-tools': 'Tools',
 
                 // 主内容-下载
                 'download-heading': 'Download',
@@ -169,17 +171,23 @@ const languageModule = (function() {
             },
 
             'ja-jp': {
+				// 顶部导航栏
                 'navbar-brand': 'DATA CENTER',
                 'nav-home-text': 'ホームページ',
                 'nav-download-text': 'N/A',
                 'nav-about-text': 'について',
                 'language-text': '言語',
+				
+				// 侧边栏
                 'sidebar-home': 'トップページ',
                 'sidebar-data': 'ダウンロード',
                 'sidebar-settings': '設定',
                 'sidebar-help': 'ヘルプ',
                 'sidebar-game-download': 'ゲームダウンロード',
                 'sidebar-archive': 'アーカイブ',
+				'sidebar-tools': 'ツール',
+				
+				// 下载页面
                 'download-heading': 'ダウンロード',
                 'game-heading': 'ゲーム',
                 'archive-heading': 'アーカイブ',
