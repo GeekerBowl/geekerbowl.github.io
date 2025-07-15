@@ -53,7 +53,7 @@ const pages = {
         </h2>
         <div class="warning">
           <strong><i class="fas fa-exclamation-circle me-2"></i> <span id="warning-text">重要提示：</span></strong>
-          <span id="warning-detail">本站OneDrive下载渠道将于近期下线，请尽快下载所需资源。</span>
+          <span id="warning-detail">OneDrive下载渠道已下线</span>
         </div>
         <p class="mb-4"><strong><span id="latest-update-text">最后更新</span>: 2025/07/15</strong></p>
         <div class="table-container">

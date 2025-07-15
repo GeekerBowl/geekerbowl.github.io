@@ -27,7 +27,7 @@ const languageModule = (function() {
                 'archive-heading': '资源存档',
                 'other-heading': '其他资源',
                 'warning-text': '重要提示：',
-                'warning-detail': '本站OneDrive下载渠道将于近期下线',
+                'warning-detail': 'OneDrive下载渠道已下线',
                 'latest-update-text': '最后更新',
                 'latest-update-text-archive': '最后更新',
                 'latest-update-text-other': '最后更新',
