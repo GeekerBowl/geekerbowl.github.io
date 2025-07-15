@@ -18,7 +18,7 @@ const languageModule = (function() {
                 'sidebar-settings': '设置',
                 'sidebar-help': '帮助',
                 'sidebar-game-download': '游戏下载',
-                'sidebar-archive': '存档下载',
+                'sidebar-archive': '资源存档',
 				'sidebar-tools': '实用工具',
                 
                 // 主内容-下载
@@ -43,7 +43,7 @@ const languageModule = (function() {
                 'other-files': '文件数',
                 'download-all': '未使用',
                 'download-info-text': '下载说明：',
-                'download-info-detail': '本站全部资源仅提供「百度网盘」与「One Drive」作为下载方式',
+                'download-info-detail': '目前本站全部资源仅提供「百度网盘」作为下载方式',
                 'notice-text': '注意：',
                 'notice-detail': '此页面暂为临时下载页面',
                 
@@ -126,7 +126,7 @@ const languageModule = (function() {
                 'other-files': 'Files',
                 'download-all': 'Download All Game Resources',
                 'download-info-text': 'Download Info:',
-                'download-info-detail': 'All resources on this site are only available via <a href="#" class="mx-1">「Baidu Netdisk」</a> and <a href="#" class="mx-1">「One Drive」</a>',
+                'download-info-detail': 'All resources on this site are only available via「Baidu Netdisk」</a>',
                 'notice-text': 'Notice:',
                 'notice-detail': 'This page is a temporary download page, the official page is under development',
                 
@@ -209,7 +209,7 @@ const languageModule = (function() {
                 'other-files': 'ファイル数',
                 'download-all': '未使用',
                 'download-info-text': 'ダウンロード情報:',
-                'download-info-detail': '当サイトのすべてのリソースは<a href="#" class="mx-1">「百度网盘」</a>と<a href="#" class="mx-1">「One Drive」</a>でのみ提供されます',
+                'download-info-detail': '当サイトのすべてのリソースは「百度网盘」でのみ提供されます',
                 'notice-text': '注意:',
                 'notice-detail': 'このページは一時的なダウンロードページです。公式ページは開発中です',
                 

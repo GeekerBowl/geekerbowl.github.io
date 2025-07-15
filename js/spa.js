@@ -2,19 +2,19 @@
 const announcementsData = [
   {
     id: "1",
+	type: "dgr",
+    date: "2025/07/15",
+    title: "OneDrive下载渠道下线通知",
+    preview: "OneDrive下载渠道今日起已正式下线",
+    content: "由于一些原因本人不能再继续使用od账号上传新内容(权限变为只读了)，所以即日起将下架本站所有od下载链接，请知悉。替代渠道正在寻找中。"
+  },
+  {
+    id: "2",
     type: "notice",
     date: "2025/07/14",
     title: "EvilLeaker 新下载站开放",
     preview: "欢迎使用新的下载站",
     content: "由于旧下载站属于临时页面，为了使用体验以及增加更多功能，所有下载资源已转至本站。另外本站整体还在测试中，如果在使用体验中有任何问题欢迎反馈。"
-  },
-  {
-    id: "2",
-    type: "dgr",
-    date: "2025/07/14",
-    title: "OneDrive下载渠道下线通知",
-    preview: "本站OneDrive下载渠道将于近期下线。",
-    content: "本站OneDrive下载渠道将于近日下线。"
   },
   {
     id: "3",
@@ -55,7 +55,7 @@ const pages = {
           <strong><i class="fas fa-exclamation-circle me-2"></i> <span id="warning-text">重要提示：</span></strong>
           <span id="warning-detail">本站OneDrive下载渠道将于近期下线，请尽快下载所需资源。</span>
         </div>
-        <p class="mb-4"><strong><span id="latest-update-text">最后更新</span>: 2025/03/28</strong></p>
+        <p class="mb-4"><strong><span id="latest-update-text">最后更新</span>: 2025/07/15</strong></p>
         <div class="table-container">
           <table>
             <thead>
@@ -145,7 +145,7 @@ const pages = {
         </div>
         <div class="warning mt-4">
           <strong><i class="fas fa-info-circle me-2"></i> <span id="download-info-text">下载说明：</span></strong>
-          <span id="download-info-detail">本站全部资源仅提供<a href="#" class="mx-1">「百度网盘」</a>与<a href="#" class="mx-1">「One Drive」</a>作为下载方式</span>
+          <span id="download-info-detail">目前本站全部资源仅提供「百度网盘」作为下载方式</span>
         </div>
       </div>
       
@@ -171,7 +171,7 @@ const pages = {
           </h2>
           
           <div class="mb-4">
-            <p><span id="last-update-label">最后更新</span>: 2025/03/09</p>
+            <p><span id="last-update-label">最后更新</span>: 2025/07/15</p>
             <div class="table-container">
               <table class="table">
                 <thead>
@@ -188,12 +188,6 @@ const pages = {
                     <td>7</td>
                     <td>vrse</td>
                     <td id="unlimited">无期限</td>
-                  </tr>
-                  <tr>
-                    <th><a href="https://hitiko-my.sharepoint.com/:f:/p/evilleaker/Eu_T210f3E5Ihq5yJfZ46fwBEOB9OXz7VfH9naE7bAEcIw?e=9XDsnp" target="_blank">OneDrive</a></th>
-                    <td>7</td>
-                    <td>59a9cd6745</td>
-                    <td id="unlimited2">无期限</td>
                   </tr>
                 </tbody>
               </table>
@@ -224,7 +218,7 @@ const pages = {
           </h2>
           
           <div class="mb-4">
-            <p><span id="last-update-label">最后更新</span>: 2025/07/10</p>
+            <p><span id="last-update-label">最后更新</span>: 2025/07/15</p>
             <div class="table-container">
               <table class="table">
                 <thead>
@@ -241,12 +235,6 @@ const pages = {
                     <td>15</td>
                     <td>sdez</td>
                     <td id="unlimited">无期限</td>
-                  </tr>
-                  <tr>
-                    <th><a href="https://hitiko-my.sharepoint.com/:f:/p/evilleaker/EtAuHY2d1JlOrkaUWLu35KsBk4Tjx1olbsKaT1ZEChx0qA?e=0ilcCu" target="_blank">OneDrive</a></th>
-                    <td>15</td>
-                    <td>D706C7573</td>
-                    <td id="unlimited2">无期限</td>
                   </tr>
                 </tbody>
               </table>
@@ -295,12 +283,6 @@ const pages = {
                     <td>sddt</td>
                     <td id="unlimited">无期限</td>
                   </tr>
-                  <tr>
-                    <th><a href="https://hitiko-my.sharepoint.com/:f:/p/evilleaker/EnKo8ijjrkVCgZcpphFIHzwBFlHq1FLSjwu9oNOIQf1wdg" target="_blank">OneDrive</a></th>
-                    <td>3</td>
-                    <td>98ce1395</td>
-                    <td id="unlimited2">无期限</td>
-                  </tr>
                 </tbody>
               </table>
             </div>
@@ -347,12 +329,6 @@ const pages = {
                     <td>3</td>
                     <td>cdmk</td>
                     <td id="unlimited">无期限</td>
-                  </tr>
-                  <tr>
-                    <th><a href="https://hitiko-my.sharepoint.com/:f:/p/evilleaker/Et3Z5hQJ0zxEnggVxEbbngoBawmJQtgxu4ZHRnlV4vGarQ?e=ZTR3yZ" target="_blank">OneDrive</a></th>
-                    <td>3</td>
-                    <td>9d79b7d3</td>
-                    <td id="unlimited2">无期限</td>
                   </tr>
                 </tbody>
               </table>
