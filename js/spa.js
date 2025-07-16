@@ -18,6 +18,14 @@ const announcementsData = [
   },
   {
     id: "3",
+    type: "notice",
+    date: "2025/07/14",
+    title: "新版ChunithmUnlocker上线",
+    preview: "实用工具界面新增工具「Chunlocker」",
+    content: "实用工具界面新增工具「Chunlocker」，此工具相比原先的ChunithmUnlocker使用更加便捷，软件支持多语言与在线更新。请至“实用工具”页面进行下载。"
+  },
+  {
+    id: "4",
     type: "upd",
     date: "2025/07/14",
     title: "CHUNITHM VERSE option更新",
@@ -25,7 +33,7 @@ const announcementsData = [
     content: "新增加 'A163~A191(Verse final)' ,请至下载页面进行下载。"
   },
   {
-    id: "4",
+    id: "5",
     type: "upd",
     date: "2025/07/14",
     title: "maimai DX PRiSM Plus(SDEZ) opt更新",
@@ -33,7 +41,7 @@ const announcementsData = [
     content: "option数据包新增K021，请至下载页面进行下载"
   },
   {
-    id: "5",
+    id: "6",
     type: "notice",
     date: "2025/07/14",
     title: "增加实用工具页面",
@@ -499,6 +507,21 @@ const pages = {
               </div>
             </div>
             
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-file-archive"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">Chunlocker v1.01</h3>
+                <p class="tool-description">新版ChunithmUnlocker，使用更加便捷，支持多语言与在线更新。</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/17</span>
+                  <span><i class="fas fa-download"></i> 10.8MB</span>
+                </div>
+                <a href="https://oss.am-all.com.cn/download/software/chunlocker/Chunlocker.exe" class="tool-link" target="_blank" rel="noopener">下载</a>
+              </div>
+            </div>
+
             <div class="tool-card">
               <div class="tool-icon">
                 <i class="fas fa-file-archive"></i>
