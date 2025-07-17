@@ -512,7 +512,7 @@ const pages = {
                 <i class="fas fa-file-archive"></i>
               </div>
               <div class="tool-content">
-                <h3 class="tool-title">Chunlocker v1.01</h3>
+                <h3 class="tool-title">Chunlocker v1.02</h3>
                 <p class="tool-description">新版ChunithmUnlocker，使用更加便捷，支持多语言与在线更新。</p>
                 <div class="tool-meta">
                   <span><i class="fas fa-history"></i> 最后更新: 2025/07/17</span>
