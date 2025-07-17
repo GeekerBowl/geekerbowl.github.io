@@ -512,11 +512,11 @@ const pages = {
                 <i class="fas fa-file-archive"></i>
               </div>
               <div class="tool-content">
-                <h3 class="tool-title">Chunlocker v1.02</h3>
+                <h3 class="tool-title">Chunlocker v1.03</h3>
                 <p class="tool-description">新版ChunithmUnlocker，使用更加便捷，支持多语言与在线更新。</p>
                 <div class="tool-meta">
                   <span><i class="fas fa-history"></i> 最后更新: 2025/07/17</span>
-                  <span><i class="fas fa-download"></i> 10.8MB</span>
+                  <span><i class="fas fa-download"></i> 10.9MB</span>
                 </div>
                 <a href="https://oss.am-all.com.cn/download/software/chunlocker/Chunlocker.exe" class="tool-link" target="_blank" rel="noopener">下载</a>
               </div>
