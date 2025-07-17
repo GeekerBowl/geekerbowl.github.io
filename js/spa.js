@@ -527,6 +527,21 @@ const pages = {
                 <i class="fas fa-file-archive"></i>
               </div>
               <div class="tool-content">
+                <h3 class="tool-title">AllsUnlocker v1.00</h3>
+                <p class="tool-description">可以解密ALLS格式软件(pack/app/opt)</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: --/--/--</span>
+                  <span><i class="fas fa-download"></i> --MB</span>
+                </div>
+                <a href="#" class="tool-link">下载</a>
+              </div>
+            </div>
+
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-file-archive"></i>
+              </div>
+              <div class="tool-content">
                 <h3 class="tool-title">7zip</h3>
                 <p class="tool-description">可提取HDD镜像中的数据</p>
                 <div class="tool-meta">
