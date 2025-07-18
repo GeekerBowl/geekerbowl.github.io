@@ -559,21 +559,6 @@ const pages = {
                 <a href="https://get.microsoft.com/installer/download/9P1JDKQ60G4G" class="tool-link" target="_blank" rel="noopener">下载</a>
               </div>
             </div>
-
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-database"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">Leak</h3>
-                <p class="tool-description">HDD工具集</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
-                  <span><i class="fas fa-download"></i> 1.05MB</span>
-                </div>
-                <a href="#" class="tool-link">下载</a>
-              </div>
-            </div>
           </div>
 
           <footer>
