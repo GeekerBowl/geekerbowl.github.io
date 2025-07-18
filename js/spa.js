@@ -39,14 +39,6 @@ const announcementsData = [
     title: "maimai DX PRiSM Plus(SDEZ) opt更新",
     preview: "增加新的opt包。",
     content: "option数据包新增K021，请至下载页面进行下载"
-  },
-  {
-    id: "6",
-    type: "notice",
-    date: "2025/07/14",
-    title: "增加实用工具页面",
-    preview: "新增「ICF 编辑器」等常用工具。",
-    content: "实用工具页面现已新增「ICF 编辑器」功能，现在你可以直接在浏览器中编辑和查看以及导入和导出ICF文件。"
   }
 ];
 
@@ -491,22 +483,8 @@ const pages = {
               <input type="text" placeholder="搜索...">
             </div>
           </div>
-          
+
           <div class="tools-container">
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-file-code"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">ICF 编辑器</h3>
-                <p class="tool-description">用于编辑和查看ICF文件</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
-                </div>
-                <a href="#" class="tool-link" data-page="icfeditor">使用</a>
-              </div>
-            </div>
-            
             <div class="tool-card">
               <div class="tool-icon">
                 <i class="fas fa-file-archive"></i>
