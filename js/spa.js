@@ -19,13 +19,29 @@ const announcementsData = [
   {
     id: "3",
     type: "notice",
+    date: "2025/07/21",
+    title: "AllsUnlocker上线",
+    preview: "实用工具界面新增工具「AllsUnlocker」",
+    content: "实用工具界面新增工具「AllsUnlocker」，此工具用于解包ALLS格式的数据包。请至“实用工具”页面进行下载。"
+  },
+  {
+    id: "4",
+    type: "notice",
+    date: "2025/07/21",
+    title: "Segatools Editor上线",
+    preview: "实用工具界面新增工具「Segatools Editor」",
+    content: "实用工具界面新增工具「Segatools Editor」，此工具用于修改segatools.ini的相关设置。请至“实用工具”页面进行下载。"
+  },
+  {
+    id: "5",
+    type: "notice",
     date: "2025/07/14",
     title: "新版ChunithmUnlocker上线",
     preview: "实用工具界面新增工具「Chunlocker」",
     content: "实用工具界面新增工具「Chunlocker」，此工具相比原先的ChunithmUnlocker使用更加便捷，软件支持多语言与在线更新。请至“实用工具”页面进行下载。"
   },
   {
-    id: "4",
+    id: "6",
     type: "upd",
     date: "2025/07/14",
     title: "CHUNITHM VERSE option更新",
@@ -33,7 +49,7 @@ const announcementsData = [
     content: "新增加 'A163~A191(Verse final)' ,请至下载页面进行下载。"
   },
   {
-    id: "5",
+    id: "7",
     type: "upd",
     date: "2025/07/14",
     title: "maimai DX PRiSM Plus(SDEZ) opt更新",
@@ -505,13 +521,28 @@ const pages = {
                 <i class="fas fa-file-archive"></i>
               </div>
               <div class="tool-content">
+                <h3 class="tool-title">Segatools Editor v1.00</h3>
+                <p class="tool-description">使用此工具可以方便快捷的修改segatools.ini，无需另装各式文本编辑器。</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/21</span>
+                  <span><i class="fas fa-download"></i> 13.6MB</span>
+                </div>
+                <a href="https://oss.am-all.com.cn/download/software/sgeditor/SegatoolsEditor.exe" class="tool-link" target="_blank" rel="noopener">下载</a>
+              </div>
+            </div>
+
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-file-archive"></i>
+              </div>
+              <div class="tool-content">
                 <h3 class="tool-title">AllsUnlocker v1.00</h3>
                 <p class="tool-description">可以解密ALLS格式软件(pack/app/opt)</p>
                 <div class="tool-meta">
-                  <span><i class="fas fa-history"></i> 最后更新: --/--/--</span>
-                  <span><i class="fas fa-download"></i> --MB</span>
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/21</span>
+                  <span><i class="fas fa-download"></i> 11.8MB</span>
                 </div>
-                <a href="#" class="tool-link">下载</a>
+                <a href="https://oss.am-all.com.cn/download/software/allsunpacker/AllsUnpacker.exe" class="tool-link" target="_blank" rel="noopener">下载</a>
               </div>
             </div>
 
