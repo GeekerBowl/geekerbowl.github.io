@@ -521,7 +521,7 @@ const pages = {
                 <i class="fas fa-file-archive"></i>
               </div>
               <div class="tool-content">
-                <h3 class="tool-title">Segatools Editor v1.00</h3>
+                <h3 class="tool-title">Segatools Editor v1.01</h3>
                 <p class="tool-description">使用此工具可以方便快捷的修改segatools.ini，无需另装各式文本编辑器。</p>
                 <div class="tool-meta">
                   <span><i class="fas fa-history"></i> 最后更新: 2025/07/21</span>
