@@ -1243,3 +1243,390 @@ html, body {
   margin-bottom: 15px;
   line-height: 1.6;
 }
+
+/* Patcher卡片样式 */
+.patcher-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.patcher-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  height: 220px; /* 固定高度保持比例 */
+}
+
+.patcher-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #3498db;
+}
+
+.patcher-card-image {
+  flex: 0 0 auto;
+  height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-placeholder {
+  width: 128px;
+  height: 128px;
+  background: #f5f7fa;
+  border: 1px dashed #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+.patcher-card-divider {
+  height: 1px;
+  background: #e0e0e0; /* 浅灰色分割线 */
+  margin: 10px 0;
+}
+
+.patcher-card-title {
+  flex: 1 1 auto;
+  font-weight: 500;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px; /* 确保标题区域有一定高度 */
+  line-height: 1.4;
+  padding: 0 5px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .patcher-cards {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+  }
+  
+  .patcher-card {
+    height: 200px;
+    padding: 10px;
+  }
+}
+
+/* Patcher iframe 容器 */
+.patcher-iframe {
+  width: 100%;
+  min-height: 700px;
+  border: none;
+  background: transparent;
+}
+
+/* 新增DLL补丁工具卡片样式 */
+.patcher-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.patcher-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  height: 220px; /* 固定高度保持比例 */
+}
+
+.patcher-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #3498db;
+}
+
+.patcher-card-image {
+  height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #f5f7fa;
+}
+
+.patcher-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.patcher-card-divider {
+  height: 1px;
+  background: #e0e0e0; /* 浅灰色分割线 */
+  margin: 0;
+}
+
+.patcher-card-title {
+  height: 92px; /* 128px图片 + 92px标题 = 220px总高度 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+/* 新增设置页样式 */
+.settings-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.setting-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  margin-bottom: 25px;
+  overflow: hidden;
+}
+.setting-header {
+  padding: 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid #eee;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+.setting-body {
+  padding: 25px;
+}
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+.setting-item:last-child {
+  border-bottom: none;
+}
+.setting-description {
+  color: #666;
+  font-size: 0.95rem;
+  margin-top: 5px;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: #2196F3;
+}
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+.save-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 20px auto 0;
+}
+.save-btn:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+}
+
+/* 新增公告列表样式 */
+.announcements-list {
+  margin-top: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+.announcement-item {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 3px solid #3498db;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.announcement-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.announcement-item-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.announcement-item-date {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin-right: 15px;
+}
+
+.announcement-item-title {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.announcement-item-preview {
+  color: #666;
+  line-height: 1.5;
+}
+
+/* 公告列表项标签间距 */
+.announcement-item-header .badge {
+  margin-right: 12px !important;
+}
+
+/* 优化公告列表项布局 */
+.announcement-item-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.announcement-item-date {
+  min-width: 90px; /* 确保日期有足够空间 */
+}
+
+/* 添加返回按钮样式 */
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  background: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.back-button:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+}
+
+.back-button i {
+  margin-right: 8px;
+}
+
+/* 新增DLL补丁工具卡片样式 */
+.patcher-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.patcher-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  height: 220px; /* 固定高度保持比例 */
+}
+
+.patcher-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #3498db;
+}
+
+.patcher-card-image {
+  height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #f5f7fa;
+}
+
+.patcher-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.patcher-card-divider {
+  height: 1px;
+  background: #e0e0e0; /* 浅灰色分割线 */
+  margin: 0;
+}
+
+.patcher-card-title {
+  height: 92px; /* 128px图片 + 92px标题 = 220px总高度 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .patcher-container {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+  }
+}
