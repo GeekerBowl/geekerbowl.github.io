@@ -411,6 +411,8 @@ const pages = {
     
     // 其他页面
     'data-center': `<div class="section"><h1>数据中心</h1><p>数据中心内容...</p></div>`,
+	
+	// 页面设置
     settings: `
       <div class="settings-container">
         <h1 class="page-title" id="option-title">设置</h1>
@@ -434,6 +436,35 @@ const pages = {
                 <input type="checkbox" id="remember-language">
                 <span class="slider"></span>
               </label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 新增鼠标指针设置部分 -->
+        <div class="setting-card mt-4">
+          <div class="setting-header">
+            <i class="fas fa-mouse-pointer me-2"></i>
+            <span>鼠标指针设置</span>
+          </div>
+          <div class="setting-body">
+            <div class="cursor-option selected" data-style="style1">
+              <div class="cursor-preview">
+                <i class="fas fa-mouse"></i>
+              </div>
+              <div>
+                <h5 class="mb-1">风格1 - 默认</h5>
+                <p class="text-muted mb-0">简洁现代风格指针</p>
+              </div>
+            </div>
+            
+            <div class="cursor-option" data-style="style2">
+              <div class="cursor-preview">
+                <i class="fas fa-gamepad"></i>
+              </div>
+              <div>
+                <h5 class="mb-1">风格2 - 游戏风格</h5>
+                <p class="text-muted mb-0">游戏主题动态指针</p>
+              </div>
             </div>
           </div>
         </div>
@@ -755,6 +786,105 @@ const pages = {
               </div>
             </div>
 
+            <!-- CHUNITHM NEW -->
+            <div class="patcher-card" data-page="chusan">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusan.png" alt="CHUNITHM NEW">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM NEW
+              </div>
+            </div>
+
+            <!-- CHUNITHM NEW PLUS -->
+            <div class="patcher-card" data-page="chusan">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusanplus.png" alt="CHUNITHM NEW PLUS">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM NEW PLUS
+              </div>
+            </div>
+
+            <!-- CHUNITHM SUN -->
+            <div class="patcher-card" data-page="chusansun">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusansun.png" alt="CHUNITHM SUN">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM SUN
+              </div>
+            </div>
+
+            <!-- CHUNITHM SUN PLUS -->
+            <div class="patcher-card" data-page="chusansunplus">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusansunplus.png" alt="CHUNITHM SUN PLUS">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM SUN PLUS
+              </div>
+            </div>
+
+            <!-- CHUNITHM LUMINOUS -->
+            <div class="patcher-card" data-page="chusanlmn">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chulmn.png" alt="CHUNITHM LUMINOUS">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM LUMINOUS
+              </div>
+            </div>
+
+            <!-- CHUNITHM LUMINOUS PLUS -->
+            <div class="patcher-card" data-page="chusanlmnplus">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusan_lmnp.png" alt="CHUNITHM LUMINOUS PLUS">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM LUMINOUS PLUS
+              </div>
+            </div>
+
+            <!-- CHUNITHM VERSE -->
+            <div class="patcher-card" data-page="chusanvrs">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusan_vrs.png" alt="CHUNITHM VERSE">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM VERSE
+              </div>
+            </div>
+
+            <!-- CHUNITHM X-VERSE -->
+            <div class="patcher-card" data-page="chusanxvrs">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusan_xvrs.png" alt="CHUNITHM X-VERSE">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM XVERSE
+              </div>
+            </div>
+
+            <!-- 中二节奏2025 -->
+            <div class="patcher-card" data-page="chusan2025">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusan2025.png" alt="中二节奏2025">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                中二节奏2025
+              </div>
+            </div>
+
           </div>
         </div>
         
@@ -926,6 +1056,238 @@ const pages = {
           </div>
           <iframe 
             src="patcher/chuniparadise.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM NEW 页面
+    chusan: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM NEW 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusan.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM NEW PLUS 页面
+    chusanplus: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM NEW PLUS 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusanplus.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM SUN 页面
+    chusansun: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM SUN 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusansun.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM SUN PLUS 页面
+    chusansunplus: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM SUN NEW 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusansunplus.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM LUMINOUS 页面
+    chusanlmn: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM LUMINOUS 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusanlmn.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM LUMINOUS PLUS 页面
+    chusanlmnplus: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM LUMINOUS PLUS 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusanlmnplus.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM VERSE 页面
+    chusanvrs: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM VERSE 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusanvrs.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // 中二节奏2025 页面
+    chusan2025: `
+      <div class="game-detail">
+        <h1 class="page-title">中二节奏2025 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusan2025.html" 
             frameborder="0"
             class="icf-editor-iframe"
             onload="this.previousElementSibling.style.display='none'">

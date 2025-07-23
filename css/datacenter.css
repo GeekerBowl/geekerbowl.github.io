@@ -1630,3 +1630,88 @@ input:checked + .slider:before {
     gap: 15px;
   }
 }
+
+/* 鼠标指针样式 */
+:root {
+  --cursor-style1: url('https://oss.am-all.com.cn/asset/img/cursor/cursor1_jinggai.ani'), auto;
+  --cursor-style2: url('https://oss.am-all.com.cn/asset/img/cursor/cursor2_mahiro.ani'), auto;
+}
+
+.cursor-style1 {
+  cursor: var(--cursor-style1);
+}
+
+.cursor-style1 a, 
+.cursor-style1 button,
+.cursor-style1 .btn,
+.cursor-style1 .back-button,
+.cursor-style1 .language-btn,
+.cursor-style1 .mobile-toggle,
+.cursor-style1 .sidebar-toggle,
+.cursor-style1 .modal-close {
+  cursor: var(--cursor-style1);
+}
+
+.cursor-style2 {
+  cursor: var(--cursor-style2);
+}
+
+.cursor-style2 a, 
+.cursor-style2 button,
+.cursor-style2 .btn,
+.cursor-style2 .back-button,
+.cursor-style2 .language-btn,
+.cursor-style2 .mobile-toggle,
+.cursor-style2 .sidebar-toggle,
+.cursor-style2 .modal-close {
+  cursor: var(--cursor-style2);
+}
+
+/* 设置页面新增的鼠标指针选项样式 */
+.cursor-option {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #e0e0e0;
+}
+
+.cursor-option:hover {
+  background-color: #f5f7fa;
+  border-color: #3498db;
+}
+
+.cursor-option.selected {
+  background-color: #e3f2fd;
+  border-color: #3498db;
+  position: relative;
+}
+
+.cursor-option.selected::after {
+  content: "✓";
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #3498db;
+  font-size: 1.2rem;
+}
+
+.cursor-preview {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cursor-preview i {
+  color: #3498db;
+  font-size: 1.2rem;
+}
