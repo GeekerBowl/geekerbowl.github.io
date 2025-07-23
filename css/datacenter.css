@@ -107,6 +107,10 @@
   --text-color: #333;
   --light-bg: #f8f9fa;
   --dark-bg: #1a1f2d;
+  
+  /* 修复：添加分号 */
+  --cursor-style1: url('https://oss.am-all.com.cn/asset/img/cursor/cursor1_jinggai.ani'), auto;
+  --cursor-style2: url('https://oss.am-all.com.cn/asset/img/cursor/cursor2_mahiro.ani'), auto;
 }
 
 * {
@@ -682,7 +686,7 @@ footer {
 
 .tool-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .tool-icon {
@@ -988,190 +992,6 @@ html, body {
 
 .announcement-content a:hover {
   text-decoration: underline;
-}
-
-/* 移动端侧边栏修复 */
-@media (max-width: 992px) {
-  .sidebar-toggle {
-    display: none !important;
-  }
-  
-  body.mobile-sidebar-open .main-content {
-    transform: translateX(var(--sidebar-width));
-  }
-  
-  body.mobile-sidebar-open::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 899;
-    animation: fadeIn 0.3s forwards;
-    pointer-events: auto;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  body.mobile-sidebar-open {
-    overflow: hidden;
-  }
-  
-  .sidebar {
-    width: 250px;
-    transform: translateX(-100%);
-    z-index: 900;
-    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
-  }
-  
-  .sidebar.show {
-    transform: translateX(0);
-  }
-}
-
-/* 在 datacenter.css 文件末尾添加 */
-@media (max-width: 768px) {
-  /* 顶部导航栏调整 */
-  .top-navbar {
-    padding: 0 15px;
-  }
-  
-  .brand {
-    font-size: 1.4rem;
-  }
-  
-  /* 主内容区调整 */
-  .main-content {
-    padding: 15px;
-  }
-  
-  /* 公告卡片修复 */
-  .announcements-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .announcement-card {
-    width: 95%;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  .section {
-    padding: 15px;
-  }
-  
-  /* 工具卡片调整 */
-  .tools-container {
-    grid-template-columns: 1fr;
-  }
-  
-  .tool-card {
-    max-width: 100%;
-  }
-  
-  /* 搜索框调整 */
-  .search-box {
-    width: 100%;
-  }
-  
-  /* 表格调整 */
-  .table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  table {
-    min-width: 600px;
-  }
-}
-
-/* 修复移动端侧边栏滚动问题 */
-@media (max-width: 992px) {
-  .sidebar {
-    overflow-y: auto; /* 确保可以滚动 */
-    -webkit-overflow-scrolling: touch; /* iOS平滑滚动 */
-  }
-  
-  /* 确保底部内容有足够空间 */
-  .sidebar-nav:last-child {
-    margin-bottom: 50px;
-  }
-  
-  /* 防止底部内容被遮挡 */
-  .sidebar::after {
-    content: '';
-    display: block;
-    height: 30px;
-  }
-}
-
-/* ===== 新增公告列表样式 ===== */
-.announcements-list {
-  margin-top: 20px;
-  list-style: none;
-  padding: 0;
-}
-
-.announcement-item {
-  background: white;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border-left: 3px solid #3498db;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.announcement-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.announcement-item-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.announcement-item-date {
-  color: #7f8c8d;
-  font-size: 0.9rem;
-  margin-right: 15px;
-}
-
-.announcement-item-title {
-  font-weight: 600;
-  color: #2c3e50;
-}
-
-.announcement-item-preview {
-  color: #666;
-  line-height: 1.5;
-}
-
-/* 公告列表项标签间距 */
-.announcement-item-header .badge {
-  margin-right: 12px !important;
-}
-
-/* 优化公告列表项布局 */
-.announcement-item-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.announcement-item-date {
-  min-width: 90px; /* 确保日期有足够空间 */
 }
 
 /* 移动端优化 */
@@ -1541,32 +1361,6 @@ input:checked + .slider:before {
   min-width: 90px; /* 确保日期有足够空间 */
 }
 
-/* 添加返回按钮样式 */
-.back-button {
-  display: inline-flex;
-  align-items: center;
-  background: #3498db;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.back-button:hover {
-  background: #2980b9;
-  transform: translateY(-2px);
-  box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
-}
-
-.back-button i {
-  margin-right: 8px;
-}
-
 /* 新增DLL补丁工具卡片样式 */
 .patcher-container {
   display: grid;
@@ -1623,20 +1417,7 @@ input:checked + .slider:before {
   line-height: 1.4;
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .patcher-container {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 15px;
-  }
-}
-
 /* 鼠标指针样式 */
-:root {
-  --cursor-style1: url('https://oss.am-all.com.cn/asset/img/cursor/cursor1_jinggai.ani'), auto;
-  --cursor-style2: url('https://oss.am-all.com.cn/asset/img/cursor/cursor2_mahiro.ani'), auto;
-}
-
 .cursor-style1 {
   cursor: var(--cursor-style1);
 }

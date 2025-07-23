@@ -192,36 +192,5 @@
       </div>
     </div>
   </div>
-  
-  <script>
-    // 鼠标指针功能实现
-    document.addEventListener("DOMContentLoaded", function() {
-      // 初始化鼠标指针设置
-      const savedCursorStyle = localStorage.getItem('cursorStyle') || 'style1';
-      applyCursorStyle(savedCursorStyle);
-      
-      // 设置页面中的指针选项事件处理
-      document.addEventListener('click', function(e) {
-        if (e.target.closest('.cursor-option')) {
-          const option = e.target.closest('.cursor-option');
-          const style = option.dataset.style;
-          applyCursorStyle(style);
-          localStorage.setItem('cursorStyle', style);
-          
-          // 更新UI选择状态
-          document.querySelectorAll('.cursor-option').forEach(opt => {
-            opt.classList.remove('selected');
-          });
-          option.classList.add('selected');
-        }
-      });
-      
-      // 应用指针样式
-      function applyCursorStyle(style) {
-        document.body.classList.remove('cursor-style1', 'cursor-style2');
-        document.body.classList.add(`cursor-${style}`);
-      }
-    });
-  </script>
 </body>
 </html>

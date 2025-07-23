@@ -1566,6 +1566,18 @@ function loadPage(pageId) {
                     rememberLanguageSwitch.checked = rememberLanguage;
                 }
                 
+                // 初始化鼠标指针设置
+                const savedCursorStyle = localStorage.getItem('cursorStyle') || 'style1';
+                // 移除所有选项的选中状态
+                document.querySelectorAll('.cursor-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                // 将当前保存的样式对应的选项设为选中
+                const currentOption = document.querySelector(`.cursor-option[data-style="${savedCursorStyle}"]`);
+                if (currentOption) {
+                    currentOption.classList.add('selected');
+                }
+                
                 // 保存设置按钮事件
                 const saveBtn = document.getElementById('save-settings');
                 if (saveBtn) {
