@@ -440,35 +440,6 @@ const pages = {
           </div>
         </div>
         
-        <!-- 新增鼠标指针设置部分 -->
-        <div class="setting-card mt-4">
-          <div class="setting-header">
-            <i class="fas fa-mouse-pointer me-2"></i>
-            <span>鼠标指针设置</span>
-          </div>
-          <div class="setting-body">
-            <div class="cursor-option selected" data-style="style1">
-              <div class="cursor-preview">
-                <i class="fas fa-mouse"></i>
-              </div>
-              <div>
-                <h5 class="mb-1">风格1 - 默认</h5>
-                <p class="text-muted mb-0">简洁现代风格指针</p>
-              </div>
-            </div>
-            
-            <div class="cursor-option" data-style="style2">
-              <div class="cursor-preview">
-                <i class="fas fa-gamepad"></i>
-              </div>
-              <div>
-                <h5 class="mb-1">风格2 - 游戏风格</h5>
-                <p class="text-muted mb-0">游戏主题动态指针</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
         <button class="save-btn" id="save-settings">
           <i class="fas fa-save me-2"></i>
           <span id="option-save">保存设置</span>
@@ -1564,18 +1535,6 @@ function loadPage(pageId) {
                 const rememberLanguageSwitch = document.getElementById('remember-language');
                 if (rememberLanguageSwitch) {
                     rememberLanguageSwitch.checked = rememberLanguage;
-                }
-                
-                // 初始化鼠标指针设置
-                const savedCursorStyle = localStorage.getItem('cursorStyle') || 'style1';
-                // 移除所有选项的选中状态
-                document.querySelectorAll('.cursor-option').forEach(opt => {
-                    opt.classList.remove('selected');
-                });
-                // 将当前保存的样式对应的选项设为选中
-                const currentOption = document.querySelector(`.cursor-option[data-style="${savedCursorStyle}"]`);
-                if (currentOption) {
-                    currentOption.classList.add('selected');
                 }
                 
                 // 保存设置按钮事件
