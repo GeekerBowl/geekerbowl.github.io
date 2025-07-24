@@ -1011,6 +1011,35 @@ const pages = {
       </div>
     `,
 
+  // CHUNITHM CRYSTAL 页面
+    chunicrystal: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM CRYSTAL 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chunicrystal.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
 	// CHUNITHM PARADISE 页面
     chuniparadise: `
       <div class="game-detail">
@@ -1130,7 +1159,7 @@ const pages = {
   // CHUNITHM SUN PLUS 页面
     chusansunplus: `
       <div class="game-detail">
-        <h1 class="page-title">CHUNITHM SUN NEW 补丁工具</h1>
+        <h1 class="page-title">CHUNITHM SUN PLUS 补丁工具</h1>
         <button class="back-button" data-page="dllpatcher">
           <i class="fas fa-arrow-left me-2"></i>
           <span>返回</span>
