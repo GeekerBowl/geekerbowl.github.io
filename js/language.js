@@ -20,6 +20,7 @@ const languageModule = (function() {
                 'sidebar-game-download': '游戏下载',
                 'sidebar-archive': '资源存档',
 				'sidebar-tools': '实用工具',
+				'sidebar-patcher': '补丁工具',
                 
                 // 主内容-下载
                 'download-heading': '下载',
@@ -103,6 +104,7 @@ const languageModule = (function() {
                 'sidebar-game-download': 'Game Downloads',
                 'sidebar-archive': 'Archive',
 				'sidebar-tools': 'Tools',
+				'sidebar-patcher': 'Patcher',
 
                 // 主内容-下载
                 'download-heading': 'Download',
@@ -186,6 +188,7 @@ const languageModule = (function() {
                 'sidebar-game-download': 'ゲームダウンロード',
                 'sidebar-archive': 'アーカイブ',
 				'sidebar-tools': 'ツール',
+				'sidebar-patcher': 'パッチツール',
 				
 				// 下载页面
                 'download-heading': 'ダウンロード',
