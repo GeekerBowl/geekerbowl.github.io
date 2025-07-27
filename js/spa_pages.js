@@ -1,0 +1,1448 @@
+// 公告详细数据
+const announcementsData = [
+  {
+    id: "1",
+    type: "dgr",
+    date: "2025/07/15",
+    title: "OneDrive下载渠道下线通知",
+    preview: "OneDrive下载渠道今日起已正式下线",
+    content: "由于一些原因本人不能再继续使用od账号上传新内容(权限变为只读了)，所以即日起将下架本站所有od下载链接，请知悉。替代渠道正在寻找中。"
+  },
+  {
+    id: "2",
+    type: "notice",
+    date: "2025/07/14",
+    title: "EvilLeaker 新下载站开放",
+    preview: "欢迎使用新的下载站",
+    content: "由于旧下载站属于临时页面，为了使用体验以及增加更多功能，所有下载资源已转至本站。另外本站整体还在测试中，如果在使用体验中有任何问题欢迎反馈。"
+  },
+  {
+    id: "3",
+    type: "notice",
+    date: "2025/07/21",
+    title: "AllsUnlocker上线",
+    preview: "实用工具界面新增工具「AllsUnlocker」",
+    content: "实用工具界面新增工具「AllsUnlocker」，此工具用于解包ALLS格式的数据包。请至“实用工具”页面进行下载。"
+  },
+  {
+    id: "4",
+    type: "notice",
+    date: "2025/07/21",
+    title: "Segatools Editor上线",
+    preview: "实用工具界面新增工具「Segatools Editor」",
+    content: "实用工具界面新增工具「Segatools Editor」，此工具用于修改segatools.ini的相关设置。请至“实用工具”页面进行下载。"
+  },
+  {
+    id: "5",
+    type: "notice",
+    date: "2025/07/14",
+    title: "新版ChunithmUnlocker上线",
+    preview: "实用工具界面新增工具「Chunlocker」",
+    content: "实用工具界面新增工具「Chunlocker」，此工具相比原先的ChunithmUnlocker使用更加便捷，软件支持多语言与在线更新。请至“实用工具”页面进行下载。"
+  },
+  {
+    id: "6",
+    type: "upd",
+    date: "2025/07/14",
+    title: "CHUNITHM VERSE option更新",
+    preview: "增加新的opt包",
+    content: "新增加 'A163~A191(Verse final)' ,请至下载页面进行下载。"
+  },
+  {
+    id: "7",
+    type: "upd",
+    date: "2025/07/14",
+    title: "maimai DX PRiSM Plus(SDEZ) opt更新",
+    preview: "增加新的opt包。",
+    content: "option数据包新增K021，请至下载页面进行下载"
+  }
+];
+
+// 帮助内容数据
+const helpContentData = {
+  1: {
+    title: "下载指南",
+    content: `
+      <h3>下载资源步骤</h3>
+      <ol>
+        <li>进入下载中心页面</li>
+        <li>选择您需要的游戏或资源类别</li>
+        <li>点击相应链接进入详情页</li>
+        <li>复制百度网盘提取码</li>
+        <li>使用百度网盘客户端下载</li>
+      </ol>
+      
+      <div class="warning mt-4">
+        <strong><i class="fas fa-exclamation-circle me-2"></i> 注意：</strong>
+        <span>目前所有资源仅提供百度网盘下载方式</span>
+      </div>
+    `
+  },
+  2: {
+    title: "工具使用指南",
+    content: `
+      <h3>实用工具说明</h3>
+      <p>我们提供多种实用工具帮助您更好地管理游戏资源：</p>
+      
+      <ul>
+        <li><strong>Chunlocker</strong> - 解锁CHUNITHM游戏内容</li>
+        <li><strong>Segatools Editor</strong> - 修改segatools.ini配置</li>
+        <li><strong>AllsUnlocker</strong> - 解包ALLS格式数据包</li>
+        <li><strong>7zip</strong> - 提取HDD镜像中的数据</li>
+      </ul>
+      
+      <p>所有工具均可在<a href="#" data-page="tools">实用工具页面</a>下载</p>
+    `
+  },
+  3: {
+    title: "补丁安装指南",
+    content: `
+      <h3>补丁安装步骤</h3>
+      <ol>
+        <li>从下载中心获取游戏文件</li>
+        <li>进入补丁工具页面选择对应游戏</li>
+        <li>上传或选择游戏文件</li>
+        <li>点击"应用补丁"按钮</li>
+        <li>等待处理完成并下载补丁后的文件</li>
+      </ol>
+      
+      <div class="note mt-4">
+        <strong><i class="fas fa-info-circle me-2"></i> 提示：</strong>
+        <span>不同游戏版本需要对应版本的补丁工具</span>
+      </div>
+    `
+  },
+  4: {
+    title: "常见问题解答",
+    content: `
+      <h3>常见问题</h3>
+      
+      <div class="faq-item">
+        <h4>下载的文件无法解压怎么办？</h4>
+        <p>请确保使用最新版7zip或WinRAR解压，如果文件损坏请重新下载。</p>
+      </div>
+      
+      <div class="faq-item">
+        <h4>游戏运行时提示缺少DLL文件？</h4>
+        <p>请安装Runtime组件，可在实用工具页面下载。</p>
+      </div>
+      
+      <div class="faq-item">
+        <h4>如何修改游戏设置？</h4>
+        <p>使用Segatools Editor工具修改segatools.ini配置文件。</p>
+      </div>
+    `
+  },
+  5: {
+    title: "设置说明",
+    content: `
+      <h3>系统设置指南</h3>
+      <p>在设置页面您可以配置以下选项：</p>
+      
+      <ul>
+        <li><strong>语言偏好</strong> - 设置界面显示语言</li>
+        <li><strong>自动更新</strong> - 启用/禁用自动检查更新</li>
+        <li><strong>下载路径</strong> - 设置默认下载位置</li>
+      </ul>
+      
+      <p>更改设置后请点击"保存设置"按钮应用更改。</p>
+    `
+  },
+  6: {
+    title: "数据管理指南",
+    content: `
+      <h3>数据管理说明</h3>
+      <p>数据中心提供以下数据管理功能：</p>
+      
+      <ul>
+        <li><strong>资源存档</strong> - 查看历史版本资源</li>
+        <li><strong>下载记录</strong> - 查看您的下载历史</li>
+        <li><strong>收藏夹</strong> - 收藏常用资源</li>
+      </ul>
+      
+      <p>更多高级数据管理功能正在开发中。</p>
+    `
+  }
+};
+
+// 页面内容定义
+const pages = {
+    download: `
+      <h1 class="page-title" id="download-heading">下载中心</h1>
+      <div class="section">
+        <h2 class="section-title">
+          <i class="fas fa-gamepad"></i>
+          <span id="game-heading">游戏下载</span>
+        </h2>
+        <div class="warning">
+          <strong><i class="fas fa-exclamation-circle me-2"></i> <span id="warning-text">重要提示：</span></strong>
+          <span id="warning-detail">OneDrive下载渠道已下线</span>
+        </div>
+        <p class="mb-4"><strong><span id="latest-update-text">最后更新</span>: 2025/07/15</strong></p>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th id="game-title">游戏名称</th>
+                <th id="game-version">版本</th>
+                <th id="game-files">文件数</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="#" data-page="sdhd"><i class="fas fa-link me-2"></i> CHUNITHM VERSE (SDHD)</a></td>
+                <td>2.30</td>
+                <td>7</td>
+              </tr>
+              <tr>
+                <td><a href="#" data-page="sdez"><i class="fas fa-link me-2"></i> maimai DX PRiSM PLUS (SDEZ)</a></td>
+                <td>1.56</td>
+                <td>14</td>
+              </tr>
+              <tr>
+                <td><a href="#" data-page="sddt"><i class="fas fa-link me-2"></i> O.N.G.E.K.I Re:Fresh</a></td>
+                <td>1.50</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td><a href="#" data-page="sded"><i class="fas fa-link me-2"></i> CARD MAKER</a></td>
+                <td>1.39</td>
+                <td>3</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="section">
+        <h2 class="section-title">
+          <i class="fas fa-archive"></i>
+          <span id="archive-heading">存档下载</span>
+        </h2>
+        <p class="mb-4"><strong><span id="latest-update-text-archive">最后更新</span>: 2025/03/02</strong></p>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th id="archive-title">游戏名称</th>
+                <th id="archive-filetype">文件格式</th>
+                <th id="archive-version">版本</th>
+                <th id="archive-files">文件数</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="#" data-page="sdbt"><i class="fas fa-link me-2"></i> CHUNITHM (SDBT)</a></td>
+                <td>vhd</td>
+                <td>1.00~1.51</td>
+                <td>11</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="section">
+        <h2 class="section-title">
+          <i class="fas fa-folder-plus"></i>
+          <span id="other-heading">其他资源</span>
+        </h2>
+        <p class="mb-4"><strong><span id="latest-update-text-other">最后更新</span>: 2024/12/16</strong></p>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th id="other-title">资源名称</th>
+                <th id="other-filetype">文件格式</th>
+                <th id="other-files">文件数</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>NONE</td>
+                <td>N/A</td>
+                <td>N/A</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="warning mt-4">
+          <strong><i class="fas fa-info-circle me-2"></i> <span id="download-info-text">下载说明：</span></strong>
+          <span id="download-info-detail">目前本站全部资源仅提供「百度网盘」作为下载方式</span>
+        </div>
+      </div>
+      
+      <footer>
+        <p>SEGAY FEIWU</p>
+        <p>1145141919810</p>
+      </footer>
+    `,
+    
+    // Chusan
+    sdhd: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM VERSE</h1>
+        <button class="back-button" data-page="download">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <h2 class="section-title">
+            <i class="fas fa-download"></i>
+            <span id="download-list-title">下载列表</span>
+          </h2>
+          
+          <div class="mb-4">
+            <p><span id="last-update-label">最后更新</span>: 2025/07/15</p>
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td id="download-method">下载方式</td>
+                    <td id="file-count">文件数</td>
+                    <td id="access-code">提取码/访问密码</td>
+                    <td id="validity">资源有效期</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th><a href="https://pan.baidu.com/s/1lblVy58yMv5r-5vJXr55Hg" target="_blank">百度网盘</a></th>
+                    <td>7</td>
+                    <td>vrse</td>
+                    <td id="unlimited">无期限</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+    
+    // maimai DX
+    sdez: `
+      <div class="game-detail">
+        <h1 class="page-title">maimai DX PRiSM Plus</h1>
+        <button class="back-button" data-page="download">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <h2 class="section-title">
+            <i class="fas fa-download"></i>
+            <span id="download-list-title">下载列表</span>
+          </h2>
+          
+          <div class="mb-4">
+            <p><span id="last-update-label">最后更新</span>: 2025/07/15</p>
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td id="download-method">下载方式</td>
+                    <td id="file-count">文件数</td>
+                    <td id="access-code">提取码/访问密码</td>
+                    <td id="validity">资源有效期</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th><a href="https://pan.baidu.com/s/1PZ063rVUacNHkA6Z50mAdg" target="_blank">百度网盘</a></th>
+                    <td>15</td>
+                    <td>sdez</td>
+                    <td id="unlimited">无期限</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+    // ongeki
+    sddt: `
+      <div class="game-detail">
+        <h1 class="page-title">O.N.G.E.K.I Re:Fresh</h1>
+        <button class="back-button" data-page="download">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <h2 class="section-title">
+            <i class="fas fa-download"></i>
+            <span id="download-list-title">下载列表</span>
+          </h2>
+          
+          <div class="mb-4">
+            <p><span id="last-update-label">最后更新</span>: 2025/03/28</p>
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td id="download-method">下载方式</td>
+                    <td id="file-count">文件数</td>
+                    <td id="access-code">提取码/访问密码</td>
+                    <td id="validity">资源有效期</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th><a href="https://pan.baidu.com/s/1zjY3OAwxdtK5K3G2c2QgnQ" target="_blank">百度网盘</a></th>
+                    <td>3</td>
+                    <td>sddt</td>
+                    <td id="unlimited">无期限</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+	
+	// CARD MAKER
+	sded: `
+      <div class="game-detail">
+        <h1 class="page-title">CARD MAKER</h1>
+        <button class="back-button" data-page="download">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <h2 class="section-title">
+            <i class="fas fa-download"></i>
+            <span id="download-list-title">下载列表</span>
+          </h2>
+          
+          <div class="mb-4">
+            <p><span id="last-update-label">最后更新</span>: 2025/03/28</p>
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td id="download-method">下载方式</td>
+                    <td id="file-count">文件数</td>
+                    <td id="access-code">提取码/访问密码</td>
+                    <td id="validity">资源有效期</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th><a href="https://pan.baidu.com/s/1rkKLqWKckMtKbbbrEYN8HA" target="_blank">百度网盘</a></th>
+                    <td>3</td>
+                    <td>cdmk</td>
+                    <td id="unlimited">无期限</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+	// Archive相关页面
+	sdbt: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM OLD (SDBT)</h1>
+        <button class="back-button" data-page="download">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <h2 class="section-title">
+            <i class="fas fa-download"></i>
+            <span id="download-list-title">下载列表</span>
+          </h2>
+          
+          <div class="mb-4">
+            <p><span id="last-update-label">最后更新</span>: 2025/03/28</p>
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td id="download-method">下载方式</td>
+                    <td id="file-count">文件数</td>
+                    <td id="access-code">提取码/访问密码</td>
+                    <td id="validity">资源有效期</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th><a href="https://pan.baidu.com/s/17M-tfyYGJ5wRwHAnjsyLRg" target="_blank">百度网盘</a></th>
+                    <td>11</td>
+                    <td>sdbt</td>
+                    <td id="unlimited">无期限</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+    // 其他页面模板
+    'sdhd-archive': `<div class="game-detail">准备中...</div>`,
+    
+    // 其他页面
+    'data-center': `<div class="section"><h1>数据中心</h1><p>数据中心内容...</p></div>`,
+	
+	// 页面设置
+    settings: `
+      <div class="settings-container">
+        <h1 class="page-title" id="option-title">设置</h1>
+        <button class="back-button" data-page="home">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="setting-card">
+          <div class="setting-header">
+            <i class="fas fa-language me-2"></i>
+            <span id="lang-option">语言设置</span>
+          </div>
+          <div class="setting-body">
+            <div class="setting-item">
+              <div>
+                <span id="option-item">记住语言偏好</span>
+                <div class="setting-description" id="option-text">下次访问时自动使用您选择的语言</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="remember-language">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <button class="save-btn" id="save-settings">
+          <i class="fas fa-save me-2"></i>
+          <span id="option-save">保存设置</span>
+        </button>
+      </div>
+    `,
+	
+    // ICF Editor
+    icfeditor: `
+      <div class="game-detail">
+        <div class="d-flex align-items-center">
+          <h1 class="page-title me-2">ICF Editor</h1>
+          <button id="icf-help-btn" class="btn btn-sm btn-circle btn-outline-secondary">
+            <i class="fas fa-question"></i>
+          </button>
+        </div>
+        <button class="back-button" data-page="tools">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载ICF编辑器...</p>
+          </div>
+          <iframe 
+            src="icfemain.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+    // tools
+    tools: `
+      <div class="game-detail">
+        <h1 class="page-title">实用工具</h1>
+        <button class="back-button" data-page="home">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <div class="tool-grid-header">
+            <h2 class="section-title">
+              <i class="fas fa-tools"></i>
+              <span>工具列表</span>
+            </h2>
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="搜索...">
+            </div>
+          </div>
+
+          <div class="tools-container">
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-file-archive"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">Chunlocker v1.03</h3>
+                <p class="tool-description">新版ChunithmUnlocker，使用更加便捷，支持多语言与在线更新。</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/17</span>
+                  <span><i class="fas fa-download"></i> 10.9MB</span>
+                </div>
+                <a href="https://oss.am-all.com.cn/download/software/chunlocker/Chunlocker.exe" class="tool-link" target="_blank" rel="noopener">下载</a>
+              </div>
+            </div>
+
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-file-archive"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">Segatools Editor v1.02</h3>
+                <p class="tool-description">使用此工具可以方便快捷的修改segatools.ini，无需另装各式文本编辑器。</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/25</span>
+                  <span><i class="fas fa-download"></i> 12MB</span>
+                </div>
+                <a href="https://oss.am-all.com.cn/download/software/sgeditor/SegatoolsEditor.exe" class="tool-link" target="_blank" rel="noopener">下载</a>
+              </div>
+            </div>
+
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-file-archive"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">AllsUnlocker v1.00</h3>
+                <p class="tool-description">可以解密ALLS格式软件(pack/app/opt)</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/21</span>
+                  <span><i class="fas fa-download"></i> 11.8MB</span>
+                </div>
+                <a href="https://oss.am-all.com.cn/download/software/allsunpacker/AllsUnpacker.exe" class="tool-link" target="_blank" rel="noopener">下载</a>
+              </div>
+            </div>
+
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-file-archive"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">7zip</h3>
+                <p class="tool-description">可提取HDD镜像中的数据</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
+                  <span><i class="fas fa-download"></i> 1.54MB</span>
+                </div>
+                <a href="https://oss.am-all.com.cn/download/files/7-Zip.rar" class="tool-link" target="_blank" rel="noopener">下载</a>
+              </div>
+            </div>
+            
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-palette"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">Runtime</h3>
+                <p class="tool-description">Windows运行时安装包，运行HDD所必要的系统组件。</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
+                  <span><i class="fas fa-download"></i> 180MB</span>
+                </div>
+                <a href="https://hitiko-my.sharepoint.com/:u:/p/evilleaker/EffD9kk4fiFEnJVcOrSgVI0B3gOx86gw9WBRLqdUIxvvjg" class="tool-link" target="_blank" rel="noopener">下载</a>
+              </div>
+            </div>
+            
+            <div class="tool-card">
+              <div class="tool-icon">
+                <i class="fas fa-database"></i>
+              </div>
+              <div class="tool-content">
+                <h3 class="tool-title">MaiChartManager</h3>
+                <p class="tool-description">可以管理某8键游戏Mod与游戏资源</p>
+                <div class="tool-meta">
+                  <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
+                  <span><i class="fas fa-download"></i> 1.05MB</span>
+                </div>
+                <a href="https://get.microsoft.com/installer/download/9P1JDKQ60G4G" class="tool-link" target="_blank" rel="noopener">下载</a>
+              </div>
+            </div>
+          </div>
+
+          <footer>
+            <p>SEGAY FEIWU</p>
+            <p>1145141919810</p>
+          </footer>
+        </div>
+      </div>
+    `,
+
+	// 帮助页面
+    help: `
+      <div class="game-detail">
+        <h1 class="page-title">帮助中心</h1>
+        <button class="back-button" data-page="home">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <div class="help-grid">
+            ${[1, 2, 3, 4, 5, 6].map(i => `
+              <div class="help-card" data-id="${i}">
+                <div class="help-icon">
+                  <i class="fas fa-${i === 1 ? 'download' : i === 2 ? 'tools' : i === 3 ? 'plug' : i === 4 ? 'question' : i === 5 ? 'cog' : 'database'}"></i>
+                </div>
+                <div class="help-title">${i === 1 ? '下载指南' : i === 2 ? '工具使用' : i === 3 ? '补丁安装' : i === 4 ? '常见问题' : i === 5 ? '设置说明' : '数据管理'}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `,
+
+    'help-detail': `
+      <div class="game-detail">
+        <h1 class="page-title" id="help-detail-title">帮助详情</h1>
+        <button class="back-button" data-page="help">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-help">返回帮助中心</span>
+        </button>
+        
+        <div class="section">
+          <div id="help-content">
+            <!-- 内容将根据主题动态加载 -->
+          </div>
+        </div>
+      </div>
+    `,
+
+    // 首页
+    home: `
+      <div class="section">
+        <h1 class="page-title" id="top-page">首页</h1>
+        
+        <!-- 公告栏 -->
+        <div class="announcements-section">
+          <h2 class="section-title">
+            <i class="fas fa-bullhorn"></i>
+            <span id="announcements-title">最新公告</span>
+          </h2>
+          
+          <div class="announcements-container">
+            <!-- 前四个公告：卡片样式 -->
+            ${announcementsData.slice(0, 4).map(item => `
+              <div class="announcement-card" data-id="${item.id}">
+                <div class="announcement-header">
+                  <span class="badge bg-${item.type === 'dgr' ? 'danger' : item.type === 'upd' ? 'success' : 'info'} announcement-badge" data-type="${item.type}"></span>
+                  <span class="announcement-date">${item.date}</span>
+                </div>
+                <h3 class="announcement-title">${item.title}</h3>
+                <div class="announcement-preview">
+                  <p>${item.preview}</p>
+                </div>
+                <div class="announcement-footer">
+                  <span class="more-link click-detail">查看详情 <i class="fas fa-chevron-right"></i></span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          
+          <!-- 剩下的公告：列表样式 -->
+          <ul class="announcements-list">
+            ${announcementsData.slice(4).map(item => `
+              <li class="announcement-item" data-id="${item.id}">
+                <div class="announcement-item-header">
+                  <span class="badge bg-${item.type === 'dgr' ? 'danger' : item.type === 'upd' ? 'success' : 'info'} announcement-badge" data-type="${item.type}"></span>
+                  <span class="announcement-item-date">${item.date}</span>
+                  <span class="announcement-item-title">${item.title}</span>
+                </div>
+                <div class="announcement-item-preview">
+                  ${item.preview}
+                </div>
+              </li>
+            `).join('')}
+          </ul>
+        </div>
+        
+        <!-- 其他内容 -->
+        <div class="welcome-section mt-5">
+          <h2 class="section-title">
+            <i class="fas fa-star"></i>
+            <span>哼，哼，啊啊啊啊啊啊。。。</span>
+          </h2>
+          <p>请从左侧菜单选择功能</p>
+        </div>
+      </div>
+    `,
+
+    //CHUNITHM 补丁工具主页面
+    dllpatcher: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM 补丁工具</h1>
+        <button class="back-button" data-page="home">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <h2 class="section-title">
+            <i class="fas fa-plug"></i>
+            <span>请选择游戏</span>
+          </h2>
+          
+          <div class="patcher-container">
+            <!-- CHUNITHM -->
+            <div class="patcher-card" data-page="chuni">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chuni.png" alt="CHUNITHM">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM
+              </div>
+            </div>
+            
+            <!-- CHUNITHM PLUS -->
+            <div class="patcher-card" data-page="chuniplus">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chuniplus.jpg" alt="CHUNITHM PLUS">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM PLUS
+              </div>
+            </div>
+            
+            <!-- CHUNITHM AIR -->
+            <div class="patcher-card" data-page="chuniair">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chuniair.png" alt="CHUNITHM AIR">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM AIR
+              </div>
+            </div>
+            
+            <!-- CHUNITHM STAR -->
+            <div class="patcher-card" data-page="chunistar">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chunistar.png" alt="CHUNITHM STAR">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM STAR
+              </div>
+            </div>
+
+            <!-- CHUNITHM AMAZON -->
+            <div class="patcher-card" data-page="chuniamazon">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chuniamazon.png" alt="CHUNITHM AMAZON">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM AMAZON
+              </div>
+            </div>
+
+            <!-- CHUNITHM CRYSTAL -->
+            <div class="patcher-card" data-page="chunicrystal">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chunicrystal.png" alt="CHUNITHM CRYSTAL">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM CRYSTAL
+              </div>
+            </div>
+
+            <!-- CHUNITHM PARADISE -->
+            <div class="patcher-card" data-page="chuniparadise">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chuniparadise.png" alt="CHUNITHM PARADISE">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM PARADISE
+              </div>
+            </div>
+
+            <!-- CHUNITHM NEW -->
+            <div class="patcher-card" data-page="chusan">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusan.png" alt="CHUNITHM NEW">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM NEW
+              </div>
+            </div>
+
+            <!-- CHUNITHM NEW PLUS -->
+            <div class="patcher-card" data-page="chusan">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusanplus.png" alt="CHUNITHM NEW PLUS">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM NEW PLUS
+              </div>
+            </div>
+
+            <!-- CHUNITHM SUN -->
+            <div class="patcher-card" data-page="chusansun">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusansun.png" alt="CHUNITHM SUN">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM SUN
+              </div>
+            </div>
+
+            <!-- CHUNITHM SUN PLUS -->
+            <div class="patcher-card" data-page="chusansunplus">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusansunplus.png" alt="CHUNITHM SUN PLUS">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM SUN PLUS
+              </div>
+            </div>
+
+            <!-- CHUNITHM LUMINOUS -->
+            <div class="patcher-card" data-page="chusanlmn">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chulmn.png" alt="CHUNITHM LUMINOUS">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM LUMINOUS
+              </div>
+            </div>
+
+            <!-- CHUNITHM LUMINOUS PLUS -->
+            <div class="patcher-card" data-page="chusanlmnplus">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusan_lmnp.png" alt="CHUNITHM LUMINOUS PLUS">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM LUMINOUS PLUS
+              </div>
+            </div>
+
+            <!-- CHUNITHM VERSE -->
+            <div class="patcher-card" data-page="chusanvrs">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusan_vrs.png" alt="CHUNITHM VERSE">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM VERSE
+              </div>
+            </div>
+
+            <!-- CHUNITHM X-VERSE -->
+            <div class="patcher-card" data-page="chusanxvrs">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusan_xvrs.png" alt="CHUNITHM X-VERSE">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                CHUNITHM XVERSE
+              </div>
+            </div>
+
+            <!-- 中二节奏2025 -->
+            <div class="patcher-card" data-page="chusan2025">
+              <div class="patcher-card-image">
+                <img src="https://oss.am-all.com.cn/asset/img/main/chusan2025.png" alt="中二节奏2025">
+              </div>
+              <div class="patcher-card-divider"></div>
+              <div class="patcher-card-title">
+                中二节奏2025
+              </div>
+            </div>
+
+          </div>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+    
+    // CHUNITHM 页面
+    chuni: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chuni.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+    
+    // CHUNITHM PLUS 页面
+    chuniplus: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM PLUS 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chuniplus.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+	
+	// CHUNITHM AIR 页面
+    chuniair: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM AIR 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chuniair.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+	// CHUNITHM STAR 页面
+    chunistar: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM STAR 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chunistar.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+	// CHUNITHM AMAZON 页面
+    chuniamazon: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM AMAZON 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chuniamazon.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM CRYSTAL 页面
+    chunicrystal: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM CRYSTAL 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chunicrystal.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+	// CHUNITHM PARADISE 页面
+    chuniparadise: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM PARADISE 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chuniparadise.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM NEW 页面
+    chusan: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM NEW 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusan.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM NEW PLUS 页面
+    chusanplus: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM NEW PLUS 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusanplus.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM SUN 页面
+    chusansun: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM SUN 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusansun.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM SUN PLUS 页面
+    chusansunplus: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM SUN PLUS 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusansunplus.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM LUMINOUS 页面
+    chusanlmn: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM LUMINOUS 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusanlmn.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM LUMINOUS PLUS 页面
+    chusanlmnplus: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM LUMINOUS PLUS 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusanlmnplus.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // CHUNITHM VERSE 页面
+    chusanvrs: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM VERSE 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusanvrs.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+  // 中二节奏2025 页面
+    chusan2025: `
+      <div class="game-detail">
+        <h1 class="page-title">中二节奏2025 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusan2025.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
+};

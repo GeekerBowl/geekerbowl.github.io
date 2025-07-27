@@ -1297,3 +1297,100 @@ input:checked + .slider:before {
 .back-button i {
   font-size: 0.9rem;
 }
+
+.help-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.help-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #eaeaea;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.help-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-color: #3498db;
+}
+
+.help-icon {
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #3498db, #2c3e50);
+  color: white;
+  font-size: 3rem;
+}
+
+.help-title {
+  padding: 25px 15px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2c3e50;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 帮助详情页样式 */
+#help-content {
+  padding: 20px;
+  line-height: 1.8;
+}
+
+#help-content h3 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eee;
+}
+
+#help-content ol, 
+#help-content ul {
+  padding-left: 30px;
+  margin: 20px 0;
+}
+
+#help-content li {
+  margin-bottom: 10px;
+}
+
+.faq-item {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-item h4 {
+  color: #3498db;
+  margin-bottom: 10px;
+}
+
+.note {
+  background: #e8f4fd;
+  border-left: 4px solid #3498db;
+  padding: 15px;
+  border-radius: 0 8px 8px 0;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .help-grid {
+    grid-template-columns: 1fr;
+  }
+}
