@@ -63,13 +63,10 @@ const helpContentData = {
   1: {
     title: "下载指南",
     content: `
-      <h3>下载资源步骤</h3>
+      <h3>本站资源下载说明</h3>
       <ol>
-        <li>进入下载中心页面</li>
-        <li>选择您需要的游戏或资源类别</li>
-        <li>点击相应链接进入详情页</li>
-        <li>复制百度网盘提取码</li>
-        <li>使用百度网盘客户端下载</li>
+        <li>如需下载资源，请从左侧菜单进入下载页面选择需要的资源进行下载。</li>
+		<li>本站游戏资源提供最多不超过N-1的公开资源下载，如有新增资源请多关注首页公告。</li>
       </ol>
       
       <div class="warning mt-4">
@@ -79,16 +76,19 @@ const helpContentData = {
     `
   },
   2: {
-    title: "工具使用指南",
+    title: "实用工具指南",
     content: `
-      <h3>实用工具说明</h3>
-      <p>我们提供多种实用工具帮助您更好地管理游戏资源：</p>
-      
+      <h3>EvilLeaker系列工具</h3>
+      <h4><strong>Segatools Editor</strong></h4>
+	  <p>此工具可以方便快捷的修改所有游戏的segatools.ini，并且不需要您另行安装任何文本代码编辑工具。</p>
+	  <p>本工具自带备份功能，在您读取并加载segatools.ini后，软件会自动备份您所选择的文件，不用担心修改出现任何问题。</p>
+	  <p>本工具同时具备自动更新功能，在您启动软件后如有新版本则会在日志区域显示新版本信息，如需下载更新请点击“帮助→更新”选项即可更新新版本。</p>
+	  
+	  <p><strong>软件使用指南</strong></p>
+	  <p>&nbsp;</p>
+	  <p></p>
       <ul>
-        <li><strong>Chunlocker</strong> - 解锁CHUNITHM游戏内容</li>
-        <li><strong>Segatools Editor</strong> - 修改segatools.ini配置</li>
-        <li><strong>AllsUnlocker</strong> - 解包ALLS格式数据包</li>
-        <li><strong>7zip</strong> - 提取HDD镜像中的数据</li>
+        <li><strong></strong></li>
       </ul>
       
       <p>所有工具均可在<a href="#" data-page="tools">实用工具页面</a>下载</p>
@@ -167,6 +167,47 @@ const helpContentData = {
 
 // 页面内容定义
 const pages = {
+	// 帮助页面
+    help: `
+      <div class="game-detail">
+        <h1 class="page-title">帮助中心</h1>
+        <button class="back-button" data-page="home">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <div class="help-grid">
+            ${[1, 2, 3, 4, 5, 6].map(i => `
+              <div class="help-card" data-id="${i}">
+                <div class="help-icon">
+                  <i class="fas fa-${i === 1 ? 'download' : i === 2 ? 'tools' : i === 3 ? 'plug' : i === 4 ? 'question' : i === 5 ? 'cog' : 'database'}"></i>
+                </div>
+                <div class="help-title">${i === 1 ? '下载指南' : i === 2 ? '实用工具指南' : i === 3 ? '补丁工具指南' : i === 4 ? '常见问题' : i === 5 ? '设置说明' : '数据管理'}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `,
+
+    'help-detail': `
+      <div class="game-detail">
+        <h1 class="page-title" id="help-detail-title">帮助详情</h1>
+        <button class="back-button" data-page="help">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-help">返回</span>
+        </button>
+        
+        <div class="section">
+          <div id="help-content">
+            <!-- 内容将根据主题动态加载 -->
+          </div>
+        </div>
+      </div>
+    `,
+	
+	// 下载页
     download: `
       <h1 class="page-title" id="download-heading">下载中心</h1>
       <div class="section">
@@ -705,46 +746,6 @@ const pages = {
             <p>SEGAY FEIWU</p>
             <p>1145141919810</p>
           </footer>
-        </div>
-      </div>
-    `,
-
-	// 帮助页面
-    help: `
-      <div class="game-detail">
-        <h1 class="page-title">帮助中心</h1>
-        <button class="back-button" data-page="home">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
-        </button>
-        
-        <div class="section">
-          <div class="help-grid">
-            ${[1, 2, 3, 4, 5, 6].map(i => `
-              <div class="help-card" data-id="${i}">
-                <div class="help-icon">
-                  <i class="fas fa-${i === 1 ? 'download' : i === 2 ? 'tools' : i === 3 ? 'plug' : i === 4 ? 'question' : i === 5 ? 'cog' : 'database'}"></i>
-                </div>
-                <div class="help-title">${i === 1 ? '下载指南' : i === 2 ? '工具使用' : i === 3 ? '补丁安装' : i === 4 ? '常见问题' : i === 5 ? '设置说明' : '数据管理'}</div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      </div>
-    `,
-
-    'help-detail': `
-      <div class="game-detail">
-        <h1 class="page-title" id="help-detail-title">帮助详情</h1>
-        <button class="back-button" data-page="help">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-help">返回帮助中心</span>
-        </button>
-        
-        <div class="section">
-          <div id="help-content">
-            <!-- 内容将根据主题动态加载 -->
-          </div>
         </div>
       </div>
     `,
