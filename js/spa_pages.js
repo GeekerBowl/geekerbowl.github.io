@@ -30,7 +30,7 @@ const announcementsData = [
     date: "2025/07/21",
     title: "Segatools Editor上线",
     preview: "实用工具界面新增工具「Segatools Editor」",
-    content: "实用工具界面新增工具「Segatools Editor」，此工具用于修改segatools.ini的相关设置。请至“实用工具”页面进行下载。"
+    content: "实用工具界面新增工具「Segatools Editor」，此工具仅用于修改segatools.ini的相关设置。请至“实用工具”页面进行下载。"
   },
   {
     id: "5",
@@ -80,87 +80,53 @@ const helpContentData = {
     content: `
       <h3>EvilLeaker系列工具</h3>
       <h4><strong>Segatools Editor</strong></h4>
-	  <p>此工具可以方便快捷的修改所有游戏的segatools.ini，并且不需要您另行安装任何文本代码编辑工具。</p>
+	  <p>此工具可以方便快捷的修改所有游戏的segatools.ini，并且不需要您另行安装任何文本或代码编辑工具。</p>
 	  <p>本工具自带备份功能，在您读取并加载segatools.ini后，软件会自动备份您所选择的文件，不用担心修改出现任何问题。</p>
 	  <p>本工具同时具备自动更新功能，在您启动软件后如有新版本则会在日志区域显示新版本信息，如需下载更新请点击“帮助→更新”选项即可更新新版本。</p>
 	  
 	  <p><strong>软件使用指南</strong></p>
-	  <p>&nbsp;</p>
-	  <p></p>
-      <ul>
-        <li><strong></strong></li>
+	  <p>1.双击SegatoolsEditor.exe启动软件</p>
+	  <img src="https://oss.am-all.com.cn/asset/img/other/dc/software/sge-00.png" alt="00">
+	  <hr>
+	  <p>2.初次启动界面默认显示英文，请点击菜单栏“Language”切换为中文即可</p>
+	  <ul>
+        <li><strong>切换语言后软件会保存所选语言，下次启动后就会显示你所选择的语言。</strong></li>
+		<li><strong>软件会在“C:/Users/用户名/Documents/evilleaker”文件夹下自动建立配置文件“sgEditor_config.ini”</strong></li>
       </ul>
-      
+	  <img src="https://oss.am-all.com.cn/asset/img/other/dc/software/sge-01.png" alt="01">
+	  <hr>
+      <p>3.软件在启动后会自动检查是否有新版本并在下方日志区提示，如需更新软件，请点击菜单栏“帮助→更新”选项</p>
+	  <img src="https://oss.am-all.com.cn/asset/img/other/dc/software/sge-02.png" alt="02">
+	  <hr>
+	  <p>4.按照下图步骤加载segatools.ini文件</p>
+	  <ul>
+		<li><strong>①点击“浏览文件”</strong></li>
+		<li><strong>②选择需要修改的“segatools.ini”文件</strong></li>
+		<li><strong>③点击“打开”</strong></li>
+		<li><strong>④点击“加载配置”</strong></li>
+	  </ul>
+	  <img src="https://oss.am-all.com.cn/asset/img/other/dc/software/sge-03.png" alt="03">
+	  <hr>
+	  <p>5.点击“选择配置节”下拉菜单来选择需要修改的配置</p>
+	  <ul>
+		<li><strong>在读取完文件的同时，软件会自动备份当前你读取的segatools.ini</strong></li>
+		<li><strong>备份路径为“C:/Users/用户名/Documents/evilleaker/ini_backup”文件夹中</strong></li>
+	  </ul>
+	  <img src="https://oss.am-all.com.cn/asset/img/other/dc/software/sge-04.png" alt="04">
+	  <hr>
+	  <p>6.点击相应的输入框来修改配置参数</p>
+	  <ul>
+		<li>①点击需要修改的值的输入框来修改参数</li>
+		<li>②在修改完的同时，软件会自动保存文件，你也可以手动点击“保存配置”来保存文件</li>
+		<li>③点击参数值框后的选项会切换当前值的有效性(相当于ini文件中的注释功能)，“有效”为取消注释激活配置，“无效”为注释掉配置使其不生效。</li>
+	  </ul>
+	  
+	  
+	  
+	  
+	  
+	  
       <p>所有工具均可在<a href="#" data-page="tools">实用工具页面</a>下载</p>
-    `
-  },
-  3: {
-    title: "补丁安装指南",
-    content: `
-      <h3>补丁安装步骤</h3>
-      <ol>
-        <li>从下载中心获取游戏文件</li>
-        <li>进入补丁工具页面选择对应游戏</li>
-        <li>上传或选择游戏文件</li>
-        <li>点击"应用补丁"按钮</li>
-        <li>等待处理完成并下载补丁后的文件</li>
-      </ol>
-      
-      <div class="note mt-4">
-        <strong><i class="fas fa-info-circle me-2"></i> 提示：</strong>
-        <span>不同游戏版本需要对应版本的补丁工具</span>
-      </div>
-    `
-  },
-  4: {
-    title: "常见问题解答",
-    content: `
-      <h3>常见问题</h3>
-      
-      <div class="faq-item">
-        <h4>下载的文件无法解压怎么办？</h4>
-        <p>请确保使用最新版7zip或WinRAR解压，如果文件损坏请重新下载。</p>
-      </div>
-      
-      <div class="faq-item">
-        <h4>游戏运行时提示缺少DLL文件？</h4>
-        <p>请安装Runtime组件，可在实用工具页面下载。</p>
-      </div>
-      
-      <div class="faq-item">
-        <h4>如何修改游戏设置？</h4>
-        <p>使用Segatools Editor工具修改segatools.ini配置文件。</p>
-      </div>
-    `
-  },
-  5: {
-    title: "设置说明",
-    content: `
-      <h3>系统设置指南</h3>
-      <p>在设置页面您可以配置以下选项：</p>
-      
-      <ul>
-        <li><strong>语言偏好</strong> - 设置界面显示语言</li>
-        <li><strong>自动更新</strong> - 启用/禁用自动检查更新</li>
-        <li><strong>下载路径</strong> - 设置默认下载位置</li>
-      </ul>
-      
-      <p>更改设置后请点击"保存设置"按钮应用更改。</p>
-    `
-  },
-  6: {
-    title: "数据管理指南",
-    content: `
-      <h3>数据管理说明</h3>
-      <p>数据中心提供以下数据管理功能：</p>
-      
-      <ul>
-        <li><strong>资源存档</strong> - 查看历史版本资源</li>
-        <li><strong>下载记录</strong> - 查看您的下载历史</li>
-        <li><strong>收藏夹</strong> - 收藏常用资源</li>
-      </ul>
-      
-      <p>更多高级数据管理功能正在开发中。</p>
     `
   }
 };
@@ -178,7 +144,7 @@ const pages = {
         
         <div class="section">
           <div class="help-grid">
-            ${[1, 2, 3, 4, 5, 6].map(i => `
+            ${[1, 2].map(i => `
               <div class="help-card" data-id="${i}">
                 <div class="help-icon">
                   <i class="fas fa-${i === 1 ? 'download' : i === 2 ? 'tools' : i === 3 ? 'plug' : i === 4 ? 'question' : i === 5 ? 'cog' : 'database'}"></i>
