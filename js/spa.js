@@ -361,8 +361,8 @@ function loadPage(pageId) {
                     // 存储歌曲列表
                     let songList = [];
                     
-                    // 从music.json加载歌曲数据
-                    fetch('data/music.json')
+                    // 从外部URL加载音乐数据
+                    fetch('https://oss.am-all.com.cn/asset/img/main/data/music.json')
                         .then(response => response.json())
                         .then(data => {
                             songList = data;
@@ -418,6 +418,7 @@ function loadPage(pageId) {
                                         return;
                                     }
                                     
+                                    // 从整个歌曲列表中随机选择临时歌曲
                                     const tempSong = songList[Math.floor(Math.random() * songList.length)];
                                     
                                     updateDisplay(tempSong, '？？？');
@@ -426,7 +427,7 @@ function loadPage(pageId) {
                                     if (scrollCount > 30) {
                                         clearInterval(scrollInterval);
                                         
-                                        // 最终选择一首歌
+                                        // 最终从整个列表中随机选择一首歌
                                         const selectedSong = songList[Math.floor(Math.random() * songList.length)];
                                         
                                         // 随机选择吉凶

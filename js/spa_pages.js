@@ -133,53 +133,53 @@ const helpContentData = {
 
 // 页面内容定义
 const pages = {
-	// 每日运势页面
-	fortune: `
-	  <div class="fortune-container">
-		<h1 class="page-title">每日运势</h1>
-		<button class="back-button" data-page="home">
-		  <i class="fas fa-arrow-left me-2"></i>
-		  <span>返回主页</span>
-		</button>
-		
-		<div class="section fortune-section">
-		  <div class="song-cover">
-			<img id="cover-img" src="https://oss.am-all.com.cn/asset/img/main/music/dummy.jpg" alt="歌曲封面">
-		  </div>
-		  
-		  <div class="song-info">
-			<div class="song-id-cat">
-			  <div class="song-id">ID: <span id="song-id">？？？</span></div>
-			  <div class="song-category" id="song-category">？？？</div>
-			</div>
-			
-			<div class="song-title" id="song-title">？？？</div>
-			<div class="song-artist" id="song-artist">？？？</div>
-			
-			<div class="difficulties">
-			  <div class="difficulty-tag lev-bas">BASIC: <span id="lev-bas">？？？</span></div>
-			  <div class="difficulty-tag lev-adv">ADVANCE: <span id="lev-adv">？？？</span></div>
-			  <div class="difficulty-tag lev-exp">EXPERT: <span id="lev-exp">？？？</span></div>
-			  <div class="difficulty-tag lev-mas">MASTER: <span id="lev-mas">？？？</span></div>
-			  <div class="difficulty-tag lev-ult">ULTIMA: <span id="lev-ult">？？？</span></div>
-			</div>
-			
-			<!-- 新增吉凶显示 -->
-			<div class="fortune-luck-container">
-			  <div class="fortune-luck-label">今日运势:</div>
-			  <div class="fortune-luck-value" id="fortune-luck">？？？</div>
-			</div>
-		  </div>
-		  
-		  <button id="draw-btn" class="fortune-btn">
-			<i class="fas fa-star me-2"></i>
-			<span>抽取</span>
-		  </button>
-		  
-		  <div id="fortune-hint" class="fortune-hint"></div>
-		</div>
-	  </div>
-	`,
+    // 每日运势页面
+    fortune: `
+      <div class="fortune-container">
+        <h1 class="page-title">每日运势</h1>
+        <button class="back-button" data-page="home">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回主页</span>
+        </button>
+        
+        <div class="section fortune-section">
+          <div class="song-cover">
+            <img id="cover-img" src="https://oss.am-all.com.cn/asset/img/main/music/dummy.jpg" alt="歌曲封面">
+          </div>
+          
+          <div class="song-info">
+            <div class="song-id-cat">
+              <div class="song-id">ID: <span id="song-id">？？？</span></div>
+              <div class="song-category" id="song-category">？？？</div>
+            </div>
+            
+            <div class="song-title" id="song-title">？？？</div>
+            <div class="song-artist" id="song-artist">？？？</div>
+            
+            <div class="difficulties">
+              <div class="difficulty-tag lev-bas">BASIC: <span id="lev-bas">？？？</span></div>
+              <div class="difficulty-tag lev-adv">ADVANCE: <span id="lev-adv">？？？</span></div>
+              <div class="difficulty-tag lev-exp">EXPERT: <span id="lev-exp">？？？</span></div>
+              <div class="difficulty-tag lev-mas">MASTER: <span id="lev-mas">？？？</span></div>
+              <div class="difficulty-tag lev-ult">ULTIMA: <span id="lev-ult">？？？</span></div>
+            </div>
+            
+            <!-- 新增吉凶显示 -->
+            <div class="fortune-luck-container">
+              <div class="fortune-luck-label">今日运势:</div>
+              <div class="fortune-luck-value" id="fortune-luck">？？？</div>
+            </div>
+          </div>
+          
+          <button id="draw-btn" class="fortune-btn">
+            <i class="fas fa-star me-2"></i>
+            <span>抽取</span>
+          </button>
+          
+          <div id="fortune-hint" class="fortune-hint"></div>
+        </div>
+      </div>
+    `,
 
 
 	// 帮助页面
