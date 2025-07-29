@@ -359,25 +359,40 @@ function loadPage(pageId) {
                     const dailyFortuneData = localStorage.getItem('dailyFortuneData');
                     
                     if (lastDrawDate === today && dailyFortuneData) {
-                        // 如果今天已经抽取过，显示上次结果
-                        const data = JSON.parse(dailyFortuneData);
-                        displayFortune(data.song, data.luck);
-                        drawBtn.disabled = true;
-                        drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
-                        fortuneHint.textContent = '今日幸运乐曲已抽取，请明天再来！';
+                        try {
+                            const data = JSON.parse(dailyFortuneData);
+                            // 确保data中有song属性
+                            if (data && data.song) {
+                                displayFortune(data.song, data.luck);
+                                if (drawBtn) {
+                                    drawBtn.disabled = true;
+                                    drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
+                                }
+                                if (fortuneHint) {
+                                    fortuneHint.textContent = '今日幸运乐曲已抽取，请明天再来！';
+                                }
+                            }
+                        } catch (e) {
+                            console.error('解析运势数据失败', e);
+                            // 如果解析失败，清除本地存储
+                            localStorage.removeItem('dailyFortuneDate');
+                            localStorage.removeItem('dailyFortuneData');
+                        }
                     }
                     
                     // 抽取按钮点击事件
                     if (drawBtn) {
                         drawBtn.addEventListener('click', () => {
+                            if (!drawBtn) return;
+                            
                             drawBtn.disabled = true;
                             drawBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>抽取中...';
-                            fortuneHint.textContent = '';
+                            if (fortuneHint) fortuneHint.textContent = '';
                             
                             // 添加滚动动画
                             if (coverImg) coverImg.classList.add('scrolling');
                             
-                            // 模拟获取歌曲数据（实际项目中应替换为真实API）
+                            // 模拟获取歌曲数据
                             setTimeout(() => {
                                 // 模拟滚动效果
                                 let scrollCount = 0;
@@ -433,9 +448,13 @@ function loadPage(pageId) {
                                                 luck: luck
                                             }));
                                             
-                                            drawBtn.disabled = true;
-                                            drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
-                                            fortuneHint.textContent = '今日幸运乐曲已抽取，请明天再来！';
+                                            if (drawBtn) {
+                                                drawBtn.disabled = true;
+                                                drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
+                                            }
+                                            if (fortuneHint) {
+                                                fortuneHint.textContent = '今日幸运乐曲已抽取，请明天再来！';
+                                            }
                                         }, 300);
                                     }
                                 }, 100);
@@ -445,9 +464,13 @@ function loadPage(pageId) {
                     
                     // 更新显示函数
                     function updateDisplay(song, luck) {
-                        if (coverImg) coverImg.src = song.image ? 
-                            `https://oss.am-all.com.cn/asset/img/main/music/${song.image}` : 
-                            'https://oss.am-all.com.cn/asset/img/main/music/dummy.jpg';
+                        if (!song) return;
+                        
+                        if (coverImg) {
+                            coverImg.src = song.image ? 
+                                `https://oss.am-all.com.cn/asset/img/main/music/${song.image}` : 
+                                'https://oss.am-all.com.cn/asset/img/main/music/dummy.jpg';
+                        }
                         if (songIdEl) songIdEl.textContent = song.id || '？？？';
                         if (songTitleEl) songTitleEl.textContent = song.title || '？？？';
                         if (songArtistEl) songArtistEl.textContent = song.artist || '？？？';
@@ -502,27 +525,29 @@ function loadPage(pageId) {
     }, 300);
 }
 
-// 更新活动菜单项
+// 更新活动菜单项 - 修复空值错误
 function updateActiveMenuItem(activePage) {
     // 移除所有活动状态
     document.querySelectorAll('.sidebar-nav a').forEach(link => {
         link.classList.remove('active');
     });
     
-    // 添加当前活动状态
+    // 添加当前活动状态 - 添加空值检查
     const activeLink = document.querySelector(`.sidebar-nav a[data-page="${activePage}"]`);
     if (activeLink) {
         activeLink.classList.add('active');
     }
     
-    // 更新顶部导航
+    // 更新顶部导航 - 添加空值检查
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.classList.remove('active');
     });
     
     if (activePage === 'home') {
-        document.getElementById('nav-download').classList.add('active');
-        document.getElementById('nav-home').classList.add('active');
+        const navDownload = document.getElementById('nav-download');
+        const navHome = document.getElementById('nav-home');
+        if (navDownload) navDownload.classList.add('active');
+        if (navHome) navHome.classList.add('active');
     }
 }
 
