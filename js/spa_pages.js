@@ -136,7 +136,7 @@ const pages = {
     // 每日运势页面
     fortune: `
       <div class="fortune-container">
-        <h1 class="page-title">每日运势</h1>
+        <h1 class="page-title">每日运势(测试版)</h1>
         <button class="back-button" data-page="home">
           <i class="fas fa-arrow-left me-2"></i>
           <span>返回主页</span>
