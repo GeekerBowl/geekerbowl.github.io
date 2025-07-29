@@ -358,27 +358,43 @@ function loadPage(pageId) {
                     const today = new Date().toDateString();
                     const dailyFortuneData = localStorage.getItem('dailyFortuneData');
                     
-                    if (lastDrawDate === today && dailyFortuneData) {
-                        try {
-                            const data = JSON.parse(dailyFortuneData);
-                            // 确保data中有song属性
-                            if (data && data.song) {
-                                displayFortune(data.song, data.luck);
-                                if (drawBtn) {
-                                    drawBtn.disabled = true;
-                                    drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
-                                }
-                                if (fortuneHint) {
-                                    fortuneHint.textContent = '今日幸运乐曲已抽取，请明天再来！';
+                    // 存储歌曲列表
+                    let songList = [];
+                    
+                    // 从music.json加载歌曲数据
+                    fetch('data/music.json')
+                        .then(response => response.json())
+                        .then(data => {
+                            songList = data;
+                            
+                            if (lastDrawDate === today && dailyFortuneData) {
+                                try {
+                                    const data = JSON.parse(dailyFortuneData);
+                                    // 确保data中有song属性
+                                    if (data && data.song) {
+                                        displayFortune(data.song, data.luck);
+                                        if (drawBtn) {
+                                            drawBtn.disabled = true;
+                                            drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
+                                        }
+                                        if (fortuneHint) {
+                                            fortuneHint.textContent = '今日幸运乐曲已抽取，请明天再来！';
+                                        }
+                                    }
+                                } catch (e) {
+                                    console.error('解析运势数据失败', e);
+                                    // 如果解析失败，清除本地存储
+                                    localStorage.removeItem('dailyFortuneDate');
+                                    localStorage.removeItem('dailyFortuneData');
                                 }
                             }
-                        } catch (e) {
-                            console.error('解析运势数据失败', e);
-                            // 如果解析失败，清除本地存储
-                            localStorage.removeItem('dailyFortuneDate');
-                            localStorage.removeItem('dailyFortuneData');
-                        }
-                    }
+                        })
+                        .catch(error => {
+                            console.error('加载歌曲数据失败:', error);
+                            if (fortuneHint) {
+                                fortuneHint.textContent = '加载歌曲数据失败，请重试';
+                            }
+                        });
                     
                     // 抽取按钮点击事件
                     if (drawBtn) {
@@ -397,18 +413,12 @@ function loadPage(pageId) {
                                 // 模拟滚动效果
                                 let scrollCount = 0;
                                 const scrollInterval = setInterval(() => {
-                                    const tempSong = {
-                                        image: 'dummy.jpg',
-                                        id: Math.floor(Math.random() * 1000),
-                                        title: '随机歌曲',
-                                        artist: '随机艺术家',
-                                        catname: 'POPS & ANIME',
-                                        lev_bas: Math.floor(Math.random() * 5) + 1,
-                                        lev_adv: Math.floor(Math.random() * 8) + 3,
-                                        lev_exp: Math.floor(Math.random() * 12) + 6,
-                                        lev_mas: Math.floor(Math.random() * 14) + 8,
-                                        lev_ult: Math.floor(Math.random() * 15) + 10
-                                    };
+                                    if (songList.length === 0) {
+                                        clearInterval(scrollInterval);
+                                        return;
+                                    }
+                                    
+                                    const tempSong = songList[Math.floor(Math.random() * songList.length)];
                                     
                                     updateDisplay(tempSong, '？？？');
                                     scrollCount++;
@@ -417,18 +427,7 @@ function loadPage(pageId) {
                                         clearInterval(scrollInterval);
                                         
                                         // 最终选择一首歌
-                                        const selectedSong = {
-                                            image: 'dummy.jpg',
-                                            id: 'C999',
-                                            title: '好运来',
-                                            artist: '祖海',
-                                            catname: 'VARIETY',
-                                            lev_bas: 3,
-                                            lev_adv: 6,
-                                            lev_exp: 9,
-                                            lev_mas: 12,
-                                            lev_ult: 14
-                                        };
+                                        const selectedSong = songList[Math.floor(Math.random() * songList.length)];
                                         
                                         // 随机选择吉凶
                                         const luck = luckTexts[Math.floor(Math.random() * luckTexts.length)];
@@ -492,7 +491,7 @@ function loadPage(pageId) {
                         if (levMasEl) levMasEl.textContent = song.lev_mas || '？？？';
                         if (levUltEl) levUltEl.textContent = song.lev_ult || '？？？';
                     }
-                    
+                
                     // 显示保存的运势
                     function displayFortune(song, luck) {
                         updateDisplay(song, luck);
