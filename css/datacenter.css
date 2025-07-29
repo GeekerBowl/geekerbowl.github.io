@@ -1570,3 +1570,59 @@ input:checked + .slider:before {
     gap: 8px;
   }
 }
+
+/* 吉凶显示样式 */
+.fortune-luck-container {
+  margin-top: 20px;
+  padding: 12px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.fortune-luck-label {
+  color: #7f8c8d;
+}
+
+.fortune-luck-value {
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+/* 移动端布局调整 */
+@media (max-width: 768px) {
+  .difficulties {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .difficulty-tag {
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+  }
+  
+  .fortune-luck-container {
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px;
+  }
+}
+
+/* 重置每日运势 */
+@keyframes resetFortune {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.reset-fortune {
+  animation: resetFortune 1s ease;
+}
