@@ -369,57 +369,60 @@ function loadPage(pageId) {
                     }
                     drawButton.disabled = true;
                     drawButton.textContent = '今日已抽取';
-                    fortuneInfo.textContent = '今日运势已抽取，明天再来吧！';
+                    fortuneInfo.textContent = '今日乐曲已抽取，明天再来吧！';
                 } else {
                     drawButton.disabled = false;
-                    drawButton.textContent = '抽取今日运势';
-                    fortuneInfo.textContent = '点击下方按钮抽取今日运势';
+                    drawButton.textContent = '抽取今日乐曲';
+                    fortuneInfo.textContent = '点击下方按钮抽取今日乐曲';
                 }
                 
-				  // 显示加载中状态
-				  fortuneInfo.innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin me-2"></i>加载音乐数据中...</div>';
-				  
-				  // 修复后的音乐数据加载 - 使用绝对路径并添加CORS头
-				  fetch('/data/music.json', {
-					headers: {
-					  'Content-Type': 'application/json',
-					  'Accept': 'application/json'
-					}
-				  })
-					.then(response => {
-					  if (!response.ok) {
-						throw new Error(`网络响应异常: ${response.status} ${response.statusText}`);
-					  }
-					  return response.json();
-					})
-					.then(data => {
-					  musicData = data;
-					  fortuneInfo.textContent = '音乐数据加载完成！';
-					  
-					  // 如果已经抽取过今日的，则显示存储的歌曲
-					  if (lastDraw && Number(lastDraw) >= today) {
-						const lastResult = JSON.parse(localStorage.getItem('lastFortuneResult'));
-						if (lastResult) {
-						  displaySong(lastResult);
-						}
-					  }
-					})
-					.catch(error => {
-					  console.error('加载音乐数据失败:', error);
-					  
-					  // 提供更详细的错误信息
-					  let errorMsg = `加载音乐数据失败: ${error.message}`;
-					  
-					  // 如果是网络错误，提供特定提示
-					  if (error.message.includes('Failed to fetch')) {
-						errorMsg = '无法连接到服务器，请检查网络连接或稍后再试';
-					  }
-					  
-					  fortuneInfo.innerHTML = `<div class="alert alert-danger">${errorMsg}</div>`;
-					});
+                  // 显示加载中状态
+                  fortuneInfo.innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin me-2"></i>加载音乐数据中...</div>';
+                  
+                  // 修复后的音乐数据加载 - 使用绝对路径并添加CORS头
+                  fetch('/data/music.json', {
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Accept': 'application/json'
+                    }
+                  })
+                    .then(response => {
+                      if (!response.ok) {
+                        throw new Error(`网络响应异常: ${response.status} ${response.statusText}`);
+                      }
+                      return response.json();
+                    })
+                    .then(data => {
+                      musicData = data;
+                      fortuneInfo.textContent = '您的今日乐曲如下';
+                      
+                      // 如果已经抽取过今日的，则显示存储的歌曲
+                      if (lastDraw && Number(lastDraw) >= today) {
+                        const lastResult = JSON.parse(localStorage.getItem('lastFortuneResult'));
+                        if (lastResult) {
+                          displaySong(lastResult);
+                        }
+                      }
+                    })
+                    .catch(error => {
+                      console.error('加载音乐数据失败:', error);
+                      
+                      // 提供更详细的错误信息
+                      let errorMsg = `加载音乐数据失败: ${error.message}`;
+                      
+                      // 如果是网络错误，提供特定提示
+                      if (error.message.includes('Failed to fetch')) {
+                        errorMsg = '无法连接到服务器，请检查网络连接或稍后再试';
+                      }
+                      
+                      fortuneInfo.innerHTML = `<div class="alert alert-danger">${errorMsg}</div>`;
+                    });
                 
                 // 显示歌曲信息的函数
                 function displaySong(song) {
+                    // 添加crossOrigin属性解决跨域问题
+                    albumCover.crossOrigin = "Anonymous";
+                    
                     // 隐藏占位符，显示封面
                     placeholder.style.display = 'none';
                     albumCover.style.display = 'block';
@@ -515,21 +518,44 @@ function loadPage(pageId) {
                             
                             drawButton.disabled = true;
                             drawButton.textContent = '今日已抽取';
-                            fortuneInfo.textContent = '今日运势已抽取，明天再来吧！';
+                            fortuneInfo.textContent = '今日乐曲已抽取，明天再来吧！';
                         }
                     }, 200); // 每200毫秒切换一次
                 });
                 
                 // 保存截图按钮事件
                 saveButton.addEventListener('click', function() {
-                    // 截取.fortune-content区域
-                    html2canvas(contentContainer.querySelector('.fortune-content')).then(canvas => {
-                        // 将canvas转换为图片并下载
-                        const link = document.createElement('a');
-                        const dateStr = new Date().toISOString().slice(0, 10);
-                        link.download = `每日运势_${dateStr}.png`;
-                        link.href = canvas.toDataURL('image/png');
-                        link.click();
+                    // 截取整个.fortune-container区域（包含背景）
+                    const container = contentContainer.querySelector('.fortune-container');
+                    
+                    // 临时添加ID用于截图
+                    container.id = 'fortune-screenshot-container';
+                    
+                    // 添加加载状态
+                    fortuneInfo.innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin me-2"></i>生成截图中...</div>';
+                    
+                    // 截图整个容器（包含背景）
+                    html2canvas(container, {
+                      useCORS: true, // 启用跨域支持
+                      scale: 2,      // 提高截图质量
+                      backgroundColor: null // 保持背景透明
+                    }).then(canvas => {
+                      // 移除临时ID
+                      container.removeAttribute('id');
+                      
+                      // 恢复状态信息
+                      fortuneInfo.textContent = '今日乐曲已抽取，明天再来吧！';
+                      
+                      // 将canvas转换为图片并下载
+                      const link = document.createElement('a');
+                      const dateStr = new Date().toISOString().slice(0, 10);
+                      link.download = `每日乐曲_${dateStr}.png`;
+                      link.href = canvas.toDataURL('image/png');
+                      link.click();
+                    }).catch(error => {
+                      console.error('截图失败:', error);
+                      fortuneInfo.innerHTML = '<div class="alert alert-danger">截图生成失败，请重试</div>';
+                      container.removeAttribute('id');
                     });
                 });
             }

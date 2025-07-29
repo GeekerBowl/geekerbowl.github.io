@@ -136,7 +136,7 @@ const pages = {
   // 每日运势页面
   fortune: `
     <div class="fortune-container">
-      <h1 class="page-title">每日运势</h1>
+      <h1 class="page-title">今日幸运乐曲</h1>
       <button class="back-button" data-page="home">
         <i class="fas fa-arrow-left me-2"></i>
         <span id="back-to-home">返回</span>
@@ -149,7 +149,7 @@ const pages = {
         <div class="album-cover-container">
           <div class="album-placeholder">
             <i class="fas fa-music"></i>
-            <span>等待抽取运势</span>
+            <span>等待抽取乐曲</span>
           </div>
           <img id="album-cover" src="" alt="歌曲封面" style="display: none;">
         </div>
@@ -178,8 +178,8 @@ const pages = {
         
         <!-- 按钮区域 -->
         <div class="fortune-buttons">
-          <button id="draw-button" class="btn btn-primary">抽取今日运势</button>
-          <button id="save-button" class="btn btn-success" disabled>保存运势截图</button>
+          <button id="draw-button" class="btn btn-primary">抽！</button>
+          <button id="save-button" class="btn btn-success" disabled>保存截图</button>
         </div>
       </div>
     </div>
