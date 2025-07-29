@@ -379,7 +379,7 @@ function loadPage(pageId) {
 			  fortuneInfo.innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin me-2"></i>加载音乐数据中...</div>';
 			  
 			  // 修复音乐数据加载路径
-			  fetch('js/music.json', {
+			  fetch('/data/music.json', {
 				headers: {
 				  'Content-Type': 'application/json',
 				  'Accept': 'application/json'
