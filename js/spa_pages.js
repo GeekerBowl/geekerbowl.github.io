@@ -91,7 +91,7 @@ const helpContentData = {
 	  <p>2.初次启动界面默认显示英文，请点击菜单栏“Language”切换为中文即可</p>
 	  <ul>
         <li><strong>切换语言后软件会保存所选语言，下次启动后就会显示你所选择的语言。</strong></li>
-		<li><strong>软件会在“C:/Users/用户名/Documents/evilleaker”文件夹下自动建立配置文件“sgEditor_config.ini”</strong></li>
+		<li><strong>软件会在“C:/Users/用户名/Documents/evilleaker”文件夹下自动建立配置文件“sgEditor_config.json”</strong></li>
       </ul>
 	  <img src="https://oss.am-all.com.cn/asset/img/other/dc/software/sge-01.png" alt="01">
 	  <hr>
@@ -768,7 +768,7 @@ const pages = {
         <div class="welcome-section mt-5">
           <h2 class="section-title">
             <i class="fas fa-star"></i>
-            <span>哼，哼，啊啊啊啊啊啊。。。</span>
+            <span>要开始了哟~！</span>
           </h2>
           <p>请从左侧菜单选择功能</p>
         </div>
