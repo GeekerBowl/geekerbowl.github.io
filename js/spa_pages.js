@@ -133,6 +133,58 @@ const helpContentData = {
 
 // 页面内容定义
 const pages = {
+  // 每日运势页面
+  fortune: `
+    <div class="fortune-container">
+      <h1 class="page-title">每日运势</h1>
+      <button class="back-button" data-page="home">
+        <i class="fas fa-arrow-left me-2"></i>
+        <span id="back-to-home">返回</span>
+      </button>
+      
+      <div class="fortune-content">
+        <div id="fortune-info" class="fortune-info"></div>
+        
+        <!-- 封面区域 -->
+        <div class="album-cover-container">
+          <div class="album-placeholder">
+            <i class="fas fa-music"></i>
+            <span>等待抽取运势</span>
+          </div>
+          <img id="album-cover" src="" alt="歌曲封面" style="display: none;">
+        </div>
+        
+        <!-- 歌曲信息区域 -->
+        <div class="song-info" style="display: none;">
+          <div class="song-id-category">
+            <span id="song-id"></span>
+            <span id="song-category"></span>
+          </div>
+          <div class="song-title" id="song-title"></div>
+          <div class="song-artist" id="song-artist"></div>
+          <div class="song-difficulty">
+            <span class="difficulty-label">BAS:</span>
+            <span class="difficulty-value" id="lev-bas"></span>
+            <span class="difficulty-label">ADV:</span>
+            <span class="difficulty-value" id="lev-adv"></span>
+            <span class="difficulty-label">EXP:</span>
+            <span class="difficulty-value" id="lev-exp"></span>
+            <span class="difficulty-label">MAS:</span>
+            <span class="difficulty-value" id="lev-mas"></span>
+            <span class="difficulty-label">ULT:</span>
+            <span class="difficulty-value" id="lev-ult"></span>
+          </div>
+        </div>
+        
+        <!-- 按钮区域 -->
+        <div class="fortune-buttons">
+          <button id="draw-button" class="btn btn-primary">抽取今日运势</button>
+          <button id="save-button" class="btn btn-success" disabled>保存运势截图</button>
+        </div>
+      </div>
+    </div>
+  `,
+
 	// 帮助页面
     help: `
       <div class="game-detail">
