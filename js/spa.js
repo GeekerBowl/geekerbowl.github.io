@@ -349,10 +349,6 @@ function loadPage(pageId) {
                     const fortuneLuckEl = document.getElementById('fortune-luck');
                     const drawBtn = document.getElementById('draw-btn');
                     const fortuneHint = document.getElementById('fortune-hint');
-                    const normalDifficulties = document.getElementById('normal-difficulties');
-                    const worldsEndContainer = document.getElementById('worlds-end-difficulty');
-                    const weKanjiEl = document.getElementById('we-kanji');
-                    const weStarsEl = document.getElementById('we-stars');
                     
                     // 设置封面图片大小 - 仅在移动端调整
                     if (coverImg) {
@@ -481,27 +477,11 @@ function loadPage(pageId) {
                     function updateDisplay(song, luck) {
                         if (!song) return;
                         
-                        // 重置显示
-                        if (normalDifficulties) {
-                            normalDifficulties.style.display = 'flex';
-                        }
-                        if (worldsEndContainer) {
-                            worldsEndContainer.style.display = 'none';
-                        }
-                        
-                        // 隐藏所有难度
-                        [levBasEl, levAdvEl, levExpEl, levMasEl, levUltEl].forEach(el => {
-                            if (el) el.parentElement.style.display = 'none';
-                        });
-                        
-                        // 显示封面
                         if (coverImg) {
                             coverImg.src = song.image ? 
                                 `https://oss.am-all.com.cn/asset/img/main/music/${song.image}` : 
                                 'https://oss.am-all.com.cn/asset/img/main/music/dummy.jpg';
                         }
-                        
-                        // 显示基本信息
                         if (songIdEl) songIdEl.textContent = song.id || '？？？';
                         if (songTitleEl) songTitleEl.textContent = song.title || '？？？';
                         if (songArtistEl) songArtistEl.textContent = song.artist || '？？？';
@@ -516,70 +496,12 @@ function loadPage(pageId) {
                             songCategoryEl.className = 'song-category';
                         }
                         
-                        // 处理World's End难度
-                        if (song.we_kanji || song.we_star) {
-                            // 显示World's End难度，隐藏普通难度
-                            if (normalDifficulties) normalDifficulties.style.display = 'none';
-                            if (worldsEndContainer) worldsEndContainer.style.display = 'block';
-                            
-                            // 更新World's End内容
-                            if (weKanjiEl) weKanjiEl.textContent = song.we_kanji || '？';
-                            if (weStarsEl) {
-                                // 清除之前的星星
-                                weStarsEl.innerHTML = '';
-                                
-                                // 转换星星数量
-                                const starCount = convertWeStarToCount(song.we_star);
-                                
-                                // 添加星星
-                                for (let i = 0; i < starCount; i++) {
-                                    const star = document.createElement('i');
-                                    star.className = 'fas fa-star';
-                                    weStarsEl.appendChild(star);
-                                }
-                            }
-                        } else {
-                            // 处理普通难度
-                            if (normalDifficulties) normalDifficulties.style.display = 'flex';
-                            if (worldsEndContainer) worldsEndContainer.style.display = 'none';
-                            
-                            // 显示存在的普通难度
-                            if (song.lev_bas && levBasEl) {
-                                levBasEl.textContent = song.lev_bas;
-                                levBasEl.parentElement.style.display = 'flex';
-                            }
-                            if (song.lev_adv && levAdvEl) {
-                                levAdvEl.textContent = song.lev_adv;
-                                levAdvEl.parentElement.style.display = 'flex';
-                            }
-                            if (song.lev_exp && levExpEl) {
-                                levExpEl.textContent = song.lev_exp;
-                                levExpEl.parentElement.style.display = 'flex';
-                            }
-                            if (song.lev_mas && levMasEl) {
-                                levMasEl.textContent = song.lev_mas;
-                                levMasEl.parentElement.style.display = 'flex';
-                            }
-                            if (song.lev_ult && levUltEl) {
-                                levUltEl.textContent = song.lev_ult;
-                                levUltEl.parentElement.style.display = 'flex';
-                            }
-                        }
-                    }
-                    
-                    // 转换WE星数为数量
-                    function convertWeStarToCount(weStar) {
-                        if (!weStar) return 0;
-                        const starNum = parseInt(weStar);
-                        if (isNaN(starNum)) return 0;
-                        
-                        // 转换规则: 1->1, 3->2, 5->3, 7->4, 9->5
-                        if (starNum === 1) return 1;
-                        if (starNum === 3) return 2;
-                        if (starNum === 5) return 3;
-                        if (starNum === 7) return 4;
-                        if (starNum === 9) return 5;
-                        return 0;
+                        // 设置难度
+                        if (levBasEl) levBasEl.textContent = song.lev_bas || '？？？';
+                        if (levAdvEl) levAdvEl.textContent = song.lev_adv || '？？？';
+                        if (levExpEl) levExpEl.textContent = song.lev_exp || '？？？';
+                        if (levMasEl) levMasEl.textContent = song.lev_mas || '？？？';
+                        if (levUltEl) levUltEl.textContent = song.lev_ult || '？？？';
                     }
                 
                     // 显示保存的运势
