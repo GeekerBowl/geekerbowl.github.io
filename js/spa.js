@@ -476,103 +476,113 @@ function loadPage(pageId) {
 					
 					// 更新显示函数
 					function updateDisplay(song, luck) {
-						if (!song) return;
-						
-						// 重置难度容器
-						if (difficultiesContainer) {
-							difficultiesContainer.innerHTML = '';
-						}
-						
-						if (coverImg) {
-							coverImg.src = song.image ? 
-								`https://oss.am-all.com.cn/asset/img/main/music/${song.image}` : 
-								'https://oss.am-all.com.cn/asset/img/main/music/dummy.jpg';
-						}
-						if (songIdEl) songIdEl.textContent = song.id || '？？？';
-						if (songTitleEl) songTitleEl.textContent = song.title || '？？？';
-						if (songArtistEl) songArtistEl.textContent = song.artist || '？？？';
-						if (fortuneLuckEl) fortuneLuckEl.textContent = luck || '？？？';
-						
-						// 设置分类样式
-						if (songCategoryEl && song.catname) {
-							songCategoryEl.textContent = song.catname;
-							songCategoryEl.className = 'song-category ' + getCategoryClass(song.catname);
-						} else if (songCategoryEl) {
-							songCategoryEl.textContent = '？？？';
-							songCategoryEl.className = 'song-category';
-						}
-						
-						// 检查是否是World's End歌曲
-						const isWorldsEndSong = song.we_kanji || song.we_star;
-						
-						// 设置难度 - 如果是World's End歌曲则只显示WE难度
-						if (isWorldsEndSong) {
-							if (song.we_kanji || song.we_star) {
-								const weDiv = document.createElement('div');
-								weDiv.className = 'difficulty-tag lev-we';
-								weDiv.textContent = 'World\'s End: ';
-								
-								if (song.we_kanji) {
-									weDiv.textContent += song.we_kanji;
-								}
-								
-								if (song.we_star) {
-									const starsContainer = document.createElement('span');
-									starsContainer.className = 'we-stars';
-									
-									const starCount = parseInt(song.we_star);
-									const starDisplayCount = Math.ceil(starCount / 2); // 1=1, 3=2, 5=3, 7=4, 9=5
-									
-									for (let i = 0; i < starDisplayCount; i++) {
-										const star = document.createElement('i');
-										star.className = 'fas fa-star star';
-										starsContainer.appendChild(star);
-									}
-									
-									weDiv.appendChild(starsContainer);
-								}
-								
-								if (difficultiesContainer) {
-									difficultiesContainer.appendChild(weDiv);
-								}
-							}
-						} else {
-							// 普通歌曲，显示常规难度
-							if (song.lev_bas) {
-								const basDiv = document.createElement('div');
-								basDiv.className = 'difficulty-tag lev-bas';
-								basDiv.textContent = `BASIC: ${song.lev_bas}`;
-								if (difficultiesContainer) difficultiesContainer.appendChild(basDiv);
+					  if (!song) return;
+					  
+					  // 重置难度容器
+					  if (difficultiesContainer) {
+						difficultiesContainer.innerHTML = '';
+					  }
+					  
+					  if (coverImg) {
+						coverImg.src = song.image ? 
+						  `https://oss.am-all.com.cn/asset/img/main/music/${song.image}` : 
+						  'https://oss.am-all.com.cn/asset/img/main/music/dummy.jpg';
+					  }
+					  if (songIdEl) songIdEl.textContent = song.id || '？？？';
+					  if (songTitleEl) songTitleEl.textContent = song.title || '？？？';
+					  if (songArtistEl) songArtistEl.textContent = song.artist || '？？？';
+					  if (fortuneLuckEl) fortuneLuckEl.textContent = luck || '？？？';
+					  
+					  // 设置分类样式
+					  if (songCategoryEl && song.catname) {
+						songCategoryEl.textContent = song.catname;
+						songCategoryEl.className = 'song-category ' + getCategoryClass(song.catname);
+					  } else if (songCategoryEl) {
+						songCategoryEl.textContent = '？？？';
+						songCategoryEl.className = 'song-category';
+					  }
+					  
+					  // 检查是否是World's End歌曲
+					  const isWorldsEndSong = song.we_kanji || song.we_star;
+					  
+					  // 设置难度 - 如果是World's End歌曲则只显示WE难度
+					  if (isWorldsEndSong) {
+						if (song.we_kanji || song.we_star) {
+						  const weDiv = document.createElement('div');
+						  weDiv.className = 'difficulty-tag lev-we';
+						  weDiv.textContent = 'World\'s End: ';
+						  
+						  if (song.we_kanji) {
+							weDiv.textContent += song.we_kanji;
+						  }
+						  
+						  if (song.we_star) {
+							const starsContainer = document.createElement('span');
+							starsContainer.className = 'we-stars';
+							
+							const starCount = parseInt(song.we_star);
+							const starDisplayCount = Math.ceil(starCount / 2); // 1=1, 3=2, 5=3, 7=4, 9=5
+							
+							for (let i = 0; i < starDisplayCount; i++) {
+							  const star = document.createElement('i');
+							  star.className = 'fas fa-star star';
+							  starsContainer.appendChild(star);
 							}
 							
-							if (song.lev_adv) {
-								const advDiv = document.createElement('div');
-								advDiv.className = 'difficulty-tag lev-adv';
-								advDiv.textContent = `ADVANCE: ${song.lev_adv}`;
-								if (difficultiesContainer) difficultiesContainer.appendChild(advDiv);
-							}
-							
-							if (song.lev_exp) {
-								const expDiv = document.createElement('div');
-								expDiv.className = 'difficulty-tag lev-exp';
-								expDiv.textContent = `EXPERT: ${song.lev_exp}`;
-								if (difficultiesContainer) difficultiesContainer.appendChild(expDiv);
-							}
-							
-							if (song.lev_mas) {
-								const masDiv = document.createElement('div');
-								masDiv.className = 'difficulty-tag lev-mas';
-								masDiv.textContent = `MASTER: ${song.lev_mas}`;
-								if (difficultiesContainer) difficultiesContainer.appendChild(masDiv);
-							}
-							
-							if (song.lev_ult) {
-								const ultDiv = document.createElement('div');
-								ultDiv.className = 'difficulty-tag lev-ult';
-								ultDiv.textContent = `ULTIMA: ${song.lev_ult}`;
-								if (difficultiesContainer) difficultiesContainer.appendChild(ultDiv);
-							}
+							weDiv.appendChild(starsContainer);
+						  }
+						  
+						  if (difficultiesContainer) {
+							difficultiesContainer.appendChild(weDiv);
+						  }
 						}
+					  } else {
+						// 普通歌曲，显示常规难度
+						if (song.lev_bas) {
+						  const basDiv = document.createElement('div');
+						  basDiv.className = 'difficulty-tag lev-bas';
+						  const basSpan = document.createElement('span');
+						  basSpan.textContent = song.lev_bas;
+						  basDiv.appendChild(basSpan);
+						  if (difficultiesContainer) difficultiesContainer.appendChild(basDiv);
+						}
+						
+						if (song.lev_adv) {
+						  const advDiv = document.createElement('div');
+						  advDiv.className = 'difficulty-tag lev-adv';
+						  const advSpan = document.createElement('span');
+						  advSpan.textContent = song.lev_adv;
+						  advDiv.appendChild(advSpan);
+						  if (difficultiesContainer) difficultiesContainer.appendChild(advDiv);
+						}
+						
+						if (song.lev_exp) {
+						  const expDiv = document.createElement('div');
+						  expDiv.className = 'difficulty-tag lev-exp';
+						  const expSpan = document.createElement('span');
+						  expSpan.textContent = song.lev_exp;
+						  expDiv.appendChild(expSpan);
+						  if (difficultiesContainer) difficultiesContainer.appendChild(expDiv);
+						}
+						
+						if (song.lev_mas) {
+						  const masDiv = document.createElement('div');
+						  masDiv.className = 'difficulty-tag lev-mas';
+						  const masSpan = document.createElement('span');
+						  masSpan.textContent = song.lev_mas;
+						  masDiv.appendChild(masSpan);
+						  if (difficultiesContainer) difficultiesContainer.appendChild(masDiv);
+						}
+						
+						if (song.lev_ult) {
+						  const ultDiv = document.createElement('div');
+						  ultDiv.className = 'difficulty-tag lev-ult';
+						  const ultSpan = document.createElement('span');
+						  ultSpan.textContent = song.lev_ult;
+						  ultDiv.appendChild(ultSpan);
+						  if (difficultiesContainer) difficultiesContainer.appendChild(ultDiv);
+						}
+					  }
 					}
 				
 					// 显示保存的运势
