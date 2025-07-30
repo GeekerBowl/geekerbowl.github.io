@@ -165,11 +165,11 @@ const pages = {
             <div class="song-artist" id="song-artist">？？？</div>
             
             <div class="difficulties">
-              <div class="difficulty-tag lev-bas">BASIC: <span id="lev-bas">？？？</span></div>
-              <div class="difficulty-tag lev-adv">ADVANCE: <span id="lev-adv">？？？</span></div>
-              <div class="difficulty-tag lev-exp">EXPERT: <span id="lev-exp">？？？</span></div>
-              <div class="difficulty-tag lev-mas">MASTER: <span id="lev-mas">？？？</span></div>
-              <div class="difficulty-tag lev-ult">ULTIMA: <span id="lev-ult">？？？</span></div>
+				<div class="difficulty-tag lev-bas">BASIC: <span id="lev-bas">？？？</span></div>
+				<div class="difficulty-tag lev-adv">ADVANCE: <span id="lev-adv">？？？</span></div>
+				<div class="difficulty-tag lev-exp">EXPERT: <span id="lev-exp">？？？</span></div>
+				<div class="difficulty-tag lev-mas">MASTER: <span id="lev-mas">？？？</span></div>
+				<div class="difficulty-tag lev-ult">ULTIMA: <span id="lev-ult">？？？</span></div>
             </div>
             
             <!-- 新增吉凶显示 -->

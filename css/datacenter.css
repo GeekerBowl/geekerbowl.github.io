@@ -1709,3 +1709,41 @@ input:checked + .slider:before {
     max-width: 350px;
   }
 }
+
+/* World's End 难度样式 */
+.lev-we {
+  background: linear-gradient(90deg, 
+    #ff0000, #ff7f00, #ffff00, #00ff00, 
+    #0000ff, #4b0082, #9400d3);
+  color: white;
+  font-weight: bold;
+}
+
+/* 星星样式 */
+.we-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: black;
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin-left: 5px;
+}
+
+.we-stars .star {
+  color: #ffcc00;
+  font-size: 0.9em;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .lev-we {
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+  }
+  
+  .we-stars {
+    margin-left: 8px;
+  }
+}
