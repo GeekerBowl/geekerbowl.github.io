@@ -11,6 +11,20 @@ document.addEventListener("DOMContentLoaded", function() {
     const modalClose = document.querySelector('.modal-close');
     const modalOk = document.getElementById('modal-ok');
     
+    // 移动端隐藏PC折叠按钮
+    if (window.innerWidth <= 992 && sidebarToggle) {
+        sidebarToggle.style.display = 'none';
+    }
+    
+    // 窗口大小改变时调整按钮显示
+    window.addEventListener('resize', function() {
+        if (window.innerWidth <= 992) {
+            if (sidebarToggle) sidebarToggle.style.display = 'none';
+        } else {
+            if (sidebarToggle) sidebarToggle.style.display = 'block';
+        }
+    });
+    
     // 侧边栏折叠功能 - 只处理侧边栏和主内容区
     if (sidebarToggle) {
         sidebarToggle.addEventListener('click', function() {

@@ -350,6 +350,17 @@ function loadPage(pageId) {
                     const drawBtn = document.getElementById('draw-btn');
                     const fortuneHint = document.getElementById('fortune-hint');
                     
+                    // 设置封面图片大小 - 仅在移动端调整
+                    if (coverImg) {
+                        if (window.innerWidth <= 768) {
+                            coverImg.style.width = '190px';
+                            coverImg.style.height = '190px';
+                        } else {
+                            coverImg.style.width = '';
+                            coverImg.style.height = '';
+                        }
+                    }
+                    
                     // 吉凶文本数组
                     const luckTexts = ['大凶', '凶', '末吉', '吉', '小吉', '中吉', '大吉', '特大吉'];
                     

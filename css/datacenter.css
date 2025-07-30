@@ -1626,3 +1626,86 @@ input:checked + .slider:before {
 .reset-fortune {
   animation: resetFortune 1s ease;
 }
+
+/* 新增移动端侧边栏按钮隐藏 */
+@media (max-width: 992px) {
+  .sidebar-toggle {
+    display: none !important;
+  }
+}
+
+/* 移动端运势页面调整 */
+@media (max-width: 768px) {
+  .fortune-section {
+    padding: 15px;
+  }
+  
+  .song-cover {
+    width: 190px;
+    height: 190px;
+    margin: 0 auto 10px;
+  }
+  
+  .song-id-cat {
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .song-id, .song-category {
+    padding: 3px 10px;
+    font-size: 0.9rem;
+  }
+  
+  .song-title {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+  
+  .song-artist {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .difficulty-tag {
+    padding: 3px 8px;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+  
+  .fortune-luck-container {
+    padding: 8px;
+    font-size: 1rem;
+    margin-top: 15px;
+  }
+  
+  .fortune-luck-value {
+    font-size: 1.2rem;
+  }
+  
+  .fortune-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+  
+  /* 修复滚动问题 */
+  .fortune-container {
+    min-height: 100vh;
+    height: auto;
+    padding-bottom: 20px;
+    overflow-y: auto;
+  }
+}
+
+/* 移动端公告卡片居中 */
+@media (max-width: 768px) {
+  .announcements-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .announcement-card {
+    width: 100%;
+    max-width: 350px;
+  }
+}
