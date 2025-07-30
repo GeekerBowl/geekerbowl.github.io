@@ -1780,3 +1780,49 @@ input:checked + .slider:before {
     margin-left: 8px;
   }
 }
+
+/* 移动端难度水平排列 */
+@media (max-width: 768px) {
+  .difficulties {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  .difficulty-tag:not(.lev-we) {
+    margin-bottom: 0;
+  }
+}
+
+/* PC端显示难度文字 */
+@media (min-width: 769px) {
+  .difficulty-tag:not(.lev-we)::before {
+    content: attr(data-level) " ";
+    font-size: 0.8em;
+  }
+  
+  .lev-bas::before { content: "BASIC "; }
+  .lev-adv::before { content: "ADVANCE "; }
+  .lev-exp::before { content: "EXPERT "; }
+  .lev-mas::before { content: "MASTER "; }
+  .lev-ult::before { content: "ULTIMA "; }
+}
+
+/* 吉凶显示样式 */
+.fortune-luck-container {
+  flex-direction: column;
+  text-align: center;
+}
+
+.fortune-luck-label {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.fortune-luck-value {
+  font-weight: bold;
+  color: #e74c3c;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}

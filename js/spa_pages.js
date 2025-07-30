@@ -173,10 +173,10 @@ const pages = {
 			</div>
 			
 			<!-- 新增吉凶显示 -->
-			<div class="fortune-luck-container">
-			  <div class="fortune-luck-label">今日运势:</div>
-			  <div class="fortune-luck-value" id="fortune-luck">？？？</div>
-			</div>
+			  <div class="fortune-luck-container">
+				<div class="fortune-luck-label">今日运势</div>
+				<div class="fortune-luck-value" id="fortune-luck">？？？</div>
+			  </div>
 		  </div>
 		  
 		  <button id="draw-btn" class="fortune-btn">
