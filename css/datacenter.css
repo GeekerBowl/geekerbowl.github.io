@@ -1485,6 +1485,7 @@ input:checked + .slider:before {
   flex-wrap: wrap;
 }
 
+/* 修改难度标签样式 - PC端显示完整文字 */
 .difficulty-tag {
   padding: 5px 12px;
   border-radius: 4px;
@@ -1603,10 +1604,42 @@ input:checked + .slider:before {
     gap: 8px;
   }
   
-  .difficulty-tag {
+  /* 修改移动端难度标签样式 - 圆形只显示数字 */
+  .difficulty-tag:not(.lev-we) {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  /* 隐藏难度文字 */
+  .difficulty-tag:not(.lev-we)::before {
+    display: none;
+  }
+  
+  /* 修改难度数值显示 */
+  .difficulty-tag:not(.lev-we) span {
+    display: block;
+  }
+  
+  /* 修改dummy显示 */
+  .difficulty-tag:not(.lev-we) span:empty::before {
+    content: "?";
+  }
+  
+  /* 确保WE难度保持原样 */
+  .lev-we {
     width: 100%;
     max-width: 250px;
     text-align: center;
+    border-radius: 4px;
+    padding: 5px 12px;
+    display: block;
   }
   
   .fortune-luck-container {
@@ -1745,45 +1778,5 @@ input:checked + .slider:before {
   
   .we-stars {
     margin-left: 8px;
-  }
-}
-
-@media (max-width: 768px) {
-  /* 修改常规难度标签样式 */
-  .difficulty-tag:not(.lev-we) {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    font-size: 1rem;
-    font-weight: bold;
-  }
-  
-  /* 隐藏难度文字 */
-  .difficulty-tag:not(.lev-we)::before {
-    display: none;
-  }
-  
-  /* 修改难度数值显示 */
-  .difficulty-tag:not(.lev-we) span {
-    display: block;
-  }
-  
-  /* 修改dummy显示 */
-  .difficulty-tag:not(.lev-we) span:empty::before {
-    content: "?";
-  }
-  
-  /* 确保WE难度保持原样 */
-  .lev-we {
-    width: 100%;
-    max-width: 250px;
-    text-align: center;
-    border-radius: 4px;
-    padding: 5px 12px;
-    display: block;
   }
 }
