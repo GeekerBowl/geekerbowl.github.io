@@ -1728,33 +1728,3 @@ input:checked + .slider:before {
     margin-bottom: 0;
   }
 }
-
-/* ===== 每日运势动画样式 ===== */
-.song-cover {
-  position: relative;
-}
-
-.kuji-animation {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 20;
-  display: none;
-}
-
-.kuji-animation.show {
-  display: block;
-}
-
-@keyframes kuji-shake {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  25% { transform: translate(-50%, -50%) rotate(5deg); }
-  50% { transform: translate(-50%, -50%) rotate(0deg); }
-  75% { transform: translate(-50%, -50%) rotate(-5deg); }
-  100% { transform: translate(-50%, -50%) rotate(0deg); }
-}
-
-.kuji-shake {
-  animation: kuji-shake 0.5s ease infinite;
-}
