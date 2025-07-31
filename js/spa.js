@@ -412,60 +412,102 @@ function loadPage(pageId) {
                             drawBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>抽取中...';
                             if (fortuneHint) fortuneHint.textContent = '';
                             
-                            // 添加滚动动画
-                            if (coverImg) coverImg.classList.add('scrolling');
+                            // 显示动画元素
+                            const animationOverlay = document.getElementById('animation-overlay');
+                            const kujiContainer = document.getElementById('kuji-container');
+                            const kujiImg = document.getElementById('kuji-img');
                             
-                            // 模拟获取歌曲数据
+                            // 显示动画覆盖层
+                            animationOverlay.style.display = 'flex';
                             setTimeout(() => {
-                                // 模拟滚动效果
-                                let scrollCount = 0;
-                                const scrollInterval = setInterval(() => {
-                                    if (songList.length === 0) {
-                                        clearInterval(scrollInterval);
-                                        return;
-                                    }
+                                animationOverlay.style.opacity = '1';
+                            }, 10);
+                            
+                            // 显示第一个签筒图片
+                            kujiImg.src = 'https://oss.am-all.com.cn/asset/img/other/dc/kuji/kuji01.png';
+                            kujiContainer.style.display = 'block';
+                            kujiImg.classList.add('swing-animation');
+                            
+                            // 5秒后切换到第二个签筒图片
+                            setTimeout(() => {
+                                // 移除摇摆动画
+                                kujiImg.classList.remove('swing-animation');
+                                
+                                // 添加渐变过渡效果
+                                kujiImg.style.opacity = '0';
+                                
+                                setTimeout(() => {
+                                    // 切换到第二个签筒图片
+                                    kujiImg.src = 'https://oss.am-all.com.cn/asset/img/other/dc/kuji/kuji02.png';
+                                    kujiImg.style.opacity = '1';
                                     
-                                    // 从整个歌曲列表中随机选择临时歌曲
-                                    const tempSong = songList[Math.floor(Math.random() * songList.length)];
-                                    
-                                    updateDisplay(tempSong, '？？？');
-                                    scrollCount++;
-                                    
-                                    if (scrollCount > 30) {
-                                        clearInterval(scrollInterval);
+                                    // 1秒后隐藏签筒
+                                    setTimeout(() => {
+                                        kujiImg.style.opacity = '0';
+                                        animationOverlay.style.opacity = '0';
                                         
-                                        // 最终从整个列表中随机选择一首歌
-                                        const selectedSong = songList[Math.floor(Math.random() * songList.length)];
-                                        
-                                        // 随机选择吉凶
-                                        const luck = luckTexts[Math.floor(Math.random() * luckTexts.length)];
-                                        
-                                        // 移除滚动动画
-                                        if (coverImg) coverImg.classList.remove('scrolling');
-                                        
-                                        // 显示最终结果
                                         setTimeout(() => {
-                                            updateDisplay(selectedSong, luck);
+                                            kujiContainer.style.display = 'none';
+                                            animationOverlay.style.display = 'none';
                                             
-                                            // 保存抽取结果
-                                            const today = new Date().toDateString();
-                                            localStorage.setItem('dailyFortuneDate', today);
-                                            localStorage.setItem('dailyFortuneData', JSON.stringify({
-                                                song: selectedSong,
-                                                luck: luck
-                                            }));
+                                            // 添加滚动动画
+                                            if (coverImg) coverImg.classList.add('scrolling');
                                             
-                                            if (drawBtn) {
-                                                drawBtn.disabled = true;
-                                                drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
-                                            }
-                                            if (fortuneHint) {
-                                                fortuneHint.textContent = '今日幸运乐曲已抽取，请明天再来！';
-                                            }
-                                        }, 300);
-                                    }
-                                }, 100);
-                            }, 500);
+                                            // 模拟获取歌曲数据
+                                            setTimeout(() => {
+                                                // 模拟滚动效果
+                                                let scrollCount = 0;
+                                                const scrollInterval = setInterval(() => {
+                                                    if (songList.length === 0) {
+                                                        clearInterval(scrollInterval);
+                                                        return;
+                                                    }
+                                                    
+                                                    // 从整个歌曲列表中随机选择临时歌曲
+                                                    const tempSong = songList[Math.floor(Math.random() * songList.length)];
+                                                    
+                                                    updateDisplay(tempSong, '？？？');
+                                                    scrollCount++;
+                                                    
+                                                    if (scrollCount > 30) {
+                                                        clearInterval(scrollInterval);
+                                                        
+                                                        // 最终从整个列表中随机选择一首歌
+                                                        const selectedSong = songList[Math.floor(Math.random() * songList.length)];
+                                                        
+                                                        // 随机选择吉凶
+                                                        const luck = luckTexts[Math.floor(Math.random() * luckTexts.length)];
+                                                        
+                                                        // 移除滚动动画
+                                                        if (coverImg) coverImg.classList.remove('scrolling');
+                                                        
+                                                        // 显示最终结果
+                                                        setTimeout(() => {
+                                                            updateDisplay(selectedSong, luck);
+                                                            
+                                                            // 保存抽取结果
+                                                            const today = new Date().toDateString();
+                                                            localStorage.setItem('dailyFortuneDate', today);
+                                                            localStorage.setItem('dailyFortuneData', JSON.stringify({
+                                                                song: selectedSong,
+                                                                luck: luck
+                                                            }));
+                                                            
+                                                            if (drawBtn) {
+                                                                drawBtn.disabled = true;
+                                                                drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
+                                                            }
+                                                            if (fortuneHint) {
+                                                                fortuneHint.textContent = '今日幸运乐曲已抽取，请明天再来！';
+                                                            }
+                                                        }, 300);
+                                                    }
+                                                }, 100);
+                                            }, 500);
+                                        }, 500);
+                                    }, 1000);
+                                }, 500);
+                            }, 5000);
                         });
                     }
                     
