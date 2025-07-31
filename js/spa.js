@@ -457,46 +457,44 @@ function loadPage(pageId) {
                                         if (coverImg) coverImg.classList.remove('scrolling');
                                         
                                         // 显示最终结果
+                                        // 第二阶段动画：立即显示签文并快速过渡到结果
                                         setTimeout(() => {
-                                            // 第二阶段动画：显示签文（1秒）
-                                            setTimeout(() => {
-                                                // 隐藏动画，显示最终结果
-                                                const animationContainer = contentContainer.querySelector('.fortune-animation');
-                                                const kuji01 = contentContainer.querySelector('#kuji-01');
-                                                const kuji02 = contentContainer.querySelector('#kuji-02');
+                                            const animationContainer = contentContainer.querySelector('.fortune-animation');
+                                            const kuji01 = contentContainer.querySelector('#kuji-01');
+                                            const kuji02 = contentContainer.querySelector('#kuji-02');
+                                            
+                                            if (animationContainer && kuji01 && kuji02) {
+                                                kuji01.classList.remove('kuji-swing');
+                                                kuji01.style.display = 'none';
+                                                kuji02.style.display = 'block';
+                                                kuji02.classList.add('kuji-fadein');
                                                 
-                                                if (animationContainer && kuji01 && kuji02) {
-                                                    kuji01.classList.remove('kuji-swing');
-                                                    kuji01.style.display = 'none';
-                                                    kuji02.style.display = 'block';
-                                                    kuji02.classList.add('kuji-fadein');
+                                                // 立即结束动画并显示结果
+                                                setTimeout(() => {
+                                                    animationContainer.style.display = 'none';
+                                                    if (coverImg) coverImg.style.display = 'block';
                                                     
-                                                    setTimeout(() => {
-                                                        animationContainer.style.display = 'none';
-                                                        if (coverImg) coverImg.style.display = 'block';
-                                                        
-                                                        // 显示最终结果
-                                                        updateDisplay(selectedSong, luck);
-                                                        
-                                                        // 保存抽取结果
-                                                        const today = new Date().toDateString();
-                                                        localStorage.setItem('dailyFortuneDate', today);
-                                                        localStorage.setItem('dailyFortuneData', JSON.stringify({
-                                                            song: selectedSong,
-                                                            luck: luck
-                                                        }));
-                                                        
-                                                        if (drawBtn) {
-                                                            drawBtn.disabled = true;
-                                                            drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
-                                                        }
-                                                        if (fortuneHint) {
-                                                            fortuneHint.textContent = '今日幸运乐曲已抽取，请明天再来！';
-                                                        }
-                                                    }, 1000);
-                                                }
-                                            }, 5000); // 5秒后结束第一阶段动画
-                                        }, 300);
+                                                    // 显示最终结果
+                                                    updateDisplay(selectedSong, luck);
+                                                    
+                                                    // 保存抽取结果
+                                                    const today = new Date().toDateString();
+                                                    localStorage.setItem('dailyFortuneDate', today);
+                                                    localStorage.setItem('dailyFortuneData', JSON.stringify({
+                                                        song: selectedSong,
+                                                        luck: luck
+                                                    }));
+                                                    
+                                                    if (drawBtn) {
+                                                        drawBtn.disabled = true;
+                                                        drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
+                                                    }
+                                                    if (fortuneHint) {
+                                                        fortuneHint.textContent = '今日幸运乐曲已抽取，请明天再来！';
+                                                    }
+                                                }, 100); // 极短延迟确保动画完成
+                                            }
+                                        }, 0);
                                     }
                                 }, 100);
                             }, 500);
