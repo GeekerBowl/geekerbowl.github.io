@@ -1728,3 +1728,57 @@ input:checked + .slider:before {
     margin-bottom: 0;
   }
 }
+
+/* 新增签筒动画样式 */
+.song-cover {
+  position: relative; /* 为动画容器提供定位上下文 */
+}
+
+.fortune-animation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: none;
+}
+
+.kuji-img {
+  width: auto;
+  height: auto;
+  max-width: none;
+}
+
+#kuji-01 {
+  width: 86px;
+  height: 171px;
+}
+
+#kuji-02 {
+  width: 86px;
+  height: 226px;
+  display: none;
+}
+
+/* 签筒摇摆动画 */
+@keyframes kuji-swing {
+  0% { transform: rotate(-5deg); }
+  25% { transform: rotate(5deg); }
+  50% { transform: rotate(-7deg); }
+  75% { transform: rotate(7deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.kuji-swing {
+  animation: kuji-swing 0.8s ease-in-out infinite;
+}
+
+/* 签筒淡入效果 */
+@keyframes kuji-fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.kuji-fadein {
+  animation: kuji-fadein 0.5s ease-out forwards;
+}

@@ -153,6 +153,11 @@ const pages = {
 		<div class="section fortune-section">
 		  <div class="song-cover">
 			<img id="cover-img" src="https://oss.am-all.com.cn/asset/img/main/music/dummy.jpg" alt="歌曲封面">
+			<!-- 新增签筒动画元素 -->
+			<div class="fortune-animation">
+			  <img id="kuji-01" class="kuji-img" src="https://oss.am-all.com.cn/asset/img/other/dc/kuji/kuji01.png" alt="签筒">
+			  <img id="kuji-02" class="kuji-img" src="https://oss.am-all.com.cn/asset/img/other/dc/kuji/kuji02.png" alt="抽签">
+			</div>
 		  </div>
 		  
 		  <div class="song-info">

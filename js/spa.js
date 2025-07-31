@@ -1,3 +1,4 @@
+// 文件: spa.js
 // 显示公告详情弹窗
 function showAnnouncementModal(id) {
   const announcement = announcementsData.find(item => item.id === id);
@@ -412,8 +413,20 @@ function loadPage(pageId) {
                             drawBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>抽取中...';
                             if (fortuneHint) fortuneHint.textContent = '';
                             
-                            // 添加滚动动画
-                            if (coverImg) coverImg.classList.add('scrolling');
+                            // 隐藏封面，显示签筒动画
+                            if (coverImg) {
+                                coverImg.style.display = 'none';
+                                const animationContainer = contentContainer.querySelector('.fortune-animation');
+                                const kuji01 = contentContainer.querySelector('#kuji-01');
+                                const kuji02 = contentContainer.querySelector('#kuji-02');
+                                
+                                // 重置动画状态
+                                animationContainer.style.display = 'flex';
+                                kuji01.style.display = 'block';
+                                kuji01.classList.add('kuji-swing');
+                                kuji02.style.display = 'none';
+                                kuji02.classList.remove('kuji-fadein');
+                            }
                             
                             // 模拟获取歌曲数据
                             setTimeout(() => {
@@ -445,23 +458,44 @@ function loadPage(pageId) {
                                         
                                         // 显示最终结果
                                         setTimeout(() => {
-                                            updateDisplay(selectedSong, luck);
-                                            
-                                            // 保存抽取结果
-                                            const today = new Date().toDateString();
-                                            localStorage.setItem('dailyFortuneDate', today);
-                                            localStorage.setItem('dailyFortuneData', JSON.stringify({
-                                                song: selectedSong,
-                                                luck: luck
-                                            }));
-                                            
-                                            if (drawBtn) {
-                                                drawBtn.disabled = true;
-                                                drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
-                                            }
-                                            if (fortuneHint) {
-                                                fortuneHint.textContent = '今日幸运乐曲已抽取，请明天再来！';
-                                            }
+                                            // 第二阶段动画：显示签文（1秒）
+                                            setTimeout(() => {
+                                                // 隐藏动画，显示最终结果
+                                                const animationContainer = contentContainer.querySelector('.fortune-animation');
+                                                const kuji01 = contentContainer.querySelector('#kuji-01');
+                                                const kuji02 = contentContainer.querySelector('#kuji-02');
+                                                
+                                                if (animationContainer && kuji01 && kuji02) {
+                                                    kuji01.classList.remove('kuji-swing');
+                                                    kuji01.style.display = 'none';
+                                                    kuji02.style.display = 'block';
+                                                    kuji02.classList.add('kuji-fadein');
+                                                    
+                                                    setTimeout(() => {
+                                                        animationContainer.style.display = 'none';
+                                                        if (coverImg) coverImg.style.display = 'block';
+                                                        
+                                                        // 显示最终结果
+                                                        updateDisplay(selectedSong, luck);
+                                                        
+                                                        // 保存抽取结果
+                                                        const today = new Date().toDateString();
+                                                        localStorage.setItem('dailyFortuneDate', today);
+                                                        localStorage.setItem('dailyFortuneData', JSON.stringify({
+                                                            song: selectedSong,
+                                                            luck: luck
+                                                        }));
+                                                        
+                                                        if (drawBtn) {
+                                                            drawBtn.disabled = true;
+                                                            drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
+                                                        }
+                                                        if (fortuneHint) {
+                                                            fortuneHint.textContent = '今日幸运乐曲已抽取，请明天再来！';
+                                                        }
+                                                    }, 1000);
+                                                }
+                                            }, 5000); // 5秒后结束第一阶段动画
                                         }, 300);
                                     }
                                 }, 100);
