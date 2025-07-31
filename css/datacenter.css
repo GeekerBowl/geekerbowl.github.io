@@ -85,16 +85,31 @@
   transform: translateY(0);
 }
 
+/* 修复移动端滚动问题 */
+html, body {
+    height: auto;
+    overflow-y: auto;
+}
+
+.main-content {
+    height: auto;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+/* 优化加载动画 */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.3em;
+}
+
 /* 主内容区滚动修复 */
 .main-content {
   margin-top: 70px;
   margin-left: var(--sidebar-width);
   padding: 30px;
   transition: all 0.4s ease;
-  overflow-y: auto;
-  height: calc(100vh - 70px);
-  position: relative;
-  transition: transform 0.3s ease;
 }
 
 /* 其余样式保持不变 */
@@ -120,7 +135,6 @@ body {
   background-color: #f5f7fa;
   color: var(--text-color);
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
 /* 顶部导航栏 - 始终贴齐左侧 */
@@ -800,23 +814,6 @@ footer {
   }
 }
 
-html, body {
-    height: 100%;
-    overflow: hidden;
-}
-
-.main-content {
-    height: calc(100vh - 60px);
-    overflow-y: auto;
-}
-
-/* 优化加载动画 */
-.spinner-border {
-  width: 3rem;
-  height: 3rem;
-  border-width: 0.3em;
-}
-
 /* ===== 新增公告栏样式 ===== */
 .announcements-section {
   margin-bottom: 40px;
@@ -1214,62 +1211,6 @@ input:checked + .slider:before {
   min-width: 90px; /* 确保日期有足够空间 */
 }
 
-/* 新增DLL补丁工具卡片样式 */
-.patcher-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 25px;
-  margin-top: 20px;
-}
-
-.patcher-card {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-  height: 220px; /* 固定高度保持比例 */
-}
-
-.patcher-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  border: 1px solid #3498db;
-}
-
-.patcher-card-image {
-  height: 128px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: #f5f7fa;
-}
-
-.patcher-card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.patcher-card-divider {
-  height: 1px;
-  background: #e0e0e0; /* 浅灰色分割线 */
-  margin: 0;
-}
-
-.patcher-card-title {
-  height: 92px; /* 128px图片 + 92px标题 = 220px总高度 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  font-weight: 500;
-  font-size: 1rem;
-  line-height: 1.4;
-}
-
 /* 返回按钮样式 */
 .back-button {
   background-color: var(--secondary-color);
@@ -1434,12 +1375,13 @@ input:checked + .slider:before {
   margin-bottom: 30px;
 }
 
+/* 修复每日运势布局 */
 .song-id-cat {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
 }
 
 .song-id {
@@ -1498,6 +1440,20 @@ input:checked + .slider:before {
 .lev-exp { background-color: #c0392b; } /* 红色 */
 .lev-mas { background-color: #8e44ad; } /* 紫色 */
 .lev-ult { background-color: #2c3e50; } /* 黑色 */
+
+/* 添加WE难度文字描边 */
+.lev-we {
+    background: linear-gradient(90deg, 
+        #ff0000, #ff7f00, #ffff00, #00ff00, 
+        #0000ff, #4b0082, #9400d3);
+    color: white;
+    font-weight: bold;
+    text-shadow: 
+        -1px -1px 0 #000,  
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+}
 
 .fortune-btn {
   background: #3498db;
@@ -1564,12 +1520,6 @@ input:checked + .slider:before {
   .song-title {
     font-size: 1.3rem;
   }
-  
-  .song-id-cat {
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
 }
 
 /* 吉凶显示样式 */
@@ -1599,53 +1549,75 @@ input:checked + .slider:before {
 /* 移动端布局调整 */
 @media (max-width: 768px) {
   .difficulties {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 8px;
-  }
-  
-  /* 修改移动端难度标签样式 - 圆形只显示数字 */
-  .difficulty-tag:not(.lev-we) {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 0;
-    font-size: 1rem;
-    font-weight: bold;
   }
   
-  /* 隐藏难度文字 */
+  .difficulty-tag:not(.lev-we) {
+    margin-bottom: 0;
+  }
+}
+
+/* PC端显示难度文字 */
+@media (min-width: 769px) {
   .difficulty-tag:not(.lev-we)::before {
-    display: none;
+    content: attr(data-level) " ";
+    font-size: 0.8em;
   }
   
-  /* 修改难度数值显示 */
-  .difficulty-tag:not(.lev-we) span {
-    display: block;
-  }
-  
-  /* 修改dummy显示 */
-  .difficulty-tag:not(.lev-we) span:empty::before {
-    content: "?";
-  }
-  
-  /* 确保WE难度保持原样 */
+  .lev-bas::before { content: "BASIC "; }
+  .lev-adv::before { content: "ADVANCE "; }
+  .lev-exp::before { content: "EXPERT "; }
+  .lev-mas::before { content: "MASTER "; }
+  .lev-ult::before { content: "ULTIMA "; }
+}
+
+/* 吉凶显示样式 */
+.fortune-luck-container {
+  flex-direction: column;
+  text-align: center;
+}
+
+.fortune-luck-label {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.fortune-luck-value {
+  font-weight: bold;
+  color: #e74c3c;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+
+/* 星星样式 */
+.we-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: black;
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin-left: 5px;
+}
+
+.we-stars .star {
+  color: #ffcc00;
+  font-size: 0.9em;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
   .lev-we {
     width: 100%;
     max-width: 250px;
     text-align: center;
-    border-radius: 4px;
-    padding: 5px 12px;
-    display: block;
   }
   
-  .fortune-luck-container {
-    flex-direction: column;
-    gap: 5px;
-    padding: 15px;
+  .we-stars {
+    margin-left: 8px;
   }
 }
 
@@ -1743,44 +1715,6 @@ input:checked + .slider:before {
   }
 }
 
-/* World's End 难度样式 */
-.lev-we {
-  background: linear-gradient(90deg, 
-    #ff0000, #ff7f00, #ffff00, #00ff00, 
-    #0000ff, #4b0082, #9400d3);
-  color: white;
-  font-weight: bold;
-}
-
-/* 星星样式 */
-.we-stars {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  background: black;
-  padding: 2px 5px;
-  border-radius: 4px;
-  margin-left: 5px;
-}
-
-.we-stars .star {
-  color: #ffcc00;
-  font-size: 0.9em;
-}
-
-/* 移动端适配 */
-@media (max-width: 768px) {
-  .lev-we {
-    width: 100%;
-    max-width: 250px;
-    text-align: center;
-  }
-  
-  .we-stars {
-    margin-left: 8px;
-  }
-}
-
 /* 移动端难度水平排列 */
 @media (max-width: 768px) {
   .difficulties {
@@ -1793,36 +1727,4 @@ input:checked + .slider:before {
   .difficulty-tag:not(.lev-we) {
     margin-bottom: 0;
   }
-}
-
-/* PC端显示难度文字 */
-@media (min-width: 769px) {
-  .difficulty-tag:not(.lev-we)::before {
-    content: attr(data-level) " ";
-    font-size: 0.8em;
-  }
-  
-  .lev-bas::before { content: "BASIC "; }
-  .lev-adv::before { content: "ADVANCE "; }
-  .lev-exp::before { content: "EXPERT "; }
-  .lev-mas::before { content: "MASTER "; }
-  .lev-ult::before { content: "ULTIMA "; }
-}
-
-/* 吉凶显示样式 */
-.fortune-luck-container {
-  flex-direction: column;
-  text-align: center;
-}
-
-.fortune-luck-label {
-  font-size: 1.1rem;
-  margin-bottom: 5px;
-}
-
-.fortune-luck-value {
-  font-weight: bold;
-  color: #e74c3c;
-  font-size: 1.8rem;
-  line-height: 1.2;
 }
