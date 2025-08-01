@@ -184,6 +184,18 @@ const pages = {
 			  </div>
 		  </div>
 		  
+		    <!-- 新增宜不宜部分 -->
+			<div class="fortune-recommendation">
+			  <div class="recommend-item">
+				<div class="recommend-label">宜：</div>
+				<div id="lucky-action">?</div>
+			  </div>
+			  <div class="recommend-item">
+				<div class="recommend-label">不宜：</div>
+				<div id="unlucky-action">?</div>
+			  </div>
+			</div>
+		  
 		  <button id="draw-btn" class="fortune-btn">
 			<i class="fas fa-star me-2"></i>
 			<span>抽取</span>

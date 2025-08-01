@@ -250,6 +250,410 @@ body {
   background: var(--light-bg);
 }
 
+/* 修复弹窗显示问题 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+  transform: translateY(0);
+}
+
+/* 修复移动端滚动问题 */
+html, body {
+    height: auto;
+    overflow-y: auto;
+}
+
+.main-content {
+    height: auto;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+/* 优化加载动画 */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.3em;
+}
+
+/* 主内容区滚动修复 */
+.main-content {
+  margin-top: 70px;
+  margin-left: var(--sidebar-width);
+  padding: 30px;
+  transition: all 0.4s ease;
+}
+
+/* 其余样式保持不变 */
+:root {
+  --sidebar-width: 250px;
+  --sidebar-collapsed-width: 60px;
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --accent-color: #e74c3c;
+  --text-color: #333;
+  --light-bg: #f8f9fa;
+  --dark-bg: #1a1f2d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: var(--text-color);
+  min-height: 100vh;
+}
+
+/* 顶部导航栏 - 始终贴齐左侧 */
+.top-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: linear-gradient(135deg, var(--dark-bg), var(--primary-color));
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 0 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+}
+
+.brand {
+  font-size: 1.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand i {
+  color: var(--secondary-color);
+  font-size: 2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+  font-size: 1.1rem;
+}
+
+.nav-links a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 5px 0;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--secondary-color);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.language-selector {
+  position: relative;
+}
+
+.language-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.language-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.language-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  width: 180px;
+  overflow: hidden;
+  display: none;
+  z-index: 1001;
+}
+
+.language-dropdown.show {
+  display: block;
+}
+
+.language-item {
+  padding: 10px 15px;
+  color: var(--text-color);
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.language-item:hover {
+  background: var(--light-bg);
+}
+
+/* 修复弹窗显示问题 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+  transform: translateY(0);
+}
+
+/* 修复移动端滚动问题 */
+html, body {
+    height: auto;
+    overflow-y: auto;
+}
+
+.main-content {
+    height: auto;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+/* 优化加载动画 */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.3em;
+}
+
+/* 主内容区滚动修复 */
+.main-content {
+  margin-top: 70px;
+  margin-left: var(--sidebar-width);
+  padding: 30px;
+  transition: all 0.4s ease;
+}
+
+/* 其余样式保持不变 */
+:root {
+  --sidebar-width: 250px;
+  --sidebar-collapsed-width: 60px;
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --accent-color: #e74c3c;
+  --text-color: #333;
+  --light-bg: #f8f9fa;
+  --dark-bg: #1a1f2d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: var(--text-color);
+  min-height: 100vh;
+}
+
+/* 顶部导航栏 - 始终贴齐左侧 */
+.top-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: linear-gradient(135deg, var(--dark-bg), var(--primary-color));
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 0 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+}
+
+.brand {
+  font-size: 1.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand i {
+  color: var(--secondary-color);
+  font-size: 2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+  font-size: 1.1rem;
+}
+
+.nav-links a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 5px 0;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--secondary-color);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.language-selector {
+  position: relative;
+}
+
+.language-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.language-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.language-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  width: 180px;
+  overflow: hidden;
+  display: none;
+  z-index: 1001;
+}
+
+.language-dropdown.show {
+  display: block;
+}
+
+.language-item {
+  padding: 10px 15px;
+  color: var(--text-color);
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.language-item:hover {
+  background: var(--light-bg);
+}
+
 /* 侧边栏 */
 .sidebar {
   position: fixed;
@@ -1821,4 +2225,54 @@ input:checked + .slider:before {
 
 .kuji-fadein {
   animation: kuji-fadein 0.5s ease-out forwards;
+}
+
+/* ===== 新增宜不宜样式 ===== */
+.fortune-recommendation {
+  display: flex;
+  justify-content: center; /* 修改为居中 */
+  width: 100%;
+  margin-top: 15px;
+  font-size: 1.1rem;
+  flex-wrap: wrap; /* 允许换行 */
+  gap: 15px; /* 添加项目间距 */
+}
+
+.recommend-item {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 15px;
+  border-radius: 8px;
+  white-space: nowrap;
+  justify-content: center; /* 确保内容居中 */
+}
+
+.recommend-label {
+  font-weight: bold;
+  margin-bottom: 0;
+  margin-right: 8px;
+}
+
+/* 新增居中样式 */
+.fortune-recommendation .recommend-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+  .fortune-recommendation {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .recommend-item {
+    width: 100%;
+    max-width: 250px;
+    justify-content: center;
+  }
 }

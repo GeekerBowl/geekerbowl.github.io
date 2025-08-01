@@ -108,6 +108,25 @@ function loadHelpDetail(id) {
   }
 }
 
+// 宜不宜词库
+const luckyItems = ['出勤', '家勤', '越级', '下埋', '理论'];
+const unluckyItems = ['摸鱼', '偷懒', '摆烂', '鸽曲', '炸车'];
+
+// 获取随机不重复的词
+function getRandomRecommendations() {
+  let lucky, unlucky;
+  
+  // 从宜词库随机取一个词
+  lucky = luckyItems[Math.floor(Math.random() * luckyItems.length)];
+  
+  // 从不宣词库随机取一个词（确保与宜词不同）
+  do {
+    unlucky = unluckyItems[Math.floor(Math.random() * unluckyItems.length)];
+  } while (lucky === unlucky);
+  
+  return { lucky, unlucky };
+}
+
 // 加载页面内容
 function loadPage(pageId) {
     const contentContainer = document.getElementById('content-container');
@@ -346,6 +365,8 @@ function loadPage(pageId) {
                     const fortuneLuckEl = document.getElementById('fortune-luck');
                     const drawBtn = document.getElementById('draw-btn');
                     const fortuneHint = document.getElementById('fortune-hint');
+                    const luckyActionEl = document.getElementById('lucky-action');
+                    const unluckyActionEl = document.getElementById('unlucky-action');
                     
                     // 设置封面图片大小 - 仅在移动端调整
                     if (coverImg) {
@@ -371,20 +392,20 @@ function loadPage(pageId) {
                     
                     // 创建dummy歌曲对象用于初始显示
                     const dummySong = {
-                        id: '？？？',
-                        title: '？？？',
-                        artist: '？？？',
-                        catname: '？？？',
+                        id: '???',
+                        title: '???',
+                        artist: '???',
+                        catname: '???',
                         // 添加所有难度字段
-                        lev_bas: '？',
-                        lev_adv: '？',
-                        lev_exp: '？',
-                        lev_mas: '？',
-                        lev_ult: '？'
+                        lev_bas: '?',
+                        lev_adv: '?',
+                        lev_exp: '?',
+                        lev_mas: '?',
+                        lev_ult: '?'
                     };
                     
                     // 初始显示dummy状态
-                    updateDisplay(dummySong, '？？？');
+                    updateDisplay(dummySong, '???', {lucky: '?', unlucky: '?'});
                     
                     // 从外部URL加载音乐数据
                     fetch('https://oss.am-all.com.cn/asset/img/main/data/music.json')
@@ -397,7 +418,7 @@ function loadPage(pageId) {
                                     const data = JSON.parse(dailyFortuneData);
                                     // 确保data中有song属性
                                     if (data && data.song) {
-                                        displayFortune(data.song, data.luck);
+                                        displayFortune(data.song, data.luck, data.recommendations);
                                         if (drawBtn) {
                                             drawBtn.disabled = true;
                                             drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
@@ -412,7 +433,7 @@ function loadPage(pageId) {
                                     localStorage.removeItem('dailyFortuneDate');
                                     localStorage.removeItem('dailyFortuneData');
                                     // 显示dummy状态
-                                    updateDisplay(dummySong, '？？？');
+                                    updateDisplay(dummySong, '???', {lucky: '?', unlucky: '?'});
                                 }
                             }
                         })
@@ -422,7 +443,7 @@ function loadPage(pageId) {
                                 fortuneHint.textContent = '加载歌曲数据失败，请重试';
                             }
                             // 显示dummy状态
-                            updateDisplay(dummySong, '？？？');
+                            updateDisplay(dummySong, '???', {lucky: '?', unlucky: '?'});
                         });
                     
                     // 抽取按钮点击事件
@@ -462,7 +483,7 @@ function loadPage(pageId) {
                                     // 从整个歌曲列表中随机选择临时歌曲
                                     const tempSong = songList[Math.floor(Math.random() * songList.length)];
                                     
-                                    updateDisplay(tempSong, '？？？');
+                                    updateDisplay(tempSong, '???', {lucky: '?', unlucky: '?'});
                                     scrollCount++;
                                     
                                     if (scrollCount > 30) {
@@ -473,6 +494,9 @@ function loadPage(pageId) {
                                         
                                         // 随机选择吉凶
                                         const luck = luckTexts[Math.floor(Math.random() * luckTexts.length)];
+                                        
+                                        // 获取宜不宜词
+                                        const recommendations = getRandomRecommendations();
                                         
                                         // 移除滚动动画
                                         if (coverImg) coverImg.classList.remove('scrolling');
@@ -496,14 +520,15 @@ function loadPage(pageId) {
                                                     if (coverImg) coverImg.style.display = 'block';
                                                     
                                                     // 显示最终结果
-                                                    updateDisplay(selectedSong, luck);
+                                                    updateDisplay(selectedSong, luck, recommendations);
                                                     
                                                     // 保存抽取结果
                                                     const today = new Date().toDateString();
                                                     localStorage.setItem('dailyFortuneDate', today);
                                                     localStorage.setItem('dailyFortuneData', JSON.stringify({
                                                         song: selectedSong,
-                                                        luck: luck
+                                                        luck: luck,
+                                                        recommendations: recommendations
                                                     }));
                                                     
                                                     if (drawBtn) {
@@ -523,7 +548,7 @@ function loadPage(pageId) {
                     }
                     
                     // 更新显示函数
-                    function updateDisplay(song, luck) {
+                    function updateDisplay(song, luck, recommendations) {
                       if (!song) return;
                       
                       // 重置难度容器
@@ -536,25 +561,31 @@ function loadPage(pageId) {
                           `https://oss.am-all.com.cn/asset/img/main/music/${song.image}` : 
                           'https://oss.am-all.com.cn/asset/img/main/music/dummy.jpg';
                       }
-                      if (songIdEl) songIdEl.textContent = song.id || '？？？';
-                      if (songTitleEl) songTitleEl.textContent = song.title || '？？？';
-                      if (songArtistEl) songArtistEl.textContent = song.artist || '？？？';
-                      if (fortuneLuckEl) fortuneLuckEl.textContent = luck || '？？？';
+                      if (songIdEl) songIdEl.textContent = song.id || '???';
+                      if (songTitleEl) songTitleEl.textContent = song.title || '???';
+                      if (songArtistEl) songArtistEl.textContent = song.artist || '???';
+                      if (fortuneLuckEl) fortuneLuckEl.textContent = luck || '???';
+                      
+                      // 设置宜不宜显示
+                      if (luckyActionEl && unluckyActionEl) {
+                        luckyActionEl.textContent = recommendations?.lucky || '?';
+                        unluckyActionEl.textContent = recommendations?.unlucky || '?';
+                      }
                       
                       // 判断是否为dummy状态
-                      const isDummy = song.id === '？？？';
+                      const isDummy = song.id === '???';
                       
                       // 设置分类样式
                       if (songCategoryEl) {
                         if (isDummy) {
                           // 未抽取时使用黑色分类标签
-                          songCategoryEl.textContent = '？？？';
+                          songCategoryEl.textContent = '???';
                           songCategoryEl.className = 'song-category cat-dummy';
                         } else if (song.catname) {
                           songCategoryEl.textContent = song.catname;
                           songCategoryEl.className = 'song-category ' + getCategoryClass(song.catname);
                         } else {
-                          songCategoryEl.textContent = '？？？';
+                          songCategoryEl.textContent = '???';
                           songCategoryEl.className = 'song-category';
                         }
                       }
@@ -600,8 +631,8 @@ function loadPage(pageId) {
                           basDiv.className = 'difficulty-tag lev-bas';
                           basDiv.setAttribute('data-level', 'BASIC');
                           const basSpan = document.createElement('span');
-                          // 未抽取时显示"？"
-                          basSpan.textContent = isDummy ? '？' : song.lev_bas;
+                          // 未抽取时显示"?"
+                          basSpan.textContent = isDummy ? '?' : song.lev_bas;
                           basDiv.appendChild(basSpan);
                           if (difficultiesContainer) difficultiesContainer.appendChild(basDiv);
                         }
@@ -611,8 +642,8 @@ function loadPage(pageId) {
                           advDiv.className = 'difficulty-tag lev-adv';
                           advDiv.setAttribute('data-level', 'ADVANCE');
                           const advSpan = document.createElement('span');
-                          // 未抽取时显示"？"
-                          advSpan.textContent = isDummy ? '？' : song.lev_adv;
+                          // 未抽取时显示"?"
+                          advSpan.textContent = isDummy ? '?' : song.lev_adv;
                           advDiv.appendChild(advSpan);
                           if (difficultiesContainer) difficultiesContainer.appendChild(advDiv);
                         }
@@ -622,8 +653,8 @@ function loadPage(pageId) {
                           expDiv.className = 'difficulty-tag lev-exp';
                           expDiv.setAttribute('data-level', 'EXPERT');
                           const expSpan = document.createElement('span');
-                          // 未抽取时显示"？"
-                          expSpan.textContent = isDummy ? '？' : song.lev_exp;
+                          // 未抽取时显示"?"
+                          expSpan.textContent = isDummy ? '?' : song.lev_exp;
                           expDiv.appendChild(expSpan);
                           if (difficultiesContainer) difficultiesContainer.appendChild(expDiv);
                         }
@@ -633,8 +664,8 @@ function loadPage(pageId) {
                           masDiv.className = 'difficulty-tag lev-mas';
                           masDiv.setAttribute('data-level', 'MASTER');
                           const masSpan = document.createElement('span');
-                          // 未抽取时显示"？"
-                          masSpan.textContent = isDummy ? '？' : song.lev_mas;
+                          // 未抽取时显示"?"
+                          masSpan.textContent = isDummy ? '?' : song.lev_mas;
                           masDiv.appendChild(masSpan);
                           if (difficultiesContainer) difficultiesContainer.appendChild(masDiv);
                         }
@@ -644,8 +675,8 @@ function loadPage(pageId) {
                           ultDiv.className = 'difficulty-tag lev-ult';
                           ultDiv.setAttribute('data-level', 'ULTIMA');
                           const ultSpan = document.createElement('span');
-                          // 未抽取时显示"？"
-                          ultSpan.textContent = isDummy ? '？' : song.lev_ult;
+                          // 未抽取时显示"?"
+                          ultSpan.textContent = isDummy ? '?' : song.lev_ult;
                           ultDiv.appendChild(ultSpan);
                           if (difficultiesContainer) difficultiesContainer.appendChild(ultDiv);
                         }
@@ -653,8 +684,8 @@ function loadPage(pageId) {
                     }
                 
                     // 显示保存的运势
-                    function displayFortune(song, luck) {
-                        updateDisplay(song, luck);
+                    function displayFortune(song, luck, recommendations) {
+                        updateDisplay(song, luck, recommendations);
                     }
                     
                     // 获取分类对应的CSS类

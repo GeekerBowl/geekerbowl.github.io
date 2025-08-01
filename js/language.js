@@ -21,6 +21,7 @@ const languageModule = (function() {
                 'sidebar-archive': '资源存档',
 				'sidebar-tools': '实用工具',
 				'sidebar-patcher': '补丁工具',
+				'sidebar-fortune': '每日运势',
                 
                 // 主内容-下载
                 'download-heading': '下载',
@@ -105,6 +106,7 @@ const languageModule = (function() {
                 'sidebar-archive': 'Archive',
 				'sidebar-tools': 'Tools',
 				'sidebar-patcher': 'Patcher',
+				'sidebar-fortune': 'Daily Fortune',
 
                 // 主内容-下载
                 'download-heading': 'Download',
@@ -189,6 +191,7 @@ const languageModule = (function() {
                 'sidebar-archive': 'アーカイブ',
 				'sidebar-tools': 'ツール',
 				'sidebar-patcher': 'パッチツール',
+				'sidebar-fortune': 'おみくじ',
 				
 				// 下载页面
                 'download-heading': 'ダウンロード',
