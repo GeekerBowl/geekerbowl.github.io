@@ -369,6 +369,23 @@ function loadPage(pageId) {
                     // 存储歌曲列表
                     let songList = [];
                     
+                    // 创建dummy歌曲对象用于初始显示
+                    const dummySong = {
+                        id: '？？？',
+                        title: '？？？',
+                        artist: '？？？',
+                        catname: '？？？',
+                        // 添加所有难度字段
+                        lev_bas: '？',
+                        lev_adv: '？',
+                        lev_exp: '？',
+                        lev_mas: '？',
+                        lev_ult: '？'
+                    };
+                    
+                    // 初始显示dummy状态
+                    updateDisplay(dummySong, '？？？');
+                    
                     // 从外部URL加载音乐数据
                     fetch('https://oss.am-all.com.cn/asset/img/main/data/music.json')
                         .then(response => response.json())
@@ -394,6 +411,8 @@ function loadPage(pageId) {
                                     // 如果解析失败，清除本地存储
                                     localStorage.removeItem('dailyFortuneDate');
                                     localStorage.removeItem('dailyFortuneData');
+                                    // 显示dummy状态
+                                    updateDisplay(dummySong, '？？？');
                                 }
                             }
                         })
@@ -402,6 +421,8 @@ function loadPage(pageId) {
                             if (fortuneHint) {
                                 fortuneHint.textContent = '加载歌曲数据失败，请重试';
                             }
+                            // 显示dummy状态
+                            updateDisplay(dummySong, '？？？');
                         });
                     
                     // 抽取按钮点击事件
@@ -520,20 +541,29 @@ function loadPage(pageId) {
                       if (songArtistEl) songArtistEl.textContent = song.artist || '？？？';
                       if (fortuneLuckEl) fortuneLuckEl.textContent = luck || '？？？';
                       
+                      // 判断是否为dummy状态
+                      const isDummy = song.id === '？？？';
+                      
                       // 设置分类样式
-                      if (songCategoryEl && song.catname) {
-                        songCategoryEl.textContent = song.catname;
-                        songCategoryEl.className = 'song-category ' + getCategoryClass(song.catname);
-                      } else if (songCategoryEl) {
-                        songCategoryEl.textContent = '？？？';
-                        songCategoryEl.className = 'song-category';
+                      if (songCategoryEl) {
+                        if (isDummy) {
+                          // 未抽取时使用黑色分类标签
+                          songCategoryEl.textContent = '？？？';
+                          songCategoryEl.className = 'song-category cat-dummy';
+                        } else if (song.catname) {
+                          songCategoryEl.textContent = song.catname;
+                          songCategoryEl.className = 'song-category ' + getCategoryClass(song.catname);
+                        } else {
+                          songCategoryEl.textContent = '？？？';
+                          songCategoryEl.className = 'song-category';
+                        }
                       }
                       
                       // 检查是否是World's End歌曲
                       const isWorldsEndSong = song.we_kanji || song.we_star;
                       
                       // 设置难度 - 添加 data-level 属性
-                      if (isWorldsEndSong) {
+                      if (isWorldsEndSong && !isDummy) {
                         if (song.we_kanji || song.we_star) {
                           const weDiv = document.createElement('div');
                           weDiv.className = 'difficulty-tag lev-we';
@@ -565,52 +595,57 @@ function loadPage(pageId) {
                         }
                       } else {
                         // 普通歌曲，显示常规难度
-                        if (song.lev_bas) {
+                        if (song.lev_bas || isDummy) {
                           const basDiv = document.createElement('div');
                           basDiv.className = 'difficulty-tag lev-bas';
                           basDiv.setAttribute('data-level', 'BASIC');
                           const basSpan = document.createElement('span');
-                          basSpan.textContent = song.lev_bas;
+                          // 未抽取时显示"？"
+                          basSpan.textContent = isDummy ? '？' : song.lev_bas;
                           basDiv.appendChild(basSpan);
                           if (difficultiesContainer) difficultiesContainer.appendChild(basDiv);
                         }
                         
-                        if (song.lev_adv) {
+                        if (song.lev_adv || isDummy) {
                           const advDiv = document.createElement('div');
                           advDiv.className = 'difficulty-tag lev-adv';
                           advDiv.setAttribute('data-level', 'ADVANCE');
                           const advSpan = document.createElement('span');
-                          advSpan.textContent = song.lev_adv;
+                          // 未抽取时显示"？"
+                          advSpan.textContent = isDummy ? '？' : song.lev_adv;
                           advDiv.appendChild(advSpan);
                           if (difficultiesContainer) difficultiesContainer.appendChild(advDiv);
                         }
                         
-                        if (song.lev_exp) {
+                        if (song.lev_exp || isDummy) {
                           const expDiv = document.createElement('div');
                           expDiv.className = 'difficulty-tag lev-exp';
                           expDiv.setAttribute('data-level', 'EXPERT');
                           const expSpan = document.createElement('span');
-                          expSpan.textContent = song.lev_exp;
+                          // 未抽取时显示"？"
+                          expSpan.textContent = isDummy ? '？' : song.lev_exp;
                           expDiv.appendChild(expSpan);
                           if (difficultiesContainer) difficultiesContainer.appendChild(expDiv);
                         }
                         
-                        if (song.lev_mas) {
+                        if (song.lev_mas || isDummy) {
                           const masDiv = document.createElement('div');
                           masDiv.className = 'difficulty-tag lev-mas';
                           masDiv.setAttribute('data-level', 'MASTER');
                           const masSpan = document.createElement('span');
-                          masSpan.textContent = song.lev_mas;
+                          // 未抽取时显示"？"
+                          masSpan.textContent = isDummy ? '？' : song.lev_mas;
                           masDiv.appendChild(masSpan);
                           if (difficultiesContainer) difficultiesContainer.appendChild(masDiv);
                         }
                         
-                        if (song.lev_ult) {
+                        if (song.lev_ult || isDummy) {
                           const ultDiv = document.createElement('div');
                           ultDiv.className = 'difficulty-tag lev-ult';
                           ultDiv.setAttribute('data-level', 'ULTIMA');
                           const ultSpan = document.createElement('span');
-                          ultSpan.textContent = song.lev_ult;
+                          // 未抽取时显示"？"
+                          ultSpan.textContent = isDummy ? '？' : song.lev_ult;
                           ultDiv.appendChild(ultSpan);
                           if (difficultiesContainer) difficultiesContainer.appendChild(ultDiv);
                         }
