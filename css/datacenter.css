@@ -1782,3 +1782,39 @@ input:checked + .slider:before {
 .kuji-fadein {
   animation: kuji-fadein 0.5s ease-out forwards;
 }
+
+@media (max-width: 768px) {
+  /* 修改难度标签为圆形 */
+  .difficulty-tag:not(.lev-we) {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50% !important; /* 确保圆形 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  
+  /* 隐藏难度文字（PC端添加的伪元素） */
+  .difficulty-tag:not(.lev-we)::before {
+    content: "" !important;
+    display: none !important;
+  }
+  
+  /* 调整WE难度的显示 */
+  .lev-we {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    text-align: center;
+    border-radius: 20px;
+    margin-top: 5px;
+  }
+  
+  /* 确保星星正确显示 */
+  .we-stars {
+    display: inline-flex;
+    margin-left: 5px;
+  }
+}
