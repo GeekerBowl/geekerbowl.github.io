@@ -29,8 +29,8 @@ const announcementsData = [
     type: "notice",
     date: "2025/07/21",
     title: "AllsUnlocker上线",
-    preview: "实用工具界面新增工具「AllsUnlocker」",
-    content: "实用工具界面新增工具「AllsUnlocker」，此工具用于解包ALLS格式的数据包。请至“实用工具”页面进行下载。"
+    preview: "实用工具界面新增工具「AllsUnpacker」",
+    content: "实用工具界面新增工具「AllsUnpacker」，此工具用于解包ALLS格式的数据包。请至“实用工具”页面进行下载。"
   },
   {
     id: "5",
