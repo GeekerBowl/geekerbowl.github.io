@@ -110,7 +110,7 @@ function loadHelpDetail(id) {
 
 // 宜不宜词库
 const luckyItems = ['出勤', '家勤', '越级', '下埋', '理论'];
-const unluckyItems = ['摸鱼', '偷懒', '摆烂', '鸽曲', '炸车'];
+const unluckyItems = ['出勤', '家勤', '越级', '下埋', '理论'];
 
 // 获取随机不重复的词
 function getRandomRecommendations() {
