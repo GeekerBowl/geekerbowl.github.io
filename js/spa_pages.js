@@ -141,6 +141,142 @@ const helpContentData = {
 
 // 页面内容定义
 const pages = {
+  // 登录页面
+  login: `
+    <div class="auth-container">
+      <div class="auth-header">
+        <div class="auth-logo">
+          <i class="fas fa-user"></i>
+        </div>
+        <h2>登录您的账户</h2>
+      </div>
+      
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-email">邮箱</label>
+          <input type="email" id="login-email" class="form-control" placeholder="输入您的邮箱" required>
+          <div class="error-message" id="login-email-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="login-password">密码</label>
+          <input type="password" id="login-password" class="form-control" placeholder="输入您的密码" required>
+          <div class="error-message" id="login-password-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <button type="submit" class="auth-btn" style="width: 100%">
+            <i class="fas fa-sign-in-alt me-2"></i> 登录
+          </button>
+        </div>
+      </form>
+      
+      <div class="auth-footer">
+        还没有账户? <span class="toggle-auth" data-page="register">立即注册</span>
+      </div>
+    </div>
+  `,
+  
+  // 注册页面
+  register: `
+    <div class="auth-container">
+      <div class="auth-header">
+        <div class="auth-logo">
+          <i class="fas fa-user-plus"></i>
+        </div>
+        <h2>创建新账户</h2>
+      </div>
+      
+      <form id="register-form">
+        <div class="form-group">
+          <label for="register-username">用户名</label>
+          <input type="text" id="register-username" class="form-control" placeholder="输入用户名" required>
+          <div class="error-message" id="register-username-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="register-email">邮箱</label>
+          <input type="email" id="register-email" class="form-control" placeholder="输入您的邮箱" required>
+          <div class="error-message" id="register-email-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="register-password">密码</label>
+          <input type="password" id="register-password" class="form-control" placeholder="设置您的密码" required>
+          <div class="error-message" id="register-password-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="register-confirm-password">确认密码</label>
+          <input type="password" id="register-confirm-password" class="form-control" placeholder="再次输入密码" required>
+          <div class="error-message" id="register-confirm-password-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <button type="submit" class="auth-btn" style="width: 100%">
+            <i class="fas fa-user-plus me-2"></i> 注册
+          </button>
+        </div>
+      </form>
+      
+      <div class="auth-footer">
+        已有账户? <span class="toggle-auth" data-page="login">立即登录</span>
+      </div>
+    </div>
+  `,
+  
+  // 用户设置页面
+  'user-settings': `
+    <div class="settings-container">
+      <h1 class="page-title">用户设置</h1>
+      <button class="back-button" data-page="home">
+        <i class="fas fa-arrow-left me-2"></i>
+        <span>返回</span>
+      </button>
+      
+      <div class="section">
+        <div class="avatar-upload">
+          <div class="avatar-preview" id="avatar-preview">
+            <i class="fas fa-user" id="avatar-icon"></i>
+          </div>
+          <input type="file" id="avatar-input" accept="image/*">
+        </div>
+        
+        <form class="settings-form" id="settings-form">
+          <div class="form-group">
+            <label for="settings-username">用户名</label>
+            <input type="text" id="settings-username" class="form-control" required>
+            <div class="error-message" id="settings-username-error"></div>
+          </div>
+          
+          <div class="form-group">
+            <label for="settings-email">邮箱</label>
+            <input type="email" id="settings-email" class="form-control" required>
+            <div class="error-message" id="settings-email-error"></div>
+          </div>
+          
+          <div class="form-group">
+            <label for="settings-password">新密码 (留空则不修改)</label>
+            <input type="password" id="settings-password" class="form-control" placeholder="输入新密码">
+            <div class="error-message" id="settings-password-error"></div>
+          </div>
+          
+          <div class="form-group">
+            <label for="settings-confirm-password">确认新密码</label>
+            <input type="password" id="settings-confirm-password" class="form-control" placeholder="再次输入新密码">
+            <div class="error-message" id="settings-confirm-password-error"></div>
+          </div>
+          
+          <div class="form-group">
+            <button type="submit" class="auth-btn" style="width: 100%">
+              <i class="fas fa-save me-2"></i> 保存更改
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  `,
+
     // 每日运势页面
 	fortune: `
 	  <div class="fortune-container">
@@ -205,7 +341,6 @@ const pages = {
 		</div>
 	  </div>
 	`,
-
 
 	// 帮助页面
     help: `
