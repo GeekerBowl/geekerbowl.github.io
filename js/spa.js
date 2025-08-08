@@ -1,448 +1,46 @@
-// spa.js - 单页面应用主模块
-// 用户状态管理
-let currentUser = null;
-
-// 检查登录状态
-function checkLoginStatus() {
-  const token = localStorage.getItem('token');
-  if (token) {
-    fetchUserInfo(token);
-  } else {
-    showAuthLinks();
-  }
-}
-
-// 获取用户信息
-function fetchUserInfo(token) {
-  fetch('https://api.am-all.com.cn/api/user', {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('获取用户信息失败');
-    }
-    return response.json();
-  })
-  .then(user => {
-    currentUser = user;
-    updateUserInfo(user);
-    showUserInfo();
-  })
-  .catch(error => {
-    console.error(error);
-    // 清除无效的token
-    localStorage.removeItem('token');
-    showAuthLinks();
-  });
-}
-
-// 更新用户信息显示
-function updateUserInfo(user) {
-  // PC视图
-  const userAvatarPc = document.getElementById('user-avatar-pc');
-  const userNicknamePc = document.getElementById('user-nickname-pc');
-  
-  if (userAvatarPc && user.avatar) {
-    userAvatarPc.src = user.avatar;
-  }
-  if (userNicknamePc) {
-    userNicknamePc.textContent = user.nickname || user.username;
-  }
-  
-  // 移动视图
-  const userAvatarMobile = document.getElementById('user-avatar-mobile');
-  const userNicknameMobile = document.getElementById('user-nickname-mobile');
-  
-  if (userAvatarMobile && user.avatar) {
-    userAvatarMobile.src = user.avatar;
-  }
-  if (userNicknameMobile) {
-    userNicknameMobile.textContent = user.nickname || user.username;
-  }
-  
-  // 用户设置页面
-  const settingsAvatar = document.getElementById('settings-avatar');
-  const settingsUsername = document.getElementById('settings-username');
-  if (settingsAvatar && user.avatar) {
-    settingsAvatar.src = user.avatar;
-  }
-  if (settingsUsername) {
-    settingsUsername.textContent = user.nickname || user.username;
-  }
-  
-  const nicknameInput = document.getElementById('settings-nickname');
-  if (nicknameInput) {
-    nicknameInput.value = user.nickname || '';
-  }
-}
-
-// 显示用户信息区域
-function showUserInfo() {
-  // PC视图
-  const authLinksPc = document.getElementById('auth-links-pc');
-  const userInfoPc = document.getElementById('user-info-pc');
-  
-  if (authLinksPc) authLinksPc.style.display = 'none';
-  if (userInfoPc) userInfoPc.style.display = 'flex';
-  
-  // 移动视图
-  const authLinksMobile = document.getElementById('auth-links-mobile');
-  const userInfoMobile = document.getElementById('user-info-mobile');
-  
-  if (authLinksMobile) authLinksMobile.style.display = 'none';
-  if (userInfoMobile) userInfoMobile.style.display = 'block';
-}
-
-// 显示登录/注册链接
-function showAuthLinks() {
-  // PC视图
-  const authLinksPc = document.getElementById('auth-links-pc');
-  const userInfoPc = document.getElementById('user-info-pc');
-  
-  if (authLinksPc) authLinksPc.style.display = 'flex';
-  if (userInfoPc) userInfoPc.style.display = 'none';
-  
-  // 移动视图
-  const authLinksMobile = document.getElementById('auth-links-mobile');
-  const userInfoMobile = document.getElementById('user-info-mobile');
-  
-  if (authLinksMobile) authLinksMobile.style.display = 'block';
-  if (userInfoMobile) userInfoMobile.style.display = 'none';
-}
-
-// 登录功能
-function handleLogin() {
-  const username = document.getElementById('login-username').value;
-  const password = document.getElementById('login-password').value;
-  const errorElement = document.getElementById('login-error');
-
-  if (!username || !password) {
-    if (errorElement) errorElement.textContent = '用户名和密码不能为空';
-    return;
-  }
-
-  fetch('https://api.am-all.com.cn/api/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ username, password })
-  })
-  .then(response => {
-    if (!response.ok) {
-      return response.json().then(err => { throw err; });
-    }
-    return response.json();
-  })
-  .then(data => {
-    // 保存token
-    localStorage.setItem('token', data.token);
-    // 更新用户信息
-    updateUserInfo(data.user);
-    showUserInfo();
-    // 跳转到首页
-    loadPage('home');
-  })
-  .catch(error => {
-    if (errorElement) {
-      errorElement.textContent = error.error || '登录失败';
-    }
-  });
-}
-
-// 注册功能
-function handleRegister() {
-  const username = document.getElementById('register-username').value;
-  const nickname = document.getElementById('register-nickname').value;
-  const password = document.getElementById('register-password').value;
-  const confirmPassword = document.getElementById('register-confirm-password').value;
-  const errorElement = document.getElementById('register-error');
-
-  if (!username || !password) {
-    if (errorElement) errorElement.textContent = '用户名和密码不能为空';
-    return;
-  }
-  if (password.length < 6) {
-    if (errorElement) errorElement.textContent = '密码长度至少为6位';
-    return;
-  }
-  if (password !== confirmPassword) {
-    if (errorElement) errorElement.textContent = '两次输入的密码不一致';
-    return;
-  }
-
-  fetch('https://api.am-all.com.cn/api/register', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ username, password, nickname })
-  })
-  .then(response => {
-    if (!response.ok) {
-      return response.json().then(err => { throw err; });
-    }
-    return response.json();
-  })
-  .then(data => {
-    // 注册成功，自动登录
-    localStorage.setItem('token', data.token);
-    updateUserInfo(data.user);
-    showUserInfo();
-    loadPage('home');
-  })
-  .catch(error => {
-    if (errorElement) {
-      errorElement.textContent = error.error || '注册失败';
-    }
-  });
-}
-
-// 更新用户设置
-function handleSaveSettings() {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    alert('请先登录');
-    loadPage('login');
-    return;
-  }
-
-  const nickname = document.getElementById('settings-nickname').value;
-  const currentPassword = document.getElementById('current-password').value;
-  const newPassword = document.getElementById('new-password').value;
-  const confirmPassword = document.getElementById('confirm-password').value;
-  const avatarFile = document.getElementById('avatar-upload').files[0];
-  const errorElement = document.getElementById('settings-error');
-  const successElement = document.getElementById('settings-success');
-
-  // 验证新密码
-  if (newPassword && newPassword.length < 6) {
-    if (errorElement) errorElement.textContent = '密码长度至少为6位';
-    return;
-  }
-  if (newPassword && newPassword !== confirmPassword) {
-    if (errorElement) errorElement.textContent = '两次输入的新密码不一致';
-    return;
-  }
-  
-  // 关键修复：必须提供当前密码进行身份验证
-  if (!currentPassword) {
-    if (errorElement) errorElement.textContent = '当前密码不能为空';
-    return;
-  }
-
-  // 构建FormData
-  const formData = new FormData();
-  formData.append('nickname', nickname || '');
-  formData.append('currentPassword', currentPassword);
-  formData.append('newPassword', newPassword || '');
-  if (avatarFile) {
-    formData.append('avatar', avatarFile);
-  }
-
-  fetch('https://api.am-all.com.cn/api/user', {
-    method: 'PUT',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    },
-    body: formData
-  })
-  .then(response => {
-    if (!response.ok) {
-      return response.json().then(err => { throw err; });
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (successElement) successElement.textContent = '设置保存成功';
-    if (errorElement) errorElement.textContent = '';
-    // 更新用户信息显示
-    updateUserInfo(data.user);
-  })
-  .catch(error => {
-    if (errorElement) {
-      errorElement.textContent = error.error || '保存失败';
-    }
-  });
-}
-
-// 退出登录
-function handleLogout() {
-  localStorage.removeItem('token');
-  currentUser = null;
-  showAuthLinks();
-  loadPage('home');
-}
-
+// 文件: spa.js
 // 显示公告详情弹窗
 function showAnnouncementModal(id) {
-  const modal = document.getElementById('announcement-modal');
-  if (!modal) return;
+  const announcement = announcementsData.find(item => item.id === id);
+  if (!announcement) return;
   
-  // 根据ID获取公告内容
-  const announcement = getAnnouncementById(id);
+  // 获取当前语言设置
+  const urlParams = new URLSearchParams(window.location.search);
+  const lang = urlParams.get('lang') || 'zh-cn';
   
-  if (announcement) {
-    // 更新弹窗内容
-    const titleElement = document.getElementById('announcement-title');
-    const dateElement = document.getElementById('announcement-date');
-    const contentElement = document.getElementById('announcement-content');
-    
-    if (titleElement) titleElement.textContent = announcement.title;
-    if (dateElement) dateElement.textContent = announcement.date;
-    if (contentElement) contentElement.innerHTML = announcement.content;
-    
-    // 显示弹窗
-    modal.classList.add('show');
-    
-    // 绑定弹窗内的页面导航
-    const pageLinks = modal.querySelectorAll('[data-page]');
-    pageLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        modal.classList.remove('show');
-        
-        // 移动端切换页面时关闭侧边栏
-        if (window.innerWidth <= 992) {
-          const sidebar = document.querySelector('.sidebar');
-          if (sidebar) sidebar.classList.remove('show');
-          document.body.classList.remove('mobile-sidebar-open');
-          document.body.classList.add('mobile-sidebar-closed');
-        }
-        
-        if (typeof loadPage === 'function') {
-          loadPage(this.getAttribute('data-page'));
-        }
-      });
-    });
-    
-    // 绑定关闭按钮
-    const closeBtn = document.getElementById('announcement-close');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', function() {
-        modal.classList.remove('show');
-      });
-    }
-  }
-}
-
-// 获取公告数据
-function getAnnouncementById(id) {
-  const announcements = {
-    '1': {
-      title: 'OneDrive下载渠道下线通知',
-      date: '2025/07/11',
-      content: `
-        <div class="announcement-content">
-          <p>本站OneDrive下载渠道将于近期下线。</p>
-          
-          <h4>影响范围</h4>
-          <ul>
-            <li>所有资源下载链接</li>
-          </ul>
-          
-          <h4>替代方案</h4>
-          <p>请使用百度网盘下载资源，正在寻找替代渠道。</p>
-        </div>
-      `
-    },
-    '2': {
-      title: 'maimai DX PRiSM PLUS 更新',
-      date: '2025/07/11',
-      content: `
-        <div class="announcement-content">
-          <p>maimai DX PRiSM PLUS opt更新</p>
-          
-          <h4>更新内容</h4>
-          <ul>
-            <li>option包中增加K021</li>
-          </ul>
-          
-          <h4>下载方式</h4>
-          <p>请前往<a href="#" data-page="sdez">下载中心</a>下载最新option包</p>
-        </div>
-      `
-    },
-    '3': {
-      title: '数据中心新功能上线',
-      date: '2025/07/11',
-      content: `
-        <div class="announcement-content">
-          <p>数据中心新增实用工具模块，包含多个实用工具，帮助您更好地管理游戏资源。</p>
-          
-          <h4>新增工具</h4>
-          <ul>
-            <li>ICF编辑器：用于编辑和查看ICF文件</li>
-            <li>7zip：可提取HDD镜像中的数据</li>
-            <li>Runtime：运行HDD所必要的系统组件</li>
-            <li>MaiChartManager：管理游戏Mod与资源</li>
-          </ul>
-          
-          <p>请前往<a href="#" data-page="tools">实用工具</a>页面使用或下载这些工具</p>
-        </div>
-      `
-    },
-    '4': {
-      title: '数据中心维护通知',
-      date: '2025/07/04',
-      content: `
-        <div class="announcement-content">
-          <p>数据中心将于本周日进行系统维护。</p>
-          
-          <h4>维护时间</h4>
-          <ul>
-            <li>开始时间：2025年7月6日 02:00 (UTC+8)</li>
-            <li>预计时长：2小时</li>
-          </ul>
-          
-          <h4>影响范围</h4>
-          <p>维护期间，所有下载服务将暂时不可用，其他功能不受影响。</p>
-        </div>
-      `
-    },
-    '5': {
-      title: 'CHUNITHM VERSE 新版本发布',
-      date: '2025/07/01',
-      content: `
-        <div class="announcement-content">
-          <p>CHUNITHM VERSE 2.31版本现已上线。</p>
-          
-          <h4>新增内容</h4>
-          <ul>
-            <li>10首全新曲目</li>
-            <li>3个新角色</li>
-            <li>世界模式新增第7章</li>
-          </ul>
-          
-          <h4>下载方式</h4>
-          <p>请前往<a href="#" data-page="sdhd">CHUNITHM VERSE下载页面</a>获取最新版本</p>
-        </div>
-      `
-    },
-    '6': {
-      title: '下载方式变更通知',
-      date: '2025/06/28',
-      content: `
-        <div class="announcement-content">
-          <p>百度网盘下载方式已更新。</p>
-          
-          <h4>变更内容</h4>
-          <ul>
-            <li>所有资源提取码已更新</li>
-            <li>新增文件校验功能</li>
-          </ul>
-          
-          <h4>注意事项</h4>
-          <p>请使用最新提取码下载资源，旧提取码已失效。</p>
-        </div>
-      `
-    }
+  // 定义弹窗标题文本
+  const modalTitles = {
+    'zh-cn': '公告详情',
+    'en-us': 'Announcement Details',
+    'ja-jp': 'お知らせ'
   };
   
-  return announcements[id] || null;
+  // 更新弹窗内容
+  document.getElementById('modal-title').textContent = modalTitles[lang] || modalTitles['zh-cn'];
+  
+  // 创建详细内容HTML
+  const contentHTML = `
+    <div class="announcement-modal-content">
+      <div class="announcement-modal-header">
+        <span class="badge bg-${announcement.type === 'dgr' ? 'danger' : announcement.type === 'upd' ? 'success' : 'info'}">
+          ${announcement.type === 'dgr' ? '重要' : announcement.type === 'upd' ? '更新' : '通知'}
+        </span>
+        <span class="announcement-modal-date">${announcement.date}</span>
+      </div>
+      <h3 class="announcement-modal-title">${announcement.title}</h3>
+      <div class="announcement-modal-body">
+        <p>${announcement.content}</p>
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('modal-content').innerHTML = contentHTML;
+  
+  // 显示弹窗
+  const modal = document.getElementById('about-modal');
+  if (modal) {
+    modal.classList.add('show');
+  }
 }
 
 // ICF帮助弹窗
@@ -753,65 +351,7 @@ function loadPage(pageId) {
                 });
             }
             
-            // =============== 用户功能页面绑定 =============== //
-            
-            // 登录页面绑定
-            if (pageId === 'login') {
-                const loginBtn = document.getElementById('login-btn');
-                if (loginBtn) {
-                    loginBtn.addEventListener('click', handleLogin);
-                }
-            }
-            
-            // 注册页面绑定
-            if (pageId === 'register') {
-                const registerBtn = document.getElementById('register-btn');
-                if (registerBtn) {
-                    registerBtn.addEventListener('click', handleRegister);
-                }
-            }
-            
-            // 用户设置页面绑定
-            if (pageId === 'user-settings') {
-                // 获取用户信息
-                const token = localStorage.getItem('token');
-                if (token) {
-                    fetchUserInfo(token);
-                } else {
-                    loadPage('login');
-                }
-                
-                // 头像上传
-                const changeAvatarBtn = document.getElementById('change-avatar-btn');
-                const avatarUpload = document.getElementById('avatar-upload');
-                if (changeAvatarBtn && avatarUpload) {
-                    changeAvatarBtn.addEventListener('click', () => {
-                        avatarUpload.click();
-                    });
-                    
-                    avatarUpload.addEventListener('change', function(e) {
-                        const file = e.target.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function(event) {
-                                const settingsAvatar = document.getElementById('settings-avatar');
-                                if (settingsAvatar) {
-                                    settingsAvatar.src = event.target.result;
-                                }
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    });
-                }
-                
-                // 保存设置
-                const saveSettingsBtn = document.getElementById('save-settings-btn');
-                if (saveSettingsBtn) {
-                    saveSettingsBtn.addEventListener('click', handleSaveSettings);
-                }
-            }
-            
-            // =============== 运势页面初始化 =============== //
+            // =============== 关键修复：运势页面初始化 =============== //
             if (pageId === 'fortune') {
                 // 延迟执行以确保DOM完全加载
                 setTimeout(() => {
@@ -1231,13 +771,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 每小时检查一次
     setInterval(checkAndResetDailyFortune, 60 * 60 * 1000);
-    
-    // 初始化用户状态
-    checkLoginStatus();
-    
-    // 绑定退出登录事件
-    document.getElementById('logout-pc')?.addEventListener('click', handleLogout);
-    document.getElementById('logout-mobile')?.addEventListener('click', handleLogout);
     
     // 事件委托处理页面导航
     document.body.addEventListener('click', function(e) {
