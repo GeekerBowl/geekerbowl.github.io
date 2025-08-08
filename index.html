@@ -37,6 +37,26 @@
       </a></li>
     </ul>
     
+    <!-- 用户区域 (PC视图) -->
+    <div class="user-area" id="user-area-pc">
+      <!-- 登录前 -->
+      <div class="auth-links" id="auth-links-pc">
+        <a href="#" data-page="login" id="login-link-pc">登录</a>
+        <span class="divider">/</span>
+        <a href="#" data-page="register" id="register-link-pc">注册</a>
+      </div>
+      
+      <!-- 登录后 -->
+      <div class="user-info" id="user-info-pc" style="display: none;">
+        <img id="user-avatar-pc" class="user-avatar" src="" alt="头像">
+        <span id="user-nickname-pc" class="user-nickname"></span>
+        <div class="user-dropdown">
+          <a href="#" data-page="user-settings">用户设置</a>
+          <a href="#" id="logout-pc">退出登录</a>
+        </div>
+      </div>
+    </div>
+    
     <div class="language-selector">
       <button class="language-btn">
         <i class="fas fa-globe"></i>
@@ -91,18 +111,17 @@
 
     <div class="sidebar-divider"></div>
 
-
-	<div class="sidebar-section-title">
+    <div class="sidebar-section-title">
       <i class="fas fa-gamepad"></i>
       <span id="sidebar-other">其他</span>
     </div>
 
-	<ul class="sidebar-nav">
-		<li><a href="#" data-page="fortune">
-			<i class="fas fa-star"></i>
-			<span id="sidebar-fortune">每日运势</span>
-		</a></li>
-	</ul>
+    <ul class="sidebar-nav">
+      <li><a href="#" data-page="fortune">
+        <i class="fas fa-star"></i>
+        <span id="sidebar-fortune">每日运势</span>
+      </a></li>
+    </ul>
 
     <div class="sidebar-divider"></div>
     
@@ -147,6 +166,38 @@
         <span>CHUNITHM (SDHD)</span>
       </a></li>
     </ul>
+    
+    <!-- 用户区域 (移动视图) -->
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-user-area" id="user-area-mobile">
+      <!-- 登录前 -->
+      <div class="auth-links" id="auth-links-mobile">
+        <a href="#" data-page="login" class="sidebar-nav-link">
+          <i class="fas fa-sign-in-alt"></i>
+          <span>登录</span>
+        </a>
+        <a href="#" data-page="register" class="sidebar-nav-link">
+          <i class="fas fa-user-plus"></i>
+          <span>注册</span>
+        </a>
+      </div>
+      
+      <!-- 登录后 -->
+      <div class="user-info" id="user-info-mobile" style="display: none;">
+        <div class="user-basic">
+          <img id="user-avatar-mobile" class="user-avatar" src="" alt="头像">
+          <div>
+            <div id="user-nickname-mobile" class="user-nickname"></div>
+            <a href="#" data-page="user-settings" class="user-settings-link">
+              <i class="fas fa-cog"></i> 用户设置
+            </a>
+          </div>
+        </div>
+        <a href="#" id="logout-mobile" class="logout-link">
+          <i class="fas fa-sign-out-alt"></i> 退出登录
+        </a>
+      </div>
+    </div>
   </div>
   
   <!-- 主内容区 -->
