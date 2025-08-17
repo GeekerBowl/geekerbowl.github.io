@@ -1517,6 +1517,35 @@ const pages = {
       </div>
     `,
 
+  // CHUNITHM X-VERSE 页面
+    chusanxvrs: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM X-VERSE 补丁工具</h1>
+        <button class="back-button" data-page="dllpatcher">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span>返回</span>
+        </button>
+        
+        <div class="section iframe-container">
+          <div class="iframe-loader">
+            <div class="spinner-border text-primary"></div>
+            <p>正在加载...</p>
+          </div>
+          <iframe 
+            src="patcher/chusanxvrs.html" 
+            frameborder="0"
+            class="icf-editor-iframe"
+            onload="this.previousElementSibling.style.display='none'">
+          </iframe>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
   // 中二节奏2025 页面
     chusan2025: `
       <div class="game-detail">
