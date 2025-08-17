@@ -26,6 +26,14 @@ const announcementsData = [
   },
   {
     id: "4",
+    type: "upd",
+    date: "2025/08/17",
+    title: "CHUNITHM X-VERSE资源开放下载",
+    preview: "新增CHUNITHM X-VERSE(ver 2.40)",
+    content: "新增CHUNITHM X-VERSE(ver 2.40)' ,请至下载页面进行下载。※请注意此资源目前没有官方A001，资源中的A001为自制版，仅为了刷卡后不报错，如需要游玩新歌曲请自行放入抄谱游玩！※"
+  },
+  {
+    id: "5",
     type: "notice",
     date: "2025/07/21",
     title: "AllsUnpacker上线",
@@ -33,7 +41,7 @@ const announcementsData = [
     content: "实用工具界面新增工具「AllsUnpacker」，此工具用于解包ALLS格式的数据包。请至“实用工具”页面进行下载。"
   },
   {
-    id: "5",
+    id: "6",
     type: "notice",
     date: "2025/07/21",
     title: "Segatools Editor上线",
@@ -41,7 +49,7 @@ const announcementsData = [
     content: "实用工具界面新增工具「Segatools Editor」，此工具仅用于修改segatools.ini的相关设置。请至“实用工具”页面进行下载。"
   },
   {
-    id: "6",
+    id: "7",
     type: "notice",
     date: "2025/07/14",
     title: "新版ChunithmUnlocker上线",
@@ -49,7 +57,7 @@ const announcementsData = [
     content: "实用工具界面新增工具「Chunlocker」，此工具相比原先的ChunithmUnlocker使用更加便捷，软件支持多语言与在线更新。请至“实用工具”页面进行下载。"
   },
   {
-    id: "7",
+    id: "8",
     type: "upd",
     date: "2025/07/14",
     title: "CHUNITHM VERSE option更新",
@@ -271,6 +279,11 @@ const pages = {
             </thead>
             <tbody>
               <tr>
+                <td><a href="#" data-page="xvideo"><i class="fas fa-link me-2"></i> CHUNITHM X-VERSE (SDHD)</a></td>
+                <td>2.40</td>
+                <td>7</td>
+              </tr>
+              <tr>
                 <td><a href="#" data-page="sdhd"><i class="fas fa-link me-2"></i> CHUNITHM VERSE (SDHD)</a></td>
                 <td>2.30</td>
                 <td>7</td>
@@ -405,7 +418,54 @@ const pages = {
         </footer>
       </div>
     `,
-    
+
+    // X-VERSE页面
+    xvideo: `
+      <div class="game-detail">
+        <h1 class="page-title">CHUNITHM X-VERSE</h1>
+        <button class="back-button" data-page="download">
+          <i class="fas fa-arrow-left me-2"></i>
+          <span id="back-to-home">返回</span>
+        </button>
+        
+        <div class="section">
+          <h2 class="section-title">
+            <i class="fas fa-download"></i>
+            <span id="download-list-title">下载列表</span>
+          </h2>
+          
+          <div class="mb-4">
+            <p><span id="last-update-label">最后更新</span>: 2025/08/17</p>
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td id="download-method">下载方式</td>
+                    <td id="file-count">文件数</td>
+                    <td id="access-code">提取码/访问密码</td>
+                    <td id="validity">资源有效期</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th><a href="https://pan.baidu.com/s/1OiSWyswFJUMnqsau4_fRpA" target="_blank">百度网盘</a></th>
+                    <td>7</td>
+                    <td>xvrs</td>
+                    <td id="unlimited">无期限</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <footer>
+          <p>SEGAY FEIWU</p>
+          <p>1145141919810</p>
+        </footer>
+      </div>
+    `,
+
     // maimai DX
     sdez: `
       <div class="game-detail">
