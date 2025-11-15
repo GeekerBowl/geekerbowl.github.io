@@ -1,161 +1,1276 @@
-// 公告详细数据
-const announcementsData = [
-  {
-    id: "1",
-    type: "dgr",
-    date: "2025/07/15",
-    title: "OneDrive下载渠道下线通知",
-    preview: "OneDrive下载渠道今日起已正式下线",
-    content: "由于一些原因本人不能再继续使用od账号上传新内容(权限变为只读了)，所以即日起将下架本站所有od下载链接，请知悉。替代渠道正在寻找中。"
-  },
-  {
-    id: "2",
-    type: "notice",
-    date: "2025/07/30",
-    title: "新增“每日运势”功能",
-    preview: "新增“每日运势”功能",
-    content: "可以从侧边栏进入“每日运势”页面，每天可以抽取一次CHUNITHM幸运歌曲和运势签(24h后重置)，来看看你的今日运势吧。(目前此功能在测试中，可能随时会修改或增减功能)"
-  },
-  {
-    id: "3",
-    type: "notice",
-    date: "2025/07/14",
-    title: "EvilLeaker 新下载站开放",
-    preview: "欢迎使用新的下载站",
-    content: "由于旧下载站属于临时页面，为了使用体验以及增加更多功能，所有下载资源已转至本站。另外本站整体还在测试中，如果在使用体验中有任何问题欢迎反馈。"
-  },
-  {
-    id: "4",
-    type: "upd",
-    date: "2025/08/17",
-    title: "CHUNITHM X-VERSE资源开放下载",
-    preview: "新增CHUNITHM X-VERSE(ver 2.40)",
-    content: "新增CHUNITHM X-VERSE(ver 2.40)' ,请至下载页面进行下载。※请注意此资源目前没有官方A001，资源中的A001为自制版，仅为了刷卡后不报错，如需要游玩新歌曲请自行放入抄谱游玩！※"
-  },
-  {
-    id: "5",
-    type: "notice",
-    date: "2025/07/21",
-    title: "AllsUnpacker上线",
-    preview: "实用工具界面新增工具「AllsUnpacker」",
-    content: "实用工具界面新增工具「AllsUnpacker」，此工具用于解包ALLS格式的数据包。请至“实用工具”页面进行下载。"
-  },
-  {
-    id: "6",
-    type: "notice",
-    date: "2025/07/21",
-    title: "Segatools Editor上线",
-    preview: "实用工具界面新增工具「Segatools Editor」",
-    content: "实用工具界面新增工具「Segatools Editor」，此工具仅用于修改segatools.ini的相关设置。请至“实用工具”页面进行下载。"
-  },
-  {
-    id: "7",
-    type: "notice",
-    date: "2025/07/14",
-    title: "新版ChunithmUnlocker上线",
-    preview: "实用工具界面新增工具「Chunlocker」",
-    content: "实用工具界面新增工具「Chunlocker」，此工具相比原先的ChunithmUnlocker使用更加便捷，软件支持多语言与在线更新。请至“实用工具”页面进行下载。"
-  },
-  {
-    id: "8",
-    type: "upd",
-    date: "2025/07/14",
-    title: "CHUNITHM VERSE option更新",
-    preview: "增加新的opt包",
-    content: "新增加 'A163~A191(Verse final)' ,请至下载页面进行下载。"
-  },
-  {
-    id: "8",
-    type: "upd",
-    date: "2025/07/14",
-    title: "maimai DX PRiSM Plus(SDEZ) opt更新",
-    preview: "增加新的opt包。",
-    content: "option数据包新增K021，请至下载页面进行下载"
-  }
-];
-
-// 帮助内容数据
-const helpContentData = {
-  1: {
-    title: "下载指南",
-    content: `
-      <h3>本站资源下载说明</h3>
-      <ol>
-        <li>如需下载资源，请从左侧菜单进入下载页面选择需要的资源进行下载。</li>
-		<li>本站游戏资源提供最多不超过N-1的公开资源下载，如有新增资源请多关注首页公告。</li>
-      </ol>
-      
-      <div class="warning mt-4">
-        <strong><i class="fas fa-exclamation-circle me-2"></i> 注意：</strong>
-        <span>目前所有资源仅提供百度网盘下载方式</span>
-      </div>
-    `
-  },
-  2: {
-    title: "实用工具指南",
-    content: `
-      <h3>EvilLeaker系列工具</h3>
-      <h4><strong>Segatools Editor</strong></h4>
-	  <p>此工具可以方便快捷的修改所有游戏的segatools.ini，并且不需要您另行安装任何文本或代码编辑工具。</p>
-	  <p>本工具自带备份功能，在您读取并加载segatools.ini后，软件会自动备份您所选择的文件，不用担心修改出现任何问题。</p>
-	  <p>本工具同时具备自动更新功能，在您启动软件后如有新版本则会在日志区域显示新版本信息，如需下载更新请点击“帮助→更新”选项即可更新新版本。</p>
-	  
-	  <p><strong>软件使用指南</strong></p>
-	  <p>1.双击SegatoolsEditor.exe启动软件</p>
-	  <img src="https://oss.am-all.com.cn/asset/img/other/dc/software/sge-00.png" alt="00">
-	  <hr>
-	  <p>2.初次启动界面默认显示英文，请点击菜单栏“Language”切换为中文即可</p>
-	  <ul>
-        <li><strong>切换语言后软件会保存所选语言，下次启动后就会显示你所选择的语言。</strong></li>
-		<li><strong>软件会在“C:/Users/用户名/Documents/evilleaker”文件夹下自动建立配置文件“sgEditor_config.json”</strong></li>
-      </ul>
-	  <img src="https://oss.am-all.com.cn/asset/img/other/dc/software/sge-01.png" alt="01">
-	  <hr>
-      <p>3.软件在启动后会自动检查是否有新版本并在下方日志区提示，如需更新软件，请点击菜单栏“帮助→更新”选项</p>
-	  <img src="https://oss.am-all.com.cn/asset/img/other/dc/software/sge-02.png" alt="02">
-	  <hr>
-	  <p>4.按照下图步骤加载segatools.ini文件</p>
-	  <ul>
-		<li><strong>①点击“浏览文件”</strong></li>
-		<li><strong>②选择需要修改的“segatools.ini”文件</strong></li>
-		<li><strong>③点击“打开”</strong></li>
-		<li><strong>④点击“加载配置”</strong></li>
-	  </ul>
-	  <img src="https://oss.am-all.com.cn/asset/img/other/dc/software/sge-03.png" alt="03">
-	  <hr>
-	  <p>5.点击“选择配置节”下拉菜单来选择需要修改的配置</p>
-	  <ul>
-		<li><strong>在读取完文件的同时，软件会自动备份当前你读取的segatools.ini</strong></li>
-		<li><strong>备份路径为“C:/Users/用户名/Documents/evilleaker/ini_backup”文件夹中</strong></li>
-	  </ul>
-	  <img src="https://oss.am-all.com.cn/asset/img/other/dc/software/sge-04.png" alt="04">
-	  <hr>
-	  <p>6.点击相应的输入框来修改配置参数</p>
-	  <ul>
-		<li>①点击需要修改的值的输入框来修改参数</li>
-		<li>②在修改完的同时，软件会自动保存文件，你也可以手动点击“保存配置”来保存文件</li>
-		<li>③点击参数值框后的选项会切换当前值的有效性(相当于ini文件中的注释功能)，“有效”为取消注释激活配置，“无效”为注释掉配置使其不生效。</li>
-	  </ul>
-	  
-	  
-	  
-	  
-	  
-	  
-      <p>所有工具均可在<a href="#" data-page="tools">实用工具页面</a>下载</p>
-    `
-  }
-};
-
 // 页面内容定义
 const pages = {
+	// 首页
+	home: `
+	  <div class="section">
+		<h1 class="page-title" data-i18n="home.title">首页</h1>
+		
+		<!-- 公告区域 -->
+		<div class="announcements-container" id="announcements-container">
+		  <div class="text-center">
+			<div class="spinner-border text-primary" role="status">
+			  <span class="visually-hidden">加载中...</span>
+			</div>
+			<p data-i18n="home.announcementsLoading">公告加载中...</p>
+		  </div>
+		</div>
+		
+		<!-- footer -->
+		<hr>
+		<div class="welcome-section mt-5">
+		  <h2 class="section-title">
+			<i class="fas fa-star"></i>
+			<span data-i18n="home.welcome">MAY THE LEAKER BE WITH YOU!</span>
+		  </h2>
+		  <p data-i18n="home.selectFunction">请从左侧菜单选择功能</p>
+		</div>
+	  </div>
+	`,
+
+  // 用户认证主页
+  'user-verification': `
+    <div class="section" id="user-verification-container">
+      <div class="verification-loading">
+        <div class="verification-loading-spinner"></div>
+        <p>加载中...</p>
+      </div>
+    </div>
+  `,
+  
+  // 认证申请管理（管理员）
+  'verification-admin': `
+    <div class="section" id="verification-admin-container">
+      <div class="verification-loading">
+        <div class="verification-loading-spinner"></div>
+        <p>加载中...</p>
+      </div>
+    </div>
+  `,
+
+// 用户管理界面
+'user-manager': `
+<div class="section">
+  <h1 class="page-title" data-i18n="userManager.title">用户管理</h1>
+  <div class="user-manager-container">
+    <div class="user-search-section">
+      <div class="search-filters">
+        <div class="search-input">
+          <input type="text" id="user-search-input" data-i18n="userManager.searchPlaceholder" placeholder="搜索用户ID、用户名或邮箱...">
+          <button id="user-search-btn" class="btn btn-primary">
+            <i class="fas fa-search"></i> <span data-i18n="userManager.search">搜索</span>
+          </button>
+        </div>
+        <select id="user-rank-filter" class="filter-select">
+          <option value="" data-i18n="userManager.allGroups">所有用户组</option>
+          <option value="0" data-i18n="userManager.normalUser">普通用户</option>
+          <option value="1" data-i18n="userManager.juniorUser">初级用户</option>
+          <option value="2" data-i18n="userManager.middleUser">中级用户</option>
+          <option value="3" data-i18n="userManager.seniorUser">高级用户</option>
+          <option value="4" data-i18n="userManager.vipUser">贵宾用户</option>
+          <option value="5" data-i18n="userManager.admin">系统管理员</option>
+        </select>
+        <select id="user-state-filter" class="filter-select">
+          <option value="" data-i18n="userManager.allStatus">所有状态</option>
+          <option value="0" data-i18n="userManager.normal">正常</option>
+          <option value="1" data-i18n="userManager.restricted">受限</option>
+          <option value="2" data-i18n="userManager.banned">封禁</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="user-table-container">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th data-i18n="userManager.avatar">头像</th>
+            <th data-i18n="userManager.uid">UID</th>
+            <th data-i18n="userManager.username">用户名</th>
+            <th data-i18n="userManager.email">邮箱</th>
+            <th data-i18n="userManager.userGroup">用户组</th>
+            <th data-i18n="userManager.specialGroup">特殊用户组</th>
+            <th data-i18n="userManager.points">积分</th>
+            <th data-i18n="userManager.point2">鸽屋积分</th>
+            <th data-i18n="userManager.gameServer">游戏服务器</th>
+            <th>Keychip</th>
+            <th>GUID</th>
+            <th data-i18n="userManager.status">状态</th>
+            <th data-i18n="userManager.actions">操作</th>
+          </tr>
+        </thead>
+        <tbody id="users-table-body">
+          <!-- 用户数据将通过JavaScript动态填充 -->
+        </tbody>
+      </table>
+      <div id="user-pagination" class="pagination-container"></div>
+    </div>
+  </div>
+</div>
+`,
+
+// 下载页面
+download: `
+  <h1 class="page-title" data-i18n="download.title">下载中心</h1>
+  <div class="section download-section">
+    <h2 class="section-title">
+      <i class="fas fa-gamepad"></i>
+      <span data-i18n="download.gameDownload">游戏下载</span>
+    </h2>
+    <!-- <div class="warning">
+      <strong><i class="fas fa-exclamation-circle me-2"></i> <span data-i18n="download.warning">重要提示：</span></strong>
+      <span data-i18n="download.warningDetail">OneDrive下载渠道已下线</span>
+    </div> -->
+    <p class="mb-4"><strong><span data-i18n="download.lastUpdate">最后更新</span>: <span id="game-last-update"></span></strong></p>
+    <div class="table-container" id="game-downloads">
+      <!-- 游戏下载内容将通过JavaScript动态填充 -->
+    </div>
+  </div>
+  
+  <div class="section download-section">
+    <h2 class="section-title">
+      <i class="fas fa-archive"></i>
+      <span data-i18n="download.archiveDownload">存档下载</span>
+    </h2>
+    <p class="mb-4"><strong><span data-i18n="download.lastUpdate">最后更新</span>: <span id="archive-last-update"></span></strong></p>
+    <div class="table-container" id="archive-downloads">
+      <!-- 存档下载内容将通过JavaScript动态填充 -->
+    </div>
+  </div>
+  
+  <div class="section download-section">
+    <h2 class="section-title">
+      <i class="fas fa-folder-plus"></i>
+      <span data-i18n="download.otherResources">其他资源</span>
+    </h2>
+    <p class="mb-4"><strong><span data-i18n="download.lastUpdate">最后更新</span>: <span id="other-last-update"></span></strong></p>
+    <div class="table-container" id="other-downloads">
+      <!-- 其他资源内容将通过JavaScript动态填充 -->
+    </div>
+    <!-- <div class="warning mt-4">
+      <strong><i class="fas fa-info-circle me-2"></i> <span data-i18n="download.downloadInfo">下载说明：</span></strong>
+      <span data-i18n="download.downloadInfoDetail">支持多种下载方式：百度网盘、123网盘、One Drive、直链等</span>
+    </div> -->
+  </div>
+
+  <script>
+    // 页面加载完成后初始化下载内容
+    setTimeout(function() {
+      if (typeof initDownloadPage === 'function') {
+        initDownloadPage();
+      }
+      // 更新翻译
+      if (typeof languageModule !== 'undefined' && languageModule.updateTranslations) {
+        languageModule.updateTranslations();
+      }
+    }, 100);
+  </script>
+
+  <footer>
+    <p data-i18n="footer.text1">SEGAY FEIWU</p>
+    <p data-i18n="footer.text2">1145141919810</p>
+  </footer>
+`,
+
+// 通用下载详情页面
+'download-detail': `
+  <div class="game-detail">
+    <h1 class="page-title" data-i18n="download.title">下载详情</h1>
+    <button class="back-button" data-page="download">
+      <i class="fas fa-arrow-left me-2"></i>
+      <span data-i18n="download.backToDownload">返回下载中心</span>
+    </button>
+    
+    <div class="section download-section">
+      <h2 class="section-title" id="detail-title">
+        <i class="fas fa-download"></i>
+        <span data-i18n="download.downloadList">下载列表</span>
+      </h2>
+      
+      <div class="mb-4">
+        <p><span data-i18n="download.lastUpdate">最后更新</span>: <span id="detail-last-update"></span></p>
+        <div class="detail-table-wrapper">
+          <table class="detail-table">
+            <thead>
+              <tr>
+                <th data-i18n="download.downloadMethod">下载方式</th>
+                <th data-i18n="download.fileCount">文件数</th>
+                <th data-i18n="download.accessCode">提取码/访问密码</th>
+                <th data-i18n="download.validity">资源有效期</th>
+              </tr>
+            </thead>
+            <tbody id="detail-download-info">
+              <!-- 下载信息将通过JavaScript动态填充 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <footer>
+      <p data-i18n="footer.text1">SEGAY FEIWU</p>
+      <p data-i18n="footer.text2">1145141919810</p>
+    </footer>
+  </div>
+  
+  <script>
+    // 添加滚动检测以隐藏滑动提示
+    setTimeout(function() {
+      const tableWrapper = document.querySelector('.detail-table-wrapper');
+      if (tableWrapper) {
+        tableWrapper.addEventListener('scroll', function() {
+          if (this.scrollLeft > 10) {
+            this.classList.add('scrolled');
+          } else {
+            this.classList.remove('scrolled');
+          }
+        });
+      }
+    }, 200);
+  </script>
+`,
+
+// 下载管理页面（删除文件管理标签页）
+'download-admin': `
+  <div class="section">
+    <h1 class="page-title" data-i18n="downloadAdmin.title">下载管理</h1>
+    <button class="back-button" data-page="home">
+      <i class="fas fa-arrow-left me-2"></i>
+      <span data-i18n="common.back">返回</span>
+    </button>
+    
+    <div class="admin-actions mb-4">
+      <button id="create-download-btn" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i><span data-i18n="downloadAdmin.create">新建下载项目</span>
+      </button>
+    </div>
+    
+    <div class="table-responsive">
+      <table class="table table-hover" id="downloads-table">
+        <thead>
+          <tr>
+            <th data-i18n="downloadAdmin.serialNumber">序号</th>
+            <th data-i18n="downloadAdmin.title2">标题</th>
+            <th data-i18n="downloadAdmin.category">分类</th>
+            <th data-i18n="downloadAdmin.pageId">页面ID</th>
+            <th data-i18n="downloadAdmin.version">版本</th>
+            <th data-i18n="downloadAdmin.fileCount">文件数</th>
+            <th data-i18n="downloadAdmin.lastUpdate">最后更新</th>
+            <th data-i18n="downloadAdmin.status">状态</th>
+            <th data-i18n="downloadAdmin.actions">操作</th>
+          </tr>
+        </thead>
+        <tbody id="downloads-body">
+          <!-- 下载项目数据将通过JavaScript动态填充 -->
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- 下载项目模态框 -->
+    <div id="download-modal" class="modal">
+      <div class="modal-content" style="max-width: 900px;">
+        <div class="modal-header">
+          <h5 id="modal-title" data-i18n="downloadAdmin.modalTitle">新建下载项目</h5>
+          <span class="close">×</span>
+        </div>
+        <form id="download-form">
+          <div class="modal-body">
+            <input type="hidden" id="download-id">
+            
+            <!-- 简单的标签页导航（只保留基本信息、下载链接、权限设置） -->
+            <div class="simple-tabs">
+              <div class="simple-tab-nav">
+                <button type="button" class="simple-tab-btn active" data-tab="basic">
+                  <i class="fas fa-info-circle"></i> <span data-i18n="downloadAdmin.basicInfo">基本信息</span>
+                </button>
+                <button type="button" class="simple-tab-btn" data-tab="links">
+                  <i class="fas fa-link"></i> <span data-i18n="downloadAdmin.downloadLinks">下载链接</span>
+                </button>
+                <button type="button" class="simple-tab-btn" data-tab="permissions">
+                  <i class="fas fa-lock"></i> <span data-i18n="downloadAdmin.permissions">权限设置</span>
+                </button>
+              </div>
+              
+              <!-- 标签页内容 -->
+              <div class="simple-tab-content">
+                <!-- 基本信息标签页 -->
+                <div class="simple-tab-pane active" id="basic-pane">
+                  <div class="form-section">
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label><span data-i18n="downloadAdmin.title2">标题</span> <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="download-title" required>
+                      </div>
+                      <div class="form-group">
+                        <label><span data-i18n="downloadAdmin.category">分类</span> <span class="text-danger">*</span></label>
+                        <select class="form-control" id="download-category" required>
+                          <option value="game" data-i18n="downloadAdmin.categoryGame">游戏下载</option>
+                          <option value="archive" data-i18n="downloadAdmin.categoryArchive">存档下载</option>
+                          <option value="other" data-i18n="downloadAdmin.categoryOther">其他资源</option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label><span data-i18n="downloadAdmin.pageId">页面ID</span> <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="download-page-id" required>
+                        <small class="form-text text-muted" data-i18n="downloadAdmin.pageIdHint">唯一标识符，用于URL访问</small>
+                      </div>
+                      <div class="form-group">
+                        <label data-i18n="downloadAdmin.version">版本号</label>
+                        <input type="text" class="form-control" id="download-version">
+                      </div>
+                      <div class="form-group">
+                        <label data-i18n="downloadAdmin.fileCount">文件数</label>
+                        <input type="number" class="form-control" id="download-file-count" min="0" value="0">
+                      </div>
+                    </div>
+                    
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label data-i18n="downloadAdmin.lastUpdate">最后更新</label>
+                        <input type="date" class="form-control" id="download-last-update">
+                      </div>
+                      <div class="form-group">
+                        <label data-i18n="downloadAdmin.status">状态</label>
+                        <select class="form-control" id="download-status">
+                          <option value="1" data-i18n="downloadAdmin.active">激活</option>
+                          <option value="0" data-i18n="downloadAdmin.disabled">禁用</option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label data-i18n="downloadAdmin.imageUrl">图片URL</label>
+                      <input type="url" class="form-control" id="download-image-url">
+                    </div>
+                    
+                    
+                    <div class="form-group sort-order-group">
+                      <label data-i18n="downloadAdmin.sortOrder">排序ID</label>
+                      <input type="number" class="form-control" id="download-sort-order" min="0" step="1" value="0">
+                      <small class="form-text text-muted">数字越小越靠上；留空或 0 时按创建时间倒序。相同值按创建时间新在前。</small>
+                    </div>
+<div class="form-group">
+                      <label data-i18n="downloadAdmin.description">描述</label>
+                      <textarea class="form-control" id="download-description" rows="3"></textarea>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 下载链接标签页 -->
+                <div class="simple-tab-pane" id="links-pane">
+                  <div class="download-links-section">
+                    <div class="download-links-header">
+                      <h4 data-i18n="downloadAdmin.downloadLinks">下载链接</h4>
+                      <button type="button" id="add-download-link" class="btn btn-sm btn-secondary">
+                        <i class="fas fa-plus"></i> <span data-i18n="downloadAdmin.addLink">添加链接</span>
+                      </button>
+                    </div>
+                    <div id="download-links-container">
+                      <!-- 动态添加下载链接 -->
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 权限设置标签页 -->
+                <div class="simple-tab-pane" id="permissions-pane">
+                  <div class="form-section">
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label data-i18n="downloadAdmin.accessLevel">访问权限</label>
+                        <select class="form-control" id="download-access-level">
+                          <option value="-1" data-i18n="downloadAdmin.unlimited">不限</option>
+                          <option value="0" data-i18n="userManager.normalUser">普通用户</option>
+                          <option value="1" data-i18n="userManager.juniorUser">初级用户</option>
+                          <option value="2" data-i18n="userManager.middleUser">中级用户</option>
+                          <option value="3" data-i18n="userManager.seniorUser">高级用户</option>
+                          <option value="4" data-i18n="userManager.vipUser">贵宾用户</option>
+                          <option value="5" data-i18n="userManager.admin">系统管理员</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label data-i18n="userManager.specialGroup">特殊用户组</label>
+                        <input type="text" class="form-control" id="download-special-group">
+                        <small class="form-text text-muted" data-i18n="downloadAdmin.specialGroupHint">留空表示无限制</small>
+                      </div>
+                      <div class="form-group">
+                        <label data-i18n="downloadAdmin.requiredPoints">所需积分</label>
+                        <input type="number" class="form-control" id="download-required-points" min="0" value="0">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="cancel-download-btn" data-i18n="downloadAdmin.cancel">取消</button>
+            <button type="submit" class="btn btn-primary" data-i18n="downloadAdmin.save">保存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // 页面加载完成后初始化
+    setTimeout(function() {
+      if (typeof initDownloadAdminPage === 'function') {
+        initDownloadAdminPage();
+      }
+      // 更新翻译
+      if (typeof languageModule !== 'undefined' && languageModule.updateTranslations) {
+        languageModule.updateTranslations();
+      }
+    }, 100);
+  </script>
+`,
+
+  // 公告管理页面
+  'announcement-admin': `
+    <div class="section">
+      <h1 class="page-title" data-i18n="announcementAdmin.title">公告管理</h1>
+      <button class="back-button" data-page="home">
+        <i class="fas fa-arrow-left me-2"></i>
+        <span data-i18n="common.back">返回</span>
+      </button>
+      
+      <div class="announcement-admin-container">
+        <!-- 操作按钮区域 - 包含所有批量操作按钮 -->
+        <div class="announcement-admin-actions">
+          <button id="create-announcement-btn" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>
+            <span data-i18n="announcementAdmin.create">新建公告</span>
+          </button>
+          <button id="select-all-btn" class="btn btn-secondary">
+            <i class="fas fa-check-square me-2"></i>
+            <span data-i18n="announcementAdmin.selectAll">全选</span>
+          </button>
+          <button id="deselect-all-btn" class="btn btn-secondary">
+            <i class="fas fa-square me-2"></i>
+            <span data-i18n="announcementAdmin.deselectAll">取消全选</span>
+          </button>
+          <button id="batch-delete-btn" class="btn btn-danger" disabled>
+            <i class="fas fa-trash me-2"></i>
+            <span data-i18n="announcementAdmin.batchDelete">删除选中</span>
+          </button>
+        </div>
+        
+        <!-- 公告列表容器 - 支持横向滚动 -->
+        <div id="admin-announcements-list" class="admin-announcements-list">
+          <div class="text-center" style="padding: 2rem;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">加载中...</span>
+            </div>
+            <p data-i18n="announcementAdmin.loading" style="margin-top: 1rem;">公告加载中...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+
+// 订单录入页面
+'order-entry': `
+  <div class="order-entry-container">
+    <div class="section">
+      <h1 class="page-title">
+        <i class="fas fa-clipboard-list me-2"></i>
+        <span data-i18n="orderEntry.title">订单录入管理</span>
+      </h1>
+      <button class="back-button" data-page="home">
+        <i class="fas fa-arrow-left me-2"></i>
+        <span data-i18n="orderEntry.back">返回首页</span>
+      </button>
+      
+      <!-- 搜索框 -->
+      <div class="order-search-box">
+        <div class="input-group">
+          <input type="text" 
+                 id="order-search-input" 
+                 class="form-control" 
+                 data-i18n="orderEntry.searchPlaceholder"
+                 placeholder="输入淘宝ID、商品名称或订单号搜索...">
+          <button class="btn btn-primary" id="order-search-btn">
+            <i class="fas fa-search"></i>
+            <span data-i18n="orderEntry.search">搜索</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- 操作按钮 -->
+      <div class="order-actions">
+        <button class="btn btn-success" id="add-order-btn">
+          <i class="fas fa-plus-circle"></i>
+          <span data-i18n="orderEntry.add">添加订单</span>
+        </button>
+      </div>
+      
+      <!-- 表格容器 -->
+      <div class="table-container">
+        <div class="table-responsive">
+          <table class="table" id="orders-table">
+            <thead>
+              <tr>
+                <th style="width: 60px;" data-i18n="orderEntry.serialNumber">序号</th>
+                <th data-i18n="orderEntry.taobaoId">淘宝ID</th>
+                <th data-i18n="orderEntry.productName">商品名称</th>
+                <th data-i18n="orderEntry.orderNumber">订单号 (或其他单据号)</th>
+                <th style="width: 100px;" data-i18n="orderEntry.price">价格(元)</th>
+                <th style="width: 120px;" data-i18n="orderEntry.status">兑换状态</th>
+                <th style="width: 140px;" data-i18n="orderEntry.actions">操作</th>
+              </tr>
+            </thead>
+            <tbody id="orders-body">
+              <!-- 订单数据将通过JavaScript动态填充 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- 分页控件 -->
+      <div class="pagination-container">
+        <div id="pagination-controls"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 订单编辑模态框 -->
+  <div id="order-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title" data-i18n="orderEntry.modalAdd">添加订单</h2>
+        <span class="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="order-form">
+          <input type="hidden" id="order-id">
+          
+          <div class="form-group">
+            <label for="taobao-id">
+              <i class="fas fa-user me-1"></i>
+              <span data-i18n="orderEntry.taobaoId">淘宝ID</span>
+            </label>
+            <input type="text" 
+                   id="taobao-id" 
+                   class="form-control" 
+                   data-i18n="orderEntry.taobaoIdPlaceholder"
+                   placeholder="请输入淘宝用户ID" 
+                   required>
+          </div>
+          
+          <div class="form-group">
+            <label for="product-name">
+              <i class="fas fa-box me-1"></i>
+              <span data-i18n="orderEntry.productName">商品名称</span>
+            </label>
+            <input type="text" 
+                   id="product-name" 
+                   class="form-control" 
+                   data-i18n="orderEntry.productNamePlaceholder"
+                   placeholder="请输入商品名称" 
+                   required>
+          </div>
+          
+          <div class="form-group">
+            <label for="order-number">
+              <i class="fas fa-hashtag me-1"></i>
+              <span data-i18n="orderEntry.orderNumber">订单号</span>
+            </label>
+            <input type="text" 
+                   id="order-number" 
+                   class="form-control" 
+                   data-i18n="orderEntry.orderNumberPlaceholder"
+                   placeholder="请输入订单或其他单据号" 
+                   required>
+          </div>
+          
+          <div class="form-group">
+            <label for="price">
+              <i class="fas fa-yen-sign me-1"></i>
+              <span data-i18n="orderEntry.price">价格(元)</span>
+            </label>
+            <input type="number" 
+                   id="price" 
+                   class="form-control" 
+                   step="0.01" 
+                   min="0" 
+                   placeholder="0.00" 
+                   required>
+          </div>
+          
+          <div class="form-group">
+            <label for="redeemed">
+              <i class="fas fa-exchange-alt me-1"></i>
+              <span data-i18n="orderEntry.status">兑换状态</span>
+            </label>
+            <select id="redeemed" class="form-control">
+              <option value="false" data-i18n="orderEntry.unredeemed">未兑换</option>
+              <option value="true" data-i18n="orderEntry.redeemed">已兑换</option>
+            </select>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save me-2"></i>
+            <span data-i18n="orderEntry.saveOrder">保存订单</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+`,
+
+// 兑换页面
+	'exchange': `
+	  <div class="section">
+		<h1 class="page-title" data-i18n="exchange.title">兑换码</h1>
+		<button class="back-button" onclick="loadPage('home')">
+		  <i class="fas fa-arrow-left me-2"></i>
+		  <span data-i18n="exchange.back">返回</span>
+		</button>
+		
+		<div class="exchange-container">
+		  <div class="exchange-card">
+			<div class="card-header-with-btn">
+			  <h3><i class="fas fa-ticket-alt me-2"></i><span data-i18n="exchange.code">兑换码</span></h3>
+			  <button class="btn-info" onclick="showUserRedemptionHistory('code')">
+				<i class="fas fa-history"></i> <span data-i18n="exchange.redemptionHistory">兑换记录</span>
+			  </button>
+			</div>
+			<p data-i18n="exchange.codeDescription">请输入兑换码进行兑换</p>
+			<div class="input-group">
+			  <input type="text" class="form-control" id="exchange-code" data-i18n="exchange.codePlaceholder" placeholder="请输入兑换码">
+			  <button class="btn btn-primary" id="redeem-code-btn" onclick="redeemCode()">
+				<i class="fas fa-gift me-2"></i><span data-i18n="exchange.redeem">兑换</span>
+			  </button>
+			</div>
+			<div class="exchange-result" id="code-exchange-result"></div>
+		  </div>
+		  
+		  <div class="exchange-divider">
+			<span data-i18n="exchange.or">或</span>
+		  </div>
+		  
+		  <div class="exchange-card">
+			<div class="card-header-with-btn">
+			  <h3><i class="fas fa-coins me-2"></i><span data-i18n="exchange.points">鸽屋积分兑换</span></h3>
+			  <button class="btn-info" onclick="showUserRedemptionHistory('points')">
+				<i class="fas fa-history"></i> <span data-i18n="exchange.redemptionHistory">兑换记录</span>
+			  </button>
+			</div>
+			<p data-i18n="exchange.pointsDescription">请输入淘宝订单号兑换积分</p>
+			<div class="input-group">
+			  <input type="text" class="form-control" id="order-number-input" data-i18n="exchange.orderPlaceholder" placeholder="请输入淘宝订单号">
+			  <button class="btn btn-primary" id="redeem-order-btn" onclick="redeemOrder()">
+				<i class="fas fa-exchange-alt me-2"></i><span data-i18n="exchange.redeem">兑换</span>
+			  </button>
+			</div>
+			<div class="exchange-result" id="order-exchange-result"></div>
+		  </div>
+		</div>
+	  </div>
+	`,
+
+  // 登录页面
+  login: `
+    <div class="auth-container">
+      <h1 class="page-title" data-i18n="auth.login">登录</h1>
+      <button class="back-button" data-page="home">
+        <i class="fas fa-arrow-left me-2"></i>
+        <span data-i18n="auth.back">返回</span>
+      </button>
+      <div class="auth-form">
+        <div class="form-group">
+          <label for="login-username" data-i18n="auth.usernameOrEmail">用户名或邮箱</label>
+          <input type="text" id="login-username" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password" data-i18n="auth.password">密码</label>
+          <input type="password" id="login-password" class="form-control" required>
+        </div>
+        <button id="login-btn" class="auth-btn" data-i18n="auth.login">登录</button>
+        <div class="auth-footer">
+          <span><span data-i18n="auth.noAccount">没有账号？</span><a href="#" data-page="register" data-i18n="auth.registerNow">立即注册</a></span>
+          <span class="forgot-password"><a href="#" data-page="forgot-password" data-i18n="auth.forgotPassword">忘记密码？</a></span>
+        </div>
+        <div id="login-error" class="error-message" style="display: none;"></div>
+      </div>
+    </div>
+  `,
+
+  // 注册页面
+	register: `
+	  <div class="auth-container">
+		<h1 class="page-title" data-i18n="auth.register">注册</h1>
+		<button class="back-button" data-page="home">
+		  <i class="fas fa-arrow-left me-2"></i>
+		  <span data-i18n="auth.back">返回</span>
+		</button>
+		<div class="auth-form">
+		  <div class="form-group">
+			<label for="register-username" data-i18n="auth.username">用户名</label>
+			<input type="text" id="register-username" class="form-control" required maxlength="20">
+			<div class="char-counter"><span id="username-counter">0</span>/20</div>
+		  </div>
+		  <div class="form-group">
+			<label for="register-email" data-i18n="auth.email">邮箱</label>
+			<input type="email" id="register-email" class="form-control" required>
+		  </div>
+		  <div class="form-group">
+			<label for="register-nickname" data-i18n="auth.nickname">昵称</label>
+			<input type="text" id="register-nickname" class="form-control" maxlength="20">
+			<div class="char-counter"><span id="nickname-counter">0</span>/20</div>
+		  </div>
+		  <div class="form-group">
+			<label for="register-password" data-i18n="auth.password">密码</label>
+			<input type="password" id="register-password" class="form-control" required maxlength="16">
+			<div class="char-counter"><span id="password-counter">0</span>/16</div>
+		  </div>
+		  <div class="form-group">
+			<label for="register-confirm-password" data-i18n="auth.confirmPassword">确认密码</label>
+			<input type="password" id="register-confirm-password" class="form-control" required maxlength="16">
+		  </div>
+		  <div class="form-group">
+			<label for="register-verification-code" data-i18n="auth.verificationCode">验证码</label>
+			<div class="verification-code-group">
+			  <input type="text" id="register-verification-code" class="form-control" required>
+			  <button id="send-verification-code" class="btn btn-outline-secondary" data-i18n="auth.getVerificationCode">获取验证码</button>
+			</div>
+		  </div>
+		  <button id="register-btn" class="auth-btn" data-i18n="auth.register">注册</button>
+		  <div class="auth-footer">
+			<span><span data-i18n="auth.hasAccount">已有账号？</span><a href="#" data-page="login" data-i18n="auth.loginNow">立即登录</a></span>
+		  </div>
+		  <div id="register-error" class="error-message" style="display: none;"></div>
+		</div>
+	  </div>
+	`,
+
+  // 忘记密码页面
+  'forgot-password': `
+    <div class="auth-container">
+      <h1 class="page-title" data-i18n="auth.resetPassword">找回密码</h1>
+      <button class="back-button" data-page="login">
+        <i class="fas fa-arrow-left me-2"></i>
+        <span data-i18n="auth.back">返回登录</span>
+      </button>
+      <div class="auth-form">
+        <div class="form-group">
+          <label for="forgot-email" data-i18n="auth.email">注册邮箱</label>
+          <input type="email" id="forgot-email" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="forgot-verification-code" data-i18n="auth.verificationCode">验证码</label>
+          <div class="verification-code-group">
+            <input type="text" id="forgot-verification-code" class="form-control" required>
+            <button id="send-reset-code" class="btn btn-outline-secondary" data-i18n="auth.getVerificationCode">获取验证码</button>
+          </div>
+        </div>
+        <button id="verify-code-btn" class="auth-btn" data-i18n="auth.verify">验证</button>
+        <div id="forgot-error" class="error-message" style="display: none;"></div>
+      </div>
+    </div>
+  `,
+
+  // 重置密码页面
+  'reset-password': `
+    <div class="auth-container">
+      <h1 class="page-title" data-i18n="auth.resetPassword">重置密码</h1>
+      <div class="auth-form">
+        <div class="form-group">
+          <label for="reset-new-password" data-i18n="auth.newPassword">新密码</label>
+          <input type="password" id="reset-new-password" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="reset-confirm-password" data-i18n="auth.confirmPassword">确认密码</label>
+          <input type="password" id="reset-confirm-password" class="form-control" required>
+        </div>
+        <button id="reset-password-btn" class="auth-btn" data-i18n="auth.resetPassword">重置密码</button>
+        <div id="reset-error" class="error-message" style="display: none;"></div>
+      </div>
+    </div>
+  `,
+
+// 用户设置页面
+'user-settings': `
+  <div class="user-settings-container">
+    <div class="settings-header">
+      <h1 class="settings-title">
+        <i class="fas fa-user-cog"></i>
+        <span data-i18n="userSettings.title">用户设置</span>
+      </h1>
+    </div>
+    
+    <div class="settings-content">
+      <!-- 用户概览卡片 -->
+      <div class="user-overview-card">
+        <div class="user-overview-bg"></div>
+        <div class="user-overview-content">
+          <div class="user-avatar-section">
+            <div class="avatar-wrapper">
+              <img id="settings-avatar" class="user-avatar-display" src="" alt="用户头像">
+              <div class="avatar-upload-overlay">
+                <i class="fas fa-camera"></i>
+              </div>
+            </div>
+            <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+          </div>
+          
+          <div class="user-info-summary">
+            <h2 id="settings-username" class="user-display-name"></h2>
+            <p id="settings-email" class="user-email"></p>
+            <div class="user-badges">
+              <span class="badge-uid">UID: <span id="settings-uid"></span></span>
+              <span id="settings-user-state"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 头像裁剪模态框 -->
+      <div id="avatar-crop-section" class="avatar-crop-modal" style="display: none;">
+        <div class="crop-modal-content">
+          <h3 data-i18n="userSettings.adjustAvatar">调整头像</h3>
+          <div id="avatar-crop-container" class="crop-container"></div>
+          <div class="crop-actions">
+            <button id="cancel-avatar-btn" class="btn-secondary">
+              <i class="fas fa-times"></i> <span data-i18n="common.cancel">取消</span>
+            </button>
+            <button id="save-avatar-btn" class="btn-primary">
+              <i class="fas fa-check"></i> <span data-i18n="common.save">保存</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 设置选项卡 -->
+      <div class="settings-tabs">
+        <div class="tab-nav">
+          <button class="tab-btn active" data-tab="profile">
+            <i class="fas fa-user"></i>
+            <span data-i18n="userSettings.profile">个人信息</span>
+          </button>
+          <button class="tab-btn" data-tab="points">
+            <i class="fas fa-coins"></i>
+            <span data-i18n="userSettings.pointsInfo">积分信息</span>
+          </button>
+          <button class="tab-btn" data-tab="security">
+            <i class="fas fa-shield-alt"></i>
+            <span data-i18n="userSettings.security">安全设置</span>
+          </button>
+          <button class="tab-btn" data-tab="binding">
+            <i class="fas fa-link"></i>
+            <span data-i18n="userSettings.binding">绑定管理</span>
+          </button>
+          <button class="tab-btn" data-tab="privacy">
+            <i class="fas fa-user-shield"></i>
+            <span data-i18n="userSettings.privacy">隐私设置</span>
+          </button>
+        </div>
+
+        <!-- 个人信息选项卡 -->
+        <div class="tab-content active" id="profile-tab">
+          <div class="settings-card">
+            <div class="card-header">
+              <h3><i class="fas fa-id-card"></i> <span data-i18n="userSettings.basicInfo">基本信息</span></h3>
+            </div>
+            <div class="card-body">
+              <div class="info-row">
+                <label data-i18n="userSettings.username">用户名</label>
+                <div class="info-value" id="settings-username-display"></div>
+              </div>
+              <div class="info-row">
+                <label data-i18n="userSettings.email">邮箱</label>
+                <div class="info-value" id="settings-email-display"></div>
+              </div>
+              <div class="form-group">
+                <label for="settings-nickname" data-i18n="userSettings.setNickname">
+                  设置昵称
+                </label>
+                <div class="input-wrapper">
+                  <input type="text" id="settings-nickname" class="form-input" maxlength="20" data-i18n="userSettings.nicknamePlaceholder" placeholder="设置您的昵称">
+                  <span class="char-counter"><span id="settings-nickname-counter">0</span>/20</span>
+                </div>
+              </div>
+              <button id="save-profile-btn" class="btn-primary btn-block">
+                <i class="fas fa-save"></i> <span data-i18n="userSettings.saveProfile">保存个人信息</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 积分信息选项卡 -->
+        <div class="tab-content" id="points-tab">
+          <div class="settings-card">
+            <div class="card-header">
+              <h3><i class="fas fa-chart-line"></i> <span data-i18n="userSettings.pointsStats">积分统计</span></h3>
+            </div>
+            <div class="card-body">
+              <div class="points-grid">
+                <div class="points-item">
+                  <div class="points-icon">
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <div class="points-info">
+                    <div class="points-label" data-i18n="userSettings.totalPoints">总积分</div>
+                    <div class="points-value" id="settings-total-points">0</div>
+                  </div>
+                </div>
+                <div class="points-item">
+                  <div class="points-icon">
+                    <i class="fas fa-coins"></i>
+                  </div>
+                  <div class="points-info">
+                    <div class="points-label" data-i18n="userSettings.normalPoints">普通积分</div>
+                    <div class="points-value" id="settings-points">0</div>
+                  </div>
+                </div>
+                <div class="points-item">
+                  <div class="points-icon">
+                    <i class="fas fa-dove"></i>
+                  </div>
+                  <div class="points-info">
+                    <div class="points-label" data-i18n="userSettings.point2">鸽屋积分</div>
+                    <div class="points-value" id="settings-point2">0</div>
+                  </div>
+                </div>
+                <div class="points-item">
+                  <div class="points-icon">
+                    <i class="fas fa-gem"></i>
+                  </div>
+                  <div class="points-info">
+                    <div class="points-label" data-i18n="userSettings.creditPoints">CREDIT点数</div>
+                    <div class="points-value" id="settings-credit">0</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 安全设置选项卡 -->
+        <div class="tab-content" id="security-tab">
+          <div class="settings-card">
+            <div class="card-header">
+              <h3><i class="fas fa-lock"></i> <span data-i18n="userSettings.changePassword">修改密码</span></h3>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="current-password">
+                  <i class="fas fa-key"></i> <span data-i18n="userSettings.currentPassword">当前密码</span>
+                </label>
+                <input type="password" id="current-password" class="form-input" data-i18n="userSettings.currentPasswordPlaceholder" placeholder="请输入当前密码">
+              </div>
+              <div class="form-group">
+                <label for="new-password">
+                  <i class="fas fa-lock"></i> <span data-i18n="userSettings.newPassword">新密码</span>
+                </label>
+                <div class="input-wrapper">
+                  <input type="password" id="new-password" class="form-input" maxlength="16" data-i18n="userSettings.newPasswordPlaceholder" placeholder="请输入新密码">
+                  <span class="char-counter"><span id="new-password-counter">0</span>/16</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="confirm-password">
+                  <i class="fas fa-lock"></i> <span data-i18n="userSettings.confirmNewPassword">确认新密码</span>
+                </label>
+                <input type="password" id="confirm-password" class="form-input" maxlength="16" data-i18n="userSettings.confirmNewPasswordPlaceholder" placeholder="请再次输入新密码">
+              </div>
+              <button id="save-password-btn" class="btn-primary btn-block">
+                <i class="fas fa-save"></i> <span data-i18n="userSettings.updatePassword">更新密码</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 绑定管理选项卡 -->
+        <div class="tab-content" id="binding-tab">
+          <!-- 查分绑定卡片 -->
+          <div class="settings-card" id="ccb-binding-section" style="display: none;">
+            <div class="card-header">
+              <h3>
+                <i class="fas fa-gamepad"></i> 
+                <span data-i18n="userSettings.ccbBinding">查分绑定信息</span>
+              </h3>
+              <button id="ccb-visibility-toggle" class="visibility-toggle-btn" title="隐藏/显示绑定信息">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <div class="card-body">
+              <!-- 卡片选项卡导航 -->
+              <div class="binding-tab-nav">
+                <button class="binding-tab-btn active" data-card="1">
+                  <i class="fas fa-credit-card"></i>
+                  <span data-i18n="ccb.card">卡片</span> 1
+                  <span class="card-active-star" style="display: none;">⭐</span>
+                </button>
+                <button class="binding-tab-btn" data-card="2">
+                  <i class="fas fa-credit-card"></i>
+                  <span data-i18n="ccb.card">卡片</span> 2
+                  <span class="card-active-star" style="display: none;">⭐</span>
+                </button>
+                <button class="binding-tab-btn" data-card="3">
+                  <i class="fas fa-credit-card"></i>
+                  <span data-i18n="ccb.card">卡片</span> 3
+                  <span class="card-active-star" style="display: none;">⭐</span>
+                </button>
+              </div>
+
+              <!-- 卡片1面板 -->
+              <div class="binding-tab-panel active" id="card-1-panel">
+                <div class="binding-info" style="display: none;">
+                  <div class="binding-item">
+                    <i class="fas fa-server"></i>
+                    <div>
+                      <label data-i18n="userSettings.server">服务器</label>
+                      <div class="binding-value sensitive-data" data-field="server">-</div>
+                    </div>
+                  </div>
+                  <div class="binding-item">
+                    <i class="fas fa-microchip"></i>
+                    <div>
+                      <label>KeyChip</label>
+                      <div class="binding-value sensitive-data" data-field="keychip">-</div>
+                    </div>
+                  </div>
+                  <div class="binding-item">
+                    <i class="fas fa-id-badge"></i>
+                    <div>
+                      <label data-i18n="userSettings.cardNumber">游戏卡号</label>
+                      <div class="binding-value sensitive-data" data-field="guid">-</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="no-binding-hint" style="display: none;">
+                  <p class="text-muted text-center">
+                    <i class="fas fa-info-circle"></i>
+                    <span data-i18n="ccb.cardNotBound">该卡片尚未绑定</span>
+                  </p>
+                </div>
+                <button class="btn-danger btn-block ccb-unbind-btn" data-slot="1" style="display: none;">
+                  <i class="fas fa-unlink"></i> <span data-i18n="userSettings.unbindCard">解绑卡片</span>
+                </button>
+              </div>
+
+              <!-- 卡片2面板 -->
+              <div class="binding-tab-panel" id="card-2-panel">
+                <div class="binding-info" style="display: none;">
+                  <div class="binding-item">
+                    <i class="fas fa-server"></i>
+                    <div>
+                      <label data-i18n="userSettings.server">服务器</label>
+                      <div class="binding-value sensitive-data" data-field="server">-</div>
+                    </div>
+                  </div>
+                  <div class="binding-item">
+                    <i class="fas fa-microchip"></i>
+                    <div>
+                      <label>KeyChip</label>
+                      <div class="binding-value sensitive-data" data-field="keychip">-</div>
+                    </div>
+                  </div>
+                  <div class="binding-item">
+                    <i class="fas fa-id-badge"></i>
+                    <div>
+                      <label data-i18n="userSettings.cardNumber">游戏卡号</label>
+                      <div class="binding-value sensitive-data" data-field="guid">-</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="no-binding-hint" style="display: none;">
+                  <p class="text-muted text-center">
+                    <i class="fas fa-info-circle"></i>
+                    <span data-i18n="ccb.cardNotBound">该卡片尚未绑定</span>
+                  </p>
+                </div>
+                <button class="btn-danger btn-block ccb-unbind-btn" data-slot="2" style="display: none;">
+                  <i class="fas fa-unlink"></i> <span data-i18n="userSettings.unbindCard">解绑卡片</span>
+                </button>
+              </div>
+
+              <!-- 卡片3面板 -->
+              <div class="binding-tab-panel" id="card-3-panel">
+                <div class="binding-info" style="display: none;">
+                  <div class="binding-item">
+                    <i class="fas fa-server"></i>
+                    <div>
+                      <label data-i18n="userSettings.server">服务器</label>
+                      <div class="binding-value sensitive-data" data-field="server">-</div>
+                    </div>
+                  </div>
+                  <div class="binding-item">
+                    <i class="fas fa-microchip"></i>
+                    <div>
+                      <label>KeyChip</label>
+                      <div class="binding-value sensitive-data" data-field="keychip">-</div>
+                    </div>
+                  </div>
+                  <div class="binding-item">
+                    <i class="fas fa-id-badge"></i>
+                    <div>
+                      <label data-i18n="userSettings.cardNumber">游戏卡号</label>
+                      <div class="binding-value sensitive-data" data-field="guid">-</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="no-binding-hint" style="display: none;">
+                  <p class="text-muted text-center">
+                    <i class="fas fa-info-circle"></i>
+                    <span data-i18n="ccb.cardNotBound">该卡片尚未绑定</span>
+                  </p>
+                </div>
+                <button class="btn-danger btn-block ccb-unbind-btn" data-slot="3" style="display: none;">
+                  <i class="fas fa-unlink"></i> <span data-i18n="userSettings.unbindCard">解绑卡片</span>
+                </button>
+              </div>
+
+              <!-- 前往查分页按钮 -->
+              <button class="btn-primary btn-block mt-3" onclick="loadPage('ccb')">
+                <i class="fas fa-chart-line"></i> <span data-i18n="userSettings.goToCcbPage">前往查分页</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- 无查分绑定提示 -->
+          <div class="settings-card" id="no-binding-message" style="display: none;">
+            <div class="card-body text-center">
+              <i class="fas fa-gamepad empty-icon"></i>
+              <h4 data-i18n="userSettings.noCcbBinding">暂无查分绑定</h4>
+              <p class="text-muted mt-2" data-i18n="userSettings.goToBindHint">前往游戏查分页面进行绑定</p>
+              <button class="btn-primary mt-3" onclick="loadPage('ccb')">
+                <i class="fas fa-link"></i> <span data-i18n="userSettings.goToBind">前往绑定</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- 收货信息卡片 -->
+          <div class="settings-card" id="shipping-binding-section" style="display: none;">
+            <div class="card-header">
+              <h3>
+                <i class="fas fa-truck"></i> 
+                <span data-i18n="userSettings.shippingInfo">收货绑定信息</span>
+              </h3>
+              <button id="shipping-visibility-toggle" class="visibility-toggle-btn" title="隐藏/显示收货信息">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="binding-info">
+                <div class="binding-item">
+                  <i class="fas fa-user"></i>
+                  <div>
+                    <label data-i18n="userSettings.recipient">收件人</label>
+                    <div class="binding-value sensitive-data" data-field="name" id="shipping-name">-</div>
+                  </div>
+                </div>
+                <div class="binding-item">
+                  <i class="fas fa-phone"></i>
+                  <div>
+                    <label data-i18n="userSettings.phone">联系电话</label>
+                    <div class="binding-value sensitive-data" data-field="phone" id="shipping-phone">-</div>
+                  </div>
+                </div>
+                <div class="binding-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div>
+                    <label data-i18n="userSettings.address">收货地址</label>
+                    <div class="binding-value sensitive-data" data-field="address" id="shipping-address">-</div>
+                  </div>
+                </div>
+                <div class="binding-item">
+                  <i class="fas fa-shopping-cart"></i>
+                  <div>
+                    <label data-i18n="orderEntry.taobaoId">淘宝ID</label>
+                    <div class="binding-value sensitive-data" data-field="postal_code" id="shipping-postal-code">-</div>
+                  </div>
+                </div>
+              </div>
+              <button id="unbind-shipping-btn" class="btn-danger btn-block">
+                <i class="fas fa-unlink"></i> <span data-i18n="userSettings.unbindShipping">解绑收货信息</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- 无收货信息提示 -->
+          <div class="settings-card" id="no-shipping-message" style="display: none;">
+            <div class="card-body text-center">
+              <i class="fas fa-box-open empty-icon"></i>
+              <h4 data-i18n="userSettings.noShippingBinding">暂无收货绑定</h4>
+              <p class="text-muted mt-2" data-i18n="userSettings.needBindingForShop">需要先绑定收货信息才能使用积分商城</p>
+              <button id="add-shipping-btn" class="btn-primary mt-3">
+                <i class="fas fa-link"></i> <span data-i18n="userSettings.goToBind">前往绑定</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 隐私设置选项卡 -->
+        <div class="tab-content" id="privacy-tab">
+          <div class="settings-card">
+            <div class="card-header">
+              <h3><i class="fas fa-user-shield"></i> <span data-i18n="userSettings.privacySettings">隐私设置</span></h3>
+            </div>
+            <div class="card-body">
+              <div class="privacy-option">
+                <div class="privacy-option-title">
+                  <i class="fas fa-search"></i>
+                  <span data-i18n="userSettings.searchBy">允许通过以下方式被搜索</span>
+                </div>
+                <div class="privacy-checkboxes">
+                  <div class="privacy-checkbox">
+                    <input type="checkbox" id="search-by-uid" value="uid" checked>
+                    <label for="search-by-uid">UID</label>
+                  </div>
+                  <div class="privacy-checkbox">
+                    <input type="checkbox" id="search-by-username" value="username" checked>
+                    <label for="search-by-username" data-i18n="userSettings.username">用户名</label>
+                  </div>
+                  <div class="privacy-checkbox">
+                    <input type="checkbox" id="search-by-nickname" value="nickname" checked>
+                    <label for="search-by-nickname" data-i18n="auth.nickname">昵称</label>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="privacy-option">
+                <div class="privacy-option-title">
+                  <i class="fas fa-envelope"></i>
+                  <span data-i18n="userSettings.messageReceive">消息接收设置</span>
+                </div>
+                <div class="privacy-radio-group">
+                  <div class="privacy-radio">
+                    <input type="radio" id="msg-all" name="message-privacy" value="all" checked>
+                    <label for="msg-all" data-i18n="userSettings.receiveAll">接收所有人的消息</label>
+                  </div>
+                  <div class="privacy-radio">
+                    <input type="radio" id="msg-friends" name="message-privacy" value="friends">
+                    <label for="msg-friends" data-i18n="userSettings.receiveFriendsOnly">仅接收好友的消息</label>
+                  </div>
+                  <div class="privacy-radio">
+                    <input type="radio" id="msg-none" name="message-privacy" value="none">
+                    <label for="msg-none" data-i18n="userSettings.receiveNone">不接收任何消息</label>
+                  </div>
+                </div>
+              </div>
+              
+              <button id="save-privacy-btn" class="btn-primary btn-block">
+                <i class="fas fa-save"></i> <span data-i18n="userSettings.savePrivacy">保存隐私设置</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+`,
+
     // 每日运势页面
 	fortune: `
 	  <div class="fortune-container">
-		<h1 class="page-title">每日运势(测试版)</h1>
+		<h1 class="page-title" data-i18n="fortune.title">每日签到</h1>
 		<button class="back-button" data-page="home">
 		  <i class="fas fa-arrow-left me-2"></i>
-		  <span>返回主页</span>
+		  <span data-i18n="fortune.backHome">返回主页</span>
 		</button>
 		
 		<div class="section fortune-section">
@@ -187,7 +1302,7 @@ const pages = {
 			
 			<!-- 新增吉凶显示 -->
 			  <div class="fortune-luck-container">
-				<div class="fortune-luck-label">今日运势</div>
+				<div class="fortune-luck-label" data-i18n="fortune.todayFortune">今日运势</div>
 				<div class="fortune-luck-value" id="fortune-luck">？？？</div>
 			  </div>
 		  </div>
@@ -195,18 +1310,18 @@ const pages = {
 		    <!-- 新增宜不宜部分 -->
 			<div class="fortune-recommendation">
 			  <div class="recommend-item">
-				<div class="recommend-label">宜：</div>
+				<div class="recommend-label" data-i18n="fortune.suitable">宜：</div>
 				<div id="lucky-action">?</div>
 			  </div>
 			  <div class="recommend-item">
-				<div class="recommend-label">不宜：</div>
+				<div class="recommend-label" data-i18n="fortune.unsuitable">不宜：</div>
 				<div id="unlucky-action">?</div>
 			  </div>
 			</div>
 		  
 		  <button id="draw-btn" class="fortune-btn">
 			<i class="fas fa-star me-2"></i>
-			<span>抽取</span>
+			<span data-i18n="fortune.signin">签到</span>
 		  </button>
 		  
 		  <div id="fortune-hint" class="fortune-hint"></div>
@@ -218,10 +1333,10 @@ const pages = {
 	// 帮助页面
     help: `
       <div class="game-detail">
-        <h1 class="page-title">帮助中心</h1>
+        <h1 class="page-title" data-i18n="help.title">帮助中心</h1>
         <button class="back-button" data-page="home">
           <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
+          <span data-i18n="help.back">返回</span>
         </button>
         
         <div class="section">
@@ -229,9 +1344,9 @@ const pages = {
             ${[1, 2].map(i => `
               <div class="help-card" data-id="${i}">
                 <div class="help-icon">
-                  <i class="fas fa-${i === 1 ? 'download' : i === 2 ? 'tools' : i === 3 ? 'plug' : i === 4 ? 'question' : i === 5 ? 'cog' : 'database'}"></i>
+                  <i class="fas fa-${i === 1 ? 'download' : 'tools'}"></i>
                 </div>
-                <div class="help-title">${i === 1 ? '下载指南' : i === 2 ? '实用工具指南' : i === 3 ? '补丁工具指南' : i === 4 ? '常见问题' : i === 5 ? '设置说明' : '数据管理'}</div>
+                <div class="help-title" data-i18n="help.${i === 1 ? 'downloadGuide' : 'toolsGuide'}">${i === 1 ? '下载指南' : '实用工具指南'}</div>
               </div>
             `).join('')}
           </div>
@@ -241,10 +1356,10 @@ const pages = {
 
     'help-detail': `
       <div class="game-detail">
-        <h1 class="page-title" id="help-detail-title">帮助详情</h1>
+        <h1 class="page-title" id="help-detail-title" data-i18n="help.title">帮助详情</h1>
         <button class="back-button" data-page="help">
           <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-help">返回</span>
+          <span data-i18n="help.back">返回</span>
         </button>
         
         <div class="section">
@@ -254,446 +1369,271 @@ const pages = {
         </div>
       </div>
     `,
-	
-	// 下载页
-    download: `
-      <h1 class="page-title" id="download-heading">下载中心</h1>
-      <div class="section">
-        <h2 class="section-title">
-          <i class="fas fa-gamepad"></i>
-          <span id="game-heading">游戏下载</span>
-        </h2>
-        <div class="warning">
-          <strong><i class="fas fa-exclamation-circle me-2"></i> <span id="warning-text">重要提示：</span></strong>
-          <span id="warning-detail">OneDrive下载渠道已下线</span>
-        </div>
-        <p class="mb-4"><strong><span id="latest-update-text">最后更新</span>: 2025/07/15</strong></p>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th id="game-title">游戏名称</th>
-                <th id="game-version">版本</th>
-                <th id="game-files">文件数</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><a href="#" data-page="xvideo"><i class="fas fa-link me-2"></i> CHUNITHM X-VERSE (SDHD)</a></td>
-                <td>2.40</td>
-                <td>7</td>
-              </tr>
-              <tr>
-                <td><a href="#" data-page="sdhd"><i class="fas fa-link me-2"></i> CHUNITHM VERSE (SDHD)</a></td>
-                <td>2.30</td>
-                <td>7</td>
-              </tr>
-              <tr>
-                <td><a href="#" data-page="sdez"><i class="fas fa-link me-2"></i> maimai DX PRiSM PLUS (SDEZ)</a></td>
-                <td>1.56</td>
-                <td>14</td>
-              </tr>
-              <tr>
-                <td><a href="#" data-page="sddt"><i class="fas fa-link me-2"></i> O.N.G.E.K.I Re:Fresh</a></td>
-                <td>1.50</td>
-                <td>3</td>
-              </tr>
-              <tr>
-                <td><a href="#" data-page="sded"><i class="fas fa-link me-2"></i> CARD MAKER</a></td>
-                <td>1.39</td>
-                <td>3</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      
-      <div class="section">
-        <h2 class="section-title">
-          <i class="fas fa-archive"></i>
-          <span id="archive-heading">存档下载</span>
-        </h2>
-        <p class="mb-4"><strong><span id="latest-update-text-archive">最后更新</span>: 2025/03/02</strong></p>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th id="archive-title">游戏名称</th>
-                <th id="archive-filetype">文件格式</th>
-                <th id="archive-version">版本</th>
-                <th id="archive-files">文件数</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><a href="#" data-page="sdbt"><i class="fas fa-link me-2"></i> CHUNITHM (SDBT)</a></td>
-                <td>vhd</td>
-                <td>1.00~1.51</td>
-                <td>11</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      
-      <div class="section">
-        <h2 class="section-title">
-          <i class="fas fa-folder-plus"></i>
-          <span id="other-heading">其他资源</span>
-        </h2>
-        <p class="mb-4"><strong><span id="latest-update-text-other">最后更新</span>: 2024/12/16</strong></p>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th id="other-title">资源名称</th>
-                <th id="other-filetype">文件格式</th>
-                <th id="other-files">文件数</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>NONE</td>
-                <td>N/A</td>
-                <td>N/A</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="warning mt-4">
-          <strong><i class="fas fa-info-circle me-2"></i> <span id="download-info-text">下载说明：</span></strong>
-          <span id="download-info-detail">目前本站全部资源仅提供「百度网盘」作为下载方式</span>
-        </div>
-      </div>
-      
-      <footer>
-        <p>SEGAY FEIWU</p>
-        <p>1145141919810</p>
-      </footer>
-    `,
-    
-    // Chusan
-    sdhd: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM VERSE</h1>
-        <button class="back-button" data-page="download">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
-        </button>
-        
-        <div class="section">
-          <h2 class="section-title">
-            <i class="fas fa-download"></i>
-            <span id="download-list-title">下载列表</span>
-          </h2>
-          
-          <div class="mb-4">
-            <p><span id="last-update-label">最后更新</span>: 2025/07/15</p>
-            <div class="table-container">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <td id="download-method">下载方式</td>
-                    <td id="file-count">文件数</td>
-                    <td id="access-code">提取码/访问密码</td>
-                    <td id="validity">资源有效期</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th><a href="https://pan.baidu.com/s/1lblVy58yMv5r-5vJXr55Hg" target="_blank">百度网盘</a></th>
-                    <td>7</td>
-                    <td>vrse</td>
-                    <td id="unlimited">无期限</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-    // X-VERSE页面
-    xvideo: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM X-VERSE</h1>
-        <button class="back-button" data-page="download">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
-        </button>
-        
-        <div class="section">
-          <h2 class="section-title">
-            <i class="fas fa-download"></i>
-            <span id="download-list-title">下载列表</span>
-          </h2>
-          
-          <div class="mb-4">
-            <p><span id="last-update-label">最后更新</span>: 2025/08/17</p>
-            <div class="table-container">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <td id="download-method">下载方式</td>
-                    <td id="file-count">文件数</td>
-                    <td id="access-code">提取码/访问密码</td>
-                    <td id="validity">资源有效期</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th><a href="https://pan.baidu.com/s/1OiSWyswFJUMnqsau4_fRpA" target="_blank">百度网盘</a></th>
-                    <td>7</td>
-                    <td>xvrs</td>
-                    <td id="unlimited">无期限</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-    // maimai DX
-    sdez: `
-      <div class="game-detail">
-        <h1 class="page-title">maimai DX PRiSM Plus</h1>
-        <button class="back-button" data-page="download">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
-        </button>
-        
-        <div class="section">
-          <h2 class="section-title">
-            <i class="fas fa-download"></i>
-            <span id="download-list-title">下载列表</span>
-          </h2>
-          
-          <div class="mb-4">
-            <p><span id="last-update-label">最后更新</span>: 2025/07/15</p>
-            <div class="table-container">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <td id="download-method">下载方式</td>
-                    <td id="file-count">文件数</td>
-                    <td id="access-code">提取码/访问密码</td>
-                    <td id="validity">资源有效期</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th><a href="https://pan.baidu.com/s/1PZ063rVUacNHkA6Z50mAdg" target="_blank">百度网盘</a></th>
-                    <td>15</td>
-                    <td>sdez</td>
-                    <td id="unlimited">无期限</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-    // ongeki
-    sddt: `
-      <div class="game-detail">
-        <h1 class="page-title">O.N.G.E.K.I Re:Fresh</h1>
-        <button class="back-button" data-page="download">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
-        </button>
-        
-        <div class="section">
-          <h2 class="section-title">
-            <i class="fas fa-download"></i>
-            <span id="download-list-title">下载列表</span>
-          </h2>
-          
-          <div class="mb-4">
-            <p><span id="last-update-label">最后更新</span>: 2025/03/28</p>
-            <div class="table-container">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <td id="download-method">下载方式</td>
-                    <td id="file-count">文件数</td>
-                    <td id="access-code">提取码/访问密码</td>
-                    <td id="validity">资源有效期</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th><a href="https://pan.baidu.com/s/1zjY3OAwxdtK5K3G2c2QgnQ" target="_blank">百度网盘</a></th>
-                    <td>3</td>
-                    <td>sddt</td>
-                    <td id="unlimited">无期限</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-	
-	// CARD MAKER
-	sded: `
-      <div class="game-detail">
-        <h1 class="page-title">CARD MAKER</h1>
-        <button class="back-button" data-page="download">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
-        </button>
-        
-        <div class="section">
-          <h2 class="section-title">
-            <i class="fas fa-download"></i>
-            <span id="download-list-title">下载列表</span>
-          </h2>
-          
-          <div class="mb-4">
-            <p><span id="last-update-label">最后更新</span>: 2025/03/28</p>
-            <div class="table-container">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <td id="download-method">下载方式</td>
-                    <td id="file-count">文件数</td>
-                    <td id="access-code">提取码/访问密码</td>
-                    <td id="validity">资源有效期</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th><a href="https://pan.baidu.com/s/1rkKLqWKckMtKbbbrEYN8HA" target="_blank">百度网盘</a></th>
-                    <td>3</td>
-                    <td>cdmk</td>
-                    <td id="unlimited">无期限</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-	// Archive相关页面
-	sdbt: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM OLD (SDBT)</h1>
-        <button class="back-button" data-page="download">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
-        </button>
-        
-        <div class="section">
-          <h2 class="section-title">
-            <i class="fas fa-download"></i>
-            <span id="download-list-title">下载列表</span>
-          </h2>
-          
-          <div class="mb-4">
-            <p><span id="last-update-label">最后更新</span>: 2025/03/28</p>
-            <div class="table-container">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <td id="download-method">下载方式</td>
-                    <td id="file-count">文件数</td>
-                    <td id="access-code">提取码/访问密码</td>
-                    <td id="validity">资源有效期</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th><a href="https://pan.baidu.com/s/17M-tfyYGJ5wRwHAnjsyLRg" target="_blank">百度网盘</a></th>
-                    <td>11</td>
-                    <td>sdbt</td>
-                    <td id="unlimited">无期限</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
 
     // 其他页面模板
-    'sdhd-archive': `<div class="game-detail">准备中...</div>`,
+    'sdhd-archive': `<div class="game-detail"><span data-i18n="common.loading">准备中...</span></div>`,
     
     // 其他页面
-    'data-center': `<div class="section"><h1>数据中心</h1><p>数据中心内容...</p></div>`,
-	
-	// 页面设置
-    settings: `
-      <div class="settings-container">
-        <h1 class="page-title" id="option-title">设置</h1>
-        <button class="back-button" data-page="home">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
-        </button>
-        
-        <div class="setting-card">
-          <div class="setting-header">
-            <i class="fas fa-language me-2"></i>
-            <span id="lang-option">语言设置</span>
+    'data-center': `<div class="section"><h1 data-i18n="dataCenter.title">数据中心</h1><p data-i18n="dataCenter.content">数据中心内容...</p></div>`,
+
+// 设置页面
+settings: `
+  <div class="settings-container">
+    <h1 class="page-title" data-i18n="settings.title">设置</h1>
+    <button class="back-button" data-page="home">
+      <i class="fas fa-arrow-left me-2"></i>
+      <span data-i18n="settings.back">返回</span>
+    </button>
+    
+    <!-- 语言设置卡片 -->
+    <div class="setting-card">
+      <div class="setting-header">
+        <i class="fas fa-language me-2"></i>
+        <span data-i18n="settings.language">语言设置</span>
+      </div>
+      <div class="setting-body">
+        <div class="form-group">
+          <label for="language-select" data-i18n="settings.interfaceLanguage">界面语言</label>
+          <select id="language-select" class="form-control">
+            <option value="zh-cn">简体中文</option>
+            <option value="en-us">English</option>
+            <option value="ja-jp">日本語</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <div>
+            <span data-i18n="settings.rememberLanguage">记住语言偏好</span>
+            <div class="setting-description" data-i18n="settings.rememberLanguageDesc">下次访问时自动使用您选择的语言</div>
           </div>
-          <div class="setting-body">
-            <div class="setting-item">
-              <div>
-                <span id="option-item">记住语言偏好</span>
-                <div class="setting-description" id="option-text">下次访问时自动使用您选择的语言</div>
-              </div>
-              <label class="switch">
-                <input type="checkbox" id="remember-language">
-                <span class="slider"></span>
-              </label>
-            </div>
+          <label class="switch">
+            <input type="checkbox" id="remember-language">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+    
+	<!-- 表情缓存管理卡片 -->
+	<div class="setting-card" id="emoji-cache-card">
+	  <div class="setting-header">
+		<i class="fas fa-database me-2"></i>
+		<span data-i18n="settings.emojiCache">表情缓存管理</span>
+	  </div>
+	  <div class="setting-body">
+		<div class="cache-stats">
+		  <div class="cache-stat-item">
+			<i class="far fa-smile"></i>
+			<div>
+			  <div class="cache-stat-value" id="cache-emoji-count">0</div>
+			  <div class="cache-stat-label" data-i18n="settings.cachedEmoji">已缓存表情</div>
+			</div>
+		  </div>
+		  <div class="cache-stat-item">
+			<i class="fas fa-music"></i>
+			<div>
+			  <div class="cache-stat-value" id="cache-audio-count">0</div>
+			  <div class="cache-stat-label" data-i18n="settings.cachedAudio">已缓存音频</div>
+			</div>
+		  </div>
+		  <div class="cache-stat-item">
+			<i class="far fa-image"></i>
+			<div>
+			  <div class="cache-stat-value" id="cache-message-count">0</div>
+			  <div class="cache-stat-label" data-i18n="settings.messageImages">消息图片</div>
+			</div>
+		  </div>
+		  <div class="cache-stat-item">
+			<i class="fas fa-hdd"></i>
+			<div>
+			  <div class="cache-stat-value" id="cache-size">0.00 MB</div>
+			  <div class="cache-stat-label" data-i18n="settings.cacheSize">缓存大小</div>
+			</div>
+		  </div>
+		</div>
+		
+		<div class="cache-progress">
+		  <div class="ring-progress-container">
+			<svg class="ring-progress-svg" viewBox="0 0 140 140">
+			  <defs>
+				<linearGradient id="ring-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+				  <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+				  <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+				</linearGradient>
+			  </defs>
+			  <circle class="ring-progress-bg" cx="70" cy="70" r="65"></circle>
+			  <circle class="ring-progress-fill" id="ring-progress-fill" cx="70" cy="70" r="65"></circle>
+			</svg>
+			<div class="ring-progress-text">
+			  <span class="ring-progress-percent" id="ring-progress-percent">0%</span>
+			  <span class="ring-progress-label" data-i18n="settings.used">已使用</span>
+			</div>
+		  </div>
+		  <div class="cache-progress-info">
+			<span id="cache-usage-text">0.00 MB / 500 MB</span>
+		  </div>
+		</div>
+		
+		<div class="cache-actions">
+		  <button class="settings-btn settings-btn-primary" id="refresh-cache-stats" onclick="handleRefreshCacheStats()">
+			<i class="fas fa-sync-alt me-2"></i><span data-i18n="settings.refreshStats">刷新统计</span>
+		  </button>
+		  <button class="settings-btn settings-btn-warning" id="clean-old-cache" onclick="handleCleanOldCache()">
+			<i class="fas fa-broom me-2"></i><span data-i18n="settings.cleanOldCache">清理旧缓存</span>
+		  </button>
+		  <button class="settings-btn settings-btn-danger" id="clear-all-cache" onclick="handleClearAllCache()">
+			<i class="fas fa-trash-alt me-2"></i><span data-i18n="settings.clearAllCache">清空所有缓存</span>
+		  </button>
+		</div>
+		
+		<div class="cache-settings">
+		  <div class="setting-item">
+			<label class="settings-label">
+			  <input type="checkbox" id="auto-clean-cache" checked>
+			  <span data-i18n="settings.autoCleanCache">自动清理过期缓存</span>
+			</label>
+		  </div>
+		  <div class="setting-item">
+			<label class="settings-label">
+			  <input type="checkbox" id="preload-emoji" checked>
+			  <span data-i18n="settings.preloadEmoji">预加载常用表情和音频</span>
+			</label>
+		  </div>
+		</div>
+	  </div>
+	</div>
+    
+    <!-- 鼠标样式设置卡片 -->
+    <div class="setting-card" id="cursor-settings-card">
+      <div class="setting-header">
+        <i class="fas fa-mouse-pointer me-2"></i>
+        <span data-i18n="settings.cursorStyle">鼠标样式</span>
+      </div>
+      <div class="setting-body">
+        <!-- 移动端提示 -->
+        <div class="cursor-mobile-hint">
+          <i class="fas fa-info-circle me-2"></i>
+          <span data-i18n="settings.cursorHint">鼠标样式设置仅在桌面设备上生效</span>
+        </div>
+        
+        <div class="setting-description" style="margin-bottom: 15px;" data-i18n="settings.cursorDesc">
+          选择您喜欢的鼠标指针样式，让浏览体验更加个性化
+        </div>
+        
+        <!-- 鼠标样式预览容器 -->
+        <div id="cursor-preview-container">
+          <div class="text-center" style="padding: 20px; color: #999;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i>
+            <p style="margin-top: 10px;" data-i18n="common.loading">加载中...</p>
           </div>
         </div>
         
-        <button class="save-btn" id="save-settings">
-          <i class="fas fa-save me-2"></i>
-          <span id="option-save">保存设置</span>
-        </button>
+        <div class="setting-description" style="margin-top: 15px; font-size: 0.85rem; color: #94a3b8;">
+          <i class="fas fa-info-circle me-1"></i>
+          <span data-i18n="settings.cursorLoadingHint">提示：自定义鼠标样式需要加载额外资源，首次使用可能需要几秒钟加载</span>
+        </div>
       </div>
-    `,
+    </div>
+    
+    <div class="settings-buttons">
+      <button class="save-btn" id="save-settings">
+        <i class="fas fa-save me-2"></i>
+        <span data-i18n="settings.saveSettings">保存设置</span>
+      </button>
+    </div>
+  </div>
+  
+  <!-- 页面初始化脚本（仅初始化鼠标设置和调用缓存初始化）-->
+  <script>
+    // 页面加载后初始化
+    setTimeout(function() {
+      console.log('初始化设置页面...');
+      
+      // 初始化鼠标设置
+      initCursorSettings();
+      
+      // 初始化缓存设置（如果函数存在）
+      if (typeof window.initCacheSettings === 'function') {
+        console.log('调用缓存设置初始化...');
+        window.initCacheSettings();
+      } else {
+        console.warn('缓存管理函数未加载，请确保已引入 cache-manager.js');
+      }
+      
+      // 更新翻译
+      if (typeof languageModule !== 'undefined' && languageModule.updateTranslations) {
+        languageModule.updateTranslations();
+      }
+    }, 100);
+    
+    // 初始化鼠标设置的函数
+    function initCursorSettings() {
+      const container = document.getElementById('cursor-preview-container');
+      if (!container) return;
+      
+      const currentStyle = localStorage.getItem('cursorStyle') || 'default';
+      
+      const cursorStyles = {
+        default: {
+          name: languageModule.t('settings.cursorDefault'),
+          description: languageModule.t('settings.cursorDefaultDesc'),
+          icon: 'fas fa-mouse-pointer',
+          value: 'default'
+        },
+        custom1: {
+          name: languageModule.t('settings.cursorCustom1'),
+          description: languageModule.t('settings.cursorCustom1Desc'),
+          icon: 'fas fa-circle',
+          value: 'custom1'
+        },
+        custom2: {
+          name: languageModule.t('settings.cursorCustom2'),
+          description: languageModule.t('settings.cursorCustom2Desc'),
+          icon: 'fas fa-heart',
+          value: 'custom2'
+        }
+      };
+      
+      let html = '<div class="cursor-preview">';
+      
+      Object.entries(cursorStyles).forEach(([key, style]) => {
+        const isActive = key === currentStyle;
+        html += \`
+          <div class="cursor-option \${isActive ? 'active' : ''}" data-cursor="\${key}">
+            <div class="cursor-option-icon">
+              <i class="\${style.icon}"></i>
+            </div>
+            <div class="cursor-option-name">\${style.name}</div>
+            <div class="cursor-option-desc">\${style.description}</div>
+          </div>
+        \`;
+      });
+      
+      html += '</div>';
+      container.innerHTML = html;
+      
+      // 添加点击事件
+      container.querySelectorAll('.cursor-option').forEach(option => {
+        option.addEventListener('click', function(e) {
+          const cursorType = this.dataset.cursor;
+          
+          document.querySelectorAll('.cursor-option').forEach(opt => {
+            opt.classList.remove('active');
+          });
+          this.classList.add('active');
+          
+          localStorage.setItem('cursorStyle', cursorType);
+          document.body.classList.remove('cursor-default', 'cursor-custom1', 'cursor-custom2');
+          document.body.classList.add('cursor-' + cursorType);
+          
+          if (typeof showSuccessMessage === 'function') {
+            const styleName = cursorStyles[cursorType].name;
+            showSuccessMessage(languageModule.t('common.success'));
+          }
+        });
+      });
+    }
+  </script>
+`,
 	
     // ICF Editor
     icfeditor: `
@@ -706,13 +1646,13 @@ const pages = {
         </div>
         <button class="back-button" data-page="tools">
           <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
+          <span data-i18n="common.back">返回</span>
         </button>
         
         <div class="section iframe-container">
           <div class="iframe-loader">
             <div class="spinner-border text-primary"></div>
-            <p>正在加载ICF编辑器...</p>
+            <p data-i18n="common.loading">正在加载ICF编辑器...</p>
           </div>
           <iframe 
             src="icfemain.html" 
@@ -723,856 +1663,17 @@ const pages = {
         </div>
         
         <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
+          <p data-i18n="footer.text1">SEGAY FEIWU</p>
+          <p data-i18n="footer.text2">1145141919810</p>
         </footer>
       </div>
     `,
-
-    // tools
-    tools: `
-      <div class="game-detail">
-        <h1 class="page-title">实用工具</h1>
-        <button class="back-button" data-page="home">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
-        </button>
-        
-        <div class="section">
-          <div class="tool-grid-header">
-            <h2 class="section-title">
-              <i class="fas fa-tools"></i>
-              <span>工具列表</span>
-            </h2>
-            <div class="search-box">
-              <i class="fas fa-search"></i>
-              <input type="text" placeholder="搜索...">
-            </div>
-          </div>
-
-          <div class="tools-container">
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-file-archive"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">Chunlocker v1.03</h3>
-                <p class="tool-description">新版ChunithmUnlocker，使用更加便捷，支持多语言与在线更新。</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/17</span>
-                  <span><i class="fas fa-download"></i> 10.9MB</span>
-                </div>
-                <a href="https://oss.am-all.com.cn/download/software/chunlocker/Chunlocker.exe" class="tool-link" target="_blank" rel="noopener">下载</a>
-              </div>
-            </div>
-
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-file-archive"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">Segatools Editor v1.02</h3>
-                <p class="tool-description">使用此工具可以方便快捷的修改segatools.ini，无需另装各式文本编辑器。</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/25</span>
-                  <span><i class="fas fa-download"></i> 12MB</span>
-                </div>
-                <a href="https://oss.am-all.com.cn/download/software/sgeditor/SegatoolsEditor.exe" class="tool-link" target="_blank" rel="noopener">下载</a>
-              </div>
-            </div>
-
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-file-archive"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">AllsUnlocker v1.00</h3>
-                <p class="tool-description">可以解密ALLS格式软件(pack/app/opt)</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/21</span>
-                  <span><i class="fas fa-download"></i> 11.8MB</span>
-                </div>
-                <a href="https://oss.am-all.com.cn/download/software/allsunpacker/AllsUnpacker.exe" class="tool-link" target="_blank" rel="noopener">下载</a>
-              </div>
-            </div>
-
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-file-archive"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">7zip</h3>
-                <p class="tool-description">可提取HDD镜像中的数据</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-history"></i> 最后更新: 2025/07/10</span>
-                  <span><i class="fas fa-download"></i> 1.54MB</span>
-                </div>
-                <a href="https://oss.am-all.com.cn/download/files/7-Zip.rar" class="tool-link" target="_blank" rel="noopener">下载</a>
-              </div>
-            </div>
-            
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-palette"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">Runtime</h3>
-                <p class="tool-description">Windows运行时安装包，运行HDD所必要的系统组件。</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
-                  <span><i class="fas fa-download"></i> 180MB</span>
-                </div>
-                <a href="https://hitiko-my.sharepoint.com/:u:/p/evilleaker/EffD9kk4fiFEnJVcOrSgVI0B3gOx86gw9WBRLqdUIxvvjg" class="tool-link" target="_blank" rel="noopener">下载</a>
-              </div>
-            </div>
-            
-            <div class="tool-card">
-              <div class="tool-icon">
-                <i class="fas fa-database"></i>
-              </div>
-              <div class="tool-content">
-                <h3 class="tool-title">MaiChartManager</h3>
-                <p class="tool-description">可以管理某8键游戏Mod与游戏资源</p>
-                <div class="tool-meta">
-                  <span><i class="fas fa-browser"></i> 最后更新: 2025/07/10</span>
-                  <span><i class="fas fa-download"></i> 1.05MB</span>
-                </div>
-                <a href="https://get.microsoft.com/installer/download/9P1JDKQ60G4G" class="tool-link" target="_blank" rel="noopener">下载</a>
-              </div>
-            </div>
-          </div>
-
-          <footer>
-            <p>SEGAY FEIWU</p>
-            <p>1145141919810</p>
-          </footer>
-        </div>
-      </div>
-    `,
-
-    // 首页
-    home: `
-      <div class="section">
-        <h1 class="page-title" id="top-page">首页</h1>
-        
-        <!-- 公告栏 -->
-        <div class="announcements-section">
-          <h2 class="section-title">
-            <i class="fas fa-bullhorn"></i>
-            <span id="announcements-title">最新公告</span>
-          </h2>
-          
-          <div class="announcements-container">
-            <!-- 前四个公告：卡片样式 -->
-            ${announcementsData.slice(0, 4).map(item => `
-              <div class="announcement-card" data-id="${item.id}">
-                <div class="announcement-header">
-                  <span class="badge bg-${item.type === 'dgr' ? 'danger' : item.type === 'upd' ? 'success' : 'info'} announcement-badge" data-type="${item.type}"></span>
-                  <span class="announcement-date">${item.date}</span>
-                </div>
-                <h3 class="announcement-title">${item.title}</h3>
-                <div class="announcement-preview">
-                  <p>${item.preview}</p>
-                </div>
-                <div class="announcement-footer">
-                  <span class="more-link click-detail">查看详情 <i class="fas fa-chevron-right"></i></span>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-          
-          <!-- 剩下的公告：列表样式 -->
-          <ul class="announcements-list">
-            ${announcementsData.slice(4).map(item => `
-              <li class="announcement-item" data-id="${item.id}">
-                <div class="announcement-item-header">
-                  <span class="badge bg-${item.type === 'dgr' ? 'danger' : item.type === 'upd' ? 'success' : 'info'} announcement-badge" data-type="${item.type}"></span>
-                  <span class="announcement-item-date">${item.date}</span>
-                  <span class="announcement-item-title">${item.title}</span>
-                </div>
-                <div class="announcement-item-preview">
-                  ${item.preview}
-                </div>
-              </li>
-            `).join('')}
-          </ul>
-        </div>
-        
-        <!-- 其他内容 -->
-        <div class="welcome-section mt-5">
-          <h2 class="section-title">
-            <i class="fas fa-star"></i>
-            <span>要开始了哟~！</span>
-          </h2>
-          <p>请从左侧菜单选择功能</p>
-        </div>
-      </div>
-    `,
-
-    //CHUNITHM 补丁工具主页面
-    dllpatcher: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM 补丁工具</h1>
-        <button class="back-button" data-page="home">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span id="back-to-home">返回</span>
-        </button>
-        
-        <div class="section">
-          <h2 class="section-title">
-            <i class="fas fa-plug"></i>
-            <span>请选择游戏</span>
-          </h2>
-          
-          <div class="patcher-container">
-            <!-- CHUNITHM -->
-            <div class="patcher-card" data-page="chuni">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chuni.png" alt="CHUNITHM">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM
-              </div>
-            </div>
-            
-            <!-- CHUNITHM PLUS -->
-            <div class="patcher-card" data-page="chuniplus">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chuniplus.jpg" alt="CHUNITHM PLUS">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM PLUS
-              </div>
-            </div>
-            
-            <!-- CHUNITHM AIR -->
-            <div class="patcher-card" data-page="chuniair">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chuniair.png" alt="CHUNITHM AIR">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM AIR
-              </div>
-            </div>
-            
-            <!-- CHUNITHM STAR -->
-            <div class="patcher-card" data-page="chunistar">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chunistar.png" alt="CHUNITHM STAR">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM STAR
-              </div>
-            </div>
-
-            <!-- CHUNITHM AMAZON -->
-            <div class="patcher-card" data-page="chuniamazon">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chuniamazon.png" alt="CHUNITHM AMAZON">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM AMAZON
-              </div>
-            </div>
-
-            <!-- CHUNITHM CRYSTAL -->
-            <div class="patcher-card" data-page="chunicrystal">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chunicrystal.png" alt="CHUNITHM CRYSTAL">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM CRYSTAL
-              </div>
-            </div>
-
-            <!-- CHUNITHM PARADISE -->
-            <div class="patcher-card" data-page="chuniparadise">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chuniparadise.png" alt="CHUNITHM PARADISE">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM PARADISE
-              </div>
-            </div>
-
-            <!-- CHUNITHM NEW -->
-            <div class="patcher-card" data-page="chusan">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chusan.png" alt="CHUNITHM NEW">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM NEW
-              </div>
-            </div>
-
-            <!-- CHUNITHM NEW PLUS -->
-            <div class="patcher-card" data-page="chusan">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chusanplus.png" alt="CHUNITHM NEW PLUS">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM NEW PLUS
-              </div>
-            </div>
-
-            <!-- CHUNITHM SUN -->
-            <div class="patcher-card" data-page="chusansun">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chusansun.png" alt="CHUNITHM SUN">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM SUN
-              </div>
-            </div>
-
-            <!-- CHUNITHM SUN PLUS -->
-            <div class="patcher-card" data-page="chusansunplus">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chusansunplus.png" alt="CHUNITHM SUN PLUS">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM SUN PLUS
-              </div>
-            </div>
-
-            <!-- CHUNITHM LUMINOUS -->
-            <div class="patcher-card" data-page="chusanlmn">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chulmn.png" alt="CHUNITHM LUMINOUS">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM LUMINOUS
-              </div>
-            </div>
-
-            <!-- CHUNITHM LUMINOUS PLUS -->
-            <div class="patcher-card" data-page="chusanlmnplus">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chusan_lmnp.png" alt="CHUNITHM LUMINOUS PLUS">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM LUMINOUS PLUS
-              </div>
-            </div>
-
-            <!-- CHUNITHM VERSE -->
-            <div class="patcher-card" data-page="chusanvrs">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chusan_vrs.png" alt="CHUNITHM VERSE">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM VERSE
-              </div>
-            </div>
-
-            <!-- CHUNITHM X-VERSE -->
-            <div class="patcher-card" data-page="chusanxvrs">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chusan_xvrs.png" alt="CHUNITHM X-VERSE">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                CHUNITHM XVERSE
-              </div>
-            </div>
-
-            <!-- 中二节奏2025 -->
-            <div class="patcher-card" data-page="chusan2025">
-              <div class="patcher-card-image">
-                <img src="https://oss.am-all.com.cn/asset/img/main/chusan2025.png" alt="中二节奏2025">
-              </div>
-              <div class="patcher-card-divider"></div>
-              <div class="patcher-card-title">
-                中二节奏2025
-              </div>
-            </div>
-
-          </div>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-    
-    // CHUNITHM 页面
-    chuni: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chuni.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-    
-    // CHUNITHM PLUS 页面
-    chuniplus: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM PLUS 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chuniplus.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-	
-	// CHUNITHM AIR 页面
-    chuniair: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM AIR 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chuniair.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-	// CHUNITHM STAR 页面
-    chunistar: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM STAR 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chunistar.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-	// CHUNITHM AMAZON 页面
-    chuniamazon: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM AMAZON 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chuniamazon.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-  // CHUNITHM CRYSTAL 页面
-    chunicrystal: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM CRYSTAL 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chunicrystal.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-	// CHUNITHM PARADISE 页面
-    chuniparadise: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM PARADISE 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chuniparadise.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-  // CHUNITHM NEW 页面
-    chusan: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM NEW 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chusan.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-  // CHUNITHM NEW PLUS 页面
-    chusanplus: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM NEW PLUS 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chusanplus.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-  // CHUNITHM SUN 页面
-    chusansun: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM SUN 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chusansun.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-  // CHUNITHM SUN PLUS 页面
-    chusansunplus: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM SUN PLUS 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chusansunplus.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-  // CHUNITHM LUMINOUS 页面
-    chusanlmn: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM LUMINOUS 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chusanlmn.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-  // CHUNITHM LUMINOUS PLUS 页面
-    chusanlmnplus: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM LUMINOUS PLUS 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chusanlmnplus.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-  // CHUNITHM VERSE 页面
-    chusanvrs: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM VERSE 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chusanvrs.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-  // CHUNITHM X-VERSE 页面
-    chusanxvrs: `
-      <div class="game-detail">
-        <h1 class="page-title">CHUNITHM X-VERSE 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chusanxvrs.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
-  // 中二节奏2025 页面
-    chusan2025: `
-      <div class="game-detail">
-        <h1 class="page-title">中二节奏2025 补丁工具</h1>
-        <button class="back-button" data-page="dllpatcher">
-          <i class="fas fa-arrow-left me-2"></i>
-          <span>返回</span>
-        </button>
-        
-        <div class="section iframe-container">
-          <div class="iframe-loader">
-            <div class="spinner-border text-primary"></div>
-            <p>正在加载...</p>
-          </div>
-          <iframe 
-            src="patcher/chusan2025.html" 
-            frameborder="0"
-            class="icf-editor-iframe"
-            onload="this.previousElementSibling.style.display='none'">
-          </iframe>
-        </div>
-        
-        <footer>
-          <p>SEGAY FEIWU</p>
-          <p>1145141919810</p>
-        </footer>
-      </div>
-    `,
-
 };
+
+window.addEventListener('DOMContentLoaded', function() {
+    window.addEventListener('pageLoaded', function() {
+        if (typeof languageModule !== 'undefined' && languageModule.updateTranslations) {
+            languageModule.updateTranslations();
+        }
+    });
+});

@@ -1,0 +1,470 @@
+.fortune-container {
+  background-image: url('https://oss.am-all.com.cn/asset/img/main/common/fortune_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.fortune-section {
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.song-cover {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background-color: #f5f5f5;
+}
+
+.song-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.song-info {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.song-id-cat {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.song-id {
+  background: #2c3e50;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.song-category {
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.cat-pops { background-color: #e74c3c; }
+.cat-nico { background-color: #9b59b6; }
+.cat-touhou { background-color: #3498db; }
+.cat-variety { background-color: #2ecc71; }
+.cat-irodori { background-color: #e84393; }
+.cat-gekimai { background-color: #f39c12; }
+.cat-original { background-color: #d35400; }
+
+.cat-dummy {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.song-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.song-artist {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+  margin-bottom: 20px;
+}
+
+.difficulties {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.difficulty-tag {
+  padding: 5px 12px;
+  border-radius: 4px;
+  color: white;
+  font-weight: 500;
+}
+
+.lev-bas { background-color: #27ae60; }
+.lev-adv { background-color: #d35400; }
+.lev-exp { background-color: #c0392b; }
+.lev-mas { background-color: #8e44ad; }
+.lev-ult { background-color: #2c3e50; }
+
+.lev-we {
+    background: linear-gradient(90deg, 
+        #ff0000, #ff7f00, #ffff00, #00ff00, 
+        #0000ff, #4b0082, #9400d3);
+    color: white;
+    font-weight: bold;
+    text-shadow: 
+        -1px -1px 0 #000,  
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.fortune-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 0 auto;
+}
+
+.fortune-btn:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+}
+
+.fortune-btn:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.fortune-hint {
+  text-align: center;
+  margin-top: 15px;
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+@keyframes scrollCover {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-3000px); }
+}
+
+.scrolling {
+  animation: scrollCover 0.1s linear infinite;
+}
+
+.fortune-luck-container {
+  margin-top: 20px;
+  padding: 12px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.fortune-luck-label {
+  color: #7f8c8d;
+}
+
+.fortune-luck-value {
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.we-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: black;
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+.we-stars .star {
+  color: #ffcc00;
+  font-size: 0.9em;
+}
+
+@keyframes resetFortune {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.reset-fortune {
+  animation: resetFortune 1s ease;
+}
+
+.song-cover {
+  position: relative;
+}
+
+.fortune-animation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: none;
+}
+
+.kuji-img {
+  width: auto;
+  height: auto;
+  max-width: none;
+}
+
+#kuji-01 {
+  width: 86px;
+  height: 171px;
+}
+
+#kuji-02 {
+  width: 86px;
+  height: 226px;
+  display: none;
+}
+
+@keyframes kuji-swing {
+  0% { transform: rotate(-5deg); }
+  25% { transform: rotate(5deg); }
+  50% { transform: rotate(-7deg); }
+  75% { transform: rotate(7deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.kuji-swing {
+  animation: kuji-swing 0.8s ease-in-out infinite;
+}
+
+@keyframes kuji-fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.kuji-fadein {
+  animation: kuji-fadein 0.5s ease-out forwards;
+}
+
+.fortune-recommendation {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 15px;
+  font-size: 1.1rem;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.recommend-item {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 15px;
+  border-radius: 8px;
+  white-space: nowrap;
+  justify-content: center;
+}
+
+.recommend-label {
+  font-weight: bold;
+  margin-bottom: 0;
+  margin-right: 8px;
+}
+
+.fortune-recommendation .recommend-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 480px) {
+  .fortune-recommendation {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .recommend-item {
+    width: 100%;
+    max-width: 250px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .difficulties {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  .difficulty-tag:not(.lev-we) {
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .difficulty-tag:not(.lev-we)::before {
+    content: attr(data-level) " ";
+    font-size: 0.8em;
+  }
+  
+  .lev-bas::before { content: "BASIC "; }
+  .lev-adv::before { content: "ADVANCE "; }
+  .lev-exp::before { content: "EXPERT "; }
+  .lev-mas::before { content: "MASTER "; }
+  .lev-ult::before { content: "ULTIMA "; }
+}
+
+.fortune-luck-container {
+  flex-direction: column;
+  text-align: center;
+}
+
+.fortune-luck-label {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.fortune-luck-value {
+  font-weight: bold;
+  color: #e74c3c;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  .lev-we {
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+  }
+  
+  .we-stars {
+    margin-left: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .fortune-section {
+    padding: 15px;
+  }
+  
+  .song-cover {
+    width: 190px;
+    height: 190px;
+    margin: 0 auto 10px;
+  }
+  
+  .song-id-cat {
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .song-id, .song-category {
+    padding: 3px 10px;
+    font-size: 0.9rem;
+  }
+  
+  .song-title {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+  
+  .song-artist {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .difficulty-tag {
+    padding: 3px 8px;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+  
+  .fortune-luck-container {
+    padding: 8px;
+    font-size: 1rem;
+    margin-top: 15px;
+  }
+  
+  .fortune-luck-value {
+    font-size: 1.2rem;
+  }
+  
+  .fortune-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+
+  .fortune-container {
+    min-height: 100vh;
+    height: auto;
+    padding-bottom: 20px;
+    overflow-y: auto;
+  }
+
+  .difficulty-tag:not(.lev-we) {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+
+  .difficulty-tag:not(.lev-we)::before {
+    content: "" !important;
+    display: none !important;
+  }
+
+  .lev-we {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    text-align: center;
+    border-radius: 20px;
+    margin-top: 5px;
+  }
+
+  .we-stars {
+    display: inline-flex;
+    margin-left: 5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .difficulties {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  .difficulty-tag:not(.lev-we) {
+    margin-bottom: 0;
+  }
+}

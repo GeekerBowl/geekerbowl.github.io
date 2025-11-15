@@ -1,8 +1,6 @@
-/*jshint esversion: 6 */
 (function(window, document) {
 "use strict";
 
-// form labels often need unique IDs - this can be used to generate some
 window.Patcher_uniqueid = 0;
 var createID = function() {
     window.Patcher_uniqueid++;
@@ -47,12 +45,10 @@ var whichBytesMatch = function(buffer, offset, bytesArray) {
     return -1;
 };
 
-// shorthand functions
 var createElementClass = function(elName, className, textContent, innerHTML) {
     var el = document.createElement(elName);
     el.className = className || '';
-    el.textContent = textContent || ''; // optional
-    // overrides textContent with HTML if provided
+    el.textContent = textContent || '';
     if(innerHTML) {
         el.innerHTML = innerHTML;
     }
@@ -74,9 +70,6 @@ var createLabel = function(labelText, htmlFor, className) {
     el.className = className || '';
     return el;
 };
-
-// Each unique kind of patch should have createUI, validatePatch, applyPatch,
-// updateUI
 
 class StandardPatch {
     constructor(options) {
@@ -415,10 +408,6 @@ class DynamicPatch {
     }
 }
 
-// Each unique kind of patch should have createUI, validatePatch, applyPatch,
-// updateUI
-
-// The DEFAULT state is always the 1st element in the patches array
 class UnionPatch {
     constructor(options) {
         this.name = options.name;
@@ -471,7 +460,7 @@ class UnionPatch {
                 return;
             }
         }
-        // Default fallback
+
         this.radios[0].checked = true;
     }
 
@@ -500,8 +489,6 @@ class UnionPatch {
     }
 }
 
-// Each unique kind of patch should have createUI, validatePatch, applyPatch,
-// updateUI
 class NumberPatch {
     constructor(options) {
         this.name = options.name;
@@ -570,7 +557,6 @@ class NumberPatch {
     }
 
     applyPatch(file) {
-        // Convert user inputted number to little endian
         const arr = new Uint8Array(this.size);
         const view = new DataView(arr.buffer);
 
@@ -588,8 +574,6 @@ class NumberPatch {
     }
 }
 
-// Each unique kind of patch should have createUI, validatePatch, applyPatch,
-// updateUI
 class HexPatch {
     constructor(options) {
         this.name = options.name;
@@ -603,8 +587,6 @@ class HexPatch {
     createUI(parent) {
 		this.radios = [];
 		var radio_id = createID();
-
-		// Title of the radio option.
         var container = createElementClass('div', 'patch-union');
         container.appendChild(createElementClass('span', 'patch-union-title', this.name + ':'));
         if(this.tooltip) {
@@ -614,8 +596,6 @@ class HexPatch {
             container.appendChild(createElementClass('div', 'danger tooltip', this.danger));
         }
         container.appendChild(document.createElement('span'));
-		
-		// Default option; tooltip shows default hex value.
 		var id = createID();
 		var patchDiv = createElementClass('div', 'patch');
 		var radio = createInput('radio', id);
@@ -627,7 +607,6 @@ class HexPatch {
 		patchDiv.appendChild(createElementClass('div', 'tooltip', 'Value ' + bytesToHex(this.off)));
 		container.appendChild(patchDiv);
 
-		// Custom option.
 		id = createID();
 		patchDiv = createElementClass('div', 'patch');
 		radio = createInput('radio', id);
@@ -802,32 +781,26 @@ class PatchContainer {
 
         reader.onload = function (e) {
             var found = false;
-            // clear logs
             self.errorDiv.textContent = '';
             self.successDiv.textContent = '';
             for (var i = 0; i < self.patchers.length; i++) {
-                // reset text and buttons
                 self.forceLoadButtons[i].style.display = 'none';
                 self.forceLoadTexts[i].textContent = '';
                 self.matchSuccessText[i].textContent = '';
                 var patcher = self.patchers[i];
-                // remove the previous UI to clear the page
                 patcher.destroyUI();
-                // patcher UI elements have to exist to load the file
                 patcher.createUI();
                 patcher.container.style.display = 'none';
                 patcher.loadBuffer(e.target.result);
                 if (patcher.validatePatches()) {
                     found = true;
                     loadPatch(this, self, patcher);
-                    // show patches matched for 100% - helps identify which version is loaded
                     var valid = patcher.validPatches;
                     self.matchSuccessText[i].textContent = '已匹配 ' + valid + ' of ' + valid + ' 个补丁项 (100%) ';
                 }
             }
 
             if (!found) {
-                // let the user force a match
                 for (let i = 0; i < self.patchers.length; i++) {
                     const patcher = self.patchers[i];
 
@@ -837,7 +810,6 @@ class PatchContainer {
                     self.forceLoadTexts[i].textContent = '已匹配 ' + patcher.totalPatches + ' 中的 ' + valid + ' 个补丁项 (' + percent + '%) ';
                     self.forceLoadButtons[i].style.display = '';
                     self.forceLoadButtons[i].onclick = function(i) {
-                        // reset old text
                         for(var j = 0; j < self.patchers.length; j++) {
                             self.forceLoadButtons[j].style.display = 'none';
                             self.forceLoadTexts[j].textContent = '';
@@ -873,7 +845,7 @@ class Patcher {
                 if(mod.type === "hex") {
                     this.mods.push(new HexPatch(mod));
                 }
-            } else { // standard patch
+            } else {
                 this.mods.push(new StandardPatch(mod));
             }
         }
@@ -883,7 +855,6 @@ class Patcher {
         this.multiPatcher = true;
 
         if (!this.description) {
-            // old style patcher, use the old method to generate the UI
             this.multiPatcher = false;
             this.createUI();
             this.loadPatchUI();
@@ -965,7 +936,6 @@ class Patcher {
         } else {
             this.successDiv.classList.add("hidden");
         }
-        // Update save button regardless
         this.saveButton.disabled = false;
         this.saveButton.textContent = '保存已修改的文件';
         this.errorDiv.innerHTML = this.errorLog;
@@ -984,7 +954,6 @@ class Patcher {
     }
 
     downloadURI(uri, filename) {
-        // http://stackoverflow.com/a/18197341
         var element = document.createElement('a');
         element.setAttribute('href', uri);
         element.setAttribute('download', filename);

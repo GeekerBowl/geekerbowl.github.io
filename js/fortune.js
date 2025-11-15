@@ -1,0 +1,520 @@
+(function() {
+  'use strict';
+  
+  const MUSIC_DATA_URLS = [
+    'https://oss.am-all.com.cn/asset/img/main/data/music.json',
+  ];
+  
+  const LUCK_TEXTS = ['大凶', '凶', '末吉', '吉', '小吉', '中吉', '大吉', '特大吉'];
+  
+  let songList = [];
+  let isInitialized = false;
+
+  async function initFortunePage() {
+    if (isInitialized) return;
+    isInitialized = true;
+    
+    console.log('初始化运势页面...');
+
+    showLoadingState();
+    
+    try {
+
+      await loadMusicData();
+      await checkFortuneStatus();
+      setupDrawButton();
+      
+    } catch (error) {
+      console.error('初始化运势页面失败:', error);
+      showErrorState('初始化失败，请刷新页面重试');
+    }
+  }
+
+  function showLoadingState() {
+    const coverImg = document.getElementById('cover-img');
+    const songIdEl = document.getElementById('song-id');
+    const songTitleEl = document.getElementById('song-title');
+    const songArtistEl = document.getElementById('song-artist');
+    const fortuneLuckEl = document.getElementById('fortune-luck');
+    const fortuneHint = document.getElementById('fortune-hint');
+    
+    if (coverImg) coverImg.src = 'https://oss.am-all.com.cn/asset/img/main/music/dummy.jpg';
+    if (songIdEl) songIdEl.textContent = '加载中...';
+    if (songTitleEl) songTitleEl.textContent = '正在获取运势数据...';
+    if (songArtistEl) songArtistEl.textContent = '请稍候';
+    if (fortuneLuckEl) fortuneLuckEl.textContent = '...';
+    if (fortuneHint) fortuneHint.textContent = '正在加载...';
+  }
+
+  function showErrorState(message) {
+    const fortuneHint = document.getElementById('fortune-hint');
+    if (fortuneHint) {
+      fortuneHint.textContent = message;
+      fortuneHint.style.color = '#e74c3c';
+    }
+  }
+
+  async function loadMusicData() {
+    for (const url of MUSIC_DATA_URLS) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) continue;
+        const data = await response.json();
+        
+        if (Array.isArray(data)) {
+          songList = data;
+        } else if (data.songs && Array.isArray(data.songs)) {
+          songList = data.songs;
+        } else {
+          console.error('无效的音乐数据格式:', data);
+          continue;
+        }
+        
+        console.log('成功加载歌曲数据:', songList.length, '首歌曲');
+        return;
+      } catch (e) {
+        console.log(`从 ${url} 加载数据失败`, e);
+        continue;
+      }
+    }
+
+    songList = [{
+      id: '1145',
+      title: 'KoP 7th 決勝楽曲',
+      artist: 'SEGA',
+      catname: 'ORIGINAL',
+      lev_bas: '3',
+      lev_adv: '5',
+      lev_exp: '7',
+      lev_mas: '9',
+      lev_ult: '12',
+      image: 'dummy.jpg'
+    }];
+    console.warn('使用备用歌曲数据');
+  }
+
+async function checkFortuneStatus() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    showErrorState('请先登录');
+    return;
+  }
+  
+  try {
+    const response = await fetch('https://api.am-all.com.cn/api/fortune/last-draw', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log('运势状态数据:', data);
+    
+    const drawBtn = document.getElementById('draw-btn');
+    const fortuneHint = document.getElementById('fortune-hint');
+    
+    if (data.canDraw) {
+      if (drawBtn) {
+        drawBtn.disabled = false;
+        drawBtn.innerHTML = '<i class="fas fa-star me-2"></i>抽取今日运势';
+      }
+      if (fortuneHint) {
+        fortuneHint.textContent = '今日运势待抽取';
+        fortuneHint.style.color = '#667eea';
+      }
+
+      displayDummyFortune();
+    } else {
+
+      if (data.lastFortune) {
+        console.log('显示上次抽取结果:', data.lastFortune);
+
+        let songData = data.lastFortune.song_data;
+        if (typeof songData === 'string') {
+          try {
+            songData = JSON.parse(songData);
+          } catch (e) {
+            console.error('解析歌曲数据失败:', e);
+          }
+        }
+
+        let recommendations = data.lastFortune.recommendations;
+        if (typeof recommendations === 'string') {
+          try {
+            recommendations = JSON.parse(recommendations);
+          } catch (e) {
+            console.error('解析推荐数据失败:', e);
+          }
+        }
+        
+        displayFortune(
+          songData,
+          data.lastFortune.luck,
+          recommendations
+        );
+
+        if (fortuneHint) {
+          if (data.lastFortune.points_earned && window.currentUser) {
+            const totalPoints = (window.currentUser.points || 0) + (window.currentUser.point2 || 0);
+            fortuneHint.textContent = `昨日获得 ${data.lastFortune.points_earned} 积分，当前积分: ${totalPoints}`;
+            fortuneHint.style.color = '#7f8c8d';
+          } else {
+
+            if (data.nextDrawTime) {
+              const nextDraw = new Date(data.nextDrawTime);
+              const now = new Date();
+              const hoursLeft = Math.ceil((nextDraw - now) / (1000 * 60 * 60));
+              fortuneHint.textContent = `今日运势已抽取，${hoursLeft}小时后可再次抽取`;
+            } else {
+              fortuneHint.textContent = '今日运势已抽取，请明天再来';
+            }
+            fortuneHint.style.color = '#7f8c8d';
+          }
+        }
+      } else {
+        displayDummyFortune();
+
+        if (fortuneHint) {
+          if (data.nextDrawTime) {
+            const nextDraw = new Date(data.nextDrawTime);
+            const now = new Date();
+            const hoursLeft = Math.ceil((nextDraw - now) / (1000 * 60 * 60));
+            fortuneHint.textContent = `今日运势已抽取，${hoursLeft}小时后可再次抽取`;
+          } else {
+            fortuneHint.textContent = '今日运势已抽取，请明天再来';
+          }
+          fortuneHint.style.color = '#7f8c8d';
+        }
+      }
+      
+      if (drawBtn) {
+        drawBtn.disabled = true;
+        drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
+      }
+    }
+  } catch (error) {
+    console.error('检查运势抽取状态失败:', error);
+    showErrorState('无法获取抽取状态，请稍后重试');
+
+    displayDummyFortune();
+  }
+}
+
+  function displayDummyFortune() {
+    const dummySong = {
+      id: '???',
+      title: '???',
+      artist: '???',
+      catname: '???',
+      lev_bas: '?',
+      lev_adv: '?',
+      lev_exp: '?',
+      lev_mas: '?',
+      lev_ult: '?'
+    };
+    
+    updateDisplay(dummySong, '???', {lucky: '?', unlucky: '?'});
+  }
+
+  function displayFortune(song, luck, recommendations) {
+    console.log('displayFortune 被调用:', { song, luck, recommendations });
+
+    const coverImg = document.getElementById('cover-img');
+    const animationContainer = document.querySelector('.fortune-animation');
+    
+    if (coverImg) {
+      coverImg.style.display = 'block';
+      const imagePath = song && song.image ? song.image : 'dummy.jpg';
+      coverImg.src = `https://oss.am-all.com.cn/asset/img/main/music/${imagePath}`;
+      console.log('设置封面图片:', coverImg.src);
+    }
+    
+    if (animationContainer) {
+      animationContainer.style.display = 'none';
+    }
+    
+    const displaySong = song || {
+      id: '???',
+      title: '???',
+      artist: '???',
+      catname: '???',
+      lev_bas: '?',
+      lev_adv: '?',
+      lev_exp: '?',
+      lev_mas: '?',
+      lev_ult: '?'
+    };
+    
+    updateDisplay(displaySong, luck, recommendations);
+  }
+
+  function updateDisplay(song, luck, recommendations) {
+    console.log('updateDisplay 被调用:', { song, luck, recommendations });
+    
+    const difficultiesContainer = document.querySelector('.difficulties');
+    const coverImg = document.getElementById('cover-img');
+    const songIdEl = document.getElementById('song-id');
+    const songTitleEl = document.getElementById('song-title');
+    const songArtistEl = document.getElementById('song-artist');
+    const songCategoryEl = document.getElementById('song-category');
+    const fortuneLuckEl = document.getElementById('fortune-luck');
+    const luckyActionEl = document.getElementById('lucky-action');
+    const unluckyActionEl = document.getElementById('unlucky-action');
+    
+    if (!song) return;
+
+    if (fortuneLuckEl && luck) {
+      fortuneLuckEl.textContent = luck;
+    }
+
+    if (luckyActionEl && recommendations?.lucky) {
+      luckyActionEl.textContent = recommendations.lucky;
+    }
+    
+    if (unluckyActionEl && recommendations?.unlucky) {
+      unluckyActionEl.textContent = recommendations.unlucky;
+    }
+    
+    if (difficultiesContainer) {
+      difficultiesContainer.innerHTML = '';
+    }
+    
+    if (coverImg) {
+      coverImg.src = song.image ? 
+        `https://oss.am-all.com.cn/asset/img/main/music/${song.image}` : 
+        'https://oss.am-all.com.cn/asset/img/main/music/dummy.jpg';
+    }
+    if (songIdEl) songIdEl.textContent = song.id || '???';
+    if (songTitleEl) songTitleEl.textContent = song.title || '???';
+    if (songArtistEl) songArtistEl.textContent = song.artist || '???';
+    
+    const isDummy = song.id === '???';
+    
+    if (songCategoryEl) {
+      if (isDummy) {
+        songCategoryEl.textContent = '???';
+        songCategoryEl.className = 'song-category cat-dummy';
+      } else if (song.catname) {
+        songCategoryEl.textContent = song.catname;
+        songCategoryEl.className = 'song-category ' + getCategoryClass(song.catname);
+      } else {
+        songCategoryEl.textContent = '???';
+        songCategoryEl.className = 'song-category';
+      }
+    }
+    
+    const isWorldsEndSong = song.we_kanji || song.we_star;
+    
+    if (isWorldsEndSong && !isDummy) {
+      if (song.we_kanji || song.we_star) {
+        const weDiv = document.createElement('div');
+        weDiv.className = 'difficulty-tag lev-we';
+
+        const textSpan = document.createElement('span');
+        textSpan.textContent = 'World\'s End: ';
+        
+        if (song.we_kanji) {
+          textSpan.textContent += song.we_kanji;
+        }
+        
+        weDiv.appendChild(textSpan);
+        
+        if (song.we_star) {
+          const starsContainer = document.createElement('span');
+          starsContainer.className = 'we-stars';
+          
+          const starCount = parseInt(song.we_star);
+          const starDisplayCount = Math.ceil(starCount / 2);
+          
+          for (let i = 0; i < starDisplayCount; i++) {
+            const star = document.createElement('i');
+            star.className = 'fas fa-star star';
+            starsContainer.appendChild(star);
+          }
+          
+          weDiv.appendChild(starsContainer);
+        }
+        
+        if (difficultiesContainer) {
+          difficultiesContainer.appendChild(weDiv);
+        }
+      }
+    } else {
+      const difficulties = [
+        { level: 'bas', label: 'BASIC', value: song.lev_bas },
+        { level: 'adv', label: 'ADVANCE', value: song.lev_adv },
+        { level: 'exp', label: 'EXPERT', value: song.lev_exp },
+        { level: 'mas', label: 'MASTER', value: song.lev_mas },
+        { level: 'ult', label: 'ULTIMA', value: song.lev_ult }
+      ];
+      
+      difficulties.forEach(diff => {
+        if (diff.value || isDummy) {
+          const div = document.createElement('div');
+          div.className = `difficulty-tag lev-${diff.level}`;
+          div.setAttribute('data-level', diff.label);
+          const span = document.createElement('span');
+          span.textContent = isDummy ? '?' : diff.value;
+          div.appendChild(span);
+          if (difficultiesContainer) difficultiesContainer.appendChild(div);
+        }
+      });
+    }
+  }
+
+  function getCategoryClass(catname) {
+    const categoryMap = {
+      'POPS & ANIME': 'cat-pops',
+      'niconico': 'cat-nico',
+      '东方Project': 'cat-touhou',
+      'VARIETY': 'cat-variety',
+      'イロドリミドリ': 'cat-irodori',
+      'ゲキマイ': 'cat-gekimai',
+      'ORIGINAL': 'cat-original'
+    };
+    return categoryMap[catname] || '';
+  }
+
+  function setupDrawButton() {
+    const drawBtn = document.getElementById('draw-btn');
+    if (!drawBtn) return;
+
+    const newBtn = drawBtn.cloneNode(true);
+    drawBtn.parentNode.replaceChild(newBtn, drawBtn);
+    
+    newBtn.addEventListener('click', handleDraw);
+  }
+
+  async function handleDraw() {
+    const drawBtn = document.getElementById('draw-btn');
+    const fortuneHint = document.getElementById('fortune-hint');
+    
+    if (!drawBtn) return;
+    
+    const token = localStorage.getItem('token');
+    if (!token) {
+      if (typeof showErrorMessage === 'function') {
+        showErrorMessage('请先登录');
+      }
+      return;
+    }
+    
+    drawBtn.disabled = true;
+    drawBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>抽取中...';
+    if (fortuneHint) fortuneHint.textContent = '';
+
+    const coverImg = document.getElementById('cover-img');
+    const animationContainer = document.querySelector('.fortune-animation');
+    const kuji01 = document.querySelector('#kuji-01');
+    const kuji02 = document.querySelector('#kuji-02');
+    
+    if (coverImg) {
+      coverImg.style.display = 'none';
+    }
+    
+    if (animationContainer) {
+      animationContainer.style.display = 'flex';
+      if (kuji01) {
+        kuji01.style.display = 'block';
+        kuji01.classList.add('kuji-swing');
+      }
+      if (kuji02) {
+        kuji02.style.display = 'none';
+        kuji02.classList.remove('kuji-fadein');
+      }
+    }
+
+    setTimeout(() => {
+      let scrollCount = 0;
+      const scrollInterval = setInterval(() => {
+        if (songList.length === 0) {
+          clearInterval(scrollInterval);
+          return;
+        }
+        
+        const tempSong = songList[Math.floor(Math.random() * songList.length)];
+        updateDisplay(tempSong, '???', {lucky: '?', unlucky: '?'});
+        scrollCount++;
+        
+        if (scrollCount > 30) {
+          clearInterval(scrollInterval);
+          performDraw(token);
+        }
+      }, 100);
+    }, 500);
+  }
+
+  async function performDraw(token) {
+    try {
+      const response = await fetch('https://api.am-all.com.cn/api/fortune/draw', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        displayFortune(data.song, data.luck, data.recommendations);
+
+        if (data.pointsEarned) {
+          const fortuneHint = document.getElementById('fortune-hint');
+          if (fortuneHint) {
+            const totalPoints = data.points + (data.point2 || 0);
+            fortuneHint.textContent = `恭喜获得 ${data.pointsEarned} 积分！当前积分: ${totalPoints}`;
+            fortuneHint.style.color = '#27ae60';
+          }
+        }
+        
+        const drawBtn = document.getElementById('draw-btn');
+        if (drawBtn) {
+          drawBtn.disabled = true;
+          drawBtn.innerHTML = '<i class="fas fa-check me-2"></i>今日已抽取';
+        }
+
+        if (window.currentUser && typeof window.updateUserInfo === 'function') {
+          window.currentUser.points = data.points;
+          window.currentUser.point2 = data.point2;
+          window.updateUserInfo(window.currentUser);
+        }
+      } else {
+        throw new Error(data.error || '抽取运势失败');
+      }
+    } catch (error) {
+      console.error('抽取运势失败:', error);
+      
+      const drawBtn = document.getElementById('draw-btn');
+      const fortuneHint = document.getElementById('fortune-hint');
+      
+      if (drawBtn) {
+        drawBtn.disabled = false;
+        drawBtn.innerHTML = '<i class="fas fa-star me-2"></i>抽取今日运势';
+      }
+      if (fortuneHint) {
+        fortuneHint.textContent = error.message || '网络错误，请重试';
+        fortuneHint.style.color = '#e74c3c';
+      }
+
+      const coverImg = document.getElementById('cover-img');
+      const animationContainer = document.querySelector('.fortune-animation');
+      if (coverImg) coverImg.style.display = 'block';
+      if (animationContainer) animationContainer.style.display = 'none';
+    }
+  }
+
+  function resetFortuneModule() {
+    isInitialized = false;
+    songList = [];
+  }
+
+  window.FortuneModule = {
+    init: initFortunePage,
+    reset: resetFortuneModule
+  };
+})();

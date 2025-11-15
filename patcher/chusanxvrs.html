@@ -28,6 +28,13 @@
                         ]
                     },
                     {
+                        name: "跳过跑图",
+						danger: "Patch by 忍野企鹅",
+                        patches: [
+                            {offset: 0x8BA1CF, off: [0x16], on: [0x17]}
+                        ]
+                    },
+                    {
                         name: "禁用选歌计时器",
                         patches: [
                             {offset: 0x9BE10D, off: [0x74], on: [0xeb]}
@@ -91,13 +98,6 @@
                         ]
                     },
                     {
-                        name: "店内联机补丁",
-                        tooltip: "Fix infinite sync while trying to connect to head to head play",
-                        patches: [
-                            {offset: 0x655CF2, off: [0x01], on: [0x00]}
-                        ]
-                    },
-                    {
                         name: "绕过1080P检测",
                         patches: [
                             {offset: 0x14E97C, off: [0x81, 0xBC, 0x24, 0x34, 0x02, 0x00, 0x00, 0x80, 0x07, 0x00, 0x00, 0x75, 0x1F, 0x81, 0xBC, 0x24, 0x38, 0x02, 0x00, 0x00, 0x38, 0x04, 0x00, 0x00, 0x75, 0x12], on: [0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90]}
@@ -148,16 +148,19 @@
                         name: "锁定投币数",
                         tooltip: "Prevents credits from being used. At least one credit must be available to start the game or purchase premium tickets.",
                         patches: [
-                            { offset: 0x2DD8F8, off: [0x28], on: [0x08] }
+                            {offset: 0x2DE4F8, off: [0x28], on: [0x08]}
                         ]
                     },
                     {
-                        name: "OpenSSL SHA 崩溃错误修复",
-                        tooltip: "修复intel 10th Gen CPU的Openssl问题",
+                        name: "忽略 6401 错误",
+						danger: "Patch by TGSAN",
+                        tooltip: "注意！此补丁仅为跳过Amdaemon错误，可能会导致无法投币",
                         patches: [
-                            { offset: 0x502243, off: [0x48], on: [0x4c] },
-                            { offset: 0x50224B, off: [0x48], on: [0x49] },
-                        ]
+                            { offset: 0x24DC08, off: [0x01, 0x19], on: [0x00, 0x00] },
+                            { offset: 0x250FB0, off: [0x01, 0x19], on: [0x00, 0x00] },
+                            { offset: 0x251F1F, off: [0x01, 0x19], on: [0x00, 0x00] },
+                            { offset: 0x252120, off: [0x01, 0x19], on: [0x00, 0x00] },
+                        ],
                     },
                 ]),
             ]);

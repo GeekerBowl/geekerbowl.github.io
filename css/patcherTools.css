@@ -1,0 +1,472 @@
+.patcher-page {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.patcher-page-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.patcher-page-description {
+  color: #7f8c8d;
+  font-size: 1rem;
+  margin: 0;
+  text-align: center;
+}
+
+.btn-back {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-back:hover {
+  background: #5a67d8;
+}
+
+.patcher-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.patcher-categories-container {
+  padding: 30px 20px;
+}
+
+.patcher-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.patcher-category-card {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.patcher-category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.category-card-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.category-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 15px 0;
+}
+
+.category-card-description {
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.btn-category-enter {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-category-enter:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.patcher-tools-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.patcher-tools-header .patcher-page-title {
+  margin: 0;
+}
+
+.patcher-tools-container {
+  padding: 20px 0;
+}
+
+.patcher-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.patcher-tool-card {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.patcher-tool-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-color: #667eea;
+}
+
+.tool-card-image {
+  width: 100%;
+  padding-top: 75%;
+  position: relative;
+  overflow: hidden;
+  background: #f5f7fa;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.tool-card-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.patcher-tool-card:hover .tool-card-image img {
+  transform: scale(1.05);
+}
+
+.tool-card-divider {
+  height: 3px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  margin-bottom: 10px;
+}
+
+.tool-card-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #2c3e50;
+  text-align: center;
+  line-height: 1.4;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.patcher-iframe-page.patcher-page {
+  padding: 0 !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+.patcher-iframe-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: calc(100vh - 70px - 60px);
+  overflow: hidden;
+}
+
+.patcher-iframe-header {
+  position: sticky;
+  top: 0;
+  padding: 10px 20px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-shrink: 0;
+  height: 50px;
+  box-sizing: border-box;
+}
+
+.patcher-iframe-header .btn-back {
+  align-self: center;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.patcher-iframe-header .patcher-page-title {
+  font-size: 1.2rem;
+  margin: 0;
+  text-align: center;
+  justify-content: center;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.patcher-iframe-container {
+  position: relative;
+  background: #f5f7fa;
+  overflow: hidden;
+  width: 100%;
+  flex: 1;
+  min-height: 600px;
+}
+
+.patcher-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.iframe-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+}
+
+.iframe-loader .spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.3em;
+}
+
+.iframe-loader p {
+  margin-top: 15px;
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+.patcher-categories-loading,
+.patcher-tools-loading,
+.patcher-detail-loading {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.patcher-categories-loading .spinner-border,
+.patcher-tools-loading .spinner-border,
+.patcher-detail-loading .spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.3em;
+}
+
+.patcher-categories-loading p,
+.patcher-tools-loading p,
+.patcher-detail-loading p {
+  margin-top: 20px;
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+.error-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.error-state i {
+  font-size: 4rem;
+  color: #e74c3c;
+  margin-bottom: 20px;
+}
+
+.error-state h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.error-state p {
+  color: #7f8c8d;
+  margin-bottom: 20px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  color: #95a5a6;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  color: #7f8c8d;
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+}
+
+@media (max-width: 768px) {
+  .patcher-page {
+    padding: 15px;
+  }
+
+  .patcher-iframe-page.patcher-page {
+    padding: 0 !important;
+  }
+  
+  .patcher-iframe-page {
+    min-height: calc(100vh - 70px - 30px);
+    height: calc(100vh - 70px - 30px);
+  }
+  
+  .patcher-page-title {
+    font-size: 1.5rem;
+  }
+  
+  .btn-back {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .patcher-categories-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 15px;
+  }
+  
+  .patcher-tools-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .patcher-tools-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 15px;
+  }
+  
+  .tool-card-title {
+    font-size: 0.85rem;
+    min-height: 38px;
+  }
+  
+  .patcher-iframe-header {
+    padding: 8px 10px;
+    height: 45px;
+  }
+  
+  .patcher-iframe-header .patcher-page-title {
+    font-size: 1rem;
+  }
+  
+  .patcher-iframe-header .btn-back {
+    font-size: 12px;
+    padding: 6px 10px;
+    width: auto;
+  }
+  
+  .patcher-iframe-container {
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .patcher-tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .tool-card-title {
+    font-size: 0.8rem;
+    min-height: 36px;
+  }
+  
+  .patcher-iframe-header {
+    height: 42px;
+    padding: 6px 8px;
+  }
+  
+  .patcher-iframe-header .patcher-page-title {
+    font-size: 0.9rem;
+  }
+  
+  .patcher-iframe-container {
+    min-height: 450px;
+  }
+}
