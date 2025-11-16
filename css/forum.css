@@ -1,4 +1,3 @@
-/* ==================== 论坛通用样式 ==================== */
 .forum-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -28,7 +27,6 @@
   font-size: 14px;
 }
 
-/* ==================== 分区选择卡片 ==================== */
 .section-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -99,7 +97,6 @@
   line-height: 1.6;
 }
 
-/* ==================== 工具栏 ==================== */
 .forum-toolbar {
   display: flex;
   justify-content: space-between;
@@ -216,7 +213,6 @@
   font-size: 13px;
 }
 
-/* ==================== 帖子列表 ==================== */
 .post-list {
   background: white;
   border-radius: 12px;
@@ -344,7 +340,6 @@
   font-size: 16px;
 }
 
-/* ==================== 发帖/回帖弹窗 ==================== */
 .forum-modal {
   display: none;
   position: fixed;
@@ -465,7 +460,6 @@
   gap: 12px;
 }
 
-/* ==================== 富文本编辑器 ==================== */
 .forum-editor {
   border: 2px solid #e5e7eb;
   border-radius: 8px;
@@ -531,16 +525,11 @@
   color: #9ca3af;
 }
 
-
-/* ==================== 编辑器增强功能样式 (v2.0) ==================== */
-
-/* 下拉菜单容器 */
 .editor-dropdown {
   display: inline-block;
   position: relative;
 }
 
-/* 下拉菜单按钮 */
 .editor-dropdown-btn,
 .editor-color-btn {
   display: flex;
@@ -549,7 +538,6 @@
   flex-direction: column;
 }
 
-/* 下拉菜单内容 */
 .editor-dropdown-menu {
   position: absolute;
   top: 100%;
@@ -566,7 +554,6 @@
   padding: 4px;
 }
 
-/* 下拉菜单项 */
 .editor-dropdown-item {
   padding: 8px 12px;
   cursor: pointer;
@@ -582,7 +569,6 @@
   color: #667eea;
 }
 
-/* 颜色选择器样式 */
 .editor-color-picker {
   min-width: 220px;
 }
@@ -594,7 +580,6 @@
   transform: translateX(-50%);
 }
 
-/* 工具栏按钮激活状态增强 */
 .editor-dropdown-btn.active {
   background: #667eea;
   color: white;
@@ -611,7 +596,6 @@
   background: white !important;
 }
 
-/* 编辑器内容区域的样式增强 */
 .editor-content h1 {
   font-size: 28px;
   font-weight: bold;
@@ -703,7 +687,6 @@
   color: #764ba2;
 }
 
-/* 对齐方式 */
 .editor-content [style*="text-align: left"] {
   text-align: left;
 }
@@ -720,7 +703,6 @@
   text-align: justify;
 }
 
-/* 移动端适配 */
 @media (max-width: 768px) {
   .editor-dropdown-menu {
     max-width: 200px;
@@ -736,7 +718,7 @@
     font-size: 13px;
   }
 }
-/* ==================== 帖子详情页 ==================== */
+
 .post-detail-header {
   background: white;
   padding: 24px;
@@ -904,6 +886,14 @@
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+.reply-author-header-mobile {
+  display: none;
+}
+
+.reply-author-name-group-mobile {
+  display: none;
 }
 
 .reply-content-wrapper {
@@ -1080,7 +1070,6 @@
   box-shadow: 0 8px 16px rgba(102, 126, 234, 0.5);
 }
 
-/* ==================== 论坛管理 ==================== */
 .admin-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -1206,7 +1195,6 @@
   position: absolute;
 }
 
-/* ==================== 响应式设计 ==================== */
 @media (max-width: 768px) {
   .forum-container {
     padding: 12px;
@@ -1274,13 +1262,99 @@
   .reply-author {
     border-right: none;
     border-bottom: 1px solid #e5e7eb;
-    flex-direction: row;
-    padding: 16px;
+    flex-direction: column;
+    padding: 12px;
+    align-items: flex-start;
+    gap: 8px;
   }
 
   .reply-author-avatar {
     width: 48px;
     height: 48px;
+  }
+
+  .reply-author-avatar-container {
+    margin-bottom: 0 !important;
+  }
+
+  .reply-author-header-mobile {
+    display: flex !important;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .reply-author-name-group-mobile {
+    display: flex !important;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .reply-author > .reply-author-avatar-container {
+    display: none;
+  }
+  
+  .reply-author > .reply-author-name {
+    display: none;
+  }
+  
+  .reply-author > .reply-author-rank {
+    display: none;
+  }
+  
+  .reply-author > .reply-author-badge {
+    display: none;
+  }
+  
+  .reply-author-name {
+    font-size: 14px;
+    text-align: left;
+    width: 100%;
+    word-break: break-word;
+  }
+  
+  .reply-author-rank {
+    font-size: 11px;
+    padding: 3px 8px;
+    width: fit-content;
+  }
+
+  .reply-author-info {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 0;
+    width: 100%;
+  }
+  
+  .reply-author-info-item {
+    padding: 2px 6px;
+    font-size: 10px;
+    background: transparent;
+    border-radius: 4px;
+    flex: 0 0 auto;
+  }
+  
+  .reply-author-info-item:hover {
+    background: #f3f4f6;
+  }
+  
+  .reply-author-info-item i {
+    font-size: 9px;
+    min-width: 10px;
+  }
+  
+  .reply-author-info-item span {
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .reply-author-badge {
+    margin-top: 0;
+    width: fit-content;
   }
 
   .post-navigation {
@@ -1307,7 +1381,6 @@
   }
 }
 
-/* ==================== 加载动画 ==================== */
 .forum-loading {
   display: flex;
   justify-content: center;
@@ -1329,7 +1402,6 @@
   100% { transform: rotate(360deg); }
 }
 
-/* 置顶徽章样式 */
 .post-pin-badge {
   display: inline-flex;
   align-items: center;
@@ -1353,13 +1425,11 @@
   box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
-/* 置顶帖子列表项高亮 */
 .post-item.post-pinned {
   background: linear-gradient(90deg, rgba(239, 68, 68, 0.05) 0%, transparent 100%);
   border-left: 3px solid #ef4444;
 }
 
-/* 未读帖子指示器 */
 .unread-indicator {
   display: inline-block;
   width: 8px;
@@ -1380,23 +1450,19 @@
   }
 }
 
-/* 未读帖子高亮 */
 .post-item.post-unread {
   background: linear-gradient(90deg, rgba(59, 130, 246, 0.05) 0%, transparent 100%);
   border-left: 2px solid #3b82f6;
 }
 
-/* 未读标题加粗 */
 .post-title-unread {
   font-weight: 600;
   color: #1e293b;
 }
 
-/* ==================== 表情选择器样式 ==================== */
 .forum-emoji-picker {
   display: none;
   flex-direction: column;
-  /* 使用 fixed 定位，在 JS 中动态设置位置 */
   position: fixed;
   background: white;
   border: 2px solid #e5e7eb;
@@ -1523,7 +1589,6 @@
   object-fit: contain;
 }
 
-/* 表情音频指示器 */
 .forum-emoji-picker .emoji-item .fa-volume-up {
   position: absolute;
   bottom: 2px;
@@ -1535,7 +1600,6 @@
   padding: 1px;
 }
 
-/* 帖子和回复中的表情样式 */
 .reply-content .emoji-message-img,
 .post-content .emoji-message-img {
   max-width: 120px;
@@ -1553,7 +1617,6 @@
   transform: scale(1.05);
 }
 
-/* 编辑器中的表情预览样式 */
 .editor-content .editor-emoji-preview {
   max-width: 80px;
   max-height: 80px;
@@ -1569,13 +1632,11 @@
   transform: scale(1.1);
 }
 
-/* 表情按钮激活状态 */
 .editor-btn.active {
   background: #667eea !important;
   color: white !important;
 }
 
-/* 音频表情包标签样式 */
 .emoji-tab.audio-pack::after {
   content: '';
   position: absolute;
@@ -1588,7 +1649,6 @@
   border: 2px solid white;
 }
 
-/* 加载动画 */
 .forum-emoji-picker .emoji-loading {
   display: flex;
   justify-content: center;
@@ -1602,16 +1662,12 @@
   animation: spin 1s linear infinite;
 }
 
-/* ==================== 论坛楼层认证和特效样式 ==================== */
-
-/* 头像容器 - 用于放置光环和认证图标 */
 .reply-author-avatar-container {
   position: relative;
   display: inline-block;
   margin-bottom: 12px;
 }
 
-/* 论坛头像认证图标 - 右下角位置 */
 .forum-auth-icon {
   position: absolute;
   bottom: 0;
@@ -1626,7 +1682,6 @@
   object-fit: contain;
 }
 
-/* 论坛彩虹光环特效 */
 .avatar-effect-rainbow-forum {
   position: absolute;
   top: -4px;
@@ -1648,7 +1703,6 @@
   filter: brightness(1.2) saturate(1.3);
 }
 
-/* 彩虹光环旋转动画 */
 @keyframes rainbow-rotate-forum {
   0% { 
     transform: rotate(0deg);
@@ -1663,7 +1717,6 @@
   }
 }
 
-/* 光晕效果 */
 .avatar-effect-rainbow-forum::before {
   content: '';
   position: absolute;
@@ -1690,13 +1743,11 @@
   }
 }
 
-/* 确保头像在光环之上 */
 .reply-author-avatar-container .reply-author-avatar {
   position: relative;
   z-index: 2;
 }
 
-/* 特殊用户组徽章样式 */
 .reply-author-badge.special-rank {
   background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
   color: #8b4513;
@@ -1726,7 +1777,6 @@
   color: #ff6b6b;
 }
 
-/* 已采纳徽章保持原样 */
 .reply-author-badge.accepted {
   background: #d1fae5;
   color: #065f46;
@@ -1737,7 +1787,6 @@
   margin-top: 4px;
 }
 
-/* 响应式适配 */
 @media (max-width: 768px) {
   .forum-auth-icon {
     width: 20px;
@@ -1757,14 +1806,12 @@
   }
 }
 
-/* 移动端头像尺寸调整 */
 @media (max-width: 768px) {
   .reply-author-avatar-container {
     margin-bottom: 8px;
   }
 }
 
-/* ==================== 禁止回复标记样式 ==================== */
 .post-status.reply-disabled {
   background: #fecaca;
   color: #991b1b;
@@ -1782,7 +1829,6 @@
   font-size: 11px;
 }
 
-/* ==================== 禁止回复提示框样式 ==================== */
 .post-reply-disabled-notice {
   background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
   border: 2px solid #fca5a5;
@@ -1804,7 +1850,6 @@
   color: #dc2626;
 }
 
-/* ==================== 管理员结贴按钮样式 ==================== */
 .forum-btn-admin-close {
   background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
   color: white;
@@ -1827,7 +1872,6 @@
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
-/* ==================== 公告标签特殊样式 ==================== */
 .post-tag.announcement {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: white;
@@ -1852,7 +1896,6 @@
   box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
 }
 
-/* ==================== 发帖权限提示 ==================== */
 .post-permission-notice {
   background: #fef3c7;
   border: 1px solid #fde68a;
@@ -1871,7 +1914,6 @@
   color: #f59e0b;
 }
 
-/* ==================== 问答区公告帖特殊样式 ==================== */
 .post-item.announcement-post {
   background: linear-gradient(90deg, rgba(239, 68, 68, 0.05) 0%, transparent 100%);
   border-left: 3px solid #ef4444;
@@ -1881,7 +1923,6 @@
   background: linear-gradient(90deg, rgba(239, 68, 68, 0.08) 0%, transparent 100%);
 }
 
-/* ==================== 响应式适配 ==================== */
 @media (max-width: 768px) {
   .post-reply-disabled-notice {
     padding: 16px;
@@ -1898,7 +1939,6 @@
   }
 }
 
-/* ==================== 管理员专属功能标识 ==================== */
 .admin-only-feature {
   opacity: 0.6;
   cursor: not-allowed;
@@ -1922,7 +1962,6 @@
   font-size: 10px;
 }
 
-/* ==================== 帖子状态组合显示优化 ==================== */
 .post-status-group {
   display: flex;
   gap: 6px;
@@ -1930,7 +1969,6 @@
   align-items: center;
 }
 
-/* ==================== 结贴后的视觉反馈 ==================== */
 .post-item.post-closed {
   opacity: 0.85;
   background: linear-gradient(90deg, rgba(156, 163, 175, 0.05) 0%, transparent 100%);
@@ -1941,7 +1979,6 @@
   border-left: 4px solid #9ca3af;
 }
 
-/* ==================== 动画效果优化 ==================== */
 @keyframes fadeIn {
   from {
     opacity: 0;
