@@ -788,18 +788,19 @@ renderAnnouncements(announcements) {
       editorTitle.textContent = this.isEditing ? '编辑公告' : '新建公告';
     }
 
-    if (!this.forumEditor && editorContainer) {
-      this.forumEditor = new ForumEditor(editorContainer);
-    }
+    if (editorContainer) {
+      if (this.forumEditor) {
+        this.forumEditor = null;
+      }
 
-    if (this.forumEditor) {
-      this.forumEditor.clear();
+      this.forumEditor = new ForumEditor(editorContainer);
     }
     
     if (announcement) {
       if (titleInput) titleInput.value = announcement.title || '';
       if (typeSelect) typeSelect.value = announcement.type || 'notice';
       if (pinnedCheckbox) pinnedCheckbox.checked = announcement.is_pinned === true || announcement.is_pinned === 1;
+
       if (this.forumEditor && announcement.content) {
         this.forumEditor.setContent(announcement.content);
       }
