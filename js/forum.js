@@ -1,3 +1,5 @@
+// forum.js - 论坛功能主模块(完整修复版 + 图片支持 + 楼层编辑 + 新功能)
+
 (function() {
   'use strict';
 
@@ -10,6 +12,7 @@
   let currentRepliesCache = [];
   let currentUserInfo = {};
 
+  // 初始化论坛
   function initForum() {
     const container = document.getElementById('content-container');
     if (!container) return;
@@ -22,12 +25,14 @@
       return;
     }
 
+    // 获取用户信息
     const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
     currentUserInfo = userInfo;
 
     showSectionSelection();
   }
 
+  // 显示分区选择界面
   function showSectionSelection() {
     const container = document.getElementById('content-container');
     container.innerHTML = `
@@ -76,6 +81,7 @@
     });
   }
 
+  // 加载分区内容
   async function loadSection(section) {
     currentSection = section;
     const container = document.getElementById('content-container');
@@ -136,6 +142,7 @@
     }
   }
 
+  // 加载帖子列表
   async function loadPosts(keyword = '') {
     const token = localStorage.getItem('token');
     const container = document.getElementById('post-list-container');
@@ -149,7 +156,8 @@
       if (!response.ok) throw new Error('加载失败');
       
       const data = await response.json();
-
+      
+      // 根据用户权限显示发帖按钮
       const newPostBtn = document.getElementById('new-post-btn');
       if (newPostBtn && data.userInfo && data.userInfo.canPost) {
         newPostBtn.style.display = 'inline-flex';
@@ -167,6 +175,7 @@
     }
   }
 
+  // 渲染帖子列表
   function renderPosts(posts) {
     const container = document.getElementById('post-list-container');
     
@@ -192,7 +201,8 @@
       } else if (pinLevel === 1) {
         pinBadge = '<i class="fas fa-thumbtack" style="color: #f59e0b; margin-right: 8px;" title="普通置顶"></i>';
       }
-
+      
+      // 禁止回复标记
       let replyDisabledBadge = '';
       if (post.reply_disabled) {
         replyDisabledBadge = '<span class="post-status" style="background: #fecaca; color: #991b1b;"><i class="fas fa-ban"></i> 禁止回复</span>';
@@ -234,6 +244,7 @@
     container.innerHTML = html;
   }
 
+  // 获取状态徽章
   function getStatusBadge(post) {
     if (currentSection !== 'qa' || post.is_announcement) return '';
     
@@ -246,6 +257,7 @@
     }
   }
 
+// 显示发帖模态框 - 修复版
 async function showNewPostModal() {
   const token = localStorage.getItem('token');
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
@@ -348,12 +360,14 @@ async function showNewPostModal() {
   postEditor = new ForumEditor(editorContainer);
 }
 
+// 标签变化时的处理 - 修复版
 function onTagChange() {
   const tagSelect = document.getElementById('post-tag');
   const selectedOption = tagSelect.options[tagSelect.selectedIndex];
   const tagName = selectedOption.getAttribute('data-tag-name');
   const rewardGroup = document.getElementById('reward-group');
-
+  
+  // 如果是公告或通知标签,隐藏悬赏设置
   if (rewardGroup && (tagName === '公告' || tagName === '通知')) {
     rewardGroup.style.display = 'none';
   } else if (rewardGroup) {
@@ -361,6 +375,7 @@ function onTagChange() {
   }
 }
 
+// 提交帖子 - 修复版
 async function submitPost() {
   const title = document.getElementById('post-title').value.trim();
   const tagId = document.getElementById('post-tag').value;
@@ -388,10 +403,12 @@ async function submitPost() {
     reply_disabled: replyDisabledCheck && replyDisabledCheck.checked ? 1 : 0
   };
 
+  // 只有问答区且悬赏输入框存在时才处理悬赏
   if (currentSection === 'qa') {
     const rewardPointsInput = document.getElementById('reward-points');
     const rewardCreditInput = document.getElementById('reward-credit');
-
+    
+    // 检查是否为公告/通知标签
     let isAnnouncementTag = false;
     if (tagId) {
       const tagSelect = document.getElementById('post-tag');
@@ -399,7 +416,8 @@ async function submitPost() {
       const tagName = selectedOption.getAttribute('data-tag-name');
       isAnnouncementTag = (tagName === '公告' || tagName === '通知');
     }
-
+    
+    // 只有非公告/通知标签且输入框存在时才添加悬赏
     if (!isAnnouncementTag && rewardPointsInput && rewardCreditInput) {
       const rewardPoints = parseInt(rewardPointsInput.value) || 0;
       const rewardCredit = parseInt(rewardCreditInput.value) || 0;
@@ -441,6 +459,7 @@ async function submitPost() {
   }
 }
 
+  // 编辑帖子
   async function editPost(postId) {
     const token = localStorage.getItem('token');
     
@@ -461,6 +480,7 @@ async function submitPost() {
     }
   }
 
+  // 显示编辑帖子模态框
   async function showEditPostModal(post) {
     const token = localStorage.getItem('token');
     let tags = [];
@@ -534,6 +554,7 @@ async function submitPost() {
     postEditor.setContent(post.content);
   }
 
+  // 更新帖子
   async function updatePost(postId) {
     const title = document.getElementById('edit-post-title').value.trim();
     const tagId = document.getElementById('edit-post-tag').value;
@@ -589,6 +610,7 @@ async function submitPost() {
     }
   }
 
+  // 查看帖子详情
   async function viewPost(postId) {
     currentPostId = postId;
     const token = localStorage.getItem('token');
@@ -624,6 +646,7 @@ async function submitPost() {
     }
   }
 
+  // 渲染帖子详情
   function renderPostDetail(post, replies) {
     const container = document.getElementById('content-container');
     const currentUser = JSON.parse(localStorage.getItem('userInfo') || '{}');
@@ -644,6 +667,7 @@ async function submitPost() {
       pinBadge = '<span class="post-pin-badge normal-pin"><i class="fas fa-thumbtack"></i> 普通置顶</span>';
     }
 
+    // 禁止回复提示
     let replyDisabledNotice = '';
     if (post.reply_disabled && !isAdmin) {
       replyDisabledNotice = `
@@ -711,13 +735,48 @@ async function submitPost() {
           <!-- 楼主帖子 -->
           <div class="reply-item" id="floor-0">
             <div class="reply-author">
+              <!-- PC端：头像容器,添加光环和认证图标 -->
+              <div class="reply-author-avatar-container">
+                <img src="${post.avatar || 'https://api.am-all.com.cn/avatars/default_avatar.png'}" class="reply-author-avatar" alt="avatar">
+                
+                <!-- 彩虹光环特效 (user_rank === 5) -->
+                ${post.user_rank === 5 ? '<div class="avatar-effect-rainbow-forum"></div>' : ''}
+                
+                <!-- 账户认证图标 (右下角) -->
+                ${post.account_auth === 1 ? `
+                  <img src="https://oss.am-all.com.cn/asset/img/other/dc/account/account_auth_1.png" 
+                       class="forum-auth-icon" 
+                       title="个人认证" 
+                       alt="个人认证">
+                ` : ''}
+                ${post.account_auth === 2 ? `
+                  <img src="https://oss.am-all.com.cn/asset/img/other/dc/account/account_auth_2.png" 
+                       class="forum-auth-icon" 
+                       title="官方认证" 
+                       alt="官方认证">
+                ` : ''}
+              </div>
+              
+              <!-- PC端：昵称 -->
+              <div class="reply-author-name">${escapeHtml(post.author_name)}</div>
+              
+              <!-- PC端：用户组 -->
+              <div class="reply-author-rank">${getUserRankText(post.user_rank)}</div>
+              
+              <!-- PC端：特殊用户组显示 -->
+              ${post.rankSp === 2 ? `
+                <div class="reply-author-badge special-rank">
+                  <i class="fas fa-crown"></i> 协作管理员
+                </div>
+              ` : ''}
+              
               <!-- 移动端：头像和昵称/用户组的横向布局 -->
               <div class="reply-author-header-mobile">
                 <!-- 头像容器,添加光环和认证图标 -->
-                <div class="reply-author-avatar-container" style="position: relative; display: inline-block;">
+                <div class="reply-author-avatar-container">
                   <img src="${post.avatar || 'https://api.am-all.com.cn/avatars/default_avatar.png'}" class="reply-author-avatar" alt="avatar">
                   
-                  <!-- 彩虹光环特效 (rankSp === 1) -->
+                  <!-- 彩虹光环特效 (user_rank === 5) -->
                   ${post.user_rank === 5 ? '<div class="avatar-effect-rainbow-forum"></div>' : ''}
                   
                   <!-- 账户认证图标 (右下角) -->
@@ -829,6 +888,7 @@ async function submitPost() {
     });
   }
 
+  // 渲染回复列表
   function renderReplies(replies, post) {
     const container = document.getElementById('reply-list');
     const currentUser = JSON.parse(localStorage.getItem('userInfo') || '{}');
@@ -838,6 +898,7 @@ async function submitPost() {
     const postClosed = post.is_closed;
     const postSolved = post.is_solved;
 
+    // 缓存回复列表供编辑使用
     currentRepliesCache = replies;
 
     replies.forEach(reply => {
@@ -850,13 +911,50 @@ async function submitPost() {
       const replyHtml = `
         <div class="reply-item ${isAccepted ? 'reply-accepted' : ''}" id="floor-${reply.floor_number}">
           <div class="reply-author">
+            <!-- PC端：头像容器,添加光环和认证图标 -->
+            <div class="reply-author-avatar-container">
+              <img src="${reply.avatar || 'https://api.am-all.com.cn/avatars/default_avatar.png'}" class="reply-author-avatar" alt="avatar">
+              
+              <!-- 彩虹光环特效 (user_rank === 5) -->
+              ${reply.user_rank === 5 ? '<div class="avatar-effect-rainbow-forum"></div>' : ''}
+              
+              <!-- 账户认证图标 (右下角) -->
+              ${reply.account_auth === 1 ? `
+                <img src="https://oss.am-all.com.cn/asset/img/other/dc/account/account_auth_1.png" 
+                     class="forum-auth-icon" 
+                     title="个人认证" 
+                     alt="个人认证">
+              ` : ''}
+              ${reply.account_auth === 2 ? `
+                <img src="https://oss.am-all.com.cn/asset/img/other/dc/account/account_auth_2.png" 
+                     class="forum-auth-icon" 
+                     title="官方认证" 
+                     alt="官方认证">
+              ` : ''}
+            </div>
+            
+            <!-- PC端：昵称 -->
+            <div class="reply-author-name">${escapeHtml(reply.author_name)}</div>
+            
+            <!-- PC端：用户组 -->
+            <div class="reply-author-rank">${getUserRankText(reply.user_rank)}</div>
+            
+            <!-- PC端：特殊用户组和已采纳显示 -->
+            ${reply.rankSp === 2 ? `
+              <div class="reply-author-badge special-rank">
+                <i class="fas fa-crown"></i> 协作管理员
+              </div>
+            ` : ''}
+            
+            ${isAccepted ? '<div class="reply-author-badge accepted"><i class="fas fa-check-circle"></i> 已采纳</div>' : ''}
+            
             <!-- 移动端：头像和昵称/用户组的横向布局 -->
             <div class="reply-author-header-mobile">
               <!-- 头像容器,添加光环和认证图标 -->
-              <div class="reply-author-avatar-container" style="position: relative; display: inline-block;">
+              <div class="reply-author-avatar-container">
                 <img src="${reply.avatar || 'https://api.am-all.com.cn/avatars/default_avatar.png'}" class="reply-author-avatar" alt="avatar">
                 
-                <!-- 彩虹光环特效 (rankSp === 1) -->
+                <!-- 彩虹光环特效 (user_rank === 5) -->
                 ${reply.user_rank === 5 ? '<div class="avatar-effect-rainbow-forum"></div>' : ''}
                 
                 <!-- 账户认证图标 (右下角) -->
@@ -943,6 +1041,7 @@ async function submitPost() {
     });
   }
 
+  // 提交回复
   async function submitReply() {
     if (replyEditor.isEmpty()) {
       if (typeof showErrorMessage === 'function') {
@@ -990,7 +1089,9 @@ async function submitPost() {
     }
   }
 
+  // 编辑回复
   async function editReply(replyId) {
+    // 从缓存中查找回复数据
     const reply = currentRepliesCache.find(r => r.id === replyId);
     
     if (!reply) {
@@ -1003,6 +1104,7 @@ async function submitPost() {
     showEditReplyModal(reply);
   }
 
+  // 显示编辑回复模态框
   async function showEditReplyModal(reply) {
     const modal = document.createElement('div');
     modal.className = 'forum-modal show';
@@ -1049,6 +1151,7 @@ async function submitPost() {
     replyEditor.setContent(reply.content);
   }
 
+  // 更新回复
   async function updateReply(replyId) {
     const content = replyEditor.getContent();
     
@@ -1091,6 +1194,7 @@ async function submitPost() {
     }
   }
 
+  // 提取@用户
   function extractMentions(content) {
     const mentionRegex = /@([^\s@]+)/g;
     const mentions = [];
@@ -1103,13 +1207,15 @@ async function submitPost() {
     return mentions;
   }
 
+  // 处理内容,高亮@用户、表情和图片
   function processContent(content) {
     if (!content) return '';
     
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = content;
     let decodedContent = tempDiv.innerHTML;
-
+    
+    // 处理表情标记
     const emojiRegex = /\[emoji:(\d+):((?:https?:)?\/[^\]]+?)(?::([^\]]+?))?\]/g;
     
     let hasEmoji = false;
@@ -1135,7 +1241,8 @@ async function submitPost() {
     
     if (hasEmoji) {
     }
-
+    
+    // 处理图片标记
     const imageRegex = /\[image:(\/[^\]]+?)\]/g;
     
     let hasImage = false;
@@ -1147,7 +1254,8 @@ async function submitPost() {
       const fullImagePath = `${API_BASE_URL}${imagePath}`;
       
       console.log('Full image URL:', fullImagePath);
-
+      
+      // 生成可点击放大的图片HTML
       const imageHtml = `<img src="${fullImagePath}" 
                              class="forum-uploaded-image" 
                              data-original-src="${fullImagePath}"
@@ -1163,7 +1271,8 @@ async function submitPost() {
     if (hasImage) {
       console.log('After image processing:', processedContent);
     }
-
+    
+    // 处理@mention功能
     processedContent = processedContent.replace(
       /@([^\s@<]+)(?![^<]*>)/g,
       function(match, username) {
@@ -1173,6 +1282,7 @@ async function submitPost() {
     return processedContent;
   }
 
+  // 全局图片预览函数
   window.showForumImagePreview = function(imageUrl) {
     const modal = document.createElement('div');
     modal.className = 'image-preview-modal';
@@ -1211,7 +1321,8 @@ async function submitPost() {
         modal.remove();
       }
     });
-
+    
+    // 移动端支持手势缩放
     if (isMobile) {
       const img = modal.querySelector('img');
       let scale = 1;
@@ -1247,6 +1358,7 @@ async function submitPost() {
     document.body.appendChild(modal);
   };
 
+  // 采纳答案
   async function acceptReply(replyId) {
     if (!confirm('确定采纳此答案吗?采纳后将结贴并发放悬赏。')) {
       return;
@@ -1281,6 +1393,7 @@ async function submitPost() {
     }
   }
 
+  // 结贴
   async function closePost(postId) {
     if (!confirm('确定结贴吗?结贴后将无法继续回复,悬赏金将退回。')) {
       return;
@@ -1315,6 +1428,7 @@ async function submitPost() {
     }
   }
 
+  // 管理员结贴/撤销结贴
   async function toggleAdminClose(postId, currentStatus) {
     const action = currentStatus ? '撤销结贴' : '结贴';
     if (!confirm(`确定${action}吗?`)) {
@@ -1350,6 +1464,7 @@ async function submitPost() {
     }
   }
 
+  // 显示置顶菜单
   async function showPinMenu(postId, currentPinLevel) {
     const menuHtml = `
       <div class="forum-modal show" id="pin-menu-modal">
@@ -1386,6 +1501,7 @@ async function submitPost() {
     document.body.insertAdjacentHTML('beforeend', menuHtml);
   }
 
+  // 设置置顶级别
   async function setPinLevel(postId, pinLevel) {
     const token = localStorage.getItem('token');
     
@@ -1420,6 +1536,7 @@ async function submitPost() {
     }
   }
 
+  // 删除回复
   async function deleteReply(replyId) {
     if (!confirm('确定删除此回复吗?')) {
       return;
@@ -1454,6 +1571,7 @@ async function submitPost() {
     }
   }
 
+  // 删除帖子
   async function deletePost(postId) {
     if (!confirm('确定删除此帖子吗?')) {
       return;
@@ -1488,14 +1606,17 @@ async function submitPost() {
     }
   }
 
+  // 返回列表
   function backToList() {
     loadSection(currentSection);
   }
 
+  // 滚动到顶部
   function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  // 关闭模态框
   function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -1504,10 +1625,12 @@ async function submitPost() {
     }
   }
 
+  // 刷新帖子列表
   function refreshPosts() {
     loadPosts();
   }
 
+  // 全部已读
   async function markAllRead() {
     const token = localStorage.getItem('token');
     
@@ -1537,6 +1660,7 @@ async function submitPost() {
     }
   }
 
+  // 工具函数
   function escapeHtml(text) {
     if (!text) return '';
     const div = document.createElement('div');
@@ -1591,6 +1715,7 @@ async function submitPost() {
     };
   }
 
+  // 暴露到全局
   window.ForumModule = {
     init: initForum,
     showSections: showSectionSelection,
