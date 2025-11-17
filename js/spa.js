@@ -163,7 +163,7 @@ function handleLoginWithAnimation() {
       localStorage.setItem('token', data.token);
       currentUser = data.user;
       localStorage.setItem('userInfo', JSON.stringify(data.user));
-      
+
       showSuccessAnimation(
         '登录成功',
         `欢迎回来，${data.user.nickname || data.user.username}！`,
@@ -172,12 +172,10 @@ function handleLoginWithAnimation() {
           updateUserInfo(data.user);
           showUserInfo();
           setupUserDropdown();
-          
           fetchUserPermissions(data.token).then(permissions => {
             localStorage.setItem('userPermissions', JSON.stringify(permissions));
             updateSidebarVisibility(currentUser);
           });
-
           loadPage('home');
         }
       );
@@ -743,7 +741,6 @@ async function updateSidebarVisibility(user) {
   const pageVisibility = {};
 
   if (!token) {
-
     for (const pageId of allPages) {
       pageVisibility[pageId] = guestVisible.includes(pageId);
     }
@@ -997,7 +994,6 @@ function fetchUserInfo(token) {
     updateUserInfo(user);
     showUserInfo();
     setupUserDropdown();
-
     localStorage.setItem('userInfo', JSON.stringify(user));
 
     return fetchUserPermissions(token).then(permissions => {
@@ -1159,7 +1155,7 @@ if (userAvatarPc) {
     avatarWrapper.appendChild(authIcon);
   }
 }
-
+    
   if (userNicknamePc) {
     userNicknamePc.textContent = user.nickname || user.username;
   }
@@ -1339,6 +1335,7 @@ if (settingsUsername) {
 function updateUserCredit(credit) {
   if (currentUser) {
     currentUser.credit = credit;
+
     const dropdownCredit = document.getElementById('dropdown-credit');
     if (dropdownCredit) {
       dropdownCredit.innerHTML = `<i class="fas fa-star me-2"></i>CREDIT: ${credit}`;
@@ -1444,25 +1441,17 @@ function sendVerificationCode(email, type) {
   console.log(`发送验证码: ${email} (${type})`);
   
   const sendBtn = document.getElementById(type === 'register' ? 'send-verification-code' : 'send-reset-code');
-  const originalText = sendBtn.innerHTML;
-  
-  if (sendBtn) {
-    sendBtn.disabled = true;
-    let seconds = 60;
 
-    sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>发送中...';
-    
-    const timer = setInterval(() => {
-      sendBtn.innerHTML = `<i class="fas fa-clock me-2"></i>${seconds}秒后重试`;
-      seconds--;
-      if (seconds < 0) {
-        clearInterval(timer);
-        sendBtn.innerHTML = originalText;
-        sendBtn.disabled = false;
-      }
-    }, 1000);
+  if (!sendBtn || sendBtn.disabled || sendBtn._timer) {
+    console.log('按钮已禁用或正在倒计时，忽略点击');
+    return Promise.reject(new Error('请勿重复点击'));
   }
   
+  const originalText = sendBtn.innerHTML;
+
+  sendBtn.disabled = true;
+  sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>发送中...';
+
   return fetch('https://api.am-all.com.cn/api/send-verification-code', {
     method: 'POST',
     headers: {
@@ -1483,19 +1472,27 @@ function sendVerificationCode(email, type) {
     return response.json();
   })
   .then(data => {
-    const sendBtn = document.getElementById(type === 'register' ? 'send-verification-code' : 'send-reset-code');
     if (sendBtn) {
+      let seconds = 60;
+
       sendBtn.innerHTML = '<i class="fas fa-check me-2"></i>已发送';
       sendBtn.classList.add('btn-success');
 
       setTimeout(() => {
-        if (sendBtn._timer) {
-          clearInterval(sendBtn._timer);
-        }
-        sendBtn.innerHTML = '获取验证码';
-        sendBtn.disabled = false;
         sendBtn.classList.remove('btn-success');
-      }, 3000);
+        sendBtn.innerHTML = `<i class="fas fa-clock me-2"></i>${seconds}秒后重试`;
+        sendBtn._timer = setInterval(() => {
+          seconds--;
+          if (seconds < 0) {
+            clearInterval(sendBtn._timer);
+            sendBtn._timer = null;
+            sendBtn.innerHTML = originalText;
+            sendBtn.disabled = false;
+          } else {
+            sendBtn.innerHTML = `<i class="fas fa-clock me-2"></i>${seconds}秒后重试`;
+          }
+        }, 1000);
+      }, 1000);
     }
     
     showSuccessMessage('验证码已发送至您的邮箱');
@@ -1504,12 +1501,12 @@ function sendVerificationCode(email, type) {
   .catch(error => {
     console.error('验证码发送失败:', error);
 
-    const sendBtn = document.getElementById(type === 'register' ? 'send-verification-code' : 'send-reset-code');
     if (sendBtn) {
       if (sendBtn._timer) {
         clearInterval(sendBtn._timer);
+        sendBtn._timer = null;
       }
-      sendBtn.innerHTML = '获取验证码';
+      sendBtn.innerHTML = originalText;
       sendBtn.disabled = false;
       sendBtn.classList.remove('btn-success');
     }
@@ -1617,7 +1614,7 @@ function handleLogin() {
           if (typeof initFriendsSystem === 'function') {
             setTimeout(() => {
               try {
-                window.friendsSystemInitialized = true;
+                window.friendsSystemInitialized = true; // 设置标记
                 initFriendsSystem();
                 console.log('好友系统初始化成功');
               } catch (error) {
@@ -1832,6 +1829,7 @@ window.proceedWithRegistration = function(encodedUsername, encodedNickname, enco
       localStorage.setItem('token', data.token);
       currentUser = data.user;
       localStorage.setItem('userInfo', JSON.stringify(data.user));
+
       showSuccessAnimation(
         '注册成功',
         `欢迎加入，${nickname || username}！`,
@@ -2170,6 +2168,7 @@ function showPermissionDenied(pageId) {
 async function loadPage(pageId) {
   const contentContainer = document.getElementById('content-container');
   if (!contentContainer) return;
+
   if (PROTECTED_PAGES.includes(pageId)) {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -2209,6 +2208,7 @@ async function loadPage(pageId) {
   document.documentElement.scrollTop = 0;
   
 setTimeout(() => {
+
 	if (pageId === 'forum') {
 	  if (typeof window.ForumModule !== 'undefined' && window.ForumModule.init) {
 		setTimeout(() => {
@@ -2399,7 +2399,7 @@ setTimeout(() => {
     }
     return;
   }
-
+    
     if (pages[pageId]) {
       contentContainer.innerHTML = pages[pageId];
       
@@ -2818,6 +2818,7 @@ function initCursorSettingsManually() {
   }
   
   const currentStyle = localStorage.getItem('cursorStyle') || 'default';
+
   const cursorStyles = {
     default: {
       name: '默认',
@@ -3270,7 +3271,6 @@ function updateActiveMenuItem(activePage) {
     var page = normalizePageId(activePage);
     var els = document.querySelectorAll('.sidebar-nav li, .sidebar-nav a');
     for (var i=0;i<els.length;i++){ els[i].classList.remove('active'); }
-
     var link = document.querySelector('.sidebar-nav a[data-page="' + page + '"]');
     if (!link) {
       var legacy = document.getElementById('sidebar-' + page);
@@ -3415,12 +3415,10 @@ function renderOrders(orders) {
   
   sortedOrders.forEach((order, index) => {
     const tr = document.createElement('tr');
-    
     const price = typeof order.price === 'number' ? order.price : parseFloat(order.price || 0);
     const formattedPrice = isNaN(price) ? '0.00' : price.toFixed(2);
     const redemptionRate = order.redemption_rate || 100;
     const calculatedPoints = Math.floor(price * redemptionRate / 100);
-    
     const isRedeemed = order.redeemed === true || order.redeemed === 1 || order.redeemed === '1';
     
     tr.innerHTML = `
@@ -3644,7 +3642,6 @@ function showOrderModal(order = null) {
 
   let redemptionRateGroup = document.getElementById('redemption-rate-group');
   if (!redemptionRateGroup) {
-
     const priceGroup = document.querySelector('#order-form .form-group:has(#price)');
     if (priceGroup) {
       const rateGroupHtml = `
@@ -3812,7 +3809,6 @@ async function saveOrder() {
     
     closeOrderModal();
     await loadOrders();
-
     const actualPoints = Math.floor(price * redemptionRate / 100);
     
     if (typeof showSuccessAnimation === 'function') {
@@ -4278,14 +4274,12 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           return route.handler();
         }
-
         if (typeof orig === 'function') return orig(pageId);
       } catch (e) {
         console.error('Route wrapper error:', e);
         if (typeof orig === 'function') return orig(pageId);
       }
     }
-
     Object.defineProperty(wrapper, '__isRouteWrapper', { value: true });
     return wrapper;
   }
@@ -4391,6 +4385,7 @@ async function savePrivacySettings() {
   
   const messageRadio = document.querySelector('input[name="message-privacy"]:checked');
   const messagePrivacy = messageRadio ? messageRadio.value : 'all';
+
   if (searchOptions.length === 0) {
     showErrorMessage('至少选择一种搜索方式');
     return;

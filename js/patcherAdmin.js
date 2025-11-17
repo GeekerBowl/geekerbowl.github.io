@@ -5,22 +5,39 @@
   let allTools = [];
   let selectedToolIds = new Set();
 
-function getFullImageUrl(path) {
-  if (!path) {
-    console.log('路径为空，使用默认图片');
-    return 'https://oss.am-all.com.cn/asset/img/main/default-tool.png';
+  function getFullImageUrl(path) {
+    if (!path) {
+      console.log('路径为空，使用默认图片');
+      return 'https://oss.am-all.com.cn/asset/img/main/default-tool.png';
+    }
+
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      return path;
+    }
+
+    const cleanPath = path.startsWith('/') ? path : '/' + path;
+    const fullUrl = API_BASE + cleanPath;
+    
+    console.log('图片路径转换:', path, '->', fullUrl);
+    return fullUrl;
   }
 
-  if (path.startsWith('http://') || path.startsWith('https://')) {
-    return path;
-  }
+  function validateToolData(tool) {
+    if (!tool) {
+      console.error('工具数据为空');
+      return false;
+    }
 
-  const cleanPath = path.startsWith('/') ? path : '/' + path;
-  const fullUrl = API_BASE + cleanPath;
-  
-  console.log('图片路径转换:', path, '->', fullUrl);
-  return fullUrl;
-}
+    const requiredFields = ['id', 'tool_name', 'category', 'tool_path'];
+    for (const field of requiredFields) {
+      if (tool[field] === undefined || tool[field] === null) {
+        console.error(`工具数据缺少必需字段: ${field}`, tool);
+        return false;
+      }
+    }
+    
+    return true;
+  }
 
   window.renderPatcherAdmin = async function() {
     const container = document.getElementById('content-container');
@@ -93,6 +110,10 @@ function getFullImageUrl(path) {
   async function loadTools() {
     try {
       const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('未登录或登录已过期');
+      }
+      
       const response = await fetch(`${API_BASE}/api/admin/patcher-tools`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -100,17 +121,35 @@ function getFullImageUrl(path) {
       });
       
       if (!response.ok) {
-        throw new Error('加载工具列表失败');
+        if (response.status === 401) {
+          throw new Error('登录已过期，请重新登录');
+        }
+        throw new Error(`加载工具列表失败 (${response.status})`);
       }
       
       const data = await response.json();
       
-      if (data.success && data.tools) {
-        allTools = data.tools;
-        renderToolsTable(allTools);
-      } else {
-        throw new Error('加载工具列表失败');
+      if (!data.success) {
+        throw new Error(data.message || '加载工具列表失败');
       }
+      
+      if (!data.tools || !Array.isArray(data.tools)) {
+        console.error('服务器返回的数据格式错误:', data);
+        throw new Error('服务器返回的数据格式错误');
+      }
+
+      const validTools = data.tools.filter(tool => {
+        const isValid = validateToolData(tool);
+        if (!isValid) {
+          console.warn('跳过无效的工具数据:', tool);
+        }
+        return isValid;
+      });
+      
+      console.log(`成功加载 ${validTools.length} 个有效工具，跳过 ${data.tools.length - validTools.length} 个无效工具`);
+      
+      allTools = validTools;
+      renderToolsTable(allTools);
     } catch (error) {
       console.error('加载工具列表失败:', error);
       showError('加载工具列表失败: ' + error.message);
@@ -124,72 +163,89 @@ function getFullImageUrl(path) {
     
     if (!tbody) return;
     
-    if (tools.length === 0) {
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="10" class="text-center py-5">
-            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-            <p class="text-muted">暂无工具数据</p>
-          </td>
-        </tr>
-      `;
-    } else {
-      tbody.innerHTML = tools.map(tool => {
-        const coverUrl = tool.cover_image 
-          ? getFullImageUrl(tool.cover_image) 
-          : 'https://oss.am-all.com.cn/asset/img/main/default-tool.png';
-        
-        return `
-          <tr data-tool-id="${tool.id}">
-            <td>
-              <input type="checkbox" class="tool-checkbox" data-id="${tool.id}">
-            </td>
-            <td>${tool.sort_order}</td>
-            <td>
-              <img src="${coverUrl}" 
-                   alt="${tool.tool_name}" 
-                   class="tool-cover-thumb"
-                   onerror="this.src='https://oss.am-all.com.cn/asset/img/main/default-tool.png'">
-            </td>
-            <td class="tool-name">${tool.tool_name}</td>
-            <td>
-              <span class="badge ${tool.category === 'chunithm' ? 'bg-primary' : 'bg-success'}">
-                ${tool.category === 'chunithm' ? 'CHUNITHM' : 'BEMANI'}
-              </span>
-            </td>
-            <td>
-              <span class="badge ${tool.is_active ? 'bg-success' : 'bg-secondary'}">
-                ${tool.is_active ? '激活' : '停用'}
-              </span>
-            </td>
-            <td>
-              <span class="badge bg-info">
-                Rank ${tool.primary_access}
-              </span>
-            </td>
-            <td>
-              ${renderSecondaryAccess(tool.secondary_access)}
-            </td>
-            <td>${tool.sort_order}</td>
-            <td>
-              <button class="btn btn-sm btn-primary me-1" onclick="editTool(${tool.id})" title="编辑">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn btn-sm btn-danger" onclick="deleteTool(${tool.id})" title="删除">
-                <i class="fas fa-trash"></i>
-              </button>
+    try {
+      if (tools.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="10" class="text-center py-5">
+              <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+              <p class="text-muted">暂无工具数据</p>
             </td>
           </tr>
         `;
-      }).join('');
+      } else {
+        tbody.innerHTML = tools.map(tool => {
+          try {
+            const toolId = tool.id || 0;
+            const toolName = tool.tool_name || '未命名工具';
+            const category = tool.category || 'unknown';
+            const sortOrder = tool.sort_order || 0;
+            const isActive = tool.is_active !== undefined ? tool.is_active : true;
+            const primaryAccess = tool.primary_access || 0;
+            const secondaryAccess = tool.secondary_access || null;
+            const coverUrl = tool.cover_image 
+              ? getFullImageUrl(tool.cover_image) 
+              : 'https://oss.am-all.com.cn/asset/img/main/default-tool.png';
+            
+            return `
+              <tr data-tool-id="${toolId}">
+                <td>
+                  <input type="checkbox" class="tool-checkbox" data-id="${toolId}">
+                </td>
+                <td>${toolId}</td>
+                <td>
+                  <img src="${coverUrl}" 
+                       alt="${toolName}" 
+                       class="tool-cover-thumb"
+                       onerror="this.src='https://oss.am-all.com.cn/asset/img/main/default-tool.png'">
+                </td>
+                <td class="tool-name">${toolName}</td>
+                <td>
+                  <span class="badge ${category === 'chunithm' ? 'bg-primary' : 'bg-success'}">
+                    ${category === 'chunithm' ? 'CHUNITHM' : 'BEMANI'}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge ${isActive ? 'bg-success' : 'bg-secondary'}">
+                    ${isActive ? '激活' : '停用'}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge bg-info">
+                    Rank ${primaryAccess}
+                  </span>
+                </td>
+                <td>
+                  ${renderSecondaryAccess(secondaryAccess)}
+                </td>
+                <td>${sortOrder}</td>
+                <td>
+                  <button class="btn btn-sm btn-primary me-1" onclick="editTool(${toolId})" title="编辑">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" onclick="deleteTool(${toolId})" title="删除">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            `;
+          } catch (err) {
+            console.error('渲染单个工具失败:', tool, err);
+            return '';
+          }
+        }).filter(html => html !== '').join('');
 
-      tbody.querySelectorAll('.tool-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', handleCheckboxChange);
-      });
+        tbody.querySelectorAll('.tool-checkbox').forEach(checkbox => {
+          checkbox.addEventListener('change', handleCheckboxChange);
+        });
+      }
+      
+      loadingState.style.display = 'none';
+      tableContainer.style.display = 'block';
+    } catch (error) {
+      console.error('渲染工具表格失败:', error);
+      showError('渲染工具表格失败: ' + error.message);
     }
-    
-    loadingState.style.display = 'none';
-    tableContainer.style.display = 'block';
   }
   
   function renderSecondaryAccess(access) {
@@ -244,101 +300,107 @@ function getFullImageUrl(path) {
     checkboxes.forEach(cb => {
       cb.checked = false;
     });
-    document.getElementById('select-all-checkbox').checked = false;
     selectedToolIds.clear();
+    document.getElementById('select-all-checkbox').checked = false;
     updateBatchDeleteButton();
   }
   
   function updateBatchDeleteButton() {
     const btn = document.getElementById('batch-delete-btn');
-    btn.disabled = selectedToolIds.size === 0;
-    btn.innerHTML = selectedToolIds.size > 0 
-      ? `<i class="fas fa-trash me-2"></i>删除选中 (${selectedToolIds.size})` 
-      : '<i class="fas fa-trash me-2"></i>删除选中';
+    if (btn) {
+      btn.disabled = selectedToolIds.size === 0;
+      if (selectedToolIds.size > 0) {
+        btn.innerHTML = `<i class="fas fa-trash me-2"></i>删除选中 (${selectedToolIds.size})`;
+      } else {
+        btn.innerHTML = '<i class="fas fa-trash me-2"></i>删除选中';
+      }
+    }
   }
   
   function showCreateToolModal(editData = null) {
     const isEdit = !!editData;
-
-    let coverImageHtml = '';
-    if (editData?.cover_image) {
-      const coverUrl = getFullImageUrl(editData.cover_image);
-      coverImageHtml = `<img src="${coverUrl}" alt="封面" onerror="this.parentElement.innerHTML='<div style=\'color:#999;padding:20px;\'>图片加载失败</div>'">`;
-    }
-    
     const modalHTML = `
-      <div class="modal show" id="tool-modal">
+      <div id="tool-modal" class="modal show">
         <div class="modal-content large">
           <div class="modal-header">
             <h3>${isEdit ? '编辑工具' : '新建工具'}</h3>
-            <button class="modal-close" onclick="closeToolModal()">&times;</button>
+            <button class="modal-close" onclick="closeToolModal()">×</button>
           </div>
           <div class="modal-body">
             <form id="tool-form">
               <input type="hidden" id="tool-id" value="${editData?.id || ''}">
               
-              <div class="form-group">
-                <label for="tool-name">工具名称 <span class="required">*</span></label>
-                <input type="text" id="tool-name" class="form-control" 
-                       value="${editData?.tool_name || ''}" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="tool-category">工具分类 <span class="required">*</span></label>
-                <select id="tool-category" class="form-control" required>
-                  <option value="">请选择</option>
-                  <option value="chunithm" ${editData?.category === 'chunithm' ? 'selected' : ''}>
-                    CHUNITHM补丁工具
-                  </option>
-                  <option value="bemani" ${editData?.category === 'bemani' ? 'selected' : ''}>
-                    BEMANI补丁工具
-                  </option>
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <label for="tool-path">工具路径 <span class="required">*</span></label>
-                <input type="text" id="tool-path" class="form-control" 
-                       placeholder="patcher/xxx.html" 
-                       value="${editData?.tool_path || ''}" required>
-                <small class="form-text">填写HTML文件的相对路径</small>
-              </div>
-              
-              <div class="form-group">
-                <label for="tool-cover">封面图片</label>
-                <div class="cover-upload-area">
-                  <input type="file" id="tool-cover-input" accept="image/*" style="display: none;">
-                  <button type="button" class="btn btn-secondary" onclick="document.getElementById('tool-cover-input').click()">
-                    <i class="fas fa-upload me-2"></i>
-                    选择图片
-                  </button>
-                  <div id="cover-preview" class="cover-preview">
-                    ${coverImageHtml}
-                  </div>
-                  <input type="hidden" id="tool-cover-path" value="${editData?.cover_image || ''}">
-                  <small class="form-text">当前封面路径: <span id="cover-path-display">${editData?.cover_image || '未设置'}</span></small>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="tool-name">工具名称 <span class="required">*</span></label>
+                  <input type="text" id="tool-name" class="form-control" 
+                         value="${editData?.tool_name || ''}" required>
                 </div>
               </div>
               
               <div class="form-row">
                 <div class="form-group">
-                  <label for="primary-access">一级访问权限 <span class="required">*</span></label>
-                  <select id="primary-access" class="form-control" required>
-                    <option value="0" ${editData?.primary_access === 0 ? 'selected' : ''}>普通用户 (0)</option>
-                    <option value="1" ${editData?.primary_access === 1 ? 'selected' : ''}>初级用户 (1)</option>
-                    <option value="2" ${editData?.primary_access === 2 ? 'selected' : ''}>中级用户 (2)</option>
-                    <option value="3" ${editData?.primary_access === 3 ? 'selected' : ''}>高级用户 (3)</option>
-                    <option value="4" ${editData?.primary_access === 4 ? 'selected' : ''}>贵宾用户 (4)</option>
-                    <option value="5" ${editData?.primary_access === 5 ? 'selected' : ''}>管理员 (5)</option>
+                  <label for="tool-category">分类 <span class="required">*</span></label>
+                  <select id="tool-category" class="form-control" required>
+                    <option value="chunithm" ${editData?.category === 'chunithm' ? 'selected' : ''}>
+                      CHUNITHM
+                    </option>
+                    <option value="bemani" ${editData?.category === 'bemani' ? 'selected' : ''}>
+                      BEMANI
+                    </option>
                   </select>
                 </div>
-                
+              </div>
+              
+              <div class="form-row">
                 <div class="form-group">
-                  <label for="secondary-access">二级访问权限</label>
+                  <label for="tool-path">工具路径 <span class="required">*</span></label>
+                  <input type="text" id="tool-path" class="form-control" 
+                         value="${editData?.tool_path || ''}" 
+                         placeholder="https://example.com/tool.html" required>
+                  <small class="form-text">工具的完整URL地址</small>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="tool-cover-input">封面图片</label>
+                  <div class="cover-upload-area">
+                    <div id="cover-preview" class="cover-preview">
+                      ${editData?.cover_image ? 
+                        `<img src="${getFullImageUrl(editData.cover_image)}" alt="封面预览">` : 
+                        ''}
+                    </div>
+                    <input type="file" id="tool-cover-input" class="form-control" accept="image/*">
+                    <input type="hidden" id="tool-cover-path" value="${editData?.cover_image || ''}">
+                    ${editData?.cover_image ? 
+                      `<small class="form-text">当前路径: <span id="cover-path-display">${editData.cover_image}</span></small>` : 
+                      ''}
+                    <small class="form-text">支持 JPG、PNG 格式，文件大小不超过 5MB</small>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="primary-access">一级权限 (Rank等级) <span class="required">*</span></label>
+                  <input type="number" id="primary-access" class="form-control" 
+                         value="${editData?.primary_access || 0}" min="0" required>
+                  <small class="form-text">0 = 所有用户，1-10 = Rank等级要求</small>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="secondary-access">二级权限（可选）</label>
                   <select id="secondary-access" class="form-control">
                     <option value="">无</option>
-                    <option value="0" ${editData?.secondary_access === '1' ? 'selected' : ''}>maimoller</option>
-                    <option value="1" ${editData?.secondary_access === '2' ? 'selected' : ''}>协同管理员</option>
+                    <option value="1" ${editData?.secondary_access === '1' ? 'selected' : ''}>
+                      maimoller
+                    </option>
+                    <option value="2" ${editData?.secondary_access === '2' ? 'selected' : ''}>
+                      协同管理员
+                    </option>
                     <option value="personal_auth" ${editData?.secondary_access === 'personal_auth' ? 'selected' : ''}>
                       个人认证
                     </option>
@@ -378,70 +440,71 @@ function getFullImageUrl(path) {
     document.getElementById('tool-cover-input').addEventListener('change', handleCoverUpload);
   }
   
-async function handleCoverUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  
-  if (file.size > 5 * 1024 * 1024) {
-    alert('文件大小不能超过5MB');
-    return;
-  }
-  
-  const formData = new FormData();
-  formData.append('cover', file);
-  
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE}/api/admin/patcher-tools/cover`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-      body: formData
-    });
+  async function handleCoverUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
     
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('上传失败响应:', errorText);
-      throw new Error('上传失败');
+    if (file.size > 5 * 1024 * 1024) {
+      alert('文件大小不能超过5MB');
+      return;
     }
     
-    const data = await response.json();
-    console.log('上传成功，服务器返回:', data);
+    const formData = new FormData();
+    formData.append('cover', file);
     
-    if (data.success && data.coverPath) {
-      document.getElementById('tool-cover-path').value = data.coverPath;
-      console.log('保存的路径值:', data.coverPath);
-      const pathDisplay = document.getElementById('cover-path-display');
-      if (pathDisplay) {
-        pathDisplay.textContent = data.coverPath;
-      }
-
-      const fullImageUrl = getFullImageUrl(data.coverPath);
-      console.log('完整图片URL:', fullImageUrl);
-
-      const previewContainer = document.getElementById('cover-preview');
-      previewContainer.innerHTML = `
-        <img src="${fullImageUrl}" 
-             alt="封面预览" 
-             style="max-width: 100%; max-height: 200px; object-fit: contain;"
-             onerror="console.error('图片加载失败，URL:', this.src); this.parentElement.innerHTML='<div style=\\'color:#e74c3c;padding:20px;\\'>图片加载失败：' + this.src + '</div>'">
-      `;
-
-      const img = new Image();
-      img.onload = () => console.log('✓ 图片可以正常访问:', fullImageUrl);
-      img.onerror = () => console.error('✗ 图片无法访问:', fullImageUrl);
-      img.src = fullImageUrl;
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_BASE}/api/admin/patcher-tools/cover`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
       
-      showSuccessMessage('封面上传成功');
-    } else {
-      throw new Error('服务器返回数据格式错误');
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('上传失败响应:', errorText);
+        throw new Error('上传失败');
+      }
+      
+      const data = await response.json();
+      console.log('上传成功，服务器返回:', data);
+      
+      if (data.success && data.coverPath) {
+        document.getElementById('tool-cover-path').value = data.coverPath;
+        console.log('保存的路径值:', data.coverPath);
+
+        const pathDisplay = document.getElementById('cover-path-display');
+        if (pathDisplay) {
+          pathDisplay.textContent = data.coverPath;
+        }
+
+        const fullImageUrl = getFullImageUrl(data.coverPath);
+        console.log('完整图片URL:', fullImageUrl);
+
+        const previewContainer = document.getElementById('cover-preview');
+        previewContainer.innerHTML = `
+          <img src="${fullImageUrl}" 
+               alt="封面预览" 
+               style="max-width: 100%; max-height: 200px; object-fit: contain;"
+               onerror="console.error('图片加载失败，URL:', this.src); this.parentElement.innerHTML='<div style=\\'color:#e74c3c;padding:20px;\\'>图片加载失败：' + this.src + '</div>'">
+        `;
+
+        const img = new Image();
+        img.onload = () => console.log('✓ 图片可以正常访问:', fullImageUrl);
+        img.onerror = () => console.error('✗ 图片无法访问:', fullImageUrl);
+        img.src = fullImageUrl;
+        
+        showSuccessMessage('封面上传成功');
+      } else {
+        throw new Error('服务器返回数据格式错误');
+      }
+    } catch (error) {
+      console.error('上传封面失败:', error);
+      alert('上传封面失败: ' + error.message);
     }
-  } catch (error) {
-    console.error('上传封面失败:', error);
-    alert('上传封面失败: ' + error.message);
   }
-}
   
   window.closeToolModal = function() {
     const modal = document.getElementById('tool-modal');
@@ -486,7 +549,8 @@ async function handleCoverUpload(e) {
       });
       
       if (!response.ok) {
-        throw new Error(isEdit ? '更新失败' : '创建失败');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || (isEdit ? '更新失败' : '创建失败'));
       }
       
       closeToolModal();
@@ -502,6 +566,9 @@ async function handleCoverUpload(e) {
     const tool = allTools.find(t => t.id === toolId);
     if (tool) {
       showCreateToolModal(tool);
+    } else {
+      console.error('找不到工具:', toolId);
+      alert('找不到要编辑的工具');
     }
   };
   
@@ -520,7 +587,8 @@ async function handleCoverUpload(e) {
       });
       
       if (!response.ok) {
-        throw new Error('删除失败');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || '删除失败');
       }
       
       showSuccessMessage('工具删除成功');
@@ -552,7 +620,8 @@ async function handleCoverUpload(e) {
       });
       
       if (!response.ok) {
-        throw new Error('批量删除失败');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || '批量删除失败');
       }
       
       showSuccessMessage('批量删除成功');
@@ -571,6 +640,10 @@ async function handleCoverUpload(e) {
         <div class="error-state">
           <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
           <p class="text-danger">${message}</p>
+          <button class="btn btn-primary mt-3" onclick="renderPatcherAdmin()">
+            <i class="fas fa-sync-alt me-2"></i>
+            重试
+          </button>
         </div>
       `;
     }
@@ -585,5 +658,5 @@ async function handleCoverUpload(e) {
   }
 
   window.renderPatcherAdmin = renderPatcherAdmin;
-  
+  console.log('补丁工具管理模块已加载');
 })();

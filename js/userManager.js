@@ -9,7 +9,7 @@ function __getPermissionModalRoot(){
 class UserManager {
   constructor() {
     this.currentPage = 1;
-    this.usersPerPage = 20;
+    this.usersPerPage = 50; // 默认50条
     this.totalPages = 1;
     this.users = [];
     this.editingUserId = null;
@@ -22,6 +22,7 @@ class UserManager {
   }
 
   init() {
+    // 多次进入页面时仅刷新数据
     if (this.__initializedOnce) {
       this.loadUsers();
       return;
@@ -35,6 +36,7 @@ class UserManager {
     if (this.__listenersBound) return;
     this.__listenersBound = true;
 
+    // 搜索
     const searchBtn = document.getElementById('user-search-btn');
     const searchInput = document.getElementById('user-search-input');
     if (searchBtn) {
@@ -52,8 +54,12 @@ class UserManager {
       });
     }
 
+    // 过滤
     const rankFilter = document.getElementById('user-rank-filter');
     const stateFilter = document.getElementById('user-state-filter');
+    const authFilter = document.getElementById('user-auth-filter'); // 新增：认证类型过滤
+    const perPageSelect = document.getElementById('users-per-page'); // 新增：每页显示数量
+    
     if (rankFilter) {
       rankFilter.addEventListener('change', () => {
         this.currentPage = 1;
@@ -66,31 +72,51 @@ class UserManager {
         this.loadUsers();
       });
     }
+    
+    // 新增：认证类型过滤事件
+    if (authFilter) {
+      authFilter.addEventListener('change', () => {
+        this.currentPage = 1;
+        this.loadUsers();
+      });
+    }
+    
+    // 新增：每页显示数量变更事件
+    if (perPageSelect) {
+      perPageSelect.addEventListener('change', () => {
+        this.usersPerPage = parseInt(perPageSelect.value) || 50;
+        this.currentPage = 1;
+        this.loadUsers();
+      });
+    }
 
+    // 统一事件委托（只绑定一次）
     this.__onDocClick = this.__onDocClick || ((e) => {
+      // 仅在用户管理页面内处理
       const isUserManagerVisible = document.querySelector('[data-page="user-manager"], [data-perm-page="user-manager"]');
       if (!isUserManagerVisible || isUserManagerVisible.offsetParent === null) return;
 
       const target = e.target;
 
+      // 编辑
       if (target.classList.contains('btn-edit')) {
         const userId = parseInt(target.dataset.userId || target.getAttribute('data-user-id'), 10);
         if (!isNaN(userId)) this.toggleEditMode(userId);
         return;
       }
-
+      // 保存（行内保存用户资料）
       if (target.classList.contains('btn-save')) {
         const userId = parseInt(target.dataset.userId || target.getAttribute('data-user-id'), 10);
         if (!isNaN(userId)) this.saveUserChanges(userId);
         return;
       }
-
+      // 取消
       if (target.classList.contains('btn-cancel')) {
         const userId = parseInt(target.dataset.userId || target.getAttribute('data-user-id'), 10);
         if (!isNaN(userId)) this.cancelEditMode(userId);
         return;
       }
-
+      // 授权
       if (target.classList.contains('btn-auth')) {
         e.preventDefault();
         e.stopPropagation();
@@ -115,11 +141,17 @@ class UserManager {
       const search = (document.getElementById('user-search-input') || {}).value || '';
       const rankFilter = (document.getElementById('user-rank-filter') || {}).value || '';
       const stateFilter = (document.getElementById('user-state-filter') || {}).value || '';
+      const authFilter = (document.getElementById('user-auth-filter') || {}).value || ''; // 新增：获取认证类型过滤
+      const perPageSelect = document.getElementById('users-per-page');
+      if (perPageSelect) {
+        this.usersPerPage = parseInt(perPageSelect.value) || 50;
+      }
 
       let url = `https://api.am-all.com.cn/api/admin/users?page=${this.currentPage}&limit=${this.usersPerPage}`;
       if (search) url += `&search=${encodeURIComponent(search)}`;
       if (rankFilter) url += `&user_rank=${rankFilter}`;
       if (stateFilter) url += `&banState=${stateFilter}`;
+      if (authFilter) url += `&account_auth=${authFilter}`; // 新增：添加认证类型参数
 
       const resp = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` }});
       if (!resp.ok) {
@@ -148,6 +180,7 @@ renderUsers() {
   if (!tbody) return;
   tbody.innerHTML = '';
 
+  // 确保表头包含新的列
   const thead = tbody.parentElement.querySelector('thead');
   if (thead && !thead.innerHTML.includes('昵称')) {
     thead.innerHTML = `
@@ -250,36 +283,83 @@ getUserRowHTML(user, isEditing) {
     const ul = document.createElement('ul');
     ul.className = 'pagination';
 
+    // 上一页按钮
     if (this.currentPage > 1) {
       const prevLi = document.createElement('li');
       prevLi.className = 'page-item';
-      prevLi.innerHTML = `<a class="page-link" href="#" data-page="${this.currentPage - 1}">上一页</a>`;
+      // 修复：使用 javascript:void(0) 替代 #，避免触发路由
+      prevLi.innerHTML = `<a class="page-link" href="javascript:void(0)" data-page="${this.currentPage - 1}">上一页</a>`;
       ul.appendChild(prevLi);
     }
 
-    for (let i = 1; i <= this.totalPages; i++) {
+    // 页码按钮 - 智能显示（当页数过多时只显示部分页码）
+    const maxVisiblePages = 10;
+    let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(this.totalPages, startPage + maxVisiblePages - 1);
+    
+    // 调整起始页，确保显示足够的页码
+    if (endPage - startPage < maxVisiblePages - 1) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    // 显示第一页（如果不在可见范围内）
+    if (startPage > 1) {
+      const li = document.createElement('li');
+      li.className = 'page-item';
+      li.innerHTML = `<a class="page-link" href="javascript:void(0)" data-page="1">1</a>`;
+      ul.appendChild(li);
+      
+      if (startPage > 2) {
+        const ellipsis = document.createElement('li');
+        ellipsis.className = 'page-item disabled';
+        ellipsis.innerHTML = `<span class="page-link">...</span>`;
+        ul.appendChild(ellipsis);
+      }
+    }
+
+    // 显示可见范围的页码
+    for (let i = startPage; i <= endPage; i++) {
       const li = document.createElement('li');
       li.className = `page-item ${i===this.currentPage ? 'active' : ''}`;
-      li.innerHTML = `<a class="page-link" href="#" data-page="${i}">${i}</a>`;
+      li.innerHTML = `<a class="page-link" href="javascript:void(0)" data-page="${i}">${i}</a>`;
       ul.appendChild(li);
     }
 
+    // 显示最后一页（如果不在可见范围内）
+    if (endPage < this.totalPages) {
+      if (endPage < this.totalPages - 1) {
+        const ellipsis = document.createElement('li');
+        ellipsis.className = 'page-item disabled';
+        ellipsis.innerHTML = `<span class="page-link">...</span>`;
+        ul.appendChild(ellipsis);
+      }
+      
+      const li = document.createElement('li');
+      li.className = 'page-item';
+      li.innerHTML = `<a class="page-link" href="javascript:void(0)" data-page="${this.totalPages}">${this.totalPages}</a>`;
+      ul.appendChild(li);
+    }
+
+    // 下一页按钮
     if (this.currentPage < this.totalPages) {
       const nextLi = document.createElement('li');
       nextLi.className = 'page-item';
-      nextLi.innerHTML = `<a class="page-link" href="#" data-page="${this.currentPage + 1}">下一页</a>`;
+      nextLi.innerHTML = `<a class="page-link" href="javascript:void(0)" data-page="${this.currentPage + 1}">下一页</a>`;
       ul.appendChild(nextLi);
     }
 
-    ul.querySelectorAll('.page-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const page = parseInt(e.currentTarget.dataset.page, 10);
-        if (page && page !== this.currentPage) {
-          this.currentPage = page;
-          this.loadUsers();
-        }
-      });
+    // 绑定事件（使用事件委托）
+    ul.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const link = e.target.closest('.page-link');
+      if (!link || link.parentElement.classList.contains('disabled')) return;
+      
+      const page = parseInt(link.dataset.page, 10);
+      if (page && page !== this.currentPage && page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+        this.loadUsers();
+      }
     });
 
     container.appendChild(ul);
@@ -330,9 +410,11 @@ async saveUserChanges(userId) {
     if (!result.success) throw new Error(result.error || '更新用户信息失败');
 
     if (typeof showSuccessMessage === 'function') showSuccessMessage(result.message || '用户信息更新成功');
-
+    
+    // 如果修改的是当前登录用户，更新本地存储和界面显示
     const currentUser = JSON.parse(localStorage.getItem('userInfo') || '{}');
     if (currentUser && currentUser.id === userId) {
+      // 重新获取用户信息
       const token = localStorage.getItem('token');
       if (token) {
         fetch('https://api.am-all.com.cn/api/user', {
@@ -340,12 +422,13 @@ async saveUserChanges(userId) {
         })
         .then(res => res.json())
         .then(user => {
+          // 更新本地存储
           localStorage.setItem('userInfo', JSON.stringify(user));
-
+          // 立即更新界面显示
           if (typeof updateUserInfo === 'function') {
             updateUserInfo(user);
           }
-
+          // 更新全局变量
           if (typeof window.currentUser !== 'undefined') {
             window.currentUser = user;
           }
@@ -365,7 +448,7 @@ async saveUserChanges(userId) {
 }
 
   createPermissionModal() {
-
+    // 单例
     const existed = document.getElementById('permission-modal');
     if (existed) { this.permissionModal = existed; return; }
 
@@ -389,6 +472,7 @@ async saveUserChanges(userId) {
     const __pmc = this.permissionModal.querySelector('.permission-modal-content');
     if (__pmc) __pmc.addEventListener('click', (evt)=>evt.stopPropagation());
 
+    // 弹窗内容区阻止冒泡到全局
     const pmc = this.permissionModal.querySelector('.permission-modal-content');
     if (pmc) pmc.addEventListener('click', (e) => e.stopPropagation());
 
@@ -553,6 +637,9 @@ async saveUserChanges(userId) {
   }
 }
 
+
+
+// 全局初始化（幂等）
 window.initUserManager = function() {
   if (window.userManager && window.userManager.__initializedOnce) {
     window.userManager.loadUsers();
@@ -562,6 +649,7 @@ window.initUserManager = function() {
   window.userManager.init();
 };
 
+// 旧代码兼容：全局函数
 if (typeof window !== 'undefined' && typeof window.showPermissionModal !== 'function') {
   window.showPermissionModal = function(userId) {
     if (window.userManager && typeof window.userManager.showPermissionModal === 'function') {
