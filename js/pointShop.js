@@ -1,3 +1,4 @@
+// 积分商城主模块
 (function() {
   'use strict';
   
@@ -5,10 +6,14 @@
   let currentUser = null;
   let shippingAddress = null;
   const BASE_URL = 'https://api.am-all.com.cn';
-
+  
+  // ========== 工具函数定义 ==========
+  // 定义 secureFetch 函数
   if (typeof window.secureFetch === 'undefined') {
     window.secureFetch = async function(url, options = {}) {
       const token = localStorage.getItem('token');
+      
+      // 合并默认headers
       const defaultHeaders = {
         'Content-Type': 'application/json'
       };
@@ -40,9 +45,11 @@
       }
     };
   }
-
+  
+  // 确保消息提示函数存在
   if (typeof window.showSuccessMessage === 'undefined') {
     window.showSuccessMessage = function(message) {
+      // 创建成功提示
       const toast = document.createElement('div');
       toast.className = 'toast success-toast';
       toast.innerHTML = `
@@ -73,6 +80,7 @@
   
   if (typeof window.showErrorMessage === 'undefined') {
     window.showErrorMessage = function(message) {
+      // 创建错误提示
       const toast = document.createElement('div');
       toast.className = 'toast error-toast';
       toast.innerHTML = `
@@ -103,6 +111,7 @@
   
   if (typeof window.showInfoMessage === 'undefined') {
     window.showInfoMessage = function(message) {
+      // 创建信息提示
       const toast = document.createElement('div');
       toast.className = 'toast info-toast';
       toast.innerHTML = `
@@ -130,7 +139,8 @@
       }, 3000);
     };
   }
-
+  
+  // 添加CSS动画
   if (!document.getElementById('toast-styles')) {
     const style = document.createElement('style');
     style.id = 'toast-styles';
@@ -171,17 +181,22 @@
     `;
     document.head.appendChild(style);
   }
-
+  
+// ========== 初始化和基础功能 ==========
+// 初始化积分商城
 window.initPointShop = async function() {
   try {
+    // 获取当前用户信息
     currentUser = JSON.parse(localStorage.getItem('userInfo') || '{}');
-
+    
+    // 检查收货地址
     const addressRes = await secureFetch('https://api.am-all.com.cn/api/shop/shipping-address');
     
     if (addressRes.success && addressRes.address) {
       shippingAddress = addressRes.address;
       renderShopSelection();
     } else {
+      // 检查是否之前跳过了绑定
       const skipped = localStorage.getItem('shipping_skipped');
       if (skipped === 'true') {
         shippingAddress = null;
@@ -196,7 +211,8 @@ window.initPointShop = async function() {
   }
 };
 
-function renderShippingForm() {
+// 渲染收货信息表单
+window.renderShippingForm = function() {
   const content = document.getElementById('content-container');
   content.innerHTML = `
     <div class="section">
@@ -246,14 +262,17 @@ function renderShippingForm() {
   document.getElementById('shipping-form').addEventListener('submit', handleShippingSubmit);
 }
 
+//跳过收货信息绑定
 window.skipShippingBinding = function() {
   if (confirm('跳过后您将无法兑换实物商品，只能兑换虚拟物品。确定要跳过吗？')) {
+    // 标记用户选择了跳过
     localStorage.setItem('shipping_skipped', 'true');
     shippingAddress = null;
     renderShopSelection();
   }
 };
-
+  
+  // 处理收货信息提交
   async function handleShippingSubmit(e) {
     e.preventDefault();
     
@@ -272,6 +291,8 @@ window.skipShippingBinding = function() {
       
       if (res.success) {
         shippingAddress = data;
+        // 清除跳过标记
+        localStorage.removeItem('shipping_skipped');
         showSuccessMessage('收货信息绑定成功');
         renderShopSelection();
       }
@@ -279,12 +300,26 @@ window.skipShippingBinding = function() {
       showErrorMessage('绑定失败：' + error.message);
     }
   }
-
+  
+  // 渲染商店选择页面
   function renderShopSelection() {
     const content = document.getElementById('content-container');
+    
+    // 检查是否需要显示绑定按钮（未绑定且已跳过）
+    const showBindButton = !shippingAddress && localStorage.getItem('shipping_skipped') === 'true';
+    
     content.innerHTML = `
       <div class="section">
         <h1 class="page-title">积分商城</h1>
+        ${showBindButton ? `
+          <div class="shipping-notice">
+            <i class="fas fa-info-circle"></i>
+            <span>您尚未绑定收货信息，无法兑换实物商品</span>
+            <button class="btn btn-primary btn-sm" onclick="renderShippingForm()">
+              <i class="fas fa-link"></i> 绑定收货地址
+            </button>
+          </div>
+        ` : ''}
         <div class="shop-selection-container">
           <div class="shop-cards">
             <div class="shop-card" onclick="openPointShop('points')">
@@ -324,12 +359,14 @@ window.skipShippingBinding = function() {
       </div>
     `;
   }
-
+  
+  // 打开积分商店
   window.openPointShop = async function(shopType) {
     currentShopType = shopType;
     renderShopPage(shopType);
   };
-
+  
+  // 渲染商店页面
   async function renderShopPage(shopType) {
     const content = document.getElementById('content-container');
     const shopName = shopType === 'points' ? '普通积分商店' : '鸽屋积分商店';
@@ -377,6 +414,7 @@ window.skipShippingBinding = function() {
     loadShopItems(shopType);
   }
 
+  // ========== 显示用户兑换记录函数 ==========
   window.showMyOrders = async function(shopType) {
     const content = document.getElementById('content-container');
     const shopName = shopType === 'points' ? '普通积分商店' : '鸽屋积分商店';
@@ -420,6 +458,7 @@ window.skipShippingBinding = function() {
     loadUserOrders(shopType, 1);
   };
 
+  // ========== 加载用户兑换记录 ==========
   async function loadUserOrders(shopType, page = 1) {
     try {
       const res = await secureFetch(`https://api.am-all.com.cn/api/shop/orders/my?shop_type=${shopType}&page=${page}`);
@@ -432,6 +471,7 @@ window.skipShippingBinding = function() {
     }
   }
 
+  // ========== 渲染用户兑换记录 ==========
   function renderUserOrders(orders, pagination, shopType) {
     const tbody = document.getElementById('orders-tbody');
     
@@ -477,10 +517,12 @@ window.skipShippingBinding = function() {
         </tr>
       `;
     }).join('');
-
+    
+    // 渲染分页
     renderPagination('orders-pagination', pagination, (page) => loadUserOrders(shopType, page));
   }
 
+  // ========== 复制兑换码 ==========
   window.copyRedemptionCode = function(code) {
     const textarea = document.createElement('textarea');
     textarea.value = code;
@@ -493,10 +535,13 @@ window.skipShippingBinding = function() {
     showSuccessMessage('兑换码已复制到剪贴板');
   };
 
+  // ========== 显示订单详情 ==========
   window.showOrderDetail = function(orderNumber) {
+    // 这里可以实现显示订单详情的弹窗
     showInfoMessage('订单号：' + orderNumber);
   };
 
+  // 加载商品列表
   async function loadShopItems(shopType, search = '', minPrice = '', maxPrice = '') {
     try {
       const params = new URLSearchParams({
@@ -515,7 +560,8 @@ window.skipShippingBinding = function() {
       showErrorMessage('加载商品失败');
     }
   }
-
+  
+  // 渲染商品列表
   function renderItems(items) {
     const container = document.getElementById('shop-items');
     
@@ -536,7 +582,8 @@ window.skipShippingBinding = function() {
       </div>
     `).join('');
   }
-
+  
+  // 搜索商品
   window.searchItems = function() {
     const search = document.getElementById('search-input').value;
     const minPrice = document.getElementById('min-price').value;
@@ -545,6 +592,7 @@ window.skipShippingBinding = function() {
     loadShopItems(currentShopType, search, minPrice, maxPrice);
   };
 
+// 显示商品详情
 window.showItemDetail = async function(itemId) {
   try {
     const params = new URLSearchParams({ shop_type: currentShopType });
@@ -552,6 +600,8 @@ window.showItemDetail = async function(itemId) {
     
     const item = res.items.find(i => i.id === itemId);
     if (!item) return;
+    
+    // 检查是否为实物商品且未绑定收货信息
     if (item.item_type === 'physical' && !shippingAddress) {
       if (confirm('兑换实物商品需要绑定收货信息。是否现在去绑定？')) {
         renderShippingForm();
@@ -593,9 +643,11 @@ window.showItemDetail = async function(itemId) {
     showErrorMessage('加载商品详情失败');
   }
 };
-
+  
+// 兑换商品（修复后的版本）
 window.redeemItem = async function(itemId) {
   try {
+    // 先获取商品信息
     const params = new URLSearchParams({ shop_type: currentShopType });
     const res = await secureFetch(`https://api.am-all.com.cn/api/shop/items?${params}`);
     const item = res.items.find(i => i.id === itemId);
@@ -604,7 +656,8 @@ window.redeemItem = async function(itemId) {
       showErrorMessage('商品不存在');
       return;
     }
-
+    
+    // 检测用户组升级商品
     if (item.item_type === 'upgrade' && item.upgrade_rank) {
       const currentRank = currentUser.user_rank || 0;
       const targetRank = item.upgrade_rank;
@@ -625,14 +678,16 @@ window.redeemItem = async function(itemId) {
     });
     
     console.log('兑换响应:', redeemRes);
-
+    
+    // 修复：先获取并关闭特定的商品详情模态框
     const detailModal = document.querySelector('.modal.show .shop-detail-modal');
     const modalParent = detailModal ? detailModal.closest('.modal') : null;
     
     if (modalParent) {
       modalParent.remove();
     }
-
+    
+    // 更新用户积分显示
     if (redeemRes.user) {
       currentUser = redeemRes.user;
       localStorage.setItem('userInfo', JSON.stringify(redeemRes.user));
@@ -642,6 +697,7 @@ window.redeemItem = async function(itemId) {
           currentShopType === 'points' ? redeemRes.user.points : redeemRes.user.point2;
       }
     } else {
+      // 如果响应中没有用户信息，重新获取
       try {
         const userRes = await secureFetch('https://api.am-all.com.cn/api/user');
         
@@ -658,12 +714,15 @@ window.redeemItem = async function(itemId) {
         console.error('更新用户信息失败:', e);
       }
     }
-
+    
+    // 刷新商品列表
     loadShopItems(currentShopType);
-
+    
+    // 延迟显示成功消息和兑换码
     setTimeout(() => {
       showSuccessMessage('兑换成功！');
-
+      
+      // 显示兑换码（如果有）
       if (redeemRes.redemption_code) {
         setTimeout(() => {
           alert(`兑换码：${redeemRes.redemption_code}\n请妥善保管！`);
@@ -677,6 +736,7 @@ window.redeemItem = async function(itemId) {
   }
 };
 
+// 辅助函数：获取用户组名称
 function getUserRankName(rank) {
   const rankNames = {
     0: '普通用户',
@@ -688,7 +748,8 @@ function getUserRankName(rank) {
   };
   return rankNames[rank] || '未知等级';
 }
-
+  
+  // 商品管理页面
   window.initShopAdmin = async function(shopType) {
     const content = document.getElementById('content-container');
     const isPointShop = shopType === 'points';
@@ -750,7 +811,8 @@ function getUserRankName(rank) {
       checkboxes.forEach(cb => cb.checked = this.checked);
     });
   };
-
+  
+  // 加载管理商品列表
   async function loadAdminItems(shopType) {
     try {
       const res = await secureFetch(`https://api.am-all.com.cn/api/admin/shop/items?shop_type=${shopType}`);
@@ -762,7 +824,8 @@ function getUserRankName(rank) {
       showErrorMessage('加载商品列表失败');
     }
   }
-
+  
+  // 渲染管理商品列表
   function renderAdminItems(items, shopType) {
     const tbody = document.getElementById('items-tbody');
     const isPointShop = shopType === 'points';
@@ -813,11 +876,13 @@ function getUserRankName(rank) {
       `;
     }).join('');
   }
-
+  
+  // 显示添加商品弹窗
   window.showAddItemModal = function(shopType) {
     showItemModal(null, shopType);
   };
-
+  
+  // 编辑商品
   window.editItem = async function(itemId, shopType) {
     try {
       const res = await secureFetch(`https://api.am-all.com.cn/api/admin/shop/items?shop_type=${shopType}`);
@@ -829,7 +894,8 @@ function getUserRankName(rank) {
       showErrorMessage('加载商品信息失败');
     }
   };
-
+  
+  // 显示商品编辑弹窗
   function showItemModal(item, shopType) {
     const isEdit = !!item;
     const isPointShop = shopType === 'points';
@@ -961,6 +1027,7 @@ function getUserRankName(rank) {
     document.body.appendChild(modal);
   }
 
+  // ========== 切换限购输入框显示 ==========
   window.toggleLimitInput = function() {
     const checkbox = document.getElementById('enable-limit');
     const input = document.getElementById('max-per-user');
@@ -969,7 +1036,8 @@ function getUserRankName(rank) {
       input.value = '';
     }
   };
-
+  
+  // ========== 切换无限库存 ==========
   window.toggleUnlimitedStock = function() {
     const checkbox = document.getElementById('unlimited-stock');
     const input = document.getElementById('stock-input');
@@ -981,17 +1049,21 @@ function getUserRankName(rank) {
       if (input.value == 0) input.value = 1;
     }
   };
-
+  
+  // 物品类型变化
   window.onItemTypeChange = function(type) {
     const upgradeGroup = document.getElementById('upgrade-rank-group');
     if (upgradeGroup) {
       upgradeGroup.style.display = type === 'upgrade' ? 'block' : 'none';
     }
   };
-
+  
+  // 预览图片
   window.previewImage = async function(input) {
     if (input.files && input.files[0]) {
       const file = input.files[0];
+      
+      // 上传图片
       const formData = new FormData();
       formData.append('image', file);
       
@@ -1018,7 +1090,8 @@ function getUserRankName(rank) {
       }
     }
   };
-
+  
+  // 保存商品（修复后的版本）
   window.saveItem = async function(itemId, shopType) {
     const form = document.getElementById('item-form');
     if (!form) {
@@ -1031,13 +1104,17 @@ function getUserRankName(rank) {
     console.log('=== 保存商品调试 ===');
     console.log('商品ID:', itemId);
     console.log('商店类型:', shopType);
-
+    
+    // 获取表单值
     const enableLimit = document.getElementById('enable-limit')?.checked || false;
     const maxPerUserInput = document.getElementById('max-per-user');
     const maxPerUser = enableLimit && maxPerUserInput ? parseInt(maxPerUserInput.value) : null;
+    
+    // 获取无限库存选项
     const unlimitedStock = document.getElementById('unlimited-stock')?.checked || false;
     const stockValue = unlimitedStock ? -1 : parseInt(formData.get('stock')) || 0;
-
+    
+    // 构建要发送的数据对象
     const data = {
       item_name: formData.get('item_name') || '',
       item_description: formData.get('item_description') || '',
@@ -1049,7 +1126,8 @@ function getUserRankName(rank) {
       sort_order: parseInt(formData.get('sort_order')) || 0,
       is_active: true
     };
-
+    
+    // 处理商品类型相关字段
     if (shopType === 'points') {
       data.item_type = formData.get('item_type') || 'physical';
       if (data.item_type === 'upgrade') {
@@ -1062,7 +1140,8 @@ function getUserRankName(rank) {
       data.item_type = 'physical';
       data.upgrade_rank = null;
     }
-
+    
+    // 验证必填字段
     if (!data.item_name) {
       showErrorMessage('商品名称不能为空');
       return;
@@ -1093,18 +1172,21 @@ function getUserRankName(rank) {
       });
       
       console.log('服务器响应:', res);
-
+      
+      // 修复：先获取并关闭特定的商品编辑模态框
       const itemModal = document.querySelector('.modal.show .item-modal');
       const modalParent = itemModal ? itemModal.closest('.modal') : null;
       
       if (modalParent) {
         modalParent.remove();
       }
-
+      
+      // 延迟显示成功消息，确保模态框已关闭
       setTimeout(() => {
         showSuccessMessage(itemId ? '更新成功' : '添加成功');
       }, 100);
-
+      
+      // 重新加载商品列表
       loadAdminItems(shopType);
       
     } catch (error) {
@@ -1113,6 +1195,7 @@ function getUserRankName(rank) {
     }
   };
 
+  // ========== 显示管理员兑换记录 ==========
   window.showAdminOrders = async function(shopType) {
     const content = document.getElementById('content-container');
     const shopName = shopType === 'points' ? '普通积分商店' : '鸽屋积分商店';
@@ -1164,6 +1247,7 @@ function getUserRankName(rank) {
     loadAdminOrders(shopType, 1);
   };
 
+  // ========== 加载管理员兑换记录 ==========
   async function loadAdminOrders(shopType, page = 1, search = '') {
     try {
       const params = new URLSearchParams({
@@ -1185,6 +1269,7 @@ function getUserRankName(rank) {
     }
   }
 
+  // ========== 渲染管理员兑换记录 ==========
   function renderAdminOrders(orders, pagination, shopType) {
     const tbody = document.getElementById('admin-orders-tbody');
     
@@ -1203,7 +1288,8 @@ function getUserRankName(rank) {
         'upgrade': '用户组升级',
         'physical': '实体商品'
       }[order.item_type] || '未知';
-
+      
+      // 状态映射
       const statusMap = {
         'pending': '待处理',
         'processing': '处理中',
@@ -1249,13 +1335,15 @@ function getUserRankName(rank) {
         </tr>
       `;
     }).join('');
-
+    
+    // 渲染分页
     renderPagination('admin-orders-pagination', pagination, (page) => {
       const search = document.getElementById('order-search')?.value || '';
       loadAdminOrders(shopType, page, search);
     });
   }
 
+  // 添加更新订单状态的函数
   window.updateOrderStatus = async function(orderNumber, newStatus) {
     try {
       const res = await secureFetch(`https://api.am-all.com.cn/api/admin/shop/orders/${orderNumber}/status`, {
@@ -1268,15 +1356,18 @@ function getUserRankName(rank) {
       }
     } catch (error) {
       showErrorMessage('更新状态失败：' + error.message);
+      // 恢复原状态
       location.reload();
     }
   };
 
+  // ========== 搜索管理员兑换记录 ==========
   window.searchAdminOrders = function(shopType) {
     const search = document.getElementById('order-search').value;
     loadAdminOrders(shopType, 1, search);
   };
 
+  // ========== 分页渲染函数 ==========
   function renderPagination(containerId, pagination, onPageChange) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -1289,10 +1380,13 @@ function getUserRankName(rank) {
     }
     
     let html = '<div class="pagination">';
+    
+    // 上一页
     if (currentPage > 1) {
       html += `<button onclick="(${onPageChange})(${currentPage - 1})">上一页</button>`;
     }
-
+    
+    // 页码
     for (let i = 1; i <= totalPages; i++) {
       if (i === currentPage) {
         html += `<span class="current-page">${i}</span>`;
@@ -1302,7 +1396,8 @@ function getUserRankName(rank) {
         html += `<span>...</span>`;
       }
     }
-
+    
+    // 下一页
     if (currentPage < totalPages) {
       html += `<button onclick="(${onPageChange})(${currentPage + 1})">下一页</button>`;
     }
@@ -1310,7 +1405,8 @@ function getUserRankName(rank) {
     html += '</div>';
     container.innerHTML = html;
   }
-
+  
+  // 删除商品
   window.deleteItem = async function(itemId, shopType) {
     if (!confirm('确定要删除此商品吗？')) return;
     
@@ -1327,17 +1423,20 @@ function getUserRankName(rank) {
       showErrorMessage('删除失败');
     }
   };
-
+  
+  // 全选
   window.selectAllItems = function() {
     document.getElementById('select-all-checkbox').checked = true;
     document.querySelectorAll('.item-checkbox').forEach(cb => cb.checked = true);
   };
-
+  
+  // 取消全选
   window.unselectAllItems = function() {
     document.getElementById('select-all-checkbox').checked = false;
     document.querySelectorAll('.item-checkbox').forEach(cb => cb.checked = false);
   };
-
+  
+  // 删除选中
   window.deleteSelectedItems = async function() {
     const checkboxes = document.querySelectorAll('.item-checkbox:checked');
     const ids = Array.from(checkboxes).map(cb => parseInt(cb.value));
@@ -1364,7 +1463,8 @@ function getUserRankName(rank) {
       showErrorMessage('删除失败');
     }
   };
-
+  
+  // 用户设置页面的收货信息管理
   window.initShippingSettings = async function() {
     try {
       const res = await secureFetch('https://api.am-all.com.cn/api/shop/shipping-address');
@@ -1399,7 +1499,7 @@ function getUserRankName(rank) {
       } else {
         container.innerHTML = `
           <p class="no-shipping">未绑定收货信息</p>
-          <button class="btn btn-primary" onclick="loadPage('point-shop')">
+          <button class="btn btn-primary" onclick="goToShippingBinding()">
             <i class="fas fa-link"></i> 去绑定
           </button>
         `;
@@ -1408,7 +1508,8 @@ function getUserRankName(rank) {
       console.error('加载收货信息失败:', error);
     }
   };
-
+  
+  // 解绑收货信息
   window.unbindShipping = async function() {
     if (!confirm('确定要解绑收货信息吗？解绑后需要重新绑定才能使用积分商城。')) return;
     
@@ -1418,6 +1519,8 @@ function getUserRankName(rank) {
       });
       
       if (res.success) {
+        // 清除跳过标记，让用户重新选择
+        localStorage.removeItem('shipping_skipped');
         showSuccessMessage('解绑成功');
         initShippingSettings();
       }
@@ -1426,8 +1529,17 @@ function getUserRankName(rank) {
     }
   };
   
+  // 从用户设置页面跳转到绑定页面
+  window.goToShippingBinding = function() {
+    // 清除跳过标记，确保显示绑定表单
+    localStorage.removeItem('shipping_skipped');
+    // 跳转到积分商城页面
+    loadPage('point-shop');
+  };
+  
 })();
 
+// 虚拟物品类型变化处理
 window.onVirtualTypeChange = function(type) {
   const valueGroup = document.getElementById('virtual-value-group');
   const valueLabel = document.getElementById('virtual-value-label');
@@ -1456,6 +1568,7 @@ window.onVirtualTypeChange = function(type) {
   }
 };
 
+// 修改物品类型变化处理，添加虚拟物品功能显示
 window.onItemTypeChange = function(type) {
   const upgradeGroup = document.getElementById('upgrade-rank-group');
   const virtualGroup = document.getElementById('virtual-type-group');
