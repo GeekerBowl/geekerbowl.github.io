@@ -2,7 +2,7 @@
   'use strict';
   
   const MUSIC_DATA_URLS = [
-    'https://oss.am-all.com.cn/asset/img/main/data/music.json',
+    'https://api.am-all.com.cn/avatars/music.json',
   ];
   
   const LUCK_TEXTS = ['大凶', '凶', '末吉', '吉', '小吉', '中吉', '大吉', '特大吉'];
