@@ -13,7 +13,7 @@ const PROTECTED_PAGES = [
 ];
 
 const MUSIC_DATA_URLS = [
-  'https://oss.am-all.com.cn/asset/img/main/data/music.json',
+  'https://cos.am-all.com.cn/data/music.json',
 ];
 
 let announcementsData = [];
