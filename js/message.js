@@ -1,7 +1,7 @@
 (function(global) {
   'use strict';
 
-  console.log('Loading complete message system with all fixes integrated...');
+  console.log('Loading message system (heartbeat removed, optimized polling)...');
 
   window.API_BASE_URL = window.API_BASE_URL || 'https://api.am-all.com.cn';
   const API_BASE_URL = window.API_BASE_URL;
@@ -15,7 +15,7 @@
     checkInterval: null,
     refreshInterval: null,
     chatRefreshInterval: null,
-    heartbeatInterval: null,
+    // heartbeatInterval: null,  // 已移除
     isSending: false,
     lastSendTime: 0,
     currentEmojiPicker: null,
@@ -40,12 +40,13 @@
     addMessageIcon();
     loadFriendsList();
     checkUnreadMessages();
-    startHeartbeat();
+    // startHeartbeat();  // 已移除心跳机制
     
     if (MessageState.checkInterval) {
       clearInterval(MessageState.checkInterval);
     }
-    MessageState.checkInterval = setInterval(checkUnreadMessages, 10000);
+    // 将检查间隔从10秒改为30秒，减少请求频率
+    MessageState.checkInterval = setInterval(checkUnreadMessages, 30000);
     
     bindEvents();
     requestNotificationPermission();
@@ -73,30 +74,9 @@
     }
   }
 
-  function startHeartbeat() {
-    if (MessageState.heartbeatInterval) {
-      clearInterval(MessageState.heartbeatInterval);
-    }
-    
-    const sendHeartbeat = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-      
-      try {
-        await fetch(`${API_BASE_URL}/api/heartbeat`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-      } catch (error) {
-        console.error('Heartbeat failed:', error);
-      }
-    };
-    
-    sendHeartbeat();
-    MessageState.heartbeatInterval = setInterval(sendHeartbeat, 30000);
-  }
+  // =============================================
+  // 已移除心跳机制 startHeartbeat 函数
+  // =============================================
 
   async function preloadEmojiPacks() {
     if (MessageState.emojiPacksLoaded) return;
@@ -270,8 +250,8 @@
       if (response.ok) {
         const messages = await response.json();
         const strangerMessages = messages.filter(msg => {
-          if (msg.message_type !== 'user') return true; // 系统消息
-          return !MessageState.friendsList.includes(msg.sender_id); // 非好友消息
+          if (msg.message_type !== 'user') return true;
+          return !MessageState.friendsList.includes(msg.sender_id);
         });
         renderMessageDropdown(dropdown, strangerMessages);
         dropdown.classList.add('show');
@@ -832,7 +812,8 @@
           MessageState.lastMessageId = messages[messages.length - 1].id;
         }
         
-        startIncrementalCheck(userId);
+        // 不再自动启动增量检查，改为手动刷新
+        // startIncrementalCheck(userId);
       } else {
         console.error('加载聊天记录失败，状态码:', response.status);
         const messagesDiv = document.getElementById('chat-messages');
@@ -896,60 +877,15 @@
     `;
   }
 
-  function startIncrementalCheck(userId) {
-    if (MessageState.messageCheckInterval) {
-      clearInterval(MessageState.messageCheckInterval);
-    }
-    
-    let checkInterval = 2000;
-    let idleTime = 0;
-    let lastActivity = Date.now();
-    
-    const resetIdleTime = () => {
-      idleTime = 0;
-      lastActivity = Date.now();
-      
-      if (checkInterval !== 2000) {
-        checkInterval = 2000;
-        restartCheck();
-      }
-    };
-    
-    const chatMessages = document.getElementById('chat-messages');
-    const chatInput = document.getElementById('chat-input');
-    
-    if (chatMessages) {
-      chatMessages.addEventListener('scroll', resetIdleTime);
-      chatMessages.addEventListener('mouseenter', resetIdleTime);
-    }
-    
-    if (chatInput) {
-      chatInput.addEventListener('focus', resetIdleTime);
-      chatInput.addEventListener('input', resetIdleTime);
-    }
-    
-    const restartCheck = () => {
-      if (MessageState.messageCheckInterval) {
-        clearInterval(MessageState.messageCheckInterval);
-      }
-      
-      MessageState.messageCheckInterval = setInterval(() => {
-        const now = Date.now();
-        const timeSinceActivity = now - lastActivity;
-        
-        if (timeSinceActivity > 30000 && checkInterval < 5000) {
-          checkInterval = 5000;
-          restartCheck();
-        } else if (timeSinceActivity > 120000 && checkInterval < 10000) {
-          checkInterval = 10000;
-          restartCheck();
-        }
-        
-        checkForNewMessages(userId);
-      }, checkInterval);
-    };
-    
-    restartCheck();
+  // =============================================
+  // 已移除 startIncrementalCheck 自动轮询
+  // 改为手动刷新聊天记录
+  // =============================================
+  
+  // 手动刷新聊天记录的函数
+  async function refreshChatMessages() {
+    if (!MessageState.currentChatUser) return;
+    await checkForNewMessages(MessageState.currentChatUser.id);
   }
 
   async function checkForNewMessages(userId) {
@@ -1343,13 +1279,11 @@
       }
       updateUserOnlineStatus(userId);
 
+      // 移除自动状态更新的定时器
       if (MessageState.statusUpdateInterval) {
         clearInterval(MessageState.statusUpdateInterval);
+        MessageState.statusUpdateInterval = null;
       }
-
-      MessageState.statusUpdateInterval = setInterval(() => {
-        updateUserOnlineStatus(userId);
-      }, 30000);
     }
 
     loadChatHistory(userId);
@@ -1763,7 +1697,7 @@
   global.showSystemMessage = showSystemMessage;
   global.closeSystemMessage = closeSystemMessage;
   global.loadEmojiPackContent = loadEmojiPackContent;
-  global.startHeartbeat = startHeartbeat;
+  global.refreshChatMessages = refreshChatMessages;  // 新增手动刷新函数
   global.loadChatHistory = loadChatHistory;
   global.updateUserOnlineStatus = updateUserOnlineStatus;
   global.MessageState = MessageState;
@@ -1779,6 +1713,7 @@
     setTimeout(initMessageSystem, 100);
   }
 
+  // 简化的状态检查，移除心跳
   setInterval(() => {
     const token = localStorage.getItem('token');
     if (token && !MessageState.initialized) {
@@ -1788,9 +1723,6 @@
       if (MessageState.checkInterval) {
         clearInterval(MessageState.checkInterval);
       }
-      if (MessageState.heartbeatInterval) {
-        clearInterval(MessageState.heartbeatInterval);
-      }
       if (MessageState.messageCheckInterval) {
         clearInterval(MessageState.messageCheckInterval);
       }
@@ -1798,7 +1730,7 @@
         clearInterval(MessageState.statusUpdateInterval);
       }
     }
-  }, 2000);
+  }, 5000);  // 降低检查频率到5秒
 
   document.addEventListener('click', function(e) {
     if (MessageState.currentEmojiPicker && MessageState.currentEmojiPicker.style.display === 'flex') {
@@ -1814,6 +1746,6 @@
     }
   });
 
-  console.log('Complete message system with all fixes integrated loaded successfully');
+  console.log('Message system loaded (heartbeat removed, optimized polling)');
 
 })(window);
