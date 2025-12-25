@@ -11,6 +11,13 @@
   let replyEditor = null;
   let currentRepliesCache = [];
   let currentUserInfo = {};
+  
+  // 分页相关变量
+  let currentPage = 1;
+  let totalPages = 1;
+  let totalItems = 0;
+  let itemsPerPage = 20;
+  let currentKeyword = '';
 
   // 初始化论坛
   function initForum() {
@@ -84,6 +91,10 @@
   // 加载分区内容
   async function loadSection(section) {
     currentSection = section;
+    // 重置分页状态
+    currentPage = 1;
+    currentKeyword = '';
+    
     const container = document.getElementById('content-container');
     
     const sectionNames = {
@@ -129,6 +140,8 @@
             <div class="forum-spinner"></div>
           </div>
         </div>
+        
+        <div class="forum-pagination" id="forum-pagination"></div>
       </div>
     `;
 
@@ -137,18 +150,24 @@
     const searchInput = document.getElementById('forum-search-input');
     if (searchInput) {
       searchInput.addEventListener('input', debounce(() => {
+        currentPage = 1; // 搜索时重置到第一页
+        currentKeyword = searchInput.value;
         loadPosts(searchInput.value);
       }, 500));
     }
   }
 
   // 加载帖子列表
-  async function loadPosts(keyword = '') {
+  async function loadPosts(keyword = '', page = currentPage) {
     const token = localStorage.getItem('token');
     const container = document.getElementById('post-list-container');
     
+    // 更新当前关键词和页码
+    currentKeyword = keyword;
+    currentPage = page;
+    
     try {
-      const url = `${API_BASE}/forum/${currentSection}/posts?keyword=${encodeURIComponent(keyword)}`;
+      const url = `${API_BASE}/forum/${currentSection}/posts?keyword=${encodeURIComponent(keyword)}&page=${page}&limit=${itemsPerPage}`;
       const response = await fetch(url, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -157,6 +176,14 @@
       
       const data = await response.json();
       
+      // 更新分页信息
+      if (data.pagination) {
+        currentPage = data.pagination.currentPage;
+        totalPages = data.pagination.totalPages;
+        totalItems = data.pagination.totalItems;
+        itemsPerPage = data.pagination.itemsPerPage;
+      }
+      
       // 根据用户权限显示发帖按钮
       const newPostBtn = document.getElementById('new-post-btn');
       if (newPostBtn && data.userInfo && data.userInfo.canPost) {
@@ -164,6 +191,7 @@
       }
       
       renderPosts(data.posts);
+      renderPagination();
     } catch (error) {
       console.error('加载帖子失败:', error);
       container.innerHTML = `
@@ -173,6 +201,159 @@
         </div>
       `;
     }
+  }
+  
+  // 渲染分页控件
+  function renderPagination() {
+    const container = document.getElementById('forum-pagination');
+    if (!container) return;
+    
+    // 如果只有一页或没有数据，不显示分页
+    if (totalPages <= 1) {
+      container.innerHTML = '';
+      return;
+    }
+    
+    let html = '<div class="pagination-wrapper">';
+    
+    // 显示总数信息
+    html += `<div class="pagination-info">共 ${totalItems} 个帖子，第 ${currentPage}/${totalPages} 页</div>`;
+    
+    html += '<div class="pagination-controls">';
+    
+    // 首页按钮
+    html += `<button class="pagination-btn ${currentPage === 1 ? 'disabled' : ''}" 
+              onclick="window.ForumModule.goToPage(1)" ${currentPage === 1 ? 'disabled' : ''}>
+              <i class="fas fa-angle-double-left"></i>
+            </button>`;
+    
+    // 上一页按钮
+    html += `<button class="pagination-btn ${currentPage === 1 ? 'disabled' : ''}" 
+              onclick="window.ForumModule.goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+              <i class="fas fa-angle-left"></i>
+            </button>`;
+    
+    // 页码按钮
+    const pageNumbers = getPageNumbers(currentPage, totalPages);
+    pageNumbers.forEach(pageNum => {
+      if (pageNum === '...') {
+        html += '<span class="pagination-ellipsis">...</span>';
+      } else {
+        html += `<button class="pagination-btn ${pageNum === currentPage ? 'active' : ''}" 
+                  onclick="window.ForumModule.goToPage(${pageNum})">
+                  ${pageNum}
+                </button>`;
+      }
+    });
+    
+    // 下一页按钮
+    html += `<button class="pagination-btn ${currentPage === totalPages ? 'disabled' : ''}" 
+              onclick="window.ForumModule.goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+              <i class="fas fa-angle-right"></i>
+            </button>`;
+    
+    // 末页按钮
+    html += `<button class="pagination-btn ${currentPage === totalPages ? 'disabled' : ''}" 
+              onclick="window.ForumModule.goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>
+              <i class="fas fa-angle-double-right"></i>
+            </button>`;
+    
+    html += '</div>';
+    
+    // 跳转输入框
+    html += `
+      <div class="pagination-jump">
+        <span>跳转到</span>
+        <input type="number" id="pagination-jump-input" min="1" max="${totalPages}" value="${currentPage}">
+        <span>页</span>
+        <button class="pagination-btn pagination-go-btn" onclick="window.ForumModule.jumpToPage()">GO</button>
+      </div>
+    `;
+    
+    html += '</div>';
+    
+    container.innerHTML = html;
+    
+    // 绑定回车事件
+    const jumpInput = document.getElementById('pagination-jump-input');
+    if (jumpInput) {
+      jumpInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          jumpToPage();
+        }
+      });
+    }
+  }
+  
+  // 计算要显示的页码
+  function getPageNumbers(current, total) {
+    const pages = [];
+    const showPages = 5; // 最多显示5个页码
+    
+    if (total <= showPages + 2) {
+      // 总页数较少时，显示所有页码
+      for (let i = 1; i <= total; i++) {
+        pages.push(i);
+      }
+    } else {
+      // 总是显示第一页
+      pages.push(1);
+      
+      let start = Math.max(2, current - Math.floor(showPages / 2));
+      let end = Math.min(total - 1, start + showPages - 1);
+      
+      // 调整起始位置
+      if (end === total - 1) {
+        start = Math.max(2, end - showPages + 1);
+      }
+      
+      // 添加省略号
+      if (start > 2) {
+        pages.push('...');
+      }
+      
+      // 添加中间页码
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+      
+      // 添加省略号
+      if (end < total - 1) {
+        pages.push('...');
+      }
+      
+      // 总是显示最后一页
+      pages.push(total);
+    }
+    
+    return pages;
+  }
+  
+  // 跳转到指定页
+  function goToPage(page) {
+    if (page < 1 || page > totalPages || page === currentPage) return;
+    loadPosts(currentKeyword, page);
+    // 滚动到帖子列表顶部
+    const container = document.getElementById('post-list-container');
+    if (container) {
+      container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+  
+  // 从输入框跳转页面
+  function jumpToPage() {
+    const input = document.getElementById('pagination-jump-input');
+    if (!input) return;
+    
+    const page = parseInt(input.value);
+    if (isNaN(page) || page < 1 || page > totalPages) {
+      if (typeof showErrorMessage === 'function') {
+        showErrorMessage(`请输入 1-${totalPages} 之间的页码`);
+      }
+      return;
+    }
+    
+    goToPage(page);
   }
 
   // 渲染帖子列表
@@ -1627,7 +1808,7 @@ async function submitPost() {
 
   // 刷新帖子列表
   function refreshPosts() {
-    loadPosts();
+    loadPosts(currentKeyword, currentPage);
   }
 
   // 全部已读
@@ -1740,6 +1921,8 @@ async function submitPost() {
     markAllRead,
     showPinMenu,
     setPinLevel,
-    toggleAdminClose
+    toggleAdminClose,
+    goToPage,
+    jumpToPage
   };
 })();
