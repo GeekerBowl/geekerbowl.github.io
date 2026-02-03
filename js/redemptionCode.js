@@ -98,17 +98,26 @@
         'points': '增加积分',
         'credit': '增加CREDIT',
         'user_group': '用户组升级',
-        'coupon': '优惠券'
+        'coupon': '优惠券',
+        'net_right': 'ALL.NET利用权'
       }[code.redemption_type] || '未知';
-      
+
+      const netRightText = {
+        'chunet': 'CHUNITHM NET',
+        'ogknet': 'ONGEKI NET',
+        'mainet': 'maimai NET'
+      }[code.redemption_value] || '';
+
+      const displayValue = code.redemption_type === 'net_right' ? netRightText : (code.redemption_value || '-');
+
       const useModeText = code.multi_use ? '多次使用' : '单次使用';
-      const useModeBadge = code.multi_use ? 
-        '<span class="code-status" style="background: #e3f2fd; color: #1976d2;">多次</span>' : 
+      const useModeBadge = code.multi_use ?
+        '<span class="code-status" style="background: #e3f2fd; color: #1976d2;">多次</span>' :
         '<span class="code-status" style="background: #fff3e0; color: #f57c00;">单次</span>';
-      
+
       const statusText = code.is_used ? '已使用' : '未使用';
       const statusClass = code.is_used ? 'status-used' : 'status-unused';
-      
+
       let expiresText = '永久';
       if (code.expires_at) {
         const expiresDate = new Date(code.expires_at);
@@ -120,14 +129,14 @@
           expiresText = `剩余${days}天`;
         }
       }
-      
+
       return `
         <tr>
           <td><input type="checkbox" class="code-checkbox" value="${code.id}"></td>
           <td class="code-text">${code.code}</td>
           <td>${code.project_name}</td>
           <td>${typeText}</td>
-          <td>${code.redemption_value || '-'}</td>
+          <td>${displayValue}</td>
           <td>${useModeBadge}</td>
           <td><span class="code-status ${statusClass}">${statusText}</span></td>
           <td>${expiresText}</td>
@@ -208,9 +217,10 @@
                 <option value="credit">增加CREDIT</option>
                 <option value="user_group">变更用户组</option>
                 <option value="coupon">优惠券</option>
+                <option value="net_right">ALL.NET利用权</option>
               </select>
             </div>
-            
+
             <div class="code-form-group" id="redemption-value-group">
               <label id="redemption-value-label">增加数量</label>
               <input type="number" name="redemption_value" id="redemption-value-input" min="1">
@@ -220,6 +230,11 @@
                 <option value="3">高级用户</option>
                 <option value="4">贵宾用户</option>
                 <option value="5">管理员</option>
+              </select>
+              <select name="net_right_type" id="redemption-net-right" style="display: none">
+                <option value="chunet">CHUNITHM NET利用权</option>
+                <option value="ogknet">ONGEKI NET利用权</option>
+                <option value="mainet">maimai NET利用权</option>
               </select>
             </div>
             
@@ -269,19 +284,39 @@
     const valueLabel = document.getElementById('redemption-value-label');
     const valueInput = document.getElementById('redemption-value-input');
     const groupSelect = document.getElementById('redemption-user-group');
-    
+    const netRightSelect = document.getElementById('redemption-net-right');
+    const multiUseCheckbox = document.getElementById('multi-use');
+    const multiUseContainer = multiUseCheckbox ? multiUseCheckbox.closest('.code-form-group') : null;
+
     if (type === 'coupon') {
       valueGroup.style.display = 'none';
+      // 恢复多次使用选项
+      if (multiUseContainer) multiUseContainer.style.display = 'block';
     } else if (type === 'user_group') {
       valueGroup.style.display = 'block';
       valueLabel.textContent = '变更到用户组';
       valueInput.style.display = 'none';
       groupSelect.style.display = 'block';
+      netRightSelect.style.display = 'none';
+      // 恢复多次使用选项
+      if (multiUseContainer) multiUseContainer.style.display = 'block';
+    } else if (type === 'net_right') {
+      valueGroup.style.display = 'block';
+      valueLabel.textContent = '利用权类型';
+      valueInput.style.display = 'none';
+      groupSelect.style.display = 'none';
+      netRightSelect.style.display = 'block';
+      // 禁用多次使用选项（利用权代码不支持多次使用）
+      if (multiUseCheckbox) multiUseCheckbox.checked = false;
+      if (multiUseContainer) multiUseContainer.style.display = 'none';
     } else {
       valueGroup.style.display = 'block';
       valueLabel.textContent = type === 'points' ? '增加积分数量' : '增加CREDIT数量';
       valueInput.style.display = 'block';
       groupSelect.style.display = 'none';
+      netRightSelect.style.display = 'none';
+      // 恢复多次使用选项
+      if (multiUseContainer) multiUseContainer.style.display = 'block';
     }
   };
 
@@ -304,7 +339,7 @@
   window.issueRedemptionCodes = async function() {
     const form = document.getElementById('issue-code-form');
     const formData = new FormData(form);
-    
+
     const data = {
       project_name: formData.get('project_name'),
       redemption_type: formData.get('redemption_type'),
@@ -316,6 +351,8 @@
 
     if (data.redemption_type === 'user_group') {
       data.redemption_value = parseInt(formData.get('user_group_value'));
+    } else if (data.redemption_type === 'net_right') {
+      data.redemption_value = formData.get('net_right_type');
     } else if (data.redemption_type !== 'coupon') {
       data.redemption_value = parseInt(formData.get('redemption_value'));
     }
@@ -325,27 +362,27 @@
     } else if (data.validity_period !== 'permanent') {
       data.validity_days = parseInt(data.validity_period);
     }
-    
+
     if (!data.batch_issue) {
       data.batch_count = 1;
     }
-    
+
     try {
       const res = await secureFetch('https://api.am-all.com.cn/api/admin/redemption-codes/issue', {
         method: 'POST',
         body: JSON.stringify(data)
       });
-      
+
       if (res.success) {
         const modal = document.querySelector('.code-modal.show');
         if (modal) modal.remove();
-        
+
         showSuccessMessage(`成功发行 ${res.count} 个兑换码`);
 
         if (res.codes && res.codes.length > 0) {
           showGeneratedCodes(res.codes);
         }
-        
+
         loadRedemptionCodes(1);
       }
     } catch (error) {
