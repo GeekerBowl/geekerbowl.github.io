@@ -27,6 +27,7 @@ const languageModule = (function() {
             'sidebar.creditShopAdmin': 'CREDIT点数商品管理',
             'sidebar.orderEntry': '订单录入',
 			'sidebar.minigame': '迷你游戏',
+			'sidebar.emoney': '电子支付',
 			'sidebar.userVerification': '用户认证',
 			'sidebar.verificationAdmin': '认证申请管理',
             
@@ -321,9 +322,25 @@ const languageModule = (function() {
             
             // Footer
             'footer.text1': 'EVIL LEAKER',
-            'footer.text2': '1145141919810'
+            'footer.text2': '1145141919810',
+
+            // 电子支付页面
+            'emoney.title': '电子支付',
+            'emoney.statusActive': '已激活',
+            'emoney.statusInactive': '未激活',
+            'emoney.cardTitle': '授权码验证',
+            'emoney.codeLabel': '请输入电子支付授权码',
+            'emoney.codePlaceholder': '请输入20位授权码',
+            'emoney.submitBtn': '验证并激活',
+            'emoney.orText': '或',
+            'emoney.adminContact': '如需获取授权码，请联系管理员',
+            'emoney.successTitle': '您已拥有电子支付权限',
+            'emoney.successMessage': '感谢您使用电子支付功能，您可以随时使用电子支付服务。',
+            'emoney.guestUser': '未登录用户',
+            'emoney.errorEmpty': '请输入授权码',
+            'emoney.errorInvalid': '授权码格式不正确，请检查后重新输入'
         },
-        
+
         'en-us': {
             // 导航栏
             'navbar.brand': 'EVIL LEAKER',
@@ -351,6 +368,7 @@ const languageModule = (function() {
             'sidebar.creditShopAdmin': 'Credit Shop Admin',
             'sidebar.orderEntry': 'Order Entry',
 			'sidebar.minigame': 'Mini Game',
+			'sidebar.emoney': 'E-Money',
 			'sidebar.userVerification': 'Verified Account',
 			'sidebar.verificationAdmin': 'Verified Admin',
             
@@ -645,9 +663,25 @@ const languageModule = (function() {
             
             // Footer
             'footer.text1': 'EVIL LEAKER',
-            'footer.text2': '1145141919810'
+            'footer.text2': '1145141919810',
+
+            // 电子支付页面
+            'emoney.title': 'E-Money',
+            'emoney.statusActive': 'Activated',
+            'emoney.statusInactive': 'Not Activated',
+            'emoney.cardTitle': 'Authorization Code',
+            'emoney.codeLabel': 'Enter E-Money Authorization Code',
+            'emoney.codePlaceholder': 'Enter 20-character code',
+            'emoney.submitBtn': 'Verify & Activate',
+            'emoney.orText': 'OR',
+            'emoney.adminContact': 'Contact admin to get authorization code',
+            'emoney.successTitle': 'You have E-Money access',
+            'emoney.successMessage': 'Thank you for using E-Money. You can use E-Money services anytime.',
+            'emoney.guestUser': 'Guest User',
+            'emoney.errorEmpty': 'Please enter authorization code',
+            'emoney.errorInvalid': 'Invalid authorization code format'
         },
-        
+
         'ja-jp': {
             // 导航栏
             'navbar.brand': 'EVIL LEAKER',
@@ -675,6 +709,7 @@ const languageModule = (function() {
             'sidebar.creditShopAdmin': 'クレジットショップ管理',
             'sidebar.orderEntry': '注文入力',
 			'sidebar.minigame': 'ミニゲーム',
+			'sidebar.emoney': '電子決済',
 			'sidebar.userVerification': 'ユーザー認証',
 			'sidebar.verificationAdmin': 'ユーザー認証管理',
             
@@ -970,7 +1005,23 @@ const languageModule = (function() {
             
             // Footer
             'footer.text1': 'EVIL LEAKER',
-            'footer.text2': '1145141919810'
+            'footer.text2': '1145141919810',
+
+            // 电子支付页面
+            'emoney.title': '電子決済',
+            'emoney.statusActive': '有効',
+            'emoney.statusInactive': '無効',
+            'emoney.cardTitle': '認証コード',
+            'emoney.codeLabel': '電子決済認証コードを入力',
+            'emoney.codePlaceholder': '20桁のコードを入力',
+            'emoney.submitBtn': '確認して有効化',
+            'emoney.orText': 'または',
+            'emoney.adminContact': '認証コードの取得は管理者までお問い合わせください',
+            'emoney.successTitle': '電子決済へのアクセス権があります',
+            'emoney.successMessage': '電子決済をご利用いただきありがとうございます。いつでも電子決済サービスをご利用いただけます。',
+            'emoney.guestUser': 'ゲストユーザー',
+            'emoney.errorEmpty': '認証コードを入力してください',
+            'emoney.errorInvalid': '認証コードの形式が無効です'
         }
     };
     

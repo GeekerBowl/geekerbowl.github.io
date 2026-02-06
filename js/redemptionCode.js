@@ -99,7 +99,8 @@
         'credit': '增加CREDIT',
         'user_group': '用户组升级',
         'coupon': '优惠券',
-        'net_right': 'ALL.NET利用权'
+        'net_right': 'ALL.NET利用权',
+        'emoney_right': '电子支付授权'
       }[code.redemption_type] || '未知';
 
       const netRightText = {
@@ -108,7 +109,9 @@
         'mainet': 'maimai NET'
       }[code.redemption_value] || '';
 
-      const displayValue = code.redemption_type === 'net_right' ? netRightText : (code.redemption_value || '-');
+      const displayValue = code.redemption_type === 'net_right' ? netRightText :
+                          code.redemption_type === 'emoney_right' ? '-' :
+                          (code.redemption_value || '-');
 
       const useModeText = code.multi_use ? '多次使用' : '单次使用';
       const useModeBadge = code.multi_use ?
@@ -218,6 +221,7 @@
                 <option value="user_group">变更用户组</option>
                 <option value="coupon">优惠券</option>
                 <option value="net_right">ALL.NET利用权</option>
+                <option value="emoney_right">电子支付授权</option>
               </select>
             </div>
 
@@ -287,11 +291,14 @@
     const netRightSelect = document.getElementById('redemption-net-right');
     const multiUseCheckbox = document.getElementById('multi-use');
     const multiUseContainer = multiUseCheckbox ? multiUseCheckbox.closest('.code-form-group') : null;
+    const batchIssueCheckbox = document.getElementById('batch-issue');
+    const batchIssueContainer = batchIssueCheckbox ? batchIssueCheckbox.closest('.code-form-group') : null;
 
     if (type === 'coupon') {
       valueGroup.style.display = 'none';
       // 恢复多次使用选项
       if (multiUseContainer) multiUseContainer.style.display = 'block';
+      if (batchIssueContainer) batchIssueContainer.style.display = 'block';
     } else if (type === 'user_group') {
       valueGroup.style.display = 'block';
       valueLabel.textContent = '变更到用户组';
@@ -300,6 +307,7 @@
       netRightSelect.style.display = 'none';
       // 恢复多次使用选项
       if (multiUseContainer) multiUseContainer.style.display = 'block';
+      if (batchIssueContainer) batchIssueContainer.style.display = 'block';
     } else if (type === 'net_right') {
       valueGroup.style.display = 'block';
       valueLabel.textContent = '利用权类型';
@@ -309,6 +317,14 @@
       // 禁用多次使用选项（利用权代码不支持多次使用）
       if (multiUseCheckbox) multiUseCheckbox.checked = false;
       if (multiUseContainer) multiUseContainer.style.display = 'none';
+      if (batchIssueContainer) batchIssueContainer.style.display = 'block';
+    } else if (type === 'emoney_right') {
+      // 电子支付授权：隐藏所有二级选项
+      valueGroup.style.display = 'none';
+      // 禁用多次使用选项（电子支付授权只能单次使用）
+      if (multiUseCheckbox) multiUseCheckbox.checked = false;
+      if (multiUseContainer) multiUseContainer.style.display = 'none';
+      if (batchIssueContainer) batchIssueContainer.style.display = 'block';
     } else {
       valueGroup.style.display = 'block';
       valueLabel.textContent = type === 'points' ? '增加积分数量' : '增加CREDIT数量';
@@ -317,6 +333,7 @@
       netRightSelect.style.display = 'none';
       // 恢复多次使用选项
       if (multiUseContainer) multiUseContainer.style.display = 'block';
+      if (batchIssueContainer) batchIssueContainer.style.display = 'block';
     }
   };
 

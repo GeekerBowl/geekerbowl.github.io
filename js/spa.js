@@ -9,7 +9,8 @@ const PROTECTED_PAGES = [
   'ccb','exchange','announcement-admin','site-admin','download-admin','order-entry','user-manager',
   'point-shop', 'points-shop-admin', 'point2-shop-admin',
   'credit-shop-admin', 'redemption-code-admin', 'emoji-admin', 'forum', 'forum-admin',
-  'minigame', 'user-verification', 'verification-admin'
+  'minigame', 'user-verification', 'verification-admin',
+  'emoney'
 ];
 
 const MUSIC_DATA_URLS = [
@@ -735,7 +736,8 @@ async function updateSidebarVisibility(user) {
 	  'point-shop', 'points-shop-admin', 'point2-shop-admin',
 	  'credit-shop-admin', 'redemption-code-admin', 'emoji-admin',
 	  'forum', 'forum-admin',
-	  'minigame', 'user-verification', 'verification-admin'
+	  'minigame', 'user-verification', 'verification-admin',
+	  'emoney'
 	];
 
   const pageVisibility = {};
@@ -795,21 +797,22 @@ async function updateSidebarVisibility(user) {
     'sidebar-ccb': 'ccb',
     'sidebar-exchange': 'exchange',
     'sidebar-announcement-admin': 'announcement-admin',
-	'sidebar-site-admin': 'site-admin', 
+    'sidebar-site-admin': 'site-admin',
     'sidebar-download-admin': 'download-admin',
     'sidebar-user-manager': 'user-manager',
     'sidebar-order-entry': 'order-entry',
-	'sidebar-point-shop': 'point-shop',
-    'sidebar-points-shop-admin': 'points-shop-admin', 
+    'sidebar-point-shop': 'point-shop',
+    'sidebar-points-shop-admin': 'points-shop-admin',
     'sidebar-point2-shop-admin': 'point2-shop-admin',
     'sidebar-credit-shop-admin': 'credit-shop-admin',
     'sidebar-redemption-code-admin': 'redemption-code-admin',
     'sidebar-emoji-admin': 'emoji-admin',
-	'sidebar-forum': 'forum',
+    'sidebar-forum': 'forum',
     'sidebar-forum-admin': 'forum-admin',
-	'sidebar-minigame': 'minigame',
-	'sidebar-user-verification': 'user-verification',
-    'sidebar-verification-admin': 'verification-admin' 
+    'sidebar-minigame': 'minigame',
+    'sidebar-user-verification': 'user-verification',
+    'sidebar-verification-admin': 'verification-admin',
+    'sidebar-emoney': 'emoney'
   };
 
   for (const [id, pid] of Object.entries(legacyMap)) {
@@ -835,7 +838,7 @@ async function updateSidebarVisibility(user) {
 		setDisplay(functionTitle, false);
 		setDisplay(functionNav, false);
 	  } else {
-		const functionPages = ['fortune', 'ccb', 'exchange', 'point-shop', 'forum', 'minigame', 'user-verification'];
+		const functionPages = ['fortune', 'ccb', 'exchange', 'point-shop', 'minigame', 'emoney', 'forum', 'user-verification'];
 		const hasVisibleFunction = functionPages.some(p => pageVisibility[p]);
 		setDisplay(functionTitle, hasVisibleFunction);
 		setDisplay(functionNav, hasVisibleFunction);
@@ -2323,11 +2326,25 @@ setTimeout(() => {
 
 	if (pageId === 'redemption-code-admin') {
 	  contentContainer.innerHTML = '<div class="section"><div class="loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div></div>';
-	  
+
 	  if (typeof initRedemptionCodeAdmin === 'function') {
 		initRedemptionCodeAdmin();
 	  }
-	  
+
+	  document.body.classList.remove('spa-loading');
+	  updateActiveMenuItem(pageId);
+	  return;
+	}
+
+	if (pageId === 'emoney') {
+	  contentContainer.innerHTML = '<div class="section"><div class="loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div></div>';
+
+	  if (typeof window.initEmoneyPage === 'function') {
+		window.initEmoneyPage();
+	  } else {
+		contentContainer.innerHTML = '<div class="section"><h1>加载失败</h1><p>电子支付模块未正确加载</p></div>';
+	  }
+
 	  document.body.classList.remove('spa-loading');
 	  updateActiveMenuItem(pageId);
 	  return;

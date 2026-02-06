@@ -182,7 +182,7 @@ renderUsers() {
 
   // 确保表头包含新的列
   const thead = tbody.parentElement.querySelector('thead');
-  if (thead && !thead.innerHTML.includes('昵称')) {
+  if (thead && !thead.innerHTML.includes('电子支付')) {
     thead.innerHTML = `
       <tr>
         <th>头像</th>
@@ -199,13 +199,14 @@ renderUsers() {
         <th>Keychip</th>
         <th>GUID</th>
         <th>状态</th>
+        <th>电子支付</th>
         <th>操作</th>
       </tr>
     `;
   }
 
   if (!this.users.length) {
-    tbody.innerHTML = '<tr><td colspan="15" class="text-center">没有找到用户</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="16" class="text-center">没有找到用户</td></tr>';
     return;
   }
 
@@ -263,6 +264,11 @@ getUserRowHTML(user, isEditing) {
           <option value="1" ${user.banState==1?'selected':''}>受限</option>
           <option value="2" ${user.banState==2?'selected':''}>封禁</option>
         </select>` : (stateMap[user.banState] || '未知')}</td>
+    <td>${isEditing ? `
+        <select class="edit-mode-select" data-field="is_emoney">
+          <option value="0" ${user.is_emoney==0 || !user.is_emoney?'selected':''}>无权限</option>
+          <option value="1" ${user.is_emoney==1?'selected':''}>有权限</option>
+        </select>` : (user.is_emoney == 1 ? '<span style="color: #67c23a;">有权限</span>' : '<span style="color: #909399;">无权限</span>')}</td>
     <td class="user-actions">
       ${isEditing ? `
         <button class="btn-save" data-user-id="${user.id}">保存</button>
@@ -394,7 +400,8 @@ async saveUserChanges(userId) {
       keychip: row.querySelector('[data-field="keychip"]')?.value,
       guid: row.querySelector('[data-field="guid"]')?.value,
       banState: row.querySelector('[data-field="banState"]')?.value,
-      avatar: row.querySelector('[data-field="avatar"]')?.value
+      avatar: row.querySelector('[data-field="avatar"]')?.value,
+      is_emoney: row.querySelector('[data-field="is_emoney"]')?.value
     };
 
     const resp = await fetch(`https://api.am-all.com.cn/api/admin/users/${userId}`, {
@@ -512,9 +519,10 @@ async saveUserChanges(userId) {
       { id: 'fortune', name: '每日签到' },
       { id: 'ccb', name: '游戏查分' },
       { id: 'exchange', name: '积分兑换' },
-	  { id: 'point-shop', name: '积分商店' },
-	  { id: 'forum', name: '交流区' },
-	  { id: 'minigame', name: '迷你游戏'},
+      { id: 'emoney', name: '电子支付' },
+      { id: 'point-shop', name: '积分商店' },
+      { id: 'forum', name: '交流区' },
+      { id: 'minigame', name: '迷你游戏' },
       { id: 'user-settings', name: '用户设置' },
       { id: 'user-verification', name: '账户认证' },
       { id: 'announcement-admin', name: '公告管理' },
@@ -522,9 +530,9 @@ async saveUserChanges(userId) {
       { id: 'download-admin', name: '下载管理' },
       { id: 'user-manager', name: '用户管理' },
       { id: 'order-entry', name: '订单录入' },
-	  { id: 'points-shop-admin', name: '积分商品管理' },
+      { id: 'points-shop-admin', name: '积分商品管理' },
       { id: 'point2-shop-admin', name: '鸽屋积分商品管理' },
-	  { id: 'forum-admin', name: '论坛管理' },
+      { id: 'forum-admin', name: '论坛管理' },
       { id: 'verification-admin', name: '认证申请管理' }
     ];
 
