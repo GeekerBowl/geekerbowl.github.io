@@ -819,3 +819,142 @@
 .auto-message-settings::-webkit-scrollbar-thumb:hover {
   background: #4a4d52;
 }
+
+/* ========== 电子支付管理样式 ========== */
+.admin-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.form-group-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group-inline label {
+  font-size: 14px;
+  color: #65676b;
+  white-space: nowrap;
+}
+
+.form-group-inline select,
+.form-group-inline input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.admin-table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 15px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.admin-table thead {
+  background: #f8f9fa;
+}
+
+.admin-table th {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #1c1e21;
+  border-bottom: 2px solid #e4e6eb;
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #f0f2f5;
+  white-space: nowrap;
+}
+
+.admin-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.admin-table code {
+  font-family: monospace;
+  font-size: 13px;
+  background: #f0f2f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.admin-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.status-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-tag.status-success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-tag.status-warning {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-tag.status-danger {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.admin-table .loading {
+  text-align: center;
+  color: #65676b;
+  padding: 40px;
+}
+
+.admin-table .error {
+  text-align: center;
+  color: #dc3545;
+  padding: 40px;
+}
+
+.admin-table .empty {
+  text-align: center;
+  color: #65676b;
+  padding: 40px;
+}
+
+@media (max-width: 768px) {
+  .admin-filter-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-group-inline {
+    width: 100%;
+  }
+
+  .form-group-inline select,
+  .form-group-inline input {
+    flex: 1;
+  }
+}

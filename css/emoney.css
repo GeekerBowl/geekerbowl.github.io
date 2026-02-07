@@ -1,10 +1,220 @@
 /* 电子支付页面样式 */
+
+/* ========== 基础样式 ========== */
 .emoney-container {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
 }
 
+.emoney-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.emoney-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.emoney-card-title i {
+  color: #667eea;
+}
+
+/* ========== 状态显示 ========== */
+.emoney-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.emoney-status.active {
+  background-color: #f0f9eb;
+  color: #67c23a;
+}
+
+.emoney-status.inactive {
+  background-color: #fdf6ec;
+  color: #e6a23c;
+}
+
+.emoney-status-icon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+/* ========== 表单样式 ========== */
+.emoney-form-group {
+  margin-bottom: 20px;
+}
+
+.emoney-label {
+  display: block;
+  font-size: 0.9rem;
+  color: #606266;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.emoney-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 1px solid #dcdfe6;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.emoney-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.emoney-input::placeholder {
+  color: #c0c4cc;
+}
+
+/* ========== 按钮样式 ========== */
+.emoney-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.emoney-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.emoney-btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+}
+
+.emoney-btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.emoney-btn-outline {
+  background-color: #fff;
+  color: #667eea;
+  border: 1px solid #667eea;
+}
+
+.emoney-btn-outline:hover:not(:disabled) {
+  background-color: #f5f7ff;
+}
+
+.emoney-btn-danger {
+  background-color: #f56c6c;
+  color: #fff;
+}
+
+.emoney-btn-danger:hover:not(:disabled) {
+  background-color: #f23c3c;
+}
+
+.emoney-btn-loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.emoney-btn-loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ========== 分隔线 ========== */
+.emoney-divider {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  color: #909399;
+  font-size: 0.875rem;
+}
+
+.emoney-divider::before,
+.emoney-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #e4e7ed;
+}
+
+.emoney-divider span {
+  padding: 0 16px;
+}
+
+/* ========== 成功页面 ========== */
+.emoney-success-page {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.emoney-success-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #67c23a 0%, #4a9c2d 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.emoney-success-icon i {
+  font-size: 2rem;
+  color: #fff;
+}
+
+.emoney-success-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.emoney-success-message {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+/* ========== 头部区域 ========== */
 .emoney-header {
   display: flex;
   justify-content: space-between;
@@ -21,135 +231,475 @@
   margin: 0;
 }
 
-.emoney-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.emoney-status.active {
-  background-color: #e8f5e9;
-  color: #2e7d32;
-}
-
-.emoney-status.inactive {
-  background-color: #ffebee;
-  color: #c62828;
-}
-
-.emoney-status-icon {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: currentColor;
-}
-
-.emoney-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  padding: 24px;
-  margin-bottom: 24px;
-}
-
-.emoney-card-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 16px;
+.emoney-header-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
-.emoney-card-title i {
-  color: #667eea;
+.emoney-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
 }
 
-.emoney-form-group {
-  margin-bottom: 20px;
+.emoney-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.emoney-label {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #555;
-  margin-bottom: 8px;
+/* ========== 服务状态徽章 ========== */
+.emoney-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  background-color: #f0f9eb;
+  color: #67c23a;
 }
 
-.emoney-input {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  box-sizing: border-box;
+.emoney-status-badge .status-icon {
+  font-size: 0.6rem;
 }
 
-.emoney-input:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+.emoney-status-badge .status-icon.normal {
+  color: #67c23a;
 }
 
-.emoney-input::placeholder {
-  color: #999;
+.emoney-status-badge .status-icon.error {
+  color: #f56c6c;
 }
 
-.emoney-btn {
+/* ========== 刷新按钮 ========== */
+.emoney-refresh-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 12px 24px;
+  width: 32px;
+  height: 32px;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 500;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  color: #666;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.emoney-btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.emoney-refresh-btn:hover {
+  background-color: #667eea;
   color: #fff;
 }
 
-.emoney-btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+.emoney-refresh-btn:active {
+  transform: rotate(180deg);
 }
 
-.emoney-btn-primary:active {
-  transform: translateY(0);
+/* ========== 功能按钮区域 ========== */
+.emoney-action-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.emoney-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
+.emoney-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
-.emoney-btn-loading {
-  position: relative;
-  color: transparent !important;
+.emoney-action-btn:hover {
+  border-color: #667eea;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
 }
 
-.emoney-btn-loading::after {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border: 2px solid #fff;
-  border-top-color: transparent;
+.emoney-action-icon {
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.emoney-action-icon i {
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.emoney-action-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* ========== CREDIT显示区域（小样式） ========== */
+.emoney-credit-display-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background-color: #f5f7ff;
+  border: 1px solid #e0e6ff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.emoney-credit-display-small .emoney-credit-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.emoney-credit-display-small .emoney-credit-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.emoney-credit-display-small .emoney-credit-unit {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+/* ========== 已绑定卡信息 ========== */
+.emoney-bound-card-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #f0f9eb;
+  border: 1px solid #e1f3d8;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  color: #67c23a;
+}
+
+.emoney-bound-card-info i {
+  font-size: 1.2rem;
+}
+
+.emoney-bound-card-info span {
+  flex: 1;
+  color: #333;
+}
+
+.emoney-btn-text {
+  padding: 6px 12px;
+  border: none;
+  background-color: #667eea;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.emoney-btn-text:hover {
+  background-color: #5a6fd6;
+}
+
+/* ========== 加载中动画 ========== */
+.loading-cell {
+  text-align: center;
+  padding: 40px 20px;
+  color: #909399;
+}
+
+.loading-cell i {
+  font-size: 1.5rem;
+  margin-right: 8px;
+  color: #667eea;
+}
+
+/* ========== 绑定账户页面 ========== */
+.emoney-bound-card-display {
+  text-align: center;
+  padding: 20px;
+}
+
+.emoney-bound-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.emoney-bound-info .bound-icon {
+  font-size: 2rem;
+  color: #67c23a;
+}
+
+.emoney-bound-info .bound-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.emoney-bound-info .bound-label {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.emoney-bound-info .bound-number {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  font-family: monospace;
+}
+
+.emoney-bound-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* ========== 对话框样式 ========== */
+.emoney-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.emoney-dialog {
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+}
+
+.emoney-dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.emoney-dialog-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.emoney-dialog-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  color: #999;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.emoney-dialog-close:hover {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.emoney-dialog-body {
+  padding: 20px;
+}
+
+/* ========== 充值选项 ========== */
+.emoney-recharge-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.emoney-recharge-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fff;
+}
+
+.emoney-recharge-option:not(.disabled):hover {
+  border-color: #667eea;
+  background-color: #f5f7ff;
+}
+
+.emoney-recharge-option.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+}
+
+.emoney-recharge-option .option-credit {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.emoney-recharge-option .option-arrow {
+  color: #999;
+  font-size: 1.2rem;
+}
+
+.emoney-recharge-option .option-yen {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.emoney-recharge-option .option-badge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  background-color: #fef0f0;
+  color: #f56c6c;
+  border-radius: 10px;
+}
+
+.emoney-current-credit {
+  text-align: center;
+  padding: 12px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* ========== 确认对话框 ========== */
+.emoney-confirm-message {
+  text-align: center;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.emoney-confirm-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* ========== 余额查询 ========== */
+.emoney-balance-section {
+  text-align: center;
+  padding: 20px;
+  background-color: #f5f7ff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.emoney-balance-section .emoney-balance-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.emoney-balance-section .emoney-card-number {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  font-family: monospace;
+  margin-bottom: 12px;
+}
+
+.emoney-balance-result {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #f0f9eb;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.balance-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.balance-display:last-child {
+  margin-bottom: 0;
+}
+
+.balance-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.balance-amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #67c23a;
+}
+
+.balance-card {
+  font-family: monospace;
+  color: #333;
+}
+
+.balance-unit {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.balance-unit .error {
+  color: #f56c6c;
+}
+
+/* ========== 动画效果 ========== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes spin {
@@ -158,137 +708,25 @@
   }
 }
 
-.emoney-divider {
-  display: flex;
-  align-items: center;
-  margin: 24px 0;
-  color: #999;
-  font-size: 0.875rem;
-}
-
-.emoney-divider::before,
-.emoney-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background-color: #e0e0e0;
-}
-
-.emoney-divider span {
-  padding: 0 16px;
-}
-
-.emoney-success-page {
-  text-align: center;
-  padding: 48px 24px;
-}
-
-.emoney-success-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #67c23a 0%, #85ce61 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 24px;
-}
-
-.emoney-success-icon i {
-  font-size: 2.5rem;
-  color: #fff;
-}
-
-.emoney-success-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 12px;
-}
-
-.emoney-success-message {
-  font-size: 1rem;
-  color: #666;
-  margin-bottom: 24px;
-}
-
-.emoney-user-info {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  margin-bottom: 24px;
-}
-
-.emoney-user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.emoney-user-details {
-  text-align: left;
-}
-
-.emoney-user-name {
-  font-weight: 500;
-  color: #333;
-}
-
-.emoney-user-status {
-  font-size: 0.875rem;
-  color: #67c23a;
-}
-
-/* 响应式设计 */
-@media (max-width: 576px) {
-  .emoney-container {
-    padding: 12px;
-  }
-
-  .emoney-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .emoney-title {
-    font-size: 1.25rem;
-  }
-
-  .emoney-card {
-    padding: 16px;
-  }
-
-  .emoney-btn {
-    width: 100%;
-  }
-}
-
-/* 动画效果 */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.emoney-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .emoney-card {
   animation: fadeIn 0.3s ease-out;
 }
 
+.emoney-dialog {
+  animation: slideUp 0.3s ease-out;
+}
+
 .emoney-success-page {
   animation: fadeIn 0.4s ease-out;
 }
 
-/* Element Plus 风格的提示消息 */
+/* ========== Element Plus 消息提示样式 ========== */
 .el-message {
   display: inline-flex;
   align-items: center;
@@ -335,70 +773,46 @@
   margin-right: 8px;
 }
 
-.el-message .el-message__closeBtn {
-  margin-left: 16px;
-  cursor: pointer;
-  color: inherit;
-  opacity: 0.7;
-}
-
-.el-message .el-message__closeBtn:hover {
-  opacity: 1;
-}
-
-/* Loading 加载组件 */
-.el-loading-parent--relative {
-  position: relative !important;
-}
-
-.el-loading-parent--hidden {
-  overflow: hidden !important;
-}
-
-.el-loading-mask {
-  position: absolute;
-  z-index: 2000;
-  background-color: rgba(255, 255, 255, 0.9);
-  margin: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.el-loading-spinner {
-  width: 42px;
-  height: 42px;
-  display: inline-block;
-  animation: spinner-rotate 2s linear infinite;
-}
-
-.el-loading-spinner .path {
-  stroke: #409eff;
-  stroke-linecap: round;
-  animation: dash 1.5s ease-in-out infinite;
-}
-
-@keyframes spinner-rotate {
-  100% {
-    transform: rotate(360deg);
+/* ========== 响应式设计 ========== */
+@media (max-width: 576px) {
+  .emoney-container {
+    padding: 12px;
   }
-}
 
-@keyframes dash {
-  0% {
-    stroke-dasharray: 1, 150;
-    stroke-dashoffset: 0;
+  .emoney-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
-  50% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -35;
+
+  .emoney-title {
+    font-size: 1.25rem;
   }
-  100% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -124;
+
+  .emoney-card {
+    padding: 16px;
+  }
+
+  .emoney-btn {
+    width: 100%;
+  }
+
+  .emoney-action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .emoney-action-btn {
+    width: 100%;
+    max-width: 280px;
+    height: 100px;
+  }
+
+  .emoney-bound-actions {
+    flex-direction: column;
+  }
+
+  .emoney-bound-actions .emoney-btn {
+    width: 100%;
   }
 }

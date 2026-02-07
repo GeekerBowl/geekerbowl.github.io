@@ -9,15 +9,38 @@
   function ensureAdmin(pageId) {
     const token = localStorage.getItem('token');
     if (!token) { showLoginRequired(pageId || 'site-admin'); return false; }
-    
-    if (global.__routeContractInstalledSafe) return true;
-    
-    const u = global.currentUser;
-    if (!u || (u.user_rank || 0) < 5) {
-      showErrorMessage('需要管理员权限才能访问此页面');
+
+    // 从 localStorage userInfo 获取用户信息
+    const userInfoStr = localStorage.getItem('userInfo');
+    if (!userInfoStr) {
+      showErrorMessage('无法获取用户信息，请重新登录');
       loadPage('home');
       return false;
     }
+
+    let userInfo;
+    try {
+      userInfo = JSON.parse(userInfoStr);
+    } catch (e) {
+      console.error('解析用户信息失败:', e);
+      showErrorMessage('用户信息格式错误，请重新登录');
+      loadPage('home');
+      return false;
+    }
+
+    // user_rank = 5 表示系统管理员（根据 userManager.js 定义）
+    // 尝试多种可能的字段名
+    const userRank = userInfo.user_rank ?? userInfo.userRank ?? userInfo.rank ?? userInfo.UserRank;
+    const rankNum = parseInt(userRank, 10);
+
+    console.log('权限检查 - user_rank:', userRank, 'parsed:', rankNum);
+
+    if (isNaN(rankNum) || rankNum !== 5) {
+      showErrorMessage('需要管理员权限才能访问此页面 (当前权限: ' + (isNaN(rankNum) ? '未知' : rankNum) + ')');
+      loadPage('home');
+      return false;
+    }
+
     return true;
   }
 
@@ -81,6 +104,11 @@
               <div class="admin-entry-desc">管理CHUNITHM和BEMANI补丁工具。</div>
               <div class="admin-actions"><button class="admin-btn admin-btn-ghost" type="button">进入</button></div>
             </a>
+            <a class="admin-card admin-entry" id="entry-emoney">
+              <div class="admin-entry-title">电子支付管理</div>
+              <div class="admin-entry-desc">管理电子支付充值选项和充值记录。</div>
+              <div class="admin-actions"><button class="admin-btn admin-btn-ghost" type="button">进入</button></div>
+            </a>
           </div>
         </div>
       </div>
@@ -102,12 +130,21 @@
       }
     };
 
-    root.querySelector('#entry-patcher').onclick = (e) => { 
-      e.preventDefault(); 
+    root.querySelector('#entry-patcher').onclick = (e) => {
+      e.preventDefault();
       if (typeof loadPage === 'function') {
         loadPage('patcher-admin');
       } else {
         showErrorMessage('页面加载函数未定义');
+      }
+    };
+
+    root.querySelector('#entry-emoney').onclick = (e) => {
+      e.preventDefault();
+      if (typeof window.renderEmoneyAdmin === 'function') {
+        window.renderEmoneyAdmin();
+      } else {
+        showErrorMessage('电子支付管理模块未加载');
       }
     };
   }
