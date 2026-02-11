@@ -266,13 +266,33 @@
       }
 
       // 获取电子支付状态和钱包状态
+      // 注意：必须正确处理 API 响应，包括检查是否有 error 字段
       const [statusResponse, walletResponse] = await Promise.all([
-        secureFetch('https://api.am-all.com.cn/api/emoney/status'),
+        secureFetch('https://api.am-all.com.cn/api/emoney/status')
+          .then(response => {
+            // 如果响应中有 error 字段，说明请求被拒绝或出错
+            if (response && response.error) {
+              throw new Error(response.error);
+            }
+            return response;
+          })
+          .catch(error => {
+            console.error('获取电子支付状态失败:', error);
+            // 返回特殊标记，让前端知道需要授权码
+            return { has_emoney_access: false, needsAuth: true };
+          }),
         secureFetch('https://api.am-all.com.cn/api/emoney/wallet').catch(() => ({ has_emoney_access: false, wallet: null }))
       ]);
 
       const emoneyStatus = statusResponse || { has_emoney_access: false };
       const walletData = walletResponse || { has_emoney_access: false, wallet: null };
+
+      // 如果 API 返回 needsAuth 标记，说明用户需要授权码
+      if (emoneyStatus.needsAuth) {
+        currentEmoneyState = { hasAccess: false, userInfo: userInfo, wallet: null, serviceStatus: 'normal', currentView: 'main' };
+        showEmoneyPage(content, false, userInfo);
+        return;
+      }
 
       currentEmoneyState = {
         hasAccess: emoneyStatus.has_emoney_access,
@@ -286,7 +306,7 @@
       if (emoneyStatus.has_emoney_access) {
         showMainPage(content);
       } else {
-        showEmoneyPage(content, false, null);
+        showEmoneyPage(content, false, userInfo);
       }
     } catch (error) {
       console.error('获取电子支付状态失败:', error);
@@ -755,6 +775,14 @@
     try {
       const response = await secureFetch('https://api.am-all.com.cn/api/emoney/recharge/options');
 
+      // 检查 API 是否返回错误（权限不足等）
+      if (response && response.error) {
+        showEmoneyError(response.error);
+        // 重新验证权限
+        await recheckEmoneyPermission();
+        return;
+      }
+
       if (!response || !response.success || !response.options || response.options.length === 0) {
         showEmoneyError('暂无可用充值选项');
         return;
@@ -762,6 +790,15 @@
 
       const options = response.options;
       const userCreditResponse = await secureFetch('https://api.am-all.com.cn/api/emoney/user/credit');
+
+      // 检查 CREDIT API 是否返回错误
+      if (userCreditResponse && userCreditResponse.error) {
+        showEmoneyError(userCreditResponse.error);
+        // 重新验证权限
+        await recheckEmoneyPermission();
+        return;
+      }
+
       const userCredit = userCreditResponse?.credit || 0;
 
       // 构建选项HTML
@@ -806,6 +843,8 @@
     } catch (error) {
       console.error('获取充值选项失败:', error);
       showEmoneyError(getTranslation('emoney.error'));
+      // 重新验证权限
+      await recheckEmoneyPermission();
     }
   };
 
@@ -890,6 +929,14 @@
         })
       });
 
+      // 检查 API 是否返回错误（权限不足等）
+      if (response && response.error) {
+        showEmoneyError(response.error);
+        // 重新验证权限
+        await recheckEmoneyPermission();
+        return;
+      }
+
       if (response && response.success) {
         showEmoneySuccess(getTranslation('emoney.rechargeSuccess'));
         // 刷新CREDIT显示
@@ -902,6 +949,8 @@
     } catch (error) {
       console.error('充值失败:', error);
       showEmoneyError(error.message || getTranslation('emoney.rechargeFail'));
+      // 重新验证权限
+      await recheckEmoneyPermission();
     }
   }
 
@@ -912,11 +961,90 @@
     try {
       const response = await secureFetch('https://api.am-all.com.cn/api/emoney/user/credit');
       const creditEl = document.getElementById('emoney-user-credit');
+
+      // 检查 API 是否返回错误（权限不足等）
+      if (response && response.error) {
+        console.error('获取CREDIT失败:', response.error);
+        if (creditEl) {
+          creditEl.textContent = '--';
+        }
+        // 重新验证权限
+        await recheckEmoneyPermission();
+        return;
+      }
+
       if (creditEl && response) {
         creditEl.textContent = response.credit || 0;
       }
     } catch (error) {
       console.error('获取CREDIT失败:', error);
+      const creditEl = document.getElementById('emoney-user-credit');
+      if (creditEl) {
+        creditEl.textContent = '--';
+      }
+      // 重新验证权限
+      await recheckEmoneyPermission();
+    }
+  }
+
+  /**
+   * 重新验证电子支付权限
+   */
+  async function recheckEmoneyPermission() {
+    try {
+      const response = await secureFetch('https://api.am-all.com.cn/api/emoney/status');
+      const content = document.getElementById('content-container');
+
+      // 如果 API 返回错误，强制显示授权码输入页面
+      if (response && response.error) {
+        console.log('权限验证失败，显示授权码输入页面');
+        currentEmoneyState = {
+          hasAccess: false,
+          userInfo: JSON.parse(localStorage.getItem('userInfo') || '{}'),
+          wallet: null,
+          serviceStatus: 'normal',
+          currentView: 'main'
+        };
+        if (content) {
+          showEmoneyPage(content, false, currentEmoneyState.userInfo);
+        }
+        return;
+      }
+
+      // 如果用户没有电子支付权限，强制显示授权码输入页面
+      if (!response || response.has_emoney_access === false) {
+        console.log('用户没有电子支付权限，显示授权码输入页面');
+        currentEmoneyState = {
+          hasAccess: false,
+          userInfo: JSON.parse(localStorage.getItem('userInfo') || '{}'),
+          wallet: null,
+          serviceStatus: 'normal',
+          currentView: 'main'
+        };
+        if (content && content.querySelector('.emoney-container')) {
+          showEmoneyPage(content, false, currentEmoneyState.userInfo);
+        }
+        return;
+      }
+
+      // 权限验证成功，更新状态
+      console.log('权限验证成功');
+      currentEmoneyState.hasAccess = true;
+      currentEmoneyState.wallet = response.wallet || null;
+    } catch (error) {
+      console.error('重新验证权限失败:', error);
+      // 强制显示授权码输入页面
+      const content = document.getElementById('content-container');
+      currentEmoneyState = {
+        hasAccess: false,
+        userInfo: JSON.parse(localStorage.getItem('userInfo') || '{}'),
+        wallet: null,
+        serviceStatus: 'normal',
+        currentView: 'main'
+      };
+      if (content) {
+        showEmoneyPage(content, false, currentEmoneyState.userInfo);
+      }
     }
   }
 
@@ -948,6 +1076,14 @@
     try {
       const response = await secureFetch(`https://api.am-all.com.cn/api/emoney/balance/${cardNumber}`);
 
+      // 检查 API 是否返回错误（权限不足等）
+      if (response && response.error) {
+        showEmoneyError(response.error);
+        // 重新验证权限
+        await recheckEmoneyPermission();
+        return;
+      }
+
       if (response && response.success) {
         resultEl.style.display = 'block';
         document.getElementById('balance-card-display').textContent = cardNumber;
@@ -958,6 +1094,8 @@
     } catch (error) {
       console.error('查询余额失败:', error);
       showEmoneyError(error.message || getTranslation('emoney.error'));
+      // 重新验证权限
+      await recheckEmoneyPermission();
     } finally {
       btn.classList.remove('emoney-btn-loading');
       btn.disabled = false;
@@ -983,6 +1121,14 @@
     try {
       const response = await secureFetch(`https://api.am-all.com.cn/api/emoney/balance/${currentEmoneyState.wallet}`);
 
+      // 检查 API 是否返回错误（权限不足等）
+      if (response && response.error) {
+        resultEl.innerHTML = '<span class="error">' + (response.error || '查询失败') + '</span>';
+        // 重新验证权限
+        await recheckEmoneyPermission();
+        return;
+      }
+
       if (response && response.success) {
         resultEl.innerHTML = `
           <span class="balance-amount">${response.balance?.amount || '--'}</span>
@@ -994,6 +1140,8 @@
     } catch (error) {
       console.error('查询余额失败:', error);
       resultEl.innerHTML = '<span class="error">查询失败</span>';
+      // 重新验证权限
+      await recheckEmoneyPermission();
     }
   };
 
@@ -1348,18 +1496,71 @@
   }
 
   // 监听语言切换事件，刷新电子支付页面
-  window.addEventListener('languageChanged', function() {
+  window.addEventListener('languageChanged', async function() {
     const content = document.getElementById('content-container');
     if (content && content.querySelector('.emoney-container')) {
-      // 根据当前视图刷新页面
-      if (currentEmoneyState.currentView === 'main') {
-        showMainPage(content);
-      } else if (currentEmoneyState.currentView === 'recharge') {
-        showRechargePage();
-      } else if (currentEmoneyState.currentView === 'balance') {
-        showBalancePage();
-      } else if (currentEmoneyState.currentView === 'bind') {
-        showBindPage();
+      // 切换语言时，必须强制重新验证权限，不能依赖缓存状态
+      // 直接重新初始化整个页面
+      console.log('语言切换，强制重新验证电子支付权限...');
+
+      try {
+        const response = await secureFetch('https://api.am-all.com.cn/api/emoney/status');
+
+        // 如果 API 返回错误或 has_emoney_access 为 false，强制显示授权码输入页面
+        if (response && response.error) {
+          console.log('权限验证失败，显示授权码输入页面');
+          // 重置状态
+          currentEmoneyState = {
+            hasAccess: false,
+            userInfo: JSON.parse(localStorage.getItem('userInfo') || '{}'),
+            wallet: null,
+            serviceStatus: 'normal',
+            currentView: 'main'
+          };
+          showEmoneyPage(content, false, currentEmoneyState.userInfo);
+          return;
+        }
+
+        // 如果用户没有电子支付权限，强制显示授权码输入页面
+        if (!response || response.has_emoney_access === false) {
+          console.log('用户没有电子支付权限，显示授权码输入页面');
+          currentEmoneyState = {
+            hasAccess: false,
+            userInfo: JSON.parse(localStorage.getItem('userInfo') || '{}'),
+            wallet: null,
+            serviceStatus: 'normal',
+            currentView: 'main'
+          };
+          showEmoneyPage(content, false, currentEmoneyState.userInfo);
+          return;
+        }
+
+        // 权限验证成功，更新状态并刷新页面
+        console.log('权限验证成功，刷新功能页面');
+        currentEmoneyState.hasAccess = true;
+        currentEmoneyState.wallet = response.wallet || null;
+
+        // 根据当前视图刷新页面
+        if (currentEmoneyState.currentView === 'main') {
+          showMainPage(content);
+        } else if (currentEmoneyState.currentView === 'recharge') {
+          showRechargePage();
+        } else if (currentEmoneyState.currentView === 'balance') {
+          showBalancePage();
+        } else if (currentEmoneyState.currentView === 'bind') {
+          showBindPage();
+        }
+      } catch (error) {
+        console.error('语言切换时验证权限失败:', error);
+        // 强制显示授权码输入页面
+        currentEmoneyState = {
+          hasAccess: false,
+          userInfo: JSON.parse(localStorage.getItem('userInfo') || '{}'),
+          wallet: null,
+          serviceStatus: 'normal',
+          currentView: 'main'
+        };
+        showEmoneyPage(content, false, currentEmoneyState.userInfo);
       }
     }
   });
