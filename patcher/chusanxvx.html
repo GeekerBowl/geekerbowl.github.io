@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>CHUNITHM VERSE Modder</title>
+        <title>CHUNITHM X-VERSE-X Modder</title>
 		<link rel="shortcut icon" href="https://oss.am-all.com.cn/asset/img/main/favicon.png">
         <link rel="stylesheet" href="../css/style2.css">
         <!-- don't hate -->
@@ -12,32 +12,32 @@
         <script type="text/javascript">
         window.addEventListener("load", function () {
             new PatchContainer([
-                new Patcher("chusanApp.exe", "2.30.00", [
+                new Patcher("chusanApp.exe", "2.45.00", [
                     {
                         name: "强制共享音频, 系统音频采样率必须为 48000Hz",
                         tooltip: "此项可能会增加延迟",
                         patches: [
-                            {offset: 0xF6E88A, off: [0x01], on: [0x00]}
+                            {offset: 0xE29393, off: [0x01], on: [0x00]}
                         ]
                     },
                     {
                         name: "强制双声道输出",
                         tooltip: "可能会炸低音",
                         patches: [
-                            {offset: 0xF6E961, off: [0x75, 0x3f], on: [0x90, 0x90]}
+                            {offset: 0xE2944B, off: [0x75, 0x3f], on: [0x90, 0x90]}
                         ]
                     },
                     {
                         name: "禁用选歌计时器",
                         patches: [
-                            {offset: 0xA4495A, off: [0x74], on: [0xeb]}
+                            {offset: 0x3D4110, off: [0x32, 0xC0], on: [0xB0, 0x01]}
                         ]
                     },
                     {
                         name: "地图选择计时器",
                         tooltip: "If set to negative, the timer becomes 968 + value (e.g. 968 + -1 = 967)",
                         type: "number",
-                        offset: 0x9A4A97,
+                        offset: 0x944658,
                         size: 1,
                         min: -128,
                         max: 127,
@@ -46,7 +46,7 @@
                         name: "票券选择计时器",
                         tooltip: "If set to negative, the timer becomes 968 + value (e.g. 968 + -1 = 967)",
                         type: "number",
-                        offset: 0x998222,
+                        offset: 0x939792,
                         size: 1,
                         min: -128,
                         max: 127,
@@ -55,7 +55,7 @@
                         name: "课题选择计时器",
                         tooltip: "If set to negative, the timer becomes 968 + value (e.g. 968 + -1 = 967)",
                         type: "number",
-                        offset: 0xA4FB9B,
+                        offset: 0x9E68A1,
                         size: 1,
                         min: -128,
                         max: 127,
@@ -64,13 +64,13 @@
                         name: "解锁游玩曲数上限",
                         tooltip: "Must check to play more than 7 tracks per credit",
                         patches: [
-                            {offset: 0x748180, off: [0xf0], on: [0xc0]}
+                            {offset: 0x6F8B82, off: [0xf0], on: [0xc0]}
                         ]
                     },
                     {
                         type: "number",
                         name: "最大曲数",
-                        offset: 0x3980C1,
+                        offset: 0x3EE331,
                         size: 4,
                         min: 3,
                         max: 12
@@ -79,48 +79,40 @@
                         name: "关闭网络加密",
                         tooltip: "私服联网都需要开启此项",
                         patches: [
-                            {offset: 0x1E56BE8, off: [0xE6], on: [0x00]},
-                            {offset: 0x1E56BEC, off: [0xE6], on: [0x00]}
+                            {offset: 0x17D200C, off: [0xF5], on: [0x00]},
+                            {offset: 0x17D2010, off: [0xF5], on: [0x00]}
                         ]
                     },
                     {
                         name: "关闭TLS",
                         tooltip: "解决Title BAD",
                         patches: [
-                            {offset: 0xF518D7, off: [0x80], on: [0x00]}
-                        ]
-                    },
-                    {
-                        name: "店内联机补丁",
-                        tooltip: "Fix infinite sync while trying to connect to head to head play",
-                        patches: [
-                            {offset: 0x67AF83, off: [0x01], on: [0x00]}
+                            {offset: 0xE0D3FB, off: [0x80], on: [0x00]}
                         ]
                     },
                     {
                         name: "绕过1080P检测",
                         patches: [
-                            {offset: 0x1CCBF, off: [0x81, 0xbc, 0x24, 0xb8, 0x02, 0x00, 0x00, 0x80, 0x07, 0x00, 0x00, 0x75, 0x1f, 0x81, 0xbc, 0x24, 0xbc, 0x02, 0x00, 0x00, 0x38, 0x04, 0x00, 0x00, 0x75, 0x12], on: [0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90]}
+                            {offset: 0x15811C, off: [0x81, 0xBC, 0x24, 0x34, 0x02, 0x00, 0x00, 0x80, 0x07, 0x00, 0x00, 0x75, 0x1F, 0x81, 0xBC, 0x24, 0x38, 0x02, 0x00, 0x00, 0x38, 0x04, 0x00, 0x00, 0x75, 0x12], on: [0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90]}
                         ]
                     },
                     {
                         name: "绕过120Hz检测",
                         patches: [
-                            {offset: 0x1CCB1, off: [0x85, 0xC0, 0x74, 0x3F], on: [0xEB, 0x30, 0xEB, 0x2E]}
+                            {offset: 0x15810E, off: [0x85, 0xC0, 0x74, 0x3F], on: [0xEB, 0x30, 0xEB, 0x2E]}
                         ]
                     },
-                    {
-                        name: "跳过跑图",
-						danger: "Patch by 忍野企鹅",
-                        patches: [
-                            {offset: 0x93071D, off: [0x01], on: [0x00]}
-                        ]
-                    },
+					{
+						name: "绕过AppUser检测",
+						patches: [
+                            {offset: 0x89075, off: [0x75], on: [0xEB]}
+						],
+					},
                     {
                         name: "强制修改“FREE PLAY”文本",
                         tooltip: "Replaces the credit count with FREE PLAY",
                         patches: [
-                            {offset: 0x3875A4, off: [0x3c, 0x01], on: [0x38, 0xc0]}
+                            {offset: 0x3DF4E4, off: [0x3c, 0x01], on: [0x38, 0xc0]}
                         ]
                     },
                     {
@@ -128,7 +120,7 @@
                         name: "自定义“FREE PLAY”文本长度",
                         tooltip: "Changes the length of the text displayed when Force FREE PLAY credit text is enabled",
 						danger: "If this is longer than 11 characters, \"Force FREE PLAY credit text\" MUST be enabled.",
-                        offset: 0x3875A9,
+                        offset: 0x3DF4E9,
                         size: 1,
                         min: 0,
                         max: 27,
@@ -137,56 +129,44 @@
                         type: "hex",
                         name: "自定义“FREE PLAY”文本",
                         tooltip: "Replace the FREE PLAY text when using Infinite credits",
-                        offset: 0x1A5DFB4,
+                        offset: 0x14AD9BC,
                         off: [0x46, 0x52, 0x45, 0x45, 0x20, 0x50, 0x4c, 0x41, 0x59],
                     },
                     {
-                        name: "禁用商店关闭",
-                        danger: "[已弃用] Just disable it in the test menu",
-                        patches: [
-                            {offset: 0xC429C3, off: [0x74], on: [0xeb]}
-                        ]
-                    },
-                    {
-                        name: "绕过LED IO板检测",
-                        danger: "[已弃用] 强制让LED检测为GOOD",
-                        patches: [
-                            {offset: 0xA156CA, off: [0x01], on: [0x00]},
-                            {offset: 0xA156CF, off: [0x00], on: [0x01]}
-                        ]
-                    },
-                    {
-                        name: "忽略一些amdaemon的错误",
-                        danger: "[已弃用] May relieve some errors like error 6401, but may also cause problems elsewhere.",
-                        patches: [
-                            {offset: 0x37DCFB, off: [0x75], on: [0xeb]}
-                        ]
-                    },
-                    {
                         name: "设置所有计时器为999",
-                        danger: "[已弃用] Breaks online matching functionality",
+                        danger: "Breaks online matching functionality",
                         patches: [
-                            {offset: 0x8B0110, off: [0x8b, 0x44, 0x24, 0x04, 0x69, 0xc0, 0xe8, 0x03, 0x00, 0x00], on: [0xb8, 0x58, 0x3e, 0x0f, 0x00, 0x90, 0x90, 0x90, 0x90, 0x90]}
+                            {offset: 0x8604F0, off: [0x69, 0x44, 0x24, 0x04, 0xe8, 0x03, 0x00, 0x00], on: [0xb8, 0x58, 0x3e, 0x0f, 0x00, 0x90, 0x90, 0x90]}
                         ]
+                    },
+					{
+                        name: "跳过地图动画",
+						tooltip: "Skip the map move forward animation after playing the song",
+                        patches: [
+                            { offset: 0x8D63DA, off: [0x01], on: [0x00] },
+                        ],
                     },
                 ]),
 			]);
             new PatchContainer([
-                new Patcher("amdaemon.exe", "2.30.00", [
+                new Patcher("amdaemon.exe", "2.45.00", [
                     {
                         name: "锁定投币数",
                         tooltip: "Prevents credits from being used. At least one credit must be available to start the game or purchase premium tickets.",
                         patches: [
-                            { offset: 0x2bafc8, off: [0x28], on: [0x08] }
+                            {offset: 0x2DE4F8, off: [0x28], on: [0x08]}
                         ]
                     },
                     {
-                        name: "OpenSSL SHA 崩溃错误修复",
-                        tooltip: "修复intel 10th Gen CPU的Openssl问题",
+                        name: "忽略 6401 错误",
+						danger: "Patch by TGSAN",
+                        tooltip: "注意！此补丁仅为跳过Amdaemon错误，可能会导致无法投币",
                         patches: [
-                            { offset: 0x4d4a43, off: [0x48], on: [0x4c] },
-                            { offset: 0x4d4a4b, off: [0x48], on: [0x49] },
-                        ]
+                            { offset: 0x24DC08, off: [0x01, 0x19], on: [0x00, 0x00] },
+                            { offset: 0x250FB0, off: [0x01, 0x19], on: [0x00, 0x00] },
+                            { offset: 0x251F1F, off: [0x01, 0x19], on: [0x00, 0x00] },
+                            { offset: 0x252120, off: [0x01, 0x19], on: [0x00, 0x00] },
+                        ],
                     },
                 ]),
             ]);
@@ -194,17 +174,24 @@
     </script>
     </head>
     <body>
-        <h1>CHUNITHM VERSE Modder</h1>
+        <h1>CHUNITHM X-VERSE-X Modder</h1>
     </body>
 	<center style="color: rgb(189, 29, 29)">
-		<b>※ ATTENTION ※
-		</b>
+		<b>※ ATTENTION ※</b>
 	</center>
 	<center style="color: rgb(189, 29, 29)">
-		<b>本页面仅支持本站发布的chusanApp.exe (Ver 2.30)
-		</b>
+		<b>本页面仅支持如下chusanApp.exe (Ver 2.45)</b>
 	</center>
-	<center style="color: rgb(189, 29, 29)">
-		<b>Modder by TWO-TORIAL</b>
+	<center style="color: green">
+		<b>SHA256: 758F1568997132A1672009186D8014D74BEED6C0CCF9E78D9C52BC1A64F63FF0 (No Patch)</b>
+	</center>
+	<center style="color: green">
+		<b>SHA256: 4E492489FB8E63C5B3FFAD5267E78B02FCF8D74A261B058FC296A7E968516520 (Patched)</b>
+	</center>
+	<center style="color: green">
+		<b>or</b>
+	</center>
+	<center style="color: green">
+		<b>File Size: 26064384 Byte(24MiB)</b>
 	</center>
 </html>
