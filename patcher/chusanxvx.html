@@ -12,7 +12,7 @@
         <script type="text/javascript">
         window.addEventListener("load", function () {
             new PatchContainer([
-                new Patcher("chusanApp.exe", "2.45.00", [
+                new Patcher("chusanApp.exe", "2.45", [
                     {
                         name: "强制共享音频, 系统音频采样率必须为 48000Hz",
                         tooltip: "此项可能会增加延迟",
@@ -147,9 +147,186 @@
                         ],
                     },
                 ]),
+                    new Patcher("chusanApp.exe", "2.47", [
+                        {
+                            name: "强制共享音频, 系统音频采样率必须为 48000Hz",
+                            tooltip: "此项可能会增加延迟",
+                            patches: [
+                                { offset: 0xe29ec3, off: [0x01], on: [0x00] },
+                            ],
+                        },
+                        {
+                            name: "强制双声道输出",
+                            tooltip: "可能会炸低音",
+                            patches: [
+                                {
+                                    offset: 0xe29f7b,
+                                    off: [0x75, 0x3f],
+                                    on: [0x90, 0x90],
+                                },
+                            ],
+                        },
+                        {
+                            name: "禁用选歌计时器",
+                            patches: [
+                                {
+                                    offset: 0x3d4410,
+                                    off: [0x32, 0xc0],
+                                    on: [0xb0, 0x01],
+                                },
+                            ],
+                        },
+                        {
+                            name: "地图选择计时器",
+                            tooltip: "If set to negative, the timer becomes 968 + value (e.g. 968 + -1 = 967)",
+                            type: "number",
+                            offset: 0x944f98,
+                            size: 1,
+                            min: -128,
+                            max: 127,
+                        },
+                        {
+                            name: "票券选择计时器",
+                            tooltip: "If set to negative, the timer becomes 968 + value (e.g. 968 + -1 = 967)",
+                            type: "number",
+                            offset: 0x93a0d2,
+                            size: 1,
+                            min: -128,
+                            max: 127,
+                        },
+                        {
+                            name: "课题选择计时器",
+                            tooltip: "If set to negative, the timer becomes 968 + value (e.g. 968 + -1 = 967)",
+                            type: "number",
+                            offset: 0x9e7371,
+                            size: 1,
+                            min: -128,
+                            max: 127,
+                        },
+                        {
+                            name: "解锁游玩曲数上限",
+                            tooltip: "Must check to play more than 7 tracks per credit",
+                            patches: [
+                                { offset: 0x6f8f92, off: [0xf0], on: [0xc0] },
+                            ],
+                        },
+                        {
+                            type: "number",
+                            name: "最大曲数",
+                            offset: 0x3ee631,
+                            size: 4,
+                            min: 3,
+                            max: 12,
+                        },
+                        {
+                            name: "关闭网络加密",
+                            tooltip: "同时禁用TLS",
+                            patches: [
+                                { offset: 0x17d320c, off: [0xf5], on: [0x00] },
+                                { offset: 0x17d3210, off: [0xf5], on: [0x00] },
+                            ],
+                        },
+                        {
+                            name: "绕过1080P检测",
+                            patches: [
+                                {
+                                    offset: 0x15841c,
+                                    off: [
+                                        0x81, 0xbc, 0x24, 0x34, 0x02, 0x00,
+                                        0x00, 0x80, 0x07, 0x00, 0x00, 0x75,
+                                        0x1f, 0x81, 0xbc, 0x24, 0x38, 0x02,
+                                        0x00, 0x00, 0x38, 0x04, 0x00, 0x00,
+                                        0x75, 0x12,
+                                    ],
+                                    on: [
+                                        0x90, 0x90, 0x90, 0x90, 0x90, 0x90,
+                                        0x90, 0x90, 0x90, 0x90, 0x90, 0x90,
+                                        0x90, 0x90, 0x90, 0x90, 0x90, 0x90,
+                                        0x90, 0x90, 0x90, 0x90, 0x90, 0x90,
+                                        0x90, 0x90,
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            name: "绕过120Hz检测",
+                            patches: [
+                                {
+                                    offset: 0x15840e,
+                                    off: [0x85, 0xc0, 0x74, 0x3f],
+                                    on: [0xeb, 0x30, 0xeb, 0x2e],
+                                },
+                            ],
+                        },
+                        {
+                            name: "绕过AppUser检测",
+							tooltip: "需要开启此项，否则会在刷卡或游客进入游戏时闪退",
+                            patches: [
+                                { offset: 0x890c5, off: [0x75], on: [0xeb] },
+                            ],
+                        },
+                        {
+                            name: "强制修改“FREE PLAY”文本",
+                            tooltip: "Replaces the credit count with FREE PLAY",
+                            patches: [
+                                {
+                                    offset: 0x3df7e4,
+                                    off: [0x3c, 0x01],
+                                    on: [0x38, 0xc0],
+                                },
+                            ],
+                        },
+                        {
+                            type: "number",
+                            name: "自定义“FREE PLAY”文本长度",
+                            tooltip:
+                                "Changes the length of the text displayed when Force FREE PLAY credit text is enabled",
+                            danger: 'If this is longer than 11 characters, "Force FREE PLAY credit text" MUST be enabled.',
+                            offset: 0x3df7e9,
+                            size: 1,
+                            min: 0,
+                            max: 27,
+                        },
+                        {
+                            type: "hex",
+                            name: "自定义“FREE PLAY”文本",
+                            tooltip:
+                                "Replace the FREE PLAY text when using Infinite credits",
+                            offset: 0x14ae9bc,
+                            off: [
+                                0x46, 0x52, 0x45, 0x45, 0x20, 0x50, 0x4c, 0x41,
+                                0x59,
+                            ],
+                        },
+                        {
+                            name: "跳过地图动画",
+                            tooltip:
+                                "Skip the map move forward animation after playing the song",
+                            patches: [
+                                { offset: 0x8d6b4a, off: [0x01], on: [0x00] },
+                            ],
+                        },
+                        {
+                            name: "设置所有计时器为999",
+                            danger: "[DEPRECATED] Breaks online matching functionality",
+                            patches: [
+                                {
+                                    offset: 0x860c70,
+                                    off: [
+                                        0x69, 0x44, 0x24, 0x04, 0xe8, 0x03,
+                                        0x00, 0x00,
+                                    ],
+                                    on: [
+                                        0xb8, 0x58, 0x3e, 0x0f, 0x00, 0x90,
+                                        0x90, 0x90,
+                                    ],
+                                },
+                            ],
+                        },
+                    ]),
 			]);
             new PatchContainer([
-                new Patcher("amdaemon.exe", "2.45.00", [
+                new Patcher("amdaemon.exe", "2.45/2.47", [
                     {
                         name: "锁定投币数",
                         tooltip: "Prevents credits from being used. At least one credit must be available to start the game or purchase premium tickets.",
