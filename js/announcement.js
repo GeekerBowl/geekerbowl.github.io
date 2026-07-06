@@ -69,7 +69,7 @@ class AnnouncementSystem {
       
       container.innerHTML = '<div class="loading-announcements">加载公告中...</div>';
       
-      const response = await fetch(`https://api.am-all.com.cn/api/announcements?page=${this.currentPage}&limit=5`);
+      const response = await fetch(`https://api.am-all.com.cn/api/announcements?page=${this.currentPage}&limit=8`);
       
       if (!response.ok) {
         throw new Error(`HTTP错误: ${response.status}`);
