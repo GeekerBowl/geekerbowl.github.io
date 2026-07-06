@@ -421,6 +421,12 @@
     const container = document.getElementById('content-container');
     if (!container) return;
     
+    // 清理上一个工具的 Blob URL（如果有）
+    const oldIframe = document.querySelector('.patcher-iframe[data-blob-url]');
+    if (oldIframe && oldIframe.dataset.blobUrl) {
+      URL.revokeObjectURL(oldIframe.dataset.blobUrl);
+    }
+    
     const toolName = tool.tool_name || '补丁工具';
     const toolPath = tool.tool_path;
     
@@ -440,15 +446,44 @@
             <p>正在加载工具...</p>
           </div>
           <iframe 
-            src="${toolPath}" 
             frameborder="0"
             class="patcher-iframe"
-            onload="this.previousElementSibling.style.display='none'"
-            onerror="console.error('iframe加载失败:', '${toolPath}')">
+            onload="this.previousElementSibling.style.display='none'">
           </iframe>
         </div>
       </div>
     `;
+    
+    const iframe = container.querySelector('.patcher-iframe');
+    
+    // 上传文件类型：fetch 鉴权接口 + Blob 注入（无直链）
+    if (tool.tool_type === 'upload') {
+      const token = localStorage.getItem('token');
+      fetch(`${API_BASE}/api/patcher-tools/content/${tool.id}`, {
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(response.status === 403 ? '权限不足' : '加载失败');
+        }
+        return response.text();
+      })
+      .then(html => {
+        const blob = new Blob([html], { type: 'text/html' });
+        const blobUrl = URL.createObjectURL(blob);
+        iframe.src = blobUrl;
+        iframe.dataset.blobUrl = blobUrl;
+      })
+      .catch(error => {
+        const loader = container.querySelector('.iframe-loader');
+        if (loader) {
+          loader.innerHTML = '<i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #e74c3c;"></i><p>' + error.message + '</p>';
+        }
+      });
+    } else {
+      // 外部URL类型：直接设置 src（兼容现有方式）
+      iframe.src = toolPath;
+    }
   }
 
   window.renderPatcherCategories = renderPatcherCategories;

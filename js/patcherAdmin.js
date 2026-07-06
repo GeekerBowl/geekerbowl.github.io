@@ -354,11 +354,39 @@
               
               <div class="form-row">
                 <div class="form-group">
-                  <label for="tool-path">工具路径 <span class="required">*</span></label>
+                  <label for="tool-type">工具类型 <span class="required">*</span></label>
+                  <select id="tool-type" class="form-control" onchange="toggleToolType()">
+                    <option value="url" ${(!editData?.tool_type || editData?.tool_type === 'url') ? 'selected' : ''}>
+                      外部链接
+                    </option>
+                    <option value="upload" ${editData?.tool_type === 'upload' ? 'selected' : ''}>
+                      上传HTML文件
+                    </option>
+                  </select>
+                  <small class="form-text">选择"上传HTML文件"可防止直链绕过权限</small>
+                </div>
+              </div>
+              
+              <div class="form-row" id="tool-url-row">
+                <div class="form-group">
+                  <label for="tool-path">工具URL <span class="required">*</span></label>
                   <input type="text" id="tool-path" class="form-control" 
-                         value="${editData?.tool_path || ''}" 
-                         placeholder="https://example.com/tool.html" required>
+                         value="${(!editData?.tool_type || editData?.tool_type === 'url') ? (editData?.tool_path || '') : ''}" 
+                         placeholder="https://example.com/tool.html">
                   <small class="form-text">工具的完整URL地址</small>
+                </div>
+              </div>
+              
+              <div class="form-row" id="tool-upload-row" style="display:none;">
+                <div class="form-group">
+                  <label for="tool-html-input">上传HTML文件 <span class="required">*</span></label>
+                  <div class="html-upload-area">
+                    <input type="file" id="tool-html-input" class="form-control" accept=".html,text/html">
+                    <input type="hidden" id="tool-html-path" value="${editData?.tool_type === 'upload' ? (editData?.tool_path || '') : ''}">
+                    ${editData?.tool_type === 'upload' && editData?.tool_path ? 
+                      `<small class="form-text">当前文件: ${editData.tool_path}</small>` : 
+                      '<small class="form-text">选择 .html 文件上传，文件大小不超过 2MB</small>'}
+                  </div>
                 </div>
               </div>
               
@@ -438,6 +466,8 @@
     
     document.body.insertAdjacentHTML('beforeend', modalHTML);
     document.getElementById('tool-cover-input').addEventListener('change', handleCoverUpload);
+    document.getElementById('tool-html-input').addEventListener('change', handleHtmlUpload);
+    toggleToolType();
   }
   
   async function handleCoverUpload(e) {
@@ -506,6 +536,62 @@
     }
   }
   
+  window.toggleToolType = function() {
+    const type = document.getElementById('tool-type').value;
+    document.getElementById('tool-url-row').style.display = type === 'url' ? '' : 'none';
+    document.getElementById('tool-upload-row').style.display = type === 'upload' ? '' : 'none';
+  };
+  
+  async function handleHtmlUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    if (file.size > 2 * 1024 * 1024) {
+      alert('文件大小不能超过2MB');
+      e.target.value = '';
+      return;
+    }
+    
+    const formData = new FormData();
+    formData.append('html', file);
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_BASE}/api/admin/patcher-tools/html`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('上传失败响应:', errorText);
+        throw new Error('上传失败');
+      }
+      
+      const data = await response.json();
+      
+      if (data.success && data.htmlPath) {
+        document.getElementById('tool-html-path').value = data.htmlPath;
+        
+        const uploadArea = document.querySelector('.html-upload-area');
+        const existingText = uploadArea.querySelector('.form-text');
+        if (existingText) existingText.remove();
+        uploadArea.insertAdjacentHTML('beforeend', 
+          '<small class="form-text" style="color: #28a745;">已上传: ' + data.htmlPath + '</small>');
+        
+        showSuccessMessage('HTML文件上传成功');
+      } else {
+        throw new Error('服务器返回数据格式错误');
+      }
+    } catch (error) {
+      console.error('上传HTML文件失败:', error);
+      alert('上传HTML文件失败: ' + error.message);
+    }
+  }
+  
   window.closeToolModal = function() {
     const modal = document.getElementById('tool-modal');
     if (modal) modal.remove();
@@ -514,11 +600,16 @@
   window.saveTool = async function() {
     const toolId = document.getElementById('tool-id').value;
     const isEdit = !!toolId;
+    const toolType = document.getElementById('tool-type').value;
+    const toolPath = toolType === 'upload' 
+      ? document.getElementById('tool-html-path').value 
+      : document.getElementById('tool-path').value.trim();
     
     const data = {
       tool_name: document.getElementById('tool-name').value.trim(),
       category: document.getElementById('tool-category').value,
-      tool_path: document.getElementById('tool-path').value.trim(),
+      tool_type: toolType,
+      tool_path: toolPath,
       cover_image: document.getElementById('tool-cover-path').value,
       primary_access: parseInt(document.getElementById('primary-access').value),
       secondary_access: document.getElementById('secondary-access').value || null,
@@ -528,8 +619,12 @@
     
     console.log('保存工具数据:', data);
     
-    if (!data.tool_name || !data.category || !data.tool_path) {
+    if (!data.tool_name || !data.category) {
       alert('请填写所有必填字段');
+      return;
+    }
+    if (!data.tool_path) {
+      alert(toolType === 'upload' ? '请上传HTML文件' : '请填写工具URL');
       return;
     }
     
