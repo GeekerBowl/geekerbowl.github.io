@@ -80,6 +80,7 @@
                   <select id="tool-type" required onchange="onToolTypeChange()">
                     <option value="page">内部页面</option>
                     <option value="link">下载链接</option>
+                    <option value="upload">上传HTML文件</option>
                   </select>
                 </div>
                 
@@ -89,9 +90,18 @@
                 </div>
               </div>
               
-              <div class="tool-form-group">
+              <div class="tool-form-group" id="target-url-group">
                 <label for="tool-target" id="target-label">页面路径</label>
                 <input type="text" id="tool-target" required placeholder="例如: icfeditor.html">
+              </div>
+              
+              <div class="tool-form-group" id="target-upload-group" style="display:none;">
+                <label>上传HTML文件 <span class="required">*</span></label>
+                <div class="html-upload-area">
+                  <input type="file" id="tool-html-input" class="form-control" accept=".html,text/html">
+                  <input type="hidden" id="tool-html-path" value="">
+                  <small class="form-text">选择 .html 文件上传，文件大小不超过 2MB</small>
+                </div>
               </div>
               
               <div class="tool-form-group" id="file-size-group" style="display:none;">
@@ -261,6 +271,17 @@
       document.getElementById('tool-sort').value = tool.sort_order || 0;
       document.getElementById('tool-active').checked = tool.is_active;
       
+      if (tool.tool_type === 'upload') {
+        document.getElementById('tool-html-path').value = tool.target_url || '';
+        const uploadArea = document.querySelector('#tool-edit-modal .html-upload-area');
+        const existingText = uploadArea.querySelector('.form-text');
+        if (existingText) existingText.remove();
+        if (tool.target_url) {
+          uploadArea.insertAdjacentHTML('beforeend', 
+            '<small class="form-text">当前文件: ' + tool.target_url + '</small>');
+        }
+      }
+      
       onToolTypeChange();
       document.getElementById('tool-edit-modal').classList.add('show');
     } catch (error) {
@@ -297,22 +318,46 @@
 
   window.onToolTypeChange = function() {
     const type = document.getElementById('tool-type').value;
-    const targetLabel = document.getElementById('target-label');
-    const targetInput = document.getElementById('tool-target');
+    const urlGroup = document.getElementById('target-url-group');
+    const uploadGroup = document.getElementById('target-upload-group');
     const fileSizeGroup = document.getElementById('file-size-group');
+    const targetInput = document.getElementById('tool-target');
     
-    if (type === 'page') {
-      targetLabel.textContent = '页面路径';
-      targetInput.placeholder = '例如: icfeditor.html';
+    if (type === 'upload') {
+      urlGroup.style.display = 'none';
+      uploadGroup.style.display = '';
       fileSizeGroup.style.display = 'none';
-    } else {
-      targetLabel.textContent = '下载链接';
+      targetInput.required = false;
+    } else if (type === 'link') {
+      urlGroup.style.display = '';
+      uploadGroup.style.display = 'none';
       targetInput.placeholder = 'https://example.com/file.zip';
+      targetInput.required = true;
       fileSizeGroup.style.display = 'block';
+    } else {
+      urlGroup.style.display = '';
+      uploadGroup.style.display = 'none';
+      targetInput.placeholder = '例如: icfeditor.html';
+      targetInput.required = true;
+      fileSizeGroup.style.display = 'none';
     }
   };
 
   window.toolsAdminSaveToolData = async function() {
+    const toolType = document.getElementById('tool-type').value;
+    const targetUrl = toolType === 'upload'
+      ? document.getElementById('tool-html-path').value
+      : document.getElementById('tool-target').value;
+    
+    if (toolType === 'upload' && !targetUrl) {
+      alert('请上传HTML文件');
+      return;
+    }
+    if (toolType !== 'upload' && !targetUrl) {
+      alert('请填写页面路径或下载链接');
+      return;
+    }
+    
     const form = document.getElementById('tool-form');
     if (!form.checkValidity()) {
       form.reportValidity();
@@ -323,8 +368,8 @@
     const toolData = {
       title: document.getElementById('tool-title').value,
       description: document.getElementById('tool-description').value,
-      tool_type: document.getElementById('tool-type').value,
-      target_url: document.getElementById('tool-target').value,
+      tool_type: toolType,
+      target_url: targetUrl,
       file_size: document.getElementById('tool-file-size').value || null,
       icon_class: document.getElementById('tool-icon').value || 'fas fa-tools',
       access_level: parseInt(document.getElementById('tool-access-level').value),
@@ -364,5 +409,57 @@
   };
 
   global.initToolsAdmin = initToolsAdmin;
+
+  // HTML 文件上传处理
+  async function handleToolsHtmlUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    if (file.size > 2 * 1024 * 1024) {
+      alert('文件大小不能超过2MB');
+      e.target.value = '';
+      return;
+    }
+    
+    const formData = new FormData();
+    formData.append('html', file);
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('https://api.am-all.com.cn/api/admin/tools/html', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+        body: formData
+      });
+      
+      if (!response.ok) throw new Error('上传失败');
+      
+      const data = await response.json();
+      
+      if (data.success && data.htmlPath) {
+        document.getElementById('tool-html-path').value = data.htmlPath;
+        
+        const uploadArea = document.querySelector('#tool-edit-modal .html-upload-area');
+        const existingText = uploadArea.querySelector('.form-text');
+        if (existingText) existingText.remove();
+        uploadArea.insertAdjacentHTML('beforeend', 
+          '<small class="form-text" style="color: #28a745;">已上传: ' + data.htmlPath + '</small>');
+        
+        if (typeof showSuccessMessage === 'function') {
+          showSuccessMessage('HTML文件上传成功');
+        }
+      }
+    } catch (error) {
+      console.error('上传HTML文件失败:', error);
+      alert('上传HTML文件失败: ' + error.message);
+    }
+  }
+
+  // 绑定上传事件
+  document.addEventListener('change', function(e) {
+    if (e.target && e.target.id === 'tool-html-input') {
+      handleToolsHtmlUpload(e);
+    }
+  });
 
 })(window);

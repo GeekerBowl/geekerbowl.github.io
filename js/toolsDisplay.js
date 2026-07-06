@@ -325,6 +325,104 @@
     }
   }
 
+  // 上传类型工具：鉴权代理 + Blob 注入（防直链访问）
+  async function createToolUploadContainer(tool) {
+    const container = document.getElementById('content-container');
+    if (!container) return;
+
+    const previousContent = container.innerHTML;
+
+    container.innerHTML = `
+      <div class="tool-iframe-container">
+        <div class="tool-iframe-header">
+          <div class="tool-iframe-info">
+            <i class="${tool.icon_class || 'fas fa-tools'} tool-iframe-icon"></i>
+            <h2 class="tool-iframe-title">${tool.title}</h2>
+          </div>
+          <div class="tool-iframe-actions">
+            <button class="tool-iframe-refresh-btn" id="tool-iframe-refresh">
+              <i class="fas fa-sync-alt"></i>
+              <span>刷新</span>
+            </button>
+            <button class="tool-iframe-back-btn" id="tool-iframe-back">
+              <i class="fas fa-arrow-left"></i>
+              <span>返回工具列表</span>
+            </button>
+          </div>
+        </div>
+        <div class="tool-iframe-wrapper">
+          <iframe 
+            id="tool-iframe-content"
+            class="tool-iframe-frame"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+          <div class="tool-iframe-loading" id="tool-iframe-loading">
+            <div class="tool-iframe-spinner"></div>
+            <p>正在加载工具...</p>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // 清理之前的 Blob URL
+    const oldIframe = document.getElementById('tool-iframe-content');
+    if (oldIframe && oldIframe.dataset.blobUrl) {
+      URL.revokeObjectURL(oldIframe.dataset.blobUrl);
+    }
+
+    const backBtn = document.getElementById('tool-iframe-back');
+    if (backBtn) {
+      backBtn.addEventListener('click', function() {
+        if (typeof initToolsDisplay === 'function') {
+          initToolsDisplay();
+        } else {
+          container.innerHTML = previousContent;
+        }
+      });
+    }
+
+    const refreshBtn = document.getElementById('tool-iframe-refresh');
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', function() {
+        createToolUploadContainer(tool);
+      });
+    }
+
+    const iframe = document.getElementById('tool-iframe-content');
+    const loading = document.getElementById('tool-iframe-loading');
+
+    // Fetch 鉴权内容接口
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch('https://api.am-all.com.cn/api/tools/content/' + tool.id, {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      
+      if (!res.ok) {
+        throw new Error(res.status === 403 ? '权限不足' : '加载失败');
+      }
+      
+      const html = await res.text();
+      const blob = new Blob([html], { type: 'text/html' });
+      const blobUrl = URL.createObjectURL(blob);
+      iframe.src = blobUrl;
+      iframe.dataset.blobUrl = blobUrl;
+      
+      if (loading) loading.style.display = 'none';
+    } catch (error) {
+      if (loading) {
+        loading.innerHTML = `
+          <div class="tool-iframe-error">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>${error.message}</p>
+            <button onclick="document.getElementById('tool-iframe-back').click()">返回</button>
+          </div>
+        `;
+      }
+    }
+  }
+
 window.useTool = async function(toolId) {
   try {
     const token = localStorage.getItem('token');
@@ -360,7 +458,9 @@ window.useTool = async function(toolId) {
       }
     }
 
-    if (tool.tool_type === 'page') {
+    if (tool.tool_type === 'upload') {
+      createToolUploadContainer(tool);
+    } else if (tool.tool_type === 'page') {
       createToolIframeContainer(tool);
     } else {
       window.open(tool.target_url, '_blank');
