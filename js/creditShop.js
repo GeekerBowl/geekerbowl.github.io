@@ -13,16 +13,11 @@ window.initCreditShop = async function() {
     
     if (addressRes.success && addressRes.address) {
       shippingAddress = addressRes.address;
-      renderCreditShopPage();
     } else {
-      const skipped = localStorage.getItem('shipping_skipped');
-      if (skipped === 'true') {
-        shippingAddress = null;
-        renderCreditShopPage();
-      } else {
-        renderShippingFormForCredit();
-      }
+      shippingAddress = null;
     }
+    
+    renderCreditShopPage();
   } catch (error) {
     console.error('初始化CREDIT商店失败:', error);
     showErrorMessage('加载失败，请刷新重试');
@@ -111,6 +106,7 @@ window.skipCreditShippingBinding = function() {
   window.renderCreditShopPage = async function() {
     const content = document.getElementById('content-container');
     const userCredit = currentUser.credit || 0;
+    const showBindButton = !shippingAddress;
     
     content.innerHTML = `
       <div class="section">
@@ -128,6 +124,16 @@ window.skipCreditShippingBinding = function() {
             </div>
           </div>
         </div>
+        
+        ${showBindButton ? `
+        <div class="shipping-notice">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>您尚未绑定收货信息，无法兑换实物商品</span>
+          <button class="btn btn-primary btn-sm" onclick="renderShippingFormForCredit()">
+            <i class="fas fa-link"></i> 绑定收货地址
+          </button>
+        </div>
+        ` : ''}
         
         <div class="shop-filters">
           <div class="search-bar">

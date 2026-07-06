@@ -194,17 +194,11 @@ window.initPointShop = async function() {
     
     if (addressRes.success && addressRes.address) {
       shippingAddress = addressRes.address;
-      renderShopSelection();
     } else {
-      // 检查是否之前跳过了绑定
-      const skipped = localStorage.getItem('shipping_skipped');
-      if (skipped === 'true') {
-        shippingAddress = null;
-        renderShopSelection();
-      } else {
-        renderShippingForm();
-      }
+      shippingAddress = null;
     }
+    
+    renderShopSelection();
   } catch (error) {
     console.error('初始化积分商城失败:', error);
     showErrorMessage('加载失败，请刷新重试');
@@ -305,8 +299,8 @@ window.skipShippingBinding = function() {
   function renderShopSelection() {
     const content = document.getElementById('content-container');
     
-    // 检查是否需要显示绑定按钮（未绑定且已跳过）
-    const showBindButton = !shippingAddress && localStorage.getItem('shipping_skipped') === 'true';
+    // 检查是否需要显示绑定按钮（未绑定收货信息）
+    const showBindButton = !shippingAddress;
     
     content.innerHTML = `
       <div class="section">
