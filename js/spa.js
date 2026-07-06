@@ -104,7 +104,8 @@ function createConfetti(container, count) {
 }
 
 function closeSuccessAnimation(modal, callback) {
-  if (!modal) return;
+  if (!modal || modal.__closed) return;
+  modal.__closed = true;
   
   modal.style.animation = 'fadeOut 0.3s ease';
   
@@ -1559,6 +1560,9 @@ function resetPassword(resetToken, newPassword) {
 }
 
 function handleLogin() {
+  if (window.__loginInProgress) return;
+  window.__loginInProgress = true;
+  
   const login = document.getElementById('login-username').value;
   const password = document.getElementById('login-password').value;
   const errorElement = document.getElementById('login-error');
@@ -1569,6 +1573,7 @@ function handleLogin() {
   }
 
   if (!login || !password) {
+    window.__loginInProgress = false;
     showTempErrorMessage(errorElement, '用户名/邮箱和密码不能为空');
     return;
   }
@@ -1641,8 +1646,10 @@ function handleLogin() {
           if (redirectAfterLogin) {
             const target = redirectAfterLogin;
             redirectAfterLogin = null;
+            window.__loginInProgress = false;
             loadPage(target);
           } else {
+            window.__loginInProgress = false;
             loadPage('home');
           }
         }
@@ -1668,6 +1675,7 @@ function handleLogin() {
     }
     
     showTempErrorMessage(errorElement, userMessage);
+    window.__loginInProgress = false;
   });
 }
 
@@ -2029,7 +2037,10 @@ function showLoginRequired(pageId) {
   const contentContainer = document.getElementById('content-container');
   if (!contentContainer) return;
   
-  redirectAfterLogin = pageId;
+  // 只在未设置时写入，避免覆盖已存在的深度链接重定向
+  if (!redirectAfterLogin) {
+    redirectAfterLogin = pageId;
+  }
   
   const pageNames = {
     'tools': '实用工具',
