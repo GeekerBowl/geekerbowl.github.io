@@ -36,6 +36,15 @@
     const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
     currentUserInfo = userInfo;
 
+    // 检查是否有待加载的深度链接帖子
+    if (window.__pendingForumPostDeepLink) {
+      const postId = window.__pendingForumPostDeepLink;
+      window.__pendingForumPostDeepLink = null;
+      currentSection = 'player'; // 默认分区用于返回
+      viewPost(postId);
+      return;
+    }
+
     showSectionSelection();
   }
 
@@ -794,6 +803,8 @@ async function submitPost() {
   // 查看帖子详情
   async function viewPost(postId) {
     currentPostId = postId;
+    // 更新URL hash，支持分享和浏览器前进/后退
+    location.hash = '#/forum-post-' + postId;
     const token = localStorage.getItem('token');
     const container = document.getElementById('content-container');
 
@@ -909,6 +920,9 @@ async function submitPost() {
                 <i class="fas fa-times-circle"></i> 结贴(未解决)
               </button>
             ` : ''}
+            <button class="forum-btn forum-btn-secondary forum-btn-sm" onclick="window.ForumModule.sharePost(${post.id})" title="分享帖子链接">
+              <i class="fas fa-share-alt"></i> 分享
+            </button>
           </div>
         </div>
 
@@ -1789,7 +1803,11 @@ async function submitPost() {
 
   // 返回列表
   function backToList() {
-    loadSection(currentSection);
+    if (currentSection) {
+      loadSection(currentSection);
+    } else {
+      showSectionSelection();
+    }
   }
 
   // 滚动到顶部
@@ -1896,6 +1914,34 @@ async function submitPost() {
     };
   }
 
+  // 分享帖子 - 生成可分享的链接并复制到剪贴板
+  function sharePost(postId) {
+    const baseUrl = window.location.origin + window.location.pathname;
+    const shareUrl = baseUrl + '#/forum-post-' + postId;
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        if (typeof showSuccessMessage === 'function') {
+          showSuccessMessage('帖子链接已复制到剪贴板');
+        } else {
+          alert('帖子链接已复制：' + shareUrl);
+        }
+      }).catch(() => {
+        prompt('复制以下链接分享帖子：', shareUrl);
+      });
+    } else {
+      prompt('复制以下链接分享帖子：', shareUrl);
+    }
+  }
+
+  // 深度链接入口：从 hash 直接打开帖子
+  function viewPostFromHash(postId) {
+    if (!currentSection) {
+      currentSection = 'player';
+    }
+    viewPost(postId);
+  }
+
   // 暴露到全局
   window.ForumModule = {
     init: initForum,
@@ -1907,6 +1953,8 @@ async function submitPost() {
     editPost,
     updatePost,
     viewPost,
+    sharePost,
+    viewPostFromHash,
     submitReply,
     editReply,
     updateReply,

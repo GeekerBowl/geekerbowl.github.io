@@ -3,6 +3,7 @@ let cropper = null;
 let currentOrders = [];
 let currentPage = 1;
 const ordersPerPage = 50;
+var redirectAfterLogin = null;
 
 const PROTECTED_PAGES = [
   'download','tools','dllpatcher','fortune','user-settings',
@@ -177,7 +178,13 @@ function handleLoginWithAnimation() {
             localStorage.setItem('userPermissions', JSON.stringify(permissions));
             updateSidebarVisibility(currentUser);
           });
-          loadPage('home');
+          if (redirectAfterLogin) {
+            const target = redirectAfterLogin;
+            redirectAfterLogin = null;
+            loadPage(target);
+          } else {
+            loadPage('home');
+          }
         }
       );
       
@@ -1631,7 +1638,13 @@ function handleLogin() {
             updateSidebarVisibility(currentUser);
           });
 
-          loadPage('home');
+          if (redirectAfterLogin) {
+            const target = redirectAfterLogin;
+            redirectAfterLogin = null;
+            loadPage(target);
+          } else {
+            loadPage('home');
+          }
         }
       );
       
@@ -2015,6 +2028,8 @@ function loadHelpDetail(id) {
 function showLoginRequired(pageId) {
   const contentContainer = document.getElementById('content-container');
   if (!contentContainer) return;
+  
+  redirectAfterLogin = pageId;
   
   const pageNames = {
     'tools': '实用工具',
@@ -4225,6 +4240,20 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleHashRoute(){
     try {
       const h = location.hash || '';
+      // 支持论坛帖子深度链接 #/forum-post-{id}
+      const postMatch = h.match(/^#\/forum-post-(\d+)$/);
+      if (postMatch) {
+        const postId = parseInt(postMatch[1]);
+        window.__pendingForumPostDeepLink = postId;
+        const token = localStorage.getItem('token');
+        if (!token) {
+          redirectAfterLogin = 'forum';
+          loadPage('login');
+        } else {
+          loadPage('forum');
+        }
+        return;
+      }
       const m = h.match(/^#\/(\w[\w-]*)/);
       if (m && typeof loadPage === 'function') {
         loadPage(m[1]);
