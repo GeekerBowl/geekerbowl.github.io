@@ -4216,7 +4216,10 @@ document.addEventListener("DOMContentLoaded", function() {
       sidebarToggle.style.display = 'none';
   }
 
-  loadPage('home');
+  // 如果有 hash 路由，跳过默认首页加载（由 hash 路由处理）
+  if (!location.hash || !location.hash.match(/^#\//)) {
+    loadPage('home');
+  }
 });
 
 document.addEventListener('click', function(e){
