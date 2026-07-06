@@ -803,8 +803,10 @@ async function submitPost() {
   // 查看帖子详情
   async function viewPost(postId) {
     currentPostId = postId;
-    // 更新URL hash，支持分享和浏览器前进/后退
-    location.hash = '#/forum-post-' + postId;
+    // 更新URL，支持分享（用 replaceState 避免触发 hashchange 导致重载）
+    if (location.hash !== '#/forum-post-' + postId) {
+      history.replaceState(null, '', '#/forum-post-' + postId);
+    }
     const token = localStorage.getItem('token');
     const container = document.getElementById('content-container');
 
