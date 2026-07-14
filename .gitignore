@@ -1,7 +1,1 @@
-node_modules/
-dist/
-.env
-.DS_Store
-*.log
-/el_new_project
 /后端相关
