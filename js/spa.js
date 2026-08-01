@@ -1588,9 +1588,17 @@ function handleLogin() {
     body: JSON.stringify({ login, password })
   })
 .then(data => {
-    console.log('登录成功:', data);
-    
+    console.log('登录响应:', data);
+
+    // TOTP 两步验证
+    if (data.requiresTwoFactor && data.tempToken) {
+      window.__loginInProgress = false;
+      showTwoFactorPrompt(data.tempToken);
+      return;
+    }
+
     if (data.token && data.user) {
+      console.log('登录成功:', data);
       localStorage.setItem('token', data.token);
       currentUser = data.user;
       localStorage.setItem('userInfo', JSON.stringify(data.user));
@@ -1677,6 +1685,63 @@ function handleLogin() {
     showTempErrorMessage(errorElement, userMessage);
     window.__loginInProgress = false;
   });
+}
+
+// ── TOTP 两步验证弹窗 ──
+function showTwoFactorPrompt(tempToken) {
+  const overlay = document.createElement('div');
+  overlay.id = 'totp-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);';
+  overlay.innerHTML = `
+    <div style="background:var(--surface,white);border-radius:16px;padding:2rem;max-width:360px;width:90%;text-align:center;">
+      <h3 style="margin:0 0 0.5rem;font-size:1.3rem;">两步验证</h3>
+      <p style="color:var(--muted,#666);font-size:0.9rem;margin:0 0 1rem;">请输入验证器中显示的6位验证码</p>
+      <p id="totp-error" style="color:#e74c3c;font-size:0.85rem;display:none;"></p>
+      <input id="totp-input" type="text" inputmode="numeric" maxlength="6" placeholder="000000"
+        style="width:100%;padding:0.75rem;font-size:1.5rem;text-align:center;letter-spacing:0.5rem;border:2px solid var(--border,#ddd);border-radius:12px;box-sizing:border-box;font-family:monospace;margin-bottom:1rem;" />
+      <button id="totp-verify" style="width:100%;padding:0.75rem;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;">验证</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  const input = overlay.querySelector('#totp-input');
+  const btn = overlay.querySelector('#totp-verify');
+  const err = overlay.querySelector('#totp-error');
+
+  input.addEventListener('input', e => { (e.target).value = (e.target).value.replace(/\D/g, '').slice(0, 6); });
+  input.focus();
+
+  const doVerify = async () => {
+    const code = input.value;
+    if (code.length !== 6) { err.textContent = '请输入6位验证码'; err.style.display = 'block'; return; }
+    btn.disabled = true; btn.textContent = '验证中...';
+    try {
+      const resp = await fetch('https://api.am-all.com.cn/api/login/totp', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tempToken, code }),
+      });
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.error || '验证失败');
+      localStorage.setItem('token', data.token);
+      if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
+      currentUser = data.user;
+      localStorage.setItem('userInfo', JSON.stringify(data.user));
+      updateUserInfo(data.user);
+      showUserInfo();
+      setupUserDropdown();
+      fetchUserPermissions(data.token).then(permissions => {
+        localStorage.setItem('userPermissions', JSON.stringify(permissions));
+        updateSidebarVisibility(currentUser);
+      });
+      overlay.remove();
+      showSuccessAnimation('登录成功', `欢迎回来，${data.user.nickname || data.user.username}！`, 2500, () => loadPage('home'));
+    } catch (e) {
+      err.textContent = e.message; err.style.display = 'block';
+    } finally { btn.disabled = false; btn.textContent = '验证'; }
+  };
+
+  btn.addEventListener('click', doVerify);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') doVerify(); });
 }
 
 function handleRegister() {
@@ -2758,6 +2823,100 @@ if (pageId === 'user-settings') {
       }
     });
   }
+  initTotpSettings();  // 两步验证
+}
+
+// ── TOTP 设置初始化 ──
+function initTotpSettings() {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+  const status = document.getElementById('totp-status-display');
+  const setupArea = document.getElementById('totp-setup-area');
+  const enabledArea = document.getElementById('totp-enabled-area');
+  const msg = document.getElementById('totp-setup-msg');
+  const disableMsg = document.getElementById('totp-disable-msg');
+  let totpSecret = '';
+
+  // 检查TOTP状态
+  fetch('https://api.am-all.com.cn/api/user', {
+    headers: { 'Authorization': `Bearer ${token}` }
+  }).then(r => r.json()).then(data => {
+    if (data.totp_enabled) {
+      if (status) status.style.display = 'none';
+      if (enabledArea) enabledArea.style.display = 'block';
+      if (setupArea) setupArea.style.display = 'none';
+    } else {
+      if (status) status.textContent = '两步验证未开启，开启后可增强账号安全性。';
+      if (enabledArea) enabledArea.style.display = 'none';
+      // 显示开启按钮
+      if (status) {
+        status.innerHTML += '<br><button id="totp-start-btn" class="btn-primary" style="margin-top:0.5rem;">开启两步验证</button>';
+        setTimeout(() => {
+          document.getElementById('totp-start-btn')?.addEventListener('click', startTotpSetup);
+        }, 100);
+      }
+    }
+  });
+
+  async function startTotpSetup() {
+    try {
+      const resp = await fetch('https://api.am-all.com.cn/api/user/totp/setup', {
+        method: 'POST', headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.error);
+      totpSecret = data.secret;
+      if (status) status.style.display = 'none';
+      if (setupArea) setupArea.style.display = 'block';
+      document.getElementById('totp-qr').innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(data.otpauth)}" style="width:150px;height:150px;">`;
+      document.getElementById('totp-secret-display').textContent = data.secret;
+    } catch (e) { if (msg) msg.innerHTML = `<span style="color:red;">${e.message}</span>`; }
+  }
+
+  document.getElementById('totp-enable-btn')?.addEventListener('click', async () => {
+    const code = (document.getElementById('totp-code-input'))?.value || '';
+    if (code.length !== 6) { if (msg) msg.innerHTML = '<span style="color:red;">请输入6位验证码</span>'; return; }
+    try {
+      const resp = await fetch('https://api.am-all.com.cn/api/user/totp/enable', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ code })
+      });
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.error);
+      if (msg) msg.innerHTML = '<span style="color:#27ae60;">两步验证已开启！3秒后跳转登录页...</span>';
+      setTimeout(() => { localStorage.clear(); window.location.href = '/'; }, 3000);
+    } catch (e) { if (msg) msg.innerHTML = `<span style="color:red;">${e.message}</span>`; }
+  });
+
+  document.getElementById('totp-cancel-btn')?.addEventListener('click', () => {
+    if (setupArea) setupArea.style.display = 'none';
+    if (status) { status.style.display = 'block'; status.innerHTML = '两步验证未开启，开启后可增强账号安全性。<br><button id="totp-start-btn" class="btn-primary" style="margin-top:0.5rem;">开启两步验证</button>';
+      setTimeout(() => { document.getElementById('totp-start-btn')?.addEventListener('click', startTotpSetup); }, 100); }
+  });
+
+  document.getElementById('totp-disable-btn')?.addEventListener('click', async () => {
+    const code = (document.getElementById('totp-disable-code'))?.value || '';
+    if (code.length !== 6) { if (disableMsg) disableMsg.innerHTML = '<span style="color:red;">请输入6位验证码</span>'; return; }
+    if (!confirm('确定要关闭两步验证吗？')) return;
+    try {
+      const resp = await fetch('https://api.am-all.com.cn/api/user/totp/disable', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ code })
+      });
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.error);
+      if (disableMsg) disableMsg.innerHTML = '<span style="color:#27ae60;">两步验证已关闭</span>';
+      setTimeout(() => { if (enabledArea) enabledArea.style.display = 'none'; if (status) { status.style.display = 'block'; status.innerHTML = '两步验证未开启。<br><button id="totp-start-btn" class="btn-primary" style="margin-top:0.5rem;">开启两步验证</button>';
+        setTimeout(() => { document.getElementById('totp-start-btn')?.addEventListener('click', startTotpSetup); }, 100); } }, 1000);
+    } catch (e) { if (disableMsg) disableMsg.innerHTML = `<span style="color:red;">${e.message}</span>`; }
+  });
+
+  // 限制验证码输入为数字
+  ['totp-code-input', 'totp-disable-code'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', function(e) {
+      (e.target).value = (e.target).value.replace(/\D/g, '').slice(0, 6);
+    });
+  });
 }
 
 if (pageId === 'settings') {

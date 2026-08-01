@@ -993,6 +993,36 @@ download: `
               </button>
             </div>
           </div>
+          <!-- 两步验证 -->
+          <div class="settings-card" style="margin-top:1rem;">
+            <div class="card-header">
+              <h3><i class="fas fa-shield-alt"></i> 两步验证 (2FA)</h3>
+            </div>
+            <div class="card-body" id="totp-section-content">
+              <div id="totp-status-display">加载中...</div>
+              <div id="totp-setup-area" style="display:none;">
+                <p style="font-size:0.9rem;color:var(--muted);">1. 用 Google Authenticator 或 Microsoft Authenticator 扫描下方二维码</p>
+                <div id="totp-qr" style="margin:0.5rem 0;"></div>
+                <p style="font-size:0.85rem;color:var(--muted);">或手动输入密钥: <code id="totp-secret-display" style="background:#f0f0f0;padding:2px 6px;border-radius:4px;"></code></p>
+                <p style="font-size:0.9rem;">2. 输入验证器显示的6位验证码确认开启</p>
+                <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
+                  <input id="totp-code-input" type="text" inputmode="numeric" maxlength="6" placeholder="000000" style="flex:1;padding:0.6rem;font-size:1.1rem;text-align:center;letter-spacing:0.3rem;border:1px solid var(--border,#ddd);border-radius:8px;font-family:monospace;">
+                  <button id="totp-enable-btn" class="btn-primary">开启</button>
+                  <button id="totp-cancel-btn" class="btn-secondary">取消</button>
+                </div>
+                <div id="totp-setup-msg" style="margin-top:0.5rem;font-size:0.85rem;"></div>
+              </div>
+              <div id="totp-enabled-area" style="display:none;">
+                <p style="color:#27ae60;font-weight:bold;"><i class="fas fa-check-circle"></i> 两步验证已开启</p>
+                <p style="font-size:0.85rem;color:var(--muted);">关闭两步验证需要输入当前验证码:</p>
+                <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
+                  <input id="totp-disable-code" type="text" inputmode="numeric" maxlength="6" placeholder="000000" style="flex:1;padding:0.6rem;font-size:1.1rem;text-align:center;letter-spacing:0.3rem;border:1px solid var(--border,#ddd);border-radius:8px;font-family:monospace;">
+                  <button id="totp-disable-btn" class="btn-danger">关闭两步验证</button>
+                </div>
+                <div id="totp-disable-msg" style="margin-top:0.5rem;font-size:0.85rem;"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- 绑定管理选项卡 -->
