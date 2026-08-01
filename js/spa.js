@@ -1667,12 +1667,18 @@ function handleLogin() {
     }
 })
   .catch(error => {
+    // 2FA 两步验证 — catch 里处理（secureFetch 对 403 走 error）
+    if (error.status === 403 && error.data && error.data.requiresTwoFactor) {
+      window.__loginInProgress = false;
+      showTwoFactorPrompt(error.data.tempToken);
+      return;
+    }
     console.error('登录失败:', {
       error: error.message,
       status: error.status,
       details: error.details
     });
-    
+
     let userMessage = '登录失败';
     if (error.status === 401) {
       userMessage = '用户名或密码错误';
@@ -1681,7 +1687,7 @@ function handleLogin() {
     } else if (error.message) {
       userMessage = error.message;
     }
-    
+
     showTempErrorMessage(errorElement, userMessage);
     window.__loginInProgress = false;
   });
@@ -4147,6 +4153,7 @@ function secureFetch(url, options = {}) {
             const errorData = JSON.parse(text);
             error.message = errorData.error || error.message;
             error.details = errorData.details;
+            error.data = errorData;  // 存完整响应体，供 2FA 等场景使用
           } catch (e) {
             error.message = text || error.message;
           }
