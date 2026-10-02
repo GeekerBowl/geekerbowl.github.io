@@ -2371,11 +2371,11 @@ setTimeout(() => {
     }
 
 	if (pageId === 'allnet') {
-	  contentContainer.innerHTML = '<div class="section"><div class="loading"><i class="fas fa-spinner fa-spin"></i> 読み込み中...</div></div>';
+	  contentContainer.innerHTML = '<div class="section"><div class="loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div></div>';
 	  if (typeof window.AllnetModule !== 'undefined' && window.AllnetModule.init) {
 		window.AllnetModule.init('content-container');
 	  } else {
-		contentContainer.innerHTML = '<div class="section"><h1>読み込み失敗</h1><p>ALL.NET モジュールが正しく読み込まれていません</p></div>';
+		contentContainer.innerHTML = '<div class="section"><h1>加载失败</h1><p>ALL.NET 模块未正确加载</p></div>';
 	  }
 	  document.body.classList.remove('spa-loading');
 	  updateActiveMenuItem(pageId);

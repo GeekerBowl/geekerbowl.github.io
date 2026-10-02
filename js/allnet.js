@@ -45,7 +45,7 @@
     return String(d).replace('T', ' ').substring(0, 16);
   }
 
-  function monthsBadge(n) { return n > 1 ? `（${n} ヵ月）` : ''; }
+  function monthsBadge(n) { return n > 1 ? `（${n} 个月）` : ''; }
 
   let CURRENT = null;      // /status 响应缓存
   let ACTIVE_TAB = 0;      // 当前卡槽 Tab（0-based）
@@ -126,12 +126,12 @@
                  placeholder="20 位 Aime 卡号（已在服务器刷卡建档）">
           <button class="btn btn-primary" id="allnet-bind-btn">绑定</button>
         </div>
-        <p class="allnet-hint">新規绑定には、サーバー上で一度カードをタッチしてゲームデータを作成しておく必要があります。</p>`}
+        <p class="allnet-hint">绑定前需先在服务器机台刷卡建档（有游玩数据才能绑定）。</p>`}
       </div>
 
-      <!-- ── ③ 会员（コース）── -->
+      <!-- ── ③ 会员管理── -->
       <div class="allnet-card allnet-card--wide">
-        <h3 class="allnet-card__title"><i class="fas fa-crown"></i> 会员（コース）</h3>
+        <h3 class="allnet-card__title"><i class="fas fa-crown"></i> 会员管理</h3>
         <div class="allnet-course-state ${m.course}">
           <span class="allnet-course-state__label">${LEVEL_LABELS[m.course] || '免费'}</span>
           ${m.course !== 'free' && m.expire ? `<span class="allnet-course-state__expire">有效期至：${fmtDate(m.expire)}</span>` : ''}
@@ -147,7 +147,7 @@
             <div class="allnet-shop__actions">
               <input type="number" id="allnet-months-s" class="allnet-input allnet-input--num" min="1" max="12"
                      value="${m.course === 'free' ? 2 : 1}">
-              <span class="allnet-shop__unit">ヵ月</span>
+              <span class="allnet-shop__unit">个月</span>
               <button class="btn btn-primary" id="allnet-buy-s">
                 ${m.course === 'free' ? '开通' : '续费'}（${ALLNET_PRICE_S()} 积分/月）
               </button>
@@ -156,13 +156,13 @@
           <div class="allnet-shop__row ${m.course === 'free' ? 'is-disabled' : ''}">
             <div class="allnet-shop__info">
               <b>PREMIUM 会员</b>
-              <span class="allnet-shop__append">※ STANDARD 会员の追加料金（1 CREDIT / 月）</span>
+              <span class="allnet-shop__append">※ STANDARD 会员的追加费用（1 CREDIT / 月）</span>
               <span class="allnet-shop__balance">持有 CREDIT：${u.credit}</span>
             </div>
             <div class="allnet-shop__actions">
               <input type="number" id="allnet-months-p" class="allnet-input allnet-input--num" min="1" max="12"
                      value="${m.course === 'premium' ? 1 : 2}" ${m.course === 'free' ? 'disabled' : ''}>
-              <span class="allnet-shop__unit">ヵ月</span>
+              <span class="allnet-shop__unit">个月</span>
               <button class="btn btn-warning" id="allnet-buy-p" ${m.course === 'free' ? 'disabled' : ''}>
                 ${m.course === 'premium' ? '续费' : '追加'}（1 CREDIT/月）
               </button>
@@ -187,7 +187,7 @@
       <div class="allnet-carddetail">
         <div class="allnet-carddetail__head">
           <span class="allnet-carddetail__no">No.${c.slot || '—'}</span>
-          ${c.isPrimary ? '<span class="allnet-carddetail__main">メインカード</span>' : ''}
+          ${c.isPrimary ? '<span class="allnet-carddetail__main">主卡</span>' : ''}
           ${c.hasArchive ? '<span class="allnet-badge allnet-badge--on">有档案</span>'
                          : '<span class="allnet-badge allnet-badge--off">无档案</span>'}
         </div>
@@ -201,13 +201,13 @@
         <div class="allnet-carddetail__ops">
           ${c.isPrimary ? '' : `<button class="allnet-mini" data-act="primary" data-id="${c.bindingId}">设为主卡</button>`}
           <button class="allnet-mini allnet-mini--danger" data-act="unbind" data-id="${c.bindingId}">解绑</button>
-          <button class="allnet-mini" data-act="transfer" data-id="${c.bindingId}">数据移行</button>
+          <button class="allnet-mini" data-act="transfer" data-id="${c.bindingId}">数据转移</button>
         </div>
         <div class="allnet-transferform" id="allnet-transfer-${c.bindingId}" style="display:none">
           <input type="text" class="allnet-input" id="allnet-transfer-code-${c.bindingId}"
-                 maxlength="20" placeholder="移行先の空白カード 20 桁（未登録・无档案）">
-          <button class="btn btn-sm btn-warning" data-act="transfer-go" data-id="${c.bindingId}">执行移行</button>
-          <p class="allnet-hint">移行には「未登録・无档案」の空白カードが必要です。実行後、新カードで元の進捗を引き継げます。</p>
+                 maxlength="20" placeholder="转移目标空白卡 20 位（未注册、无档案）">
+          <button class="btn btn-sm btn-warning" data-act="transfer-go" data-id="${c.bindingId}">执行转移</button>
+          <p class="allnet-hint">需要一张「未注册、无档案」的空白卡。执行后，新卡将继承原进度。</p>
         </div>
       </div>`;
   }
@@ -261,10 +261,10 @@
     // 解约
     const cancelBtn = document.getElementById('allnet-cancel');
     if (cancelBtn) cancelBtn.addEventListener('click', async () => {
-      if (!confirm('STANDARD と PREMIUM の両コースを解約しますか？（即時・再开通可能）')) return;
+      if (!confirm('确定解约 STANDARD 和 PREMIUM 两档会员吗？（立即生效，可重新开通）')) return;
       try {
         const r = await api('/allnet/membership/cancel', { method: 'POST', body: {} });
-        alert(r.message || '解約しました');
+        alert(r.message || '已解约');
         AllnetModule.init('content-container');
       } catch (e) { alert(e.message); }
     });
@@ -277,7 +277,7 @@
         const act = btn.dataset.act;
         try {
           if (act === 'unbind') {
-            if (!confirm('このカードを解绑しますか？（ゲーム内データは保持されます）')) return;
+            if (!confirm('确定解绑这张卡吗？（游戏数据将保留）')) return;
             const r = await api('/allnet/aime/unbind', { method: 'POST', body: { bindingId: id } });
             alert(r.message);
             AllnetModule.init('content-container');
@@ -286,7 +286,7 @@
             alert(r.message);
             AllnetModule.init('content-container');
           } else if (act === 'rename') {
-            const name = prompt('备注名を入力（空で削除）');
+            const name = prompt('请输入备注名（留空删除）');
             if (name === null) return;
             await api('/allnet/aime/remark', { method: 'POST', body: { bindingId: id, remark: name } });
             AllnetModule.init('content-container');
@@ -296,7 +296,7 @@
           } else if (act === 'transfer-go') {
             const code = document.getElementById('allnet-transfer-code-' + id).value.trim();
             if (!/^\d{20}$/.test(code)) { alert('请输入 20 位空白卡号'); return; }
-            if (!confirm(`このカードのゲームデータを新カード（...${code.slice(-4)}）に移行しますか？`)) return;
+            if (!confirm(`确定将这张卡的游戏数据转移到新卡（...${code.slice(-4)}）吗？`)) return;
             const r = await api('/allnet/aime/transfer', { method: 'POST', body: { bindingId: id, newAccessCode: code } });
             alert(r.message);
             AllnetModule.init('content-container');
@@ -310,10 +310,10 @@
     const input = document.getElementById(level === 'standard' ? 'allnet-months-s' : 'allnet-months-p');
     const months = parseInt(input.value, 10) || 0;
     const label = level === 'standard' ? 'STANDARD' : 'PREMIUM';
-    const kind = level === 'standard' ? 'ポイント' : 'CREDIT';
+    const kind = level === 'standard' ? '积分' : 'CREDIT';
     const unit = ALLNET_PRICE[level];
-    if (months < 1) { alert('月数を入力してください'); return; }
-    if (!confirm(`${label}コースを ${months} ヵ月开通/续费しますか？（${kind} ${unit * months}）`)) return;
+    if (months < 1) { alert('请输入月数'); return; }
+    if (!confirm(`确定开通/续费 ${label} 会员 ${months} 个月吗？（${kind} ${unit * months}）`)) return;
     try {
       const r = await api('/allnet/membership/purchase', { method: 'POST', body: { level, months, game: 'ongeki' } });
       alert(r.message || '完成');
