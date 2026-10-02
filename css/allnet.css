@@ -1,4 +1,10 @@
-/* allnet.css — ALL.NET 服务页面（旧版主站 SPA） */
+/* allnet.css — ALL.NET 服务页面（旧版主站 SPA）
+   Layout 与新站 AllnetPage 统一：768px 容器 + 3 卡槽 Tab + 官方 my-aime 卡信息格式 */
+
+.allnet-wrap {
+  max-width: 768px;
+  margin: 0 auto;
+}
 
 .allnet-grid {
   display: grid;
@@ -29,7 +35,6 @@
 .allnet-state { text-align: center; padding: 48px 16px; }
 .allnet-state__icon { font-size: 42px; color: #c0c4cc; margin-bottom: 14px; }
 .allnet-state__text { font-size: 15px; color: #606266; line-height: 1.9; }
-.allnet-btn-net { margin-top: 14px; }
 
 /* 激活状态行 */
 .allnet-activate-row {
@@ -45,46 +50,85 @@
 .allnet-badge--off { background: #f4f4f5; color: #909399; }
 .allnet-soon { font-weight: 400; font-size: 11px; }
 
-/* Aime 卡 Tab */
+/* ═══ Aime 卡槽 Tab（固定 3 槽） ═══ */
 .allnet-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
 .allnet-tab {
   flex: 1; padding: 9px 0; text-align: center; cursor: pointer;
-  background: #f4f6f8; border: 1px solid #e3e6ea; border-radius: 8px 8px 0 0;
+  background: #f4f6f8; border: 1px solid #e3e6ea; border-radius: 8px;
   font-weight: 600; font-size: 14px; color: #606266; transition: all 0.15s;
 }
+.allnet-tab small { display: block; font-size: 11px; font-weight: 400; opacity: 0.75; }
 .allnet-tab.isActive {
   background: #4a90d9; color: #fff; border-color: #4a90d9;
 }
 
+/* ═══ 卡详情（官方 my-aime 信息格式） ═══ */
 .allnet-carddetail { background: #fafbfc; border: 1px solid #eef0f2; border-radius: 8px; padding: 14px; }
-.allnet-carddetail__head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.allnet-carddetail__no { font-weight: 700; font-size: 15px; }
+.allnet-carddetail__head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.allnet-carddetail__no { font-weight: 700; font-size: 15px; color: #333; }
 .allnet-carddetail__main {
   background: #fff3d6; color: #b8860b; font-size: 11px; font-weight: 700;
   padding: 2px 8px; border-radius: 10px;
 }
-.allnet-carddetail__code {
-  font-family: Consolas, monospace; font-size: 20px; letter-spacing: 2px;
-  background: #2b2f36; color: #7fd1a8; padding: 10px 14px; border-radius: 6px;
-  margin: 8px 0; text-align: center;
-}
-.allnet-carddetail__info { margin: 8px 0; }
-.allnet-carddetail__info dt { font-size: 12px; color: #909399; margin-top: 6px; }
-.allnet-carddetail__info dd { font-size: 13px; margin: 2px 0 6px 0; }
 
+/* my-aime 信息区块：label 上 / value 下 */
+.allnet-aimeinfo { background: #fff; border: 1px solid #eef0f2; border-radius: 8px; overflow: hidden; }
+.allnet-aimeinfo__row { padding: 10px 14px; border-bottom: 1px solid #eef0f2; text-align: left; }
+.allnet-aimeinfo__row:last-child { border-bottom: none; }
+.allnet-aimeinfo__label { font-size: 12px; color: #909399; margin-bottom: 2px; }
+.allnet-aimeinfo__code {
+  font-family: Consolas, monospace; font-size: 17px; letter-spacing: 2px; color: #333;
+}
+.allnet-aimeinfo__value { font-size: 14px; color: #333; }
+.allnet-aimeinfo__sub { font-size: 12px; color: #909399; margin-top: 2px; }
+
+/* 备注名（官方下拉折叠 + 确定 / 取消） */
+.allnet-remark {
+  border: 1px solid #eef0f2; border-radius: 8px; margin-top: 10px;
+  overflow: hidden; background: #fff;
+}
+.allnet-remark__toggle {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px; background: none; border: none; cursor: pointer;
+  font-size: 14px; color: #333; text-align: left;
+}
+.allnet-remark__toggle:hover { background: #f7f9fb; }
+.allnet-remark__toggle em { font-style: normal; color: #909399; font-size: 13px; margin-left: 6px; }
+.allnet-remark__toggle i { font-style: normal; color: #909399; font-size: 12px; }
+.allnet-remark__body { padding: 0 14px 12px; }
+.allnet-remark__body input {
+  width: 100%; padding: 8px 10px; border: 1px solid #dcdfe6; border-radius: 6px;
+  font-size: 14px; margin-bottom: 8px; box-sizing: border-box;
+}
+.allnet-remark__body input:focus { outline: none; border-color: #4a90d9; }
+.allnet-remark__btns { display: flex; gap: 8px; }
+
+/* 卡操作按钮行 */
 .allnet-carddetail__ops, .allnet-mini { margin: 0; }
+.allnet-carddetail__ops { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 .allnet-mini {
-  font-size: 12px; padding: 4px 10px; border: 1px solid #dcdfe6; background: #fff;
-  border-radius: 4px; cursor: pointer; margin-right: 6px; color: #606266;
+  font-size: 13px; padding: 6px 14px; border: 1px solid #dcdfe6; background: #fff;
+  border-radius: 6px; cursor: pointer; color: #606266; transition: all 0.15s;
 }
 .allnet-mini:hover { border-color: #4a90d9; color: #4a90d9; }
-.allnet-mini--danger { color: #f56c6c; border-color: #fbc4c4; }
-.allnet-mini--danger:hover { border-color: #f56c6c; }
+/* 解绑：红底白字 */
+.allnet-mini--danger { color: #fff; background: #f56c6c; border-color: #f56c6c; font-weight: 500; }
+.allnet-mini--danger:hover { background: #e05555; border-color: #e05555; color: #fff; }
 
-.allnet-transferform { margin-top: 10px; padding: 10px; background: #fdf6ec; border-radius: 6px; }
-.allnet-transferform .allnet-input { width: calc(100% - 90px); display: inline-block; }
+.allnet-transferform {
+  margin-top: 10px; padding: 12px; background: #fdf6ec;
+  border: 1px solid #f5e0b8; border-radius: 6px;
+}
+.allnet-transferform .allnet-input { width: calc(100% - 96px); display: inline-block; }
 
-.allnet-bindrow { display: flex; gap: 8px; margin: 12px 0 6px; }
+/* 空卡槽（槽内绑定表单） */
+.allnet-emptyslot {
+  text-align: center; padding: 22px 14px;
+  border: 1px dashed #dcdfe6; border-radius: 8px; background: #fff;
+}
+.allnet-emptyslot__title { font-size: 14px; color: #333; margin: 0 0 12px; font-weight: 600; }
+
+.allnet-bindrow { display: flex; gap: 8px; margin: 0 0 8px; }
 .allnet-input {
   flex: 1; padding: 8px 10px; border: 1px solid #dcdfe6; border-radius: 6px;
   font-size: 14px; font-family: Consolas, monospace;
@@ -98,6 +142,22 @@
   font-size: 12px; background: #f0f2f5; color: #606266;
   padding: 2px 8px; border-radius: 10px; margin-left: 6px; font-weight: 400;
 }
+
+/* ═══ 按钮体系（本页自绘，不依赖全局 btn） ═══ */
+.allnet-btn {
+  padding: 8px 20px; border: none; border-radius: 8px;
+  background: #4a90d9; color: #fff; font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all 0.15s;
+}
+.allnet-btn:hover { background: #3a80c9; }
+.allnet-btn--amber { background: #e6a23c; }
+.allnet-btn--amber:hover { background: #d0932f; }
+.allnet-btn--danger { background: #f56c6c; }
+.allnet-btn--danger:hover { background: #e05555; }
+.allnet-btn--ghost { background: #fff; border: 1px solid #dcdfe6; color: #606266; }
+.allnet-btn--ghost:hover { background: #f4f6f8; }
+.allnet-btn--sm { padding: 6px 16px; font-size: 13px; }
+.allnet-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* コース */
 .allnet-course-state {
@@ -132,15 +192,19 @@
 }
 .allnet-copy:hover { border-color: #4a90d9; color: #4a90d9; }
 
+/* 服务器信息：浅底深字（与卡片风格一致，亮色清晰） */
 .allnet-keychip { margin-bottom: 10px; }
 .allnet-keychip__label { font-size: 12px; color: #909399; margin-bottom: 3px; }
 .allnet-keychip__code {
   display: inline-block; font-family: Consolas, monospace; font-size: 14px;
-  background: #2b2f36; color: #e6a23c; padding: 6px 12px; border-radius: 6px;
+  background: #f4f6f8; color: #333; border: 1px solid #e3e6ea;
+  padding: 6px 12px; border-radius: 6px;
   vertical-align: middle;
 }
 
 @media (max-width: 768px) {
   .allnet-grid { grid-template-columns: 1fr; }
   .allnet-shop__row { flex-direction: column; align-items: flex-start; }
+  .allnet-bindrow { flex-direction: column; }
+  .allnet-bindrow .allnet-btn { width: 100%; }
 }
