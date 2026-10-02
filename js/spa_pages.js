@@ -1719,9 +1719,9 @@ settings: `
         <div id="allnet-container">
           <div class="text-center" style="padding:40px 0">
             <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">読み込み中...</span>
+              <span class="visually-hidden">加载中...</span>
             </div>
-            <p style="margin-top:12px">読み込み中...</p>
+            <p style="margin-top:12px">加载中...</p>
           </div>
         </div>
       </div>
