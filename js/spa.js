@@ -11,7 +11,7 @@ const PROTECTED_PAGES = [
   'point-shop', 'points-shop-admin', 'point2-shop-admin',
   'credit-shop-admin', 'redemption-code-admin', 'emoji-admin', 'forum', 'forum-admin',
   'minigame', 'user-verification', 'verification-admin',
-  'emoney'
+  'emoney', 'allnet'
 ];
 
 const MUSIC_DATA_URLS = [
@@ -745,7 +745,7 @@ async function updateSidebarVisibility(user) {
 	  'credit-shop-admin', 'redemption-code-admin', 'emoji-admin',
 	  'forum', 'forum-admin',
 	  'minigame', 'user-verification', 'verification-admin',
-	  'emoney'
+	  'emoney', 'allnet'
 	];
 
   const pageVisibility = {};
@@ -820,7 +820,8 @@ async function updateSidebarVisibility(user) {
     'sidebar-minigame': 'minigame',
     'sidebar-user-verification': 'user-verification',
     'sidebar-verification-admin': 'verification-admin',
-    'sidebar-emoney': 'emoney'
+    'sidebar-emoney': 'emoney',
+    'sidebar-allnet': 'allnet'
   };
 
   for (const [id, pid] of Object.entries(legacyMap)) {
@@ -846,7 +847,7 @@ async function updateSidebarVisibility(user) {
 		setDisplay(functionTitle, false);
 		setDisplay(functionNav, false);
 	  } else {
-		const functionPages = ['fortune', 'ccb', 'exchange', 'point-shop', 'minigame', 'emoney', 'forum', 'user-verification'];
+		const functionPages = ['fortune', 'ccb', 'exchange', 'point-shop', 'minigame', 'emoney', 'forum', 'user-verification', 'allnet'];
 		const hasVisibleFunction = functionPages.some(p => pageVisibility[p]);
 		setDisplay(functionTitle, hasVisibleFunction);
 		setDisplay(functionNav, hasVisibleFunction);
@@ -2369,6 +2370,17 @@ setTimeout(() => {
       return;
     }
 
+	if (pageId === 'allnet') {
+	  contentContainer.innerHTML = '<div class="section"><div class="loading"><i class="fas fa-spinner fa-spin"></i> 読み込み中...</div></div>';
+	  if (typeof window.AllnetModule !== 'undefined' && window.AllnetModule.init) {
+		window.AllnetModule.init('content-container');
+	  } else {
+		contentContainer.innerHTML = '<div class="section"><h1>読み込み失敗</h1><p>ALL.NET モジュールが正しく読み込まれていません</p></div>';
+	  }
+	  document.body.classList.remove('spa-loading');
+	  updateActiveMenuItem(pageId);
+	  return;
+	}
 	if (pageId === 'point-shop' || pageId === 'points-shop-admin' || pageId === 'point2-shop-admin') {
 	  contentContainer.innerHTML = '<div class="section"><div class="loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div></div>';
 	  

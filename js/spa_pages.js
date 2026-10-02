@@ -1710,6 +1710,22 @@ settings: `
         </footer>
       </div>
     `,
+
+  // ═══ ALL.NET 服务（NET 会员 + Aime 卡管理 + KEYCHIP）═══
+  // 页面骨架：内容由 js/allnet.js 的 AllnetModule.init() 动态渲染（三态）
+  allnet: `
+      <div class="section">
+        <h1 class="page-title"><i class="fas fa-network-wired me-2"></i>ALL.NET服务</h1>
+        <div id="allnet-container">
+          <div class="text-center" style="padding:40px 0">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">読み込み中...</span>
+            </div>
+            <p style="margin-top:12px">読み込み中...</p>
+          </div>
+        </div>
+      </div>
+    `,
 };
 
 // 页面加载完成后，通知语言模块更新翻译

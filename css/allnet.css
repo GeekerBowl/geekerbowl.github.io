@@ -1,0 +1,146 @@
+/* allnet.css — ALL.NET 服务页面（旧版主站 SPA） */
+
+.allnet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.allnet-card {
+  background: #fff;
+  border: 1px solid #e3e6ea;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.allnet-card--wide { grid-column: 1 / -1; }
+.allnet-card__title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f0f2f5;
+  color: #333;
+}
+.allnet-card__title i { color: #4a90d9; margin-right: 4px; }
+
+/* 三态 */
+.allnet-state { text-align: center; padding: 48px 16px; }
+.allnet-state__icon { font-size: 42px; color: #c0c4cc; margin-bottom: 14px; }
+.allnet-state__text { font-size: 15px; color: #606266; line-height: 1.9; }
+.allnet-btn-net { margin-top: 14px; }
+
+/* 激活状态行 */
+.allnet-activate-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 4px; border-bottom: 1px dashed #f0f2f5;
+}
+.allnet-activate-row:last-child { border-bottom: none; }
+.allnet-activate-row__name { font-weight: 600; font-size: 14px; }
+.allnet-badge {
+  font-size: 12px; padding: 3px 10px; border-radius: 12px; font-weight: 600;
+}
+.allnet-badge--on { background: #e8f7ee; color: #2e9e5b; }
+.allnet-badge--off { background: #f4f4f5; color: #909399; }
+.allnet-soon { font-weight: 400; font-size: 11px; }
+
+/* Aime 卡 Tab */
+.allnet-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+.allnet-tab {
+  flex: 1; padding: 9px 0; text-align: center; cursor: pointer;
+  background: #f4f6f8; border: 1px solid #e3e6ea; border-radius: 8px 8px 0 0;
+  font-weight: 600; font-size: 14px; color: #606266; transition: all 0.15s;
+}
+.allnet-tab.isActive {
+  background: #4a90d9; color: #fff; border-color: #4a90d9;
+}
+
+.allnet-carddetail { background: #fafbfc; border: 1px solid #eef0f2; border-radius: 8px; padding: 14px; }
+.allnet-carddetail__head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.allnet-carddetail__no { font-weight: 700; font-size: 15px; }
+.allnet-carddetail__main {
+  background: #fff3d6; color: #b8860b; font-size: 11px; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+}
+.allnet-carddetail__code {
+  font-family: Consolas, monospace; font-size: 20px; letter-spacing: 2px;
+  background: #2b2f36; color: #7fd1a8; padding: 10px 14px; border-radius: 6px;
+  margin: 8px 0; text-align: center;
+}
+.allnet-carddetail__info { margin: 8px 0; }
+.allnet-carddetail__info dt { font-size: 12px; color: #909399; margin-top: 6px; }
+.allnet-carddetail__info dd { font-size: 13px; margin: 2px 0 6px 0; }
+
+.allnet-carddetail__ops, .allnet-mini { margin: 0; }
+.allnet-mini {
+  font-size: 12px; padding: 4px 10px; border: 1px solid #dcdfe6; background: #fff;
+  border-radius: 4px; cursor: pointer; margin-right: 6px; color: #606266;
+}
+.allnet-mini:hover { border-color: #4a90d9; color: #4a90d9; }
+.allnet-mini--danger { color: #f56c6c; border-color: #fbc4c4; }
+.allnet-mini--danger:hover { border-color: #f56c6c; }
+
+.allnet-transferform { margin-top: 10px; padding: 10px; background: #fdf6ec; border-radius: 6px; }
+.allnet-transferform .allnet-input { width: calc(100% - 90px); display: inline-block; }
+
+.allnet-bindrow { display: flex; gap: 8px; margin: 12px 0 6px; }
+.allnet-input {
+  flex: 1; padding: 8px 10px; border: 1px solid #dcdfe6; border-radius: 6px;
+  font-size: 14px; font-family: Consolas, monospace;
+}
+.allnet-input--num { width: 64px; flex: none; text-align: center; }
+.allnet-input:focus { outline: none; border-color: #4a90d9; }
+
+.allnet-hint { font-size: 12px; color: #909399; margin-top: 8px; line-height: 1.6; }
+.allnet-muted { color: #909399; font-size: 13px; }
+.allnet-count {
+  font-size: 12px; background: #f0f2f5; color: #606266;
+  padding: 2px 8px; border-radius: 10px; margin-left: 6px; font-weight: 400;
+}
+
+/* コース */
+.allnet-course-state {
+  display: flex; justify-content: space-between; align-items: center;
+  background: #f8f9fb; border-radius: 8px; padding: 12px 16px; margin-bottom: 14px;
+}
+.allnet-course-state__label { font-size: 17px; font-weight: 700; }
+.allnet-course-state.free .allnet-course-state__label { color: #909399; }
+.allnet-course-state.standard .allnet-course-state__label { color: #4a90d9; }
+.allnet-course-state.premium .allnet-course-state__label { color: #d4a017; }
+.allnet-course-state__expire { font-size: 13px; color: #606266; }
+
+.allnet-shop__row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 8px; border-bottom: 1px dashed #f0f2f5; gap: 10px; flex-wrap: wrap;
+}
+.allnet-shop__row:last-child { border-bottom: none; }
+.allnet-shop__row.is-disabled { opacity: 0.55; }
+.allnet-shop__info { display: flex; flex-direction: column; gap: 2px; }
+.allnet-shop__info b { font-size: 14px; }
+.allnet-shop__info span { font-size: 12px; color: #909399; }
+.allnet-shop__balance { color: #4a90d9; font-weight: 600; }
+.allnet-shop__append { color: #d4a017; }
+.allnet-shop__actions { display: flex; align-items: center; gap: 8px; }
+.allnet-shop__unit { font-size: 13px; color: #606266; }
+.allnet-shop__cancel { text-align: right; padding: 10px 8px 0; }
+
+/* 复制按钮 */
+.allnet-copy {
+  font-size: 11px; padding: 3px 8px; border: 1px solid #dcdfe6; background: #fff;
+  border-radius: 4px; cursor: pointer; color: #606266; margin-left: 8px;
+}
+.allnet-copy:hover { border-color: #4a90d9; color: #4a90d9; }
+
+.allnet-keychip { margin-bottom: 10px; }
+.allnet-keychip__label { font-size: 12px; color: #909399; margin-bottom: 3px; }
+.allnet-keychip__code {
+  display: inline-block; font-family: Consolas, monospace; font-size: 14px;
+  background: #2b2f36; color: #e6a23c; padding: 6px 12px; border-radius: 6px;
+  vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+  .allnet-grid { grid-template-columns: 1fr; }
+  .allnet-shop__row { flex-direction: column; align-items: flex-start; }
+}
