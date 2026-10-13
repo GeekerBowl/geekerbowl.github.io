@@ -286,6 +286,18 @@
             </div>` : ''}
           </div>
         </div>
+        <section class="allnet-card">
+          <h3 class="allnet-card__title"><i class="fas fa-sliders-h"></i> NET 等级显示设置</h3>
+          <p class="allnet-level-note">选择 ONGEKI-NET 每首乐曲的 LEVEL 显示格式，适用于此账号下所有 Aime 卡。LEVEL 筛选和统计保留官网分类。</p>
+          <form id="allnet-level-form">
+            <fieldset class="allnet-level-options" ${!u.activated.ongeki?'disabled':''}>
+              <label><input type="radio" name="mode" value="official" ${d.levelDisplay!=='constant'?'checked':''}>官网等级（10、10+）</label>
+              <label><input type="radio" name="mode" value="constant" ${d.levelDisplay==='constant'?'checked':''}>谱面定数（10.1、10.9）</label>
+            </fieldset>
+            <p class="allnet-level-note">${u.activated.ongeki?'小数为 0 时显示整数（如 10）。保存后刷新 NET 页面即可生效。':'请先激活 ONGEKI 利用权。'}</p>
+            <button type="submit" class="allnet-btn allnet-btn--primary" ${!u.activated.ongeki?'disabled':''}>保存设置</button>
+          </form>
+        </section>
         ${window.AllnetSaveImport?window.AllnetSaveImport.render(cards,!!u.activated.ongeki):''}
       </div>
     `;
@@ -296,6 +308,14 @@
 
   // ═══ 事件绑定 ═══
   function bindPanelEvents(container, d, slots) {
+    container.querySelector('#allnet-level-form')?.addEventListener('submit',async e=>{
+      e.preventDefault();const form=e.currentTarget,button=form.querySelector('button'),fields=form.querySelector('fieldset');
+      const mode=form.querySelector('input[name="mode"]:checked')?.value;
+      button.disabled=true;fields.disabled=true;
+      try{const r=await api('/allnet/level-display',{method:'POST',body:{mode}});d.levelDisplay=r.levelDisplay;await messageBox(r.message,'NET 等级显示设置');}
+      catch(err){await messageBox(err.message,'NET 等级显示设置');}
+      finally{button.disabled=false;fields.disabled=!d.user.activated.ongeki;}
+    });
     container.querySelector('#allnet-help')?.addEventListener('click',()=>messageBox('STANDARD 通用于 CHUNITHM、maimai DX 和 ONGEKI。\nONGEKI PREMIUM 是 ONGEKI 专用追加档，需有效 STANDARD。\n会费按当前设置收取，购买前确认总费用；到期自动续费。追加档无法续费时，有效 STANDARD 可继续使用。解约立即生效，可重新开通。'));
     container.querySelectorAll('.allnet-code-form').forEach(form=>form.addEventListener('submit',async e=>{e.preventDefault();const button=form.querySelector('button');button.disabled=true;try{const r=await api(form.dataset.path,{method:'POST',body:{code:form.elements.code.value.trim()}});alert(r.message);await AllnetModule.init('content-container');}catch(err){alert(err.message);}finally{button.disabled=false;}}));
     // 卡槽 Tab 切换
