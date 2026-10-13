@@ -11,6 +11,38 @@
   const LEVEL_LABELS = { premium: 'ONGEKI PREMIUM 会员', standard: 'STANDARD 会员', free: '免费' };
   const currencyLabel=k=>k==='credit'?'CREDIT':'普通积分';
 
+  function messageBox(message, title = 'Performai 会员说明', confirm = false) {
+    return new Promise(resolve => {
+      const previous = document.activeElement, overflow = document.body.style.overflow;
+      const overlay = document.createElement('div');
+      overlay.className = 'allnet-message-overlay';
+      overlay.innerHTML = `<section class="allnet-message-box" role="dialog" aria-modal="true" aria-labelledby="allnet-message-title"><header><h3 id="allnet-message-title">${esc(title)}</h3><button type="button" class="allnet-message-close" aria-label="关闭">×</button></header><div class="allnet-message-content">${esc(message).replace(/\n/g, '<br>')}</div><footer>${confirm ? '<button type="button" class="allnet-message-cancel">取消</button>' : ''}<button type="button" class="allnet-message-confirm">确定</button></footer></section>`;
+      let settled = false;
+      const close = value => {
+        if (settled) return; settled = true;
+        document.removeEventListener('keydown', keydown);
+        overlay.remove(); document.body.style.overflow = overflow;
+        if (previous?.isConnected) previous.focus(); resolve(value);
+      };
+      const keydown = event => {
+        if (event.key === 'Escape') { event.preventDefault(); close(false); }
+        if (event.key === 'Tab') {
+          const buttons = [...overlay.querySelectorAll('button')];
+          const first = buttons[0], last = buttons[buttons.length - 1];
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
+      };
+      overlay.querySelector('.allnet-message-close').onclick = () => close(false);
+      overlay.querySelector('.allnet-message-cancel')?.addEventListener('click', () => close(false));
+      overlay.querySelector('.allnet-message-confirm').onclick = () => close(true);
+      overlay.addEventListener('click', event => { if (event.target === overlay) close(false); });
+      document.body.append(overlay); document.body.style.overflow = 'hidden';
+      document.addEventListener('keydown', keydown);
+      overlay.querySelector('.allnet-message-confirm').focus();
+    });
+  }
+
   function getToken() { return localStorage.getItem('token') || ''; }
 
   async function api(path, opts = {}) {
@@ -262,7 +294,7 @@
 
   // ═══ 事件绑定 ═══
   function bindPanelEvents(container, d, slots) {
-    container.querySelector('#allnet-help')?.addEventListener('click',()=>alert('STANDARD 通用于 CHUNITHM、maimai DX 和 ONGEKI。\nONGEKI PREMIUM 是 ONGEKI 专用追加档，需有效 STANDARD。\n会费按当前设置收取，购买前确认总费用；到期自动续费。追加档无法续费时，有效 STANDARD 可继续使用。解约立即生效，可重新开通。'));
+    container.querySelector('#allnet-help')?.addEventListener('click',()=>messageBox('STANDARD 通用于 CHUNITHM、maimai DX 和 ONGEKI。\nONGEKI PREMIUM 是 ONGEKI 专用追加档，需有效 STANDARD。\n会费按当前设置收取，购买前确认总费用；到期自动续费。追加档无法续费时，有效 STANDARD 可继续使用。解约立即生效，可重新开通。'));
     container.querySelectorAll('.allnet-code-form').forEach(form=>form.addEventListener('submit',async e=>{e.preventDefault();const button=form.querySelector('button');button.disabled=true;try{const r=await api(form.dataset.path,{method:'POST',body:{code:form.elements.code.value.trim()}});alert(r.message);await AllnetModule.init('content-container');}catch(err){alert(err.message);}finally{button.disabled=false;}}));
     // 卡槽 Tab 切换
     container.querySelectorAll('.allnet-tab').forEach(btn => {
@@ -388,7 +420,7 @@
     try {
       const quote=await api('/allnet/membership/quote',{method:'POST',body:{level,months}});
       const cost=Object.entries(quote.cost).filter(([,v])=>v>0).map(([k,v])=>`${v} ${currencyLabel(k)}`).join(' + ')||'免费';
-      if(!confirm(`开通/续费 ${level==='standard'?'STANDARD':'ONGEKI PREMIUM'} ${months}个月，费用：${cost}${quote.standardExtraMonths?`（含 STANDARD 补齐${quote.standardExtraMonths}个月）`:''}？`))return;
+      if(!await messageBox(`开通/续费 ${level==='standard'?'STANDARD':'ONGEKI PREMIUM'} ${months}个月，费用：${cost}${quote.standardExtraMonths?`（含 STANDARD 补齐${quote.standardExtraMonths}个月）`:''}？`, '确认会员费用', true))return;
       const r=await api('/allnet/membership/purchase',{method:'POST',body:{level,months,expectedCost:quote.cost}});
       alert(r.message || '完成');
       AllnetModule.init('content-container');
