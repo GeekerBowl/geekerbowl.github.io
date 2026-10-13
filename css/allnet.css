@@ -222,3 +222,13 @@
 .allnet-message-box button:focus-visible { outline:2px solid #409eff; outline-offset:3px; }
 body.dark-mode .allnet-message-box, [data-theme="dark"] .allnet-message-box { background:#1d1e1f; color:#e5eaf3; border-color:#414243; }
 @media (prefers-color-scheme:dark) { .allnet-message-box { background:#1d1e1f; color:#e5eaf3; border-color:#414243; } }
+
+.allnet-import-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+.allnet-import-label { display:block; margin:14px 0; line-height:1.7; }
+.allnet-import-label select, .allnet-import-label input[type=file] { display:block; width:100%; box-sizing:border-box; margin-top:6px; }
+.allnet-import-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px 20px; margin:16px 0; }
+.allnet-import-stats > div { display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px solid #e3e6ea; }
+.allnet-import-stats dd { margin:0; font-weight:bold; }
+#allnet-import-summary { margin:14px 0; font-size:14px; line-height:1.8; }
+#allnet-save-import [hidden] { display:none !important; }
+@media(max-width:480px) { .allnet-import-stats { grid-template-columns:1fr; } }

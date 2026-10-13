@@ -286,10 +286,12 @@
             </div>` : ''}
           </div>
         </div>
+        ${window.AllnetSaveImport?window.AllnetSaveImport.render(cards,!!u.activated.ongeki):''}
       </div>
     `;
 
     bindPanelEvents(container, d, slots);
+    window.AllnetSaveImport?.bind(container,messageBox);
   }
 
   // ═══ 事件绑定 ═══
