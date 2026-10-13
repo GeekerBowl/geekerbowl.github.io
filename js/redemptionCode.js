@@ -113,6 +113,8 @@
                           code.redemption_type === 'emoney_right' ? '-' :
                           (code.redemption_value || '-');
 
+      const activationLabels={general:'一般用户',operator:'经营者',visitor:'来店玩家'};
+      const activationLabel=code.redemption_type==='net_right'?' / '+(activationLabels[code.activation_role]||'一般用户'):'';
       const useModeText = code.multi_use ? '多次使用' : '单次使用';
       const useModeBadge = code.multi_use ?
         '<span class="code-status" style="background: #e3f2fd; color: #1976d2;">多次</span>' :
@@ -139,7 +141,7 @@
           <td class="code-text">${code.code}</td>
           <td>${code.project_name}</td>
           <td>${typeText}</td>
-          <td>${displayValue}</td>
+          <td>${displayValue}${activationLabel}</td>
           <td>${useModeBadge}</td>
           <td><span class="code-status ${statusClass}">${statusText}</span></td>
           <td>${expiresText}</td>
@@ -242,6 +244,11 @@
               </select>
             </div>
             
+            <div class="code-form-group" id="net-user-type-group" style="display:none">
+              <label>用户类型</label><select name="user_type"><option value="general">一般用户</option><option value="operator">娱乐场所用户（经营者＋来店玩家）</option></select>
+              <label>店铺名称（娱乐场所填写）</label><input name="shop_name" maxlength="100" placeholder="店铺名称">
+              <p>NETG：一般用户。NETO：经营者单次码。NETV：来店注册重复码，每组经营场所发行两个码。</p>
+            </div>
             <div class="code-form-group">
               <label class="checkbox-label">
                 <input type="checkbox" id="batch-issue" onchange="onBatchIssueChange(this.checked)">
@@ -294,6 +301,7 @@
     const batchIssueCheckbox = document.getElementById('batch-issue');
     const batchIssueContainer = batchIssueCheckbox ? batchIssueCheckbox.closest('.code-form-group') : null;
 
+    document.getElementById('net-user-type-group').style.display=type==='net_right'?'block':'none';
     if (type === 'coupon') {
       valueGroup.style.display = 'none';
       // 恢复多次使用选项
@@ -370,6 +378,8 @@
       data.redemption_value = parseInt(formData.get('user_group_value'));
     } else if (data.redemption_type === 'net_right') {
       data.redemption_value = formData.get('net_right_type');
+      data.user_type=formData.get('user_type')||'general';
+      data.shop_name=formData.get('shop_name');
     } else if (data.redemption_type !== 'coupon') {
       data.redemption_value = parseInt(formData.get('redemption_value'));
     }
@@ -413,7 +423,7 @@
     modal.innerHTML = `
       <div class="code-modal-content">
         <div class="code-modal-header">
-          <h3 class="code-modal-title">生成的兑换码</h3>
+          <h3 class="code-modal-title">生成的兑换码</h3><p>NETG：一般用户；NETO：经营者；NETV：来店玩家。相邻 NETO / NETV 为同一店铺的一组。</p>
           <button class="code-modal-close" onclick="this.closest('.code-modal').remove()">&times;</button>
         </div>
         <div class="code-modal-body">
