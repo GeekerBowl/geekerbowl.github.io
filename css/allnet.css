@@ -215,6 +215,8 @@
 }
 
 /* Element Plus style message box, mounted directly under body. */
+.allnet-wechat-code { font:600 24px monospace; letter-spacing:2px; overflow-wrap:anywhere; padding:14px; border:1px solid var(--border-color,#ddd); border-radius:8px; }
+#allnet-wechat [hidden] { display:none !important; }
 .allnet-message-overlay { position:fixed; inset:0; z-index:10010; display:flex; align-items:center; justify-content:center; padding:20px; background:rgba(0,0,0,.5); }
 .allnet-message-box { width:420px; max-width:100%; max-height:85dvh; overflow:auto; padding:20px; border:1px solid var(--border-color,#ebeef5); border-radius:8px; background:var(--card-bg,#fff); color:var(--text-color,#303133); box-shadow:0 12px 32px rgba(0,0,0,.2); font-size:14px; }
 .allnet-message-box header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:14px; }

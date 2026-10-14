@@ -298,6 +298,16 @@
             <button type="submit" class="allnet-btn allnet-btn--primary" ${!u.activated.ongeki?'disabled':''}>保存设置</button>
           </form>
         </section>
+        <section class="allnet-card" id="allnet-wechat">
+          <h3 class="allnet-card__title">微信小程序账号关联</h3>
+          <p class="allnet-level-note">关联后可通过微信登录查询 ONGEKI 资料与成绩，无需反复输入主站账号密码。</p>
+          <p id="allnet-wechat-status">${u.activated.ongeki?'正在读取关联状态…':'请先激活 ONGEKI 利用权。'}</p>
+          <p id="allnet-wechat-code" class="allnet-wechat-code" hidden></p>
+          <p id="allnet-wechat-expiry" class="allnet-level-note" hidden></p>
+          <button type="button" class="allnet-btn allnet-btn--primary" id="allnet-wechat-mint" hidden>生成绑定码</button>
+          <button type="button" class="allnet-btn allnet-btn--danger" id="allnet-wechat-unlink" hidden>解除微信关联</button>
+          <button type="button" class="allnet-btn" id="allnet-wechat-refresh">刷新状态</button>
+        </section>
         ${window.AllnetSaveImport?window.AllnetSaveImport.render(cards,!!u.activated.ongeki):''}
       </div>
     `;
@@ -308,6 +318,16 @@
 
   // ═══ 事件绑定 ═══
   function bindPanelEvents(container, d, slots) {
+    const wxStatus=container.querySelector('#allnet-wechat-status'),wxCode=container.querySelector('#allnet-wechat-code'),wxExpiry=container.querySelector('#allnet-wechat-expiry');
+    const wxMint=container.querySelector('#allnet-wechat-mint'),wxUnlink=container.querySelector('#allnet-wechat-unlink'),wxRefresh=container.querySelector('#allnet-wechat-refresh');
+    let wxBusy=false,wxTimer=null;
+    function clearWxCode(){wxCode.hidden=true;wxCode.textContent='';wxExpiry.hidden=true;if(wxTimer)clearInterval(wxTimer);wxTimer=null;}
+    async function loadWx(){clearWxCode();try{const r=await api('/allnet/wechat/status');wxStatus.textContent=r.bound?'已关联微信小程序账号':d.user.activated.ongeki?'尚未关联微信小程序账号':'请先激活 ONGEKI 利用权。';wxMint.hidden=r.bound||!d.user.activated.ongeki;wxUnlink.hidden=!r.bound;}catch(e){wxStatus.textContent=e.message;}}
+    async function wxAction(fn){if(wxBusy)return;wxBusy=true;wxMint.disabled=wxUnlink.disabled=wxRefresh.disabled=true;try{await fn();}catch(e){await messageBox(e.message,'微信小程序账号关联');}finally{wxBusy=false;wxMint.disabled=wxUnlink.disabled=wxRefresh.disabled=false;}}
+    wxMint.onclick=()=>wxAction(async()=>{clearWxCode();const r=await api('/allnet/wechat/code',{method:'POST',body:{}}),until=Date.now()+r.expiresIn*1000;wxCode.textContent=r.code;wxCode.hidden=false;wxExpiry.hidden=false;const update=()=>{if(!container.isConnected||Date.now()>=until){clearWxCode();return;}wxExpiry.textContent=`在小程序账号页输入，剩余 ${Math.ceil((until-Date.now())/1000)} 秒。请勿转发。重新生成后旧码失效。`;};update();wxTimer=setInterval(update,1000);});
+    wxUnlink.onclick=()=>wxAction(async()=>{if(!await messageBox('解除后已登录的小程序会话将失效，主站账号和 Aime 存档不会被删除。','解除微信关联',true))return;await api('/allnet/wechat/unlink',{method:'POST',body:{}});await loadWx();});
+    wxRefresh.onclick=()=>wxAction(loadWx);
+    loadWx();
     container.querySelector('#allnet-level-form')?.addEventListener('submit',async e=>{
       e.preventDefault();const form=e.currentTarget,button=form.querySelector('button'),fields=form.querySelector('fieldset');
       const mode=form.querySelector('input[name="mode"]:checked')?.value;
