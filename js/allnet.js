@@ -298,6 +298,16 @@
             <button type="submit" class="allnet-btn allnet-btn--primary" ${!u.activated.ongeki?'disabled':''}>保存设置</button>
           </form>
         </section>
+        <section class="allnet-card" id="allnet-link">
+          <h3 class="allnet-card__title">ONGEKI Link 在线联机</h3>
+          <p>为本账号名下的 ONGEKI 机台领取专属配置，只支持通过本服认证的机台。</p>
+          <p><a href="/downloads/OngekiLink_client_base_0.1.6.zip" download>下载通用安装包（含 TLS 工具）</a></p>
+          <p class="allnet-level-note">关闭游戏后解压到游戏目录，将个人配置放入 BepInEx/config/。请勿转发凭证；同一 KEYCHIP 不能同时在线。游客可在有效机台上使用。</p>
+          <label>机台组别 <select id="allnet-link-group"><option>A</option><option>B</option><option>C</option><option>D</option></select></label>
+          <p class="allnet-level-note">须与游戏 TEST 设置一致。同版本且同组的机台由服务器自动分配房间。</p>
+          <div id="allnet-link-machines" aria-live="polite">正在读取机台…</div>
+          <button type="button" class="allnet-btn" id="allnet-link-refresh">刷新状态</button>
+        </section>
         <section class="allnet-card" id="allnet-wechat">
           <h3 class="allnet-card__title">微信小程序账号关联</h3>
           <p class="allnet-level-note">关联后可通过微信登录查询 ONGEKI 资料与成绩，无需反复输入主站账号密码。</p>
@@ -317,7 +327,42 @@
   }
 
   // ═══ 事件绑定 ═══
+  function bindLink(container) {
+    const panel=container.querySelector('#allnet-link'),list=panel.querySelector('#allnet-link-machines'),refresh=panel.querySelector('#allnet-link-refresh'),group=panel.querySelector('select');
+    let busy=false;
+    const alive=()=>panel.isConnected&&container.contains(panel);
+    async function load(){
+      refresh.disabled=true;
+      try{
+        const r=await api('/allnet/ongekilink/status');if(!alive())return;
+        list.replaceChildren();
+        if(!r.machines.length)list.textContent='暂无可领取配置的机台，请先在主站登记 ONGEKI KEYCHIP。';
+        for(const m of r.machines){
+          const row=document.createElement('div'),p=document.createElement('p');
+          p.textContent=m.label+' · '+({none:'尚未领取',active:'已启用',revoked:'已停用'}[m.credentialStatus]||'未知状态');row.append(p);
+          if(!m.eligible){const note=document.createElement('p');note.textContent='请先激活 ONGEKI 利用权，并确认机台未停用。';row.append(note);}
+          const button=document.createElement('button');button.type='button';button.className='allnet-btn allnet-btn--primary';button.disabled=!m.eligible;button.textContent=m.credentialStatus==='none'?'领取专属配置':'重新生成配置';button.onclick=()=>act(m,false);row.append(button);
+          if(m.credentialStatus==='active'){const stop=document.createElement('button');stop.type='button';stop.className='allnet-btn allnet-btn--danger';stop.textContent='停用 Link 配置';stop.onclick=()=>act(m,true);row.append(stop);}
+          list.append(row);
+        }
+      }catch(e){if(alive())list.textContent=e.message;}finally{if(alive())refresh.disabled=false;}
+    }
+    async function act(m,revoke){
+      if(busy)return;busy=true;
+      try{
+        if((revoke||m.credentialStatus!=='none')&&!await messageBox(revoke?'停用后将在周期检查时断开 Link，游戏 KEYCHIP 和存档保留。确定继续？':'重新生成会使旧配置失效，已连接的旧配置将在周期检查后断开。确定继续？','ONGEKI Link',true))return;
+        panel.querySelectorAll('button,select').forEach(b=>b.disabled=true);
+        const r=await api('/allnet/ongekilink/'+(revoke?'revoke':'config'),{method:'POST',body:{machineId:m.id,group:group.value,replace:m.credentialStatus!=='none'}});
+        if(!revoke){const url=URL.createObjectURL(new Blob([r.config],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='cn.amall.ongekilink.cfg';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+        if(alive()){await messageBox(r.message+(revoke?'':' 配置已开始下载，请在关闭游戏后安装。'),'ONGEKI Link');}
+      }catch(e){if(alive())await messageBox(e.message,'ONGEKI Link');}
+      finally{busy=false;if(alive()){group.disabled=false;await load();}}
+    }
+    refresh.onclick=()=>{if(!busy)load();};load();
+  }
+
   function bindPanelEvents(container, d, slots) {
+    bindLink(container);
     const wxStatus=container.querySelector('#allnet-wechat-status'),wxCode=container.querySelector('#allnet-wechat-code'),wxExpiry=container.querySelector('#allnet-wechat-expiry');
     const wxMint=container.querySelector('#allnet-wechat-mint'),wxUnlink=container.querySelector('#allnet-wechat-unlink'),wxRefresh=container.querySelector('#allnet-wechat-refresh');
     let wxBusy=false,wxTimer=null;
