@@ -8,8 +8,8 @@
 
   const API_BASE = 'https://api.am-all.com.cn/api';
   const GAME_LABELS = { ongeki: 'ONGEKI', chunithm: 'CHUNITHM', maimai: 'maimaiDX' };
-  const LEVEL_LABELS = { premium: 'ONGEKI PREMIUM 会员', standard: 'STANDARD 会员', free: '免费' };
-  const currencyLabel=k=>k==='credit'?'CREDIT':'普通积分';
+  const LEVEL_LABELS = { premium: 'ONGEKI PREMIUM 会员', standard: 'STANDARD 会员', free: "FREE" };
+  const currencyLabel=k=>k==='credit'?'CREDIT':"积分";
 
   function messageBox(message, title = 'Performai 会员说明', confirm = false) {
     return new Promise(resolve => {
@@ -121,24 +121,24 @@
           <div class="allnet-carddetail__head">
             <span class="allnet-carddetail__no">No.${card.slot || (slotIndex + 1)}</span>
             ${card.isPrimary ? '<span class="allnet-carddetail__main">主卡</span>' : ''}
-            ${card.hasArchive ? '<span class="allnet-badge allnet-badge--on">有游戏档案</span>'
-                               : '<span class="allnet-badge allnet-badge--off">无档案</span>'}
+            ${card.hasArchive ? "<span class=\"allnet-badge allnet-badge--on\">有数据</span>"
+                               : "<span class=\"allnet-badge allnet-badge--off\">无数据</span>"}
           </div>
           <div class="allnet-aimeinfo">
             <div class="allnet-aimeinfo__row">
-              <div class="allnet-aimeinfo__label">アクセスコード</div>
+              <div class="allnet-aimeinfo__label">ACCESS CODE</div>
               <div class="allnet-aimeinfo__code">${esc(fmtCard(card.accessCode))}</div>
             </div>
             <div class="allnet-aimeinfo__row">
-              <div class="allnet-aimeinfo__label">登録日</div>
+              <div class="allnet-aimeinfo__label">登陆日</div>
               <div class="allnet-aimeinfo__value">${esc(fmtDateJP(card.boundAt))}</div>
             </div>
             <div class="allnet-aimeinfo__row">
-              <div class="allnet-aimeinfo__label">最後にプレイしたゲーム</div>
+              <div class="allnet-aimeinfo__label">最后游玩的游戏</div>
               <div class="allnet-aimeinfo__value">${esc(card.lastGameName || '—')}</div>
               ${card.lastPlayDate ? `<div class="allnet-aimeinfo__sub">(${esc(fmtDateJP(card.lastPlayDate))})</div>` : ''}
             </div>
-            <div class="allnet-aimeinfo__row"><div class="allnet-aimeinfo__label">最後にプレイした場所</div><div class="allnet-aimeinfo__value">${esc(card.lastPlaceName||'—')}</div></div>
+            <div class="allnet-aimeinfo__row"><div class="allnet-aimeinfo__label">最后游玩的场所</div><div class="allnet-aimeinfo__value">${esc(card.lastPlaceName||'—')}</div></div>
           </div>
           <div class="allnet-remark">
             <button type="button" class="allnet-remark__toggle" data-act="remark-toggle">
@@ -174,7 +174,7 @@
                  placeholder="20 位 Aime 卡号（已在服务器刷卡建档）">
           <button type="button" class="allnet-btn" id="allnet-bind-btn">绑定</button>
         </div>
-        <p class="allnet-hint">绑定前需先在服务器机台刷卡建档（有游玩数据才能绑定）；解绑不会删除游戏档案。</p>
+        <p class="allnet-hint">绑定前需先在服务器机台刷卡并游玩一局；解绑不会删除游戏档案。</p>
       </div>`;
   }
 
@@ -194,18 +194,18 @@
         <div class="allnet-grid">
           <!-- ── ① 游戏使用权 ── -->
           <div class="allnet-card">
-            <h3 class="allnet-card__title"><i class="fas fa-gamepad"></i> 游戏使用权</h3>
+            <h3 class="allnet-card__title"><i class="fas fa-gamepad"></i> ALL.NET利用权</h3>
             ${['ongeki', 'chunithm', 'maimai'].map(g => `
               <div class="allnet-activate-row ${u.activated[g] ? 'is-on' : 'is-off'}">
                 <span class="allnet-activate-row__name">${GAME_LABELS[g]}</span>
                 ${u.activated[g]
                   ? '<span class="allnet-badge allnet-badge--on">已激活</span>'
-                  : '<span class="allnet-badge allnet-badge--off">未开通<span class="allnet-soon">（敬请期待）</span></span>'}
+                  : '<span class="allnet-badge allnet-badge--off">未激活<span class="allnet-soon">（暂未提供）</span></span>'}
               </div>`).join('')}
           </div>
 
-          ${!['ongeki','chunithm','maimai'].some(g=>u.activated[g])?`<div class="allnet-card"><h3 class="allnet-card__title">NET 与游戏利用权激活</h3><form class="allnet-code-form" data-path="/allnet/activate"><input class="allnet-input" name="code" maxlength="64" required placeholder="NET 利用权激活码"><button class="allnet-btn">激活</button></form></div>`:''}
-          ${access.role==='visitor'&&!access.homeEnabled?`<div class="allnet-card"><h3 class="allnet-card__title">家用利用权激活</h3><p class="allnet-hint">输入一般用户激活码获取家用 KEYCHIP。</p><form class="allnet-code-form" data-path="/allnet/activate-home"><input class="allnet-input" name="code" maxlength="64" required placeholder="一般用户激活码（NETG）"><button class="allnet-btn">激活家用</button></form></div>`:''}
+          ${!['ongeki','chunithm','maimai'].some(g=>u.activated[g])?`<div class="allnet-card"><h3 class="allnet-card__title">ALL.NET利用权激活</h3><form class="allnet-code-form" data-path="/allnet/activate"><input class="allnet-input" name="code" maxlength="64" required placeholder="NET 利用权激活码"><button class="allnet-btn">激活</button></form></div>`:''}
+          ${access.role==='visitor'&&!access.homeEnabled?`<div class="allnet-card"><h3 class="allnet-card__title">家用激活</h3><p class="allnet-hint">输入家用用户激活码，即可获取家用 KEYCHIP ID。</p><form class="allnet-code-form" data-path="/allnet/activate-home"><input class="allnet-input" name="code" maxlength="64" required placeholder="家用激活码"><button class="allnet-btn">激活家用</button></form></div>`:''}
           <!-- ── ④ 服务器信息 ── -->
           ${access.homeEnabled&&['ongeki','chunithm','maimai'].some(g=>u.activated[g])?`
           <div class="allnet-card">
@@ -216,13 +216,13 @@
                 <code class="allnet-keychip__code" id="allnet-keychip-${esc(k.game)}">${esc(k.keychipId)}</code>
                 <button type="button" class="allnet-copy" data-copy="allnet-keychip-${esc(k.game)}">复制</button>
               </div>`).join('')
-            : '<p class="allnet-muted">暂无激活生成的 KEYCHIP</p>'}
+            : "<p class=\"allnet-muted\">暂无激活生成的 KEYCHIP ID</p>"}
             <div class="allnet-keychip">
               <div class="allnet-keychip__label">segatools.ini [dns]</div>
               <code class="allnet-keychip__code">default = ${esc(d.dns)}</code>
               <button type="button" class="allnet-copy" data-copy-text="${esc(d.dns)}">复制</button>
             </div>
-            <p class="allnet-hint">将 [keychip] serial 设为上方 KEYCHIP ID、[dns] default 设为上方服务器地址，即可配置 segatools.ini。</p>
+            <p class="allnet-hint">将 [keychip] id= 设为上方 KEYCHIP ID、[dns] default 设为上方服务器地址，即可配置 segatools.ini。</p>
           </div>`:''}
           ${access.shop?`<div class="allnet-card allnet-card--wide"><h3 class="allnet-card__title">店铺信息</h3><p>${esc(access.shop.name)}</p><p class="allnet-hint">已游玩玩家数：${Number(access.shop.playerCount)}（按 Aime 卡去重）</p></div>`:''}
         </div>
@@ -245,7 +245,7 @@
         <div class="allnet-card allnet-card--wide">
           <h3 class="allnet-card__title"><i class="fas fa-crown"></i> Performai会员 <button type="button" class="allnet-btn allnet-btn--sm" id="allnet-help" aria-label="会员说明">?</button></h3>
           <div class="allnet-course-state ${m.course}">
-            <span class="allnet-course-state__label">${LEVEL_LABELS[m.course] || '免费'}</span>
+            <span class="allnet-course-state__label">${LEVEL_LABELS[m.course] || "FREE"}</span>
             ${m.course !== 'free' && m.expire ? `<span class="allnet-course-state__expire">有效期至：${fmtDate(m.expire)}</span>` : ''}
           </div>
 
@@ -253,36 +253,34 @@
             <div class="allnet-shop__row">
               <div class="allnet-shop__info">
                 <b>STANDARD 会员</b>
-                <span>${fees.standard.amount} ${currencyLabel(fees.standard.currency)} / 月（首次开通 2 个月起）</span>
+                <span>${fees.standard.amount} ${currencyLabel(fees.standard.currency)} / 月（首次开通购买2个月，之后按月自动续费）</span>
                 <span class="allnet-shop__balance">持有${currencyLabel(fees.standard.currency)}：${fees.standard.currency==='credit'?u.credit:u.points}</span>
               </div>
               <div class="allnet-shop__actions">
-                <input type="number" id="allnet-months-s" class="allnet-input allnet-input--num" min="1" max="12"
-                       value="${m.course === 'free' ? 2 : 1}">
-                <span class="allnet-shop__unit">个月</span>
-                <button type="button" class="allnet-btn" id="allnet-buy-s">
-                  ${m.course === 'free' ? '开通' : '续费'}
+                
+                
+                <button type="button" class="allnet-btn" id="allnet-buy-s" ${m.course!=='free'?'disabled':''}>
+                  ${m.course === 'free' ? '开通 STANDARD（2个月）' : (m.standardAutoRenew?'自动续费中':'已停止自动续费')}
                 </button>
               </div>
             </div>
             <div class="allnet-shop__row ${m.course === 'free' ? 'is-disabled' : ''}">
               <div class="allnet-shop__info">
                 <b>ONGEKI PREMIUM 会员</b>
-                <span class="allnet-shop__append">※ STANDARD 会员的追加费用（${fees.premium.amount} ${currencyLabel(fees.premium.currency)} / 月）</span>
+                <span class="allnet-shop__append">※ PREMIUM会员（${fees.premium.amount} ${currencyLabel(fees.premium.currency)} / 月）</span>
                 <span class="allnet-shop__balance">持有${currencyLabel(fees.premium.currency)}：${fees.premium.currency==='credit'?u.credit:u.points}</span>
               </div>
               <div class="allnet-shop__actions">
-                <input type="number" id="allnet-months-p" class="allnet-input allnet-input--num" min="${m.course === 'premium' ? 1 : 2}" max="12"
-                       value="${m.course === 'premium' ? 1 : 2}" ${m.course === 'free' ? 'disabled' : ''}>
-                <span class="allnet-shop__unit">个月</span>
-                <button type="button" class="allnet-btn allnet-btn--amber" id="allnet-buy-p" ${m.course === 'free' ? 'disabled' : ''}>
-                  ${m.course === 'free' ? '追加' : (m.course === 'premium' ? '续费' : '追加')}
+                
+                
+                <button type="button" class="allnet-btn allnet-btn--amber" id="allnet-buy-p" ${m.course!=='standard'||!m.standardAutoRenew?'disabled':''}>
+                  ${m.course === 'premium' ? (m.premiumAutoRenew?'自动续费中':'已停止自动续费') : '追加 PREMIUM（2个月）'}
                 </button>
               </div>
             </div>
-            ${m.course !== 'free' ? `
+            ${m.standardAutoRenew||m.premiumAutoRenew ? `
             <div class="allnet-shop__cancel">
-              <button type="button" class="allnet-btn allnet-btn--danger allnet-btn--sm" id="allnet-cancel">解约会员（两档同时解除）</button>
+              <button type="button" class="allnet-btn allnet-btn--danger allnet-btn--sm" id="allnet-cancel">解约会员</button>
             </div>` : ''}
           </div>
         </div>
@@ -291,18 +289,18 @@
           <p class="allnet-level-note">选择 ONGEKI-NET 每首乐曲的 LEVEL 显示格式，适用于此账号下所有 Aime 卡。LEVEL 筛选和统计保留官网分类。</p>
           <form id="allnet-level-form">
             <fieldset class="allnet-level-options" ${!u.activated.ongeki?'disabled':''}>
-              <label><input type="radio" name="mode" value="official" ${d.levelDisplay!=='constant'?'checked':''}>官网等级（10、10+）</label>
-              <label><input type="radio" name="mode" value="constant" ${d.levelDisplay==='constant'?'checked':''}>谱面定数（10.1、10.9）</label>
+              <label><input type="radio" name="mode" value="official" ${d.levelDisplay!=='constant'?'checked':''}>按LEVEL等级（例：14、14+）</label>
+              <label><input type="radio" name="mode" value="constant" ${d.levelDisplay==='constant'?'checked':''}>按谱面定数（例：14.3、14.9）</label>
             </fieldset>
-            <p class="allnet-level-note">${u.activated.ongeki?'小数为 0 时显示整数（如 10）。保存后刷新 NET 页面即可生效。':'请先激活 ONGEKI 利用权。'}</p>
+            <p class="allnet-level-note">${u.activated.ongeki?"定数为0则只显示整数LEVEL。保存后刷新 NET 页面即可生效。":'请先激活 ONGEKI 利用权。'}</p>
             <button type="submit" class="allnet-btn allnet-btn--primary" ${!u.activated.ongeki?'disabled':''}>保存设置</button>
           </form>
         </section>
         <section class="allnet-card" id="allnet-link">
-          <h3 class="allnet-card__title">ONGEKI Link 在线联机</h3>
+          <h3 class="allnet-card__title">ONGEKI Link</h3>
           <p>为本账号名下的 ONGEKI 机台领取专属配置，只支持通过本服认证的机台。</p>
-          <p><a href="/downloads/OngekiLink_client_base_0.1.6.zip" download>下载通用安装包（含 TLS 工具）</a></p>
-          <p class="allnet-level-note">关闭游戏后解压到游戏目录，将个人配置放入 BepInEx/config/。请勿转发凭证；同一 KEYCHIP 不能同时在线。游客可在有效机台上使用。</p>
+          <p><a href="/downloads/OngekiLink_client_base_0.1.6.zip" download>下载安装包（含 TLS 工具）</a></p>
+          <p class="allnet-level-note">关闭游戏后解压安装包并将BepInEx文件夹覆盖到package目录中，再将个人配置放入 BepInEx/config/。配置含专属凭证，谨防泄露；同一 KEYCHIP 不能同时在线。游客可在有效机台上使用。</p>
           <label>机台组别 <select id="allnet-link-group"><option>A</option><option>B</option><option>C</option><option>D</option></select></label>
           <p class="allnet-level-note">须与游戏 TEST 设置一致。同版本且同组的机台由服务器自动分配房间。</p>
           <div id="allnet-link-machines" aria-live="polite">正在读取机台…</div>
@@ -381,7 +379,7 @@
       catch(err){await messageBox(err.message,'NET 等级显示设置');}
       finally{button.disabled=false;fields.disabled=!d.user.activated.ongeki;}
     });
-    container.querySelector('#allnet-help')?.addEventListener('click',()=>messageBox('STANDARD 通用于 CHUNITHM、maimai DX 和 ONGEKI。\nONGEKI PREMIUM 是 ONGEKI 专用追加档，需有效 STANDARD。\n会费按当前设置收取，购买前确认总费用；到期自动续费。追加档无法续费时，有效 STANDARD 可继续使用。解约立即生效，可重新开通。'));
+    container.querySelector('#allnet-help')?.addEventListener('click',()=>messageBox('STANDARD 通用于 CHUNITHM、maimai DX 和 ONGEKI。\nONGEKI PREMIUM 是 ONGEKI 专用追加档，需有效 STANDARD。\n首次各购买2个月，之后按月自动续费，不支持手动续费。余额不足时停止相应档位自动扣费。解约后保留有效期至到期；再次开通需同时满足解约满24小时和原会员已到期。开通、自动续费及解约将通知注册邮箱。'));
     container.querySelectorAll('.allnet-code-form').forEach(form=>form.addEventListener('submit',async e=>{e.preventDefault();const button=form.querySelector('button');button.disabled=true;try{const r=await api(form.dataset.path,{method:'POST',body:{code:form.elements.code.value.trim()}});alert(r.message);await AllnetModule.init('content-container');}catch(err){alert(err.message);}finally{button.disabled=false;}}));
     // 卡槽 Tab 切换
     container.querySelectorAll('.allnet-tab').forEach(btn => {
@@ -414,7 +412,7 @@
     const bindBtn = document.getElementById('allnet-bind-btn');
     if (bindBtn) bindBtn.addEventListener('click', async () => {
       const code = document.getElementById('allnet-bind-code').value.trim();
-      if (!/^\d{20}$/.test(code)) { alert('请输入 20 位卡号'); return; }
+      if (!/^\d{20}$/.test(code)) { alert("请输入 20 位Aime卡号"); return; }
       try {
         const r = await api('/allnet/aime/bind', { method: 'POST', body: { accessCode: code } });
         alert(r.message || '绑定成功');
@@ -431,7 +429,7 @@
     // 解约
     const cancelBtn = document.getElementById('allnet-cancel');
     if (cancelBtn) cancelBtn.addEventListener('click', async () => {
-      if (!confirm('确定解约 STANDARD 和 PREMIUM 两档会员吗？（立即生效，可重新开通）')) return;
+      if (!confirm("确定停止两档自动续费吗？已付费会员保留至到期；满24小时且原会员到期后才能重新开通。")) return;
       try {
         const r = await api('/allnet/membership/cancel', { method: 'POST', body: {} });
         alert(r.message || '已解约');
@@ -501,13 +499,12 @@
   }
 
   async function doPurchase(level) {
-    const input = document.getElementById(level === 'standard' ? 'allnet-months-s' : 'allnet-months-p');
-    const months = parseInt(input.value, 10) || 0;
+    const months = 2;
     if (months < 1) { alert('请输入月数'); return; }
     try {
       const quote=await api('/allnet/membership/quote',{method:'POST',body:{level,months}});
-      const cost=Object.entries(quote.cost).filter(([,v])=>v>0).map(([k,v])=>`${v} ${currencyLabel(k)}`).join(' + ')||'免费';
-      if(!await messageBox(`开通/续费 ${level==='standard'?'STANDARD':'ONGEKI PREMIUM'} ${months}个月，费用：${cost}${quote.standardExtraMonths?`（含 STANDARD 补齐${quote.standardExtraMonths}个月）`:''}？`, '确认会员费用', true))return;
+      const cost=Object.entries(quote.cost).filter(([,v])=>v>0).map(([k,v])=>`${v} ${currencyLabel(k)}`).join(' + ')||"FREE";
+      if(!await messageBox(`开通 ${level==='standard'?'STANDARD':'ONGEKI PREMIUM'} ${months}个月，费用：${cost}${quote.standardExtraMonths?`（含 STANDARD 补齐${quote.standardExtraMonths}个月）`:''}？`, '确认会员费用', true))return;
       const r=await api('/allnet/membership/purchase',{method:'POST',body:{level,months,expectedCost:quote.cost}});
       alert(r.message || '完成');
       AllnetModule.init('content-container');
