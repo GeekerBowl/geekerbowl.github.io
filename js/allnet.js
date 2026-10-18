@@ -296,6 +296,17 @@
             <button type="submit" class="allnet-btn allnet-btn--primary" ${!u.activated.ongeki?'disabled':''}>保存设置</button>
           </form>
         </section>
+        <section class="allnet-card">
+          <h3 class="allnet-card__title">CARD MAKER 翻卡动画</h3>
+          <form id="allnet-cm-animation-form">
+            <fieldset class="allnet-level-options" ${!u.activated.ongeki?'disabled':''}>
+              ${[['none','不跳过'],['nr','跳过 N／R'],['sr','跳过 SR／SR+'],['non_ssr','跳过全部非 SSR']].map(([value,label])=>`<label><input type="radio" name="cmSkip" value="${value}" ${(d.cmAnimationSkip||'none')===value?'checked':''}>${label}</label>`).join('')}
+            </fieldset>
+            <p class="allnet-level-note">SSR 始终播放。只跳过所选稀有度的翻卡与单卡展示，不影响抽卡结果；全部卡片仍可在本次抽卡结果中查看。下次开始抽卡时生效，网页和小程序共用。</p>
+            ${!u.activated.ongeki?'<p class="allnet-level-note">请先激活 ONGEKI 利用权。</p>':''}
+            <button type="submit" class="allnet-btn allnet-btn--primary" ${!u.activated.ongeki?'disabled':''}>保存动画设置</button>
+          </form>
+        </section>
         <section class="allnet-card" id="allnet-link">
           <h3 class="allnet-card__title">ONGEKI Link</h3>
           <p>为本账号名下的 ONGEKI 机台领取专属配置，只支持通过本服认证的机台。</p>
@@ -371,6 +382,14 @@
     wxUnlink.onclick=()=>wxAction(async()=>{if(!await messageBox('解除后已登录的小程序会话将失效，主站账号和 Aime 存档不会被删除。','解除微信关联',true))return;await api('/allnet/wechat/unlink',{method:'POST',body:{}});await loadWx();});
     wxRefresh.onclick=()=>wxAction(loadWx);
     loadWx();
+    container.querySelector('#allnet-cm-animation-form')?.addEventListener('submit',async e=>{
+      e.preventDefault();const form=e.currentTarget,button=form.querySelector('button'),fields=form.querySelector('fieldset');
+      const mode=form.querySelector('input[name="cmSkip"]:checked')?.value;
+      button.disabled=true;fields.disabled=true;
+      try{const r=await api('/allnet/cardmaker-settings',{method:'POST',body:{mode}});d.cmAnimationSkip=r.cmAnimationSkip;await messageBox(r.message,'CARD MAKER 翻卡动画');}
+      catch(err){await messageBox(err.message,'CARD MAKER 翻卡动画');}
+      finally{button.disabled=false;fields.disabled=!d.user.activated.ongeki;}
+    });
     container.querySelector('#allnet-level-form')?.addEventListener('submit',async e=>{
       e.preventDefault();const form=e.currentTarget,button=form.querySelector('button'),fields=form.querySelector('fieldset');
       const mode=form.querySelector('input[name="mode"]:checked')?.value;
