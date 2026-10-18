@@ -781,6 +781,7 @@ async function updateSidebarVisibility(user) {
     });
   }
 
+  pageVisibility.cardmaker = !!pageVisibility.allnet && Number(user?.is_ogknet) === 1;
   const nav = document.querySelector('.sidebar-nav');
   if (nav) {
     const links = nav.querySelectorAll('a[data-page]');
@@ -828,7 +829,7 @@ async function updateSidebarVisibility(user) {
   for (const [id, pid] of Object.entries(legacyMap)) {
     const el = document.getElementById(id);
     if (el) {
-      const visible = (pageVisibility[pid] || false) && (id!=='sidebar-cardmaker'||Number(currentUser?.is_ogknet)===1);
+      const visible = id==='sidebar-cardmaker' ? pageVisibility.cardmaker : (pageVisibility[pid] || false);
       const targetEl = el.querySelector('a')?.parentElement || el;
       setDisplay(targetEl, visible);
 
@@ -2279,7 +2280,7 @@ async function loadPage(pageId) {
     }
     
     try {
-      const response = await fetch(`https://api.am-all.com.cn/api/check-permission?page=${pageId}`, {
+      const response = await fetch(`https://api.am-all.com.cn/api/check-permission?page=${pageId==='cardmaker'?'allnet':pageId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
