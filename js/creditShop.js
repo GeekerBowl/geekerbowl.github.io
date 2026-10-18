@@ -281,8 +281,9 @@ window.redeemCreditItem = async function(itemId) {
     
     const redeemRes = await secureFetch('https://api.am-all.com.cn/api/shop/redeem', {
       method: 'POST',
-      body: JSON.stringify({ item_id: itemId })
+      body: JSON.stringify({item_id:itemId,...(item.virtual_type==='gacha_point'?{requestId:window.cmShopRequestId(itemId),expected_price:item.price}:{})})
     });
+    if(item.virtual_type==='gacha_point')window.cmShopRequestDone(itemId);
 
     const modal = document.querySelector('.modal.show');
     if (modal) modal.remove();
@@ -796,6 +797,7 @@ function getUserRankName(rank) {
             <label>虚拟物品功能</label>
             <select name="virtual_type" onchange="onCreditVirtualTypeChange(this.value)">
               <option value="code" ${item?.virtual_type === 'code' ? 'selected' : ''}>仅发行兑换码</option>
+              <option value="gacha_point" ${item?.virtual_type === 'gacha_point' ? 'selected' : ''}>增加 GachaPoint</option>
               <option value="points" ${item?.virtual_type === 'points' ? 'selected' : ''}>增加积分</option>
               <option value="credit" ${item?.virtual_type === 'credit' ? 'selected' : ''}>增加CREDIT</option>
               <option value="user_group" ${item?.virtual_type === 'user_group' ? 'selected' : ''}>变更用户组</option>
@@ -865,7 +867,9 @@ function getUserRankName(rank) {
     
     if (type === 'code' || type === 'coupon') {
       valueGroup.style.display = 'none';
-    } else if (type === 'points') {
+    } else if (type === 'gacha_point') {
+    valueGroup.style.display='block';valueLabel.textContent='增加 GachaPoint 数量';valueInput.style.display='block';groupSelect.style.display='none';
+  } else if (type === 'points') {
       valueGroup.style.display = 'block';
       valueLabel.textContent = '增加积分数量';
       valueInput.style.display = 'block';

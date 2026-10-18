@@ -11,7 +11,7 @@ const PROTECTED_PAGES = [
   'point-shop', 'points-shop-admin', 'point2-shop-admin',
   'credit-shop-admin', 'redemption-code-admin', 'emoji-admin', 'forum', 'forum-admin',
   'minigame', 'user-verification', 'verification-admin',
-  'emoney', 'allnet'
+  'emoney', 'allnet', 'cardmaker'
 ];
 
 const MUSIC_DATA_URLS = [
@@ -821,13 +821,14 @@ async function updateSidebarVisibility(user) {
     'sidebar-user-verification': 'user-verification',
     'sidebar-verification-admin': 'verification-admin',
     'sidebar-emoney': 'emoney',
-    'sidebar-allnet': 'allnet'
+    'sidebar-allnet': 'allnet',
+    'sidebar-cardmaker':'allnet'
   };
 
   for (const [id, pid] of Object.entries(legacyMap)) {
     const el = document.getElementById(id);
     if (el) {
-      const visible = pageVisibility[pid] || false;
+      const visible = (pageVisibility[pid] || false) && (id!=='sidebar-cardmaker'||Number(currentUser?.is_ogknet)===1);
       const targetEl = el.querySelector('a')?.parentElement || el;
       setDisplay(targetEl, visible);
 
@@ -2370,6 +2371,7 @@ setTimeout(() => {
       return;
     }
 
+	if(pageId==='cardmaker'){window.renderCardMaker();document.body.classList.remove('spa-loading');updateActiveMenuItem(pageId);return;}
 	if (pageId === 'allnet') {
 	  contentContainer.innerHTML = '<div class="section"><div class="loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div></div>';
 	  if (typeof window.AllnetModule !== 'undefined' && window.AllnetModule.init) {

@@ -668,8 +668,9 @@ window.redeemItem = async function(itemId) {
     
     const redeemRes = await secureFetch('https://api.am-all.com.cn/api/shop/redeem', {
       method: 'POST',
-      body: JSON.stringify({ item_id: itemId })
+      body: JSON.stringify({item_id:itemId,...(item.virtual_type==='gacha_point'?{requestId:window.cmShopRequestId(itemId),expected_price:item.price}:{})})
     });
+    if(item.virtual_type==='gacha_point')window.cmShopRequestDone(itemId);
     
     console.log('兑换响应:', redeemRes);
     
@@ -988,7 +989,8 @@ function getUserRankName(rank) {
 				<label>虚拟物品功能</label>
 				<select name="virtual_type" onchange="onVirtualTypeChange(this.value)">
 				  <option value="code" ${item?.virtual_type === 'code' ? 'selected' : ''}>仅发行兑换码</option>
-				  <option value="points" ${item?.virtual_type === 'points' ? 'selected' : ''}>增加积分</option>
+				  <option value="gacha_point" ${item?.virtual_type === 'gacha_point' ? 'selected' : ''}>增加 GachaPoint</option>
+              <option value="points" ${item?.virtual_type === 'points' ? 'selected' : ''}>增加积分</option>
 				  <option value="credit" ${item?.virtual_type === 'credit' ? 'selected' : ''}>增加CREDIT</option>
 				  <option value="user_group" ${item?.virtual_type === 'user_group' ? 'selected' : ''}>变更用户组</option>
 				  <option value="coupon" ${item?.virtual_type === 'coupon' ? 'selected' : ''}>优惠券</option>
@@ -1019,6 +1021,7 @@ function getUserRankName(rank) {
     `;
     
     document.body.appendChild(modal);
+    if(item?.virtual_type==='gacha_point'){window.onVirtualTypeChange('gacha_point');document.getElementById('virtual-value').value=item.virtual_value;}
   }
 
   // ========== 切换限购输入框显示 ==========
@@ -1135,6 +1138,7 @@ function getUserRankName(rank) {
       data.upgrade_rank = null;
     }
     
+    if(data.item_type==='virtual'&&formData.get('virtual_type')==='gacha_point'){data.virtual_type='gacha_point';data.virtual_value=Number(formData.get('virtual_value'));}
     // 验证必填字段
     if (!data.item_name) {
       showErrorMessage('商品名称不能为空');
@@ -1544,6 +1548,8 @@ window.onVirtualTypeChange = function(type) {
   
   if (type === 'code' || type === 'coupon') {
     valueGroup.style.display = 'none';
+  } else if (type === 'gacha_point') {
+    valueGroup.style.display='block';valueLabel.textContent='增加 GachaPoint 数量';valueInput.style.display='block';groupSelect.style.display='none';
   } else if (type === 'points') {
     valueGroup.style.display = 'block';
     valueLabel.textContent = '增加积分数量';
