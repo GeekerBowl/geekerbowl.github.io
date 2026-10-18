@@ -1,4 +1,5 @@
 let currentUser = null;
+let sidebarVisibilityRevision = 0;
 let cropper = null;
 let currentOrders = [];
 let currentPage = 1;
@@ -729,6 +730,7 @@ function refreshUserInfoDisplay() {
 }
 
 async function updateSidebarVisibility(user) {
+  const revision = ++sidebarVisibilityRevision;
   const token = localStorage.getItem('token');
   const guestVisible = ['home', 'settings', 'help'];
 
@@ -781,6 +783,7 @@ async function updateSidebarVisibility(user) {
     });
   }
 
+  if (revision !== sidebarVisibilityRevision || localStorage.getItem('token') !== token) return;
   pageVisibility.cardmaker = !!pageVisibility.allnet && Number(user?.is_ogknet) === 1;
   const nav = document.querySelector('.sidebar-nav');
   if (nav) {
@@ -1419,7 +1422,7 @@ function showUserInfo() {
 
   try {
     if (typeof updateSidebarVisibility === 'function') {
-      updateSidebarVisibility(window.currentUser || null);
+      updateSidebarVisibility(currentUser);
     }
   } catch (e) {
     console.warn('updateSidebarVisibility 失败', e);
