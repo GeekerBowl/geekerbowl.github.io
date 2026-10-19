@@ -2393,6 +2393,7 @@ setTimeout(() => {
       return;
     }
 
+	if(pageId==='server-status'){window.renderServerStatus();document.body.classList.remove('spa-loading');updateActiveMenuItem(pageId);return;}
 	if(pageId==='cardmaker'){window.renderCardMaker();document.body.classList.remove('spa-loading');updateActiveMenuItem(pageId);return;}
 	if (pageId === 'allnet') {
 	  contentContainer.innerHTML = '<div class="section"><div class="loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div></div>';
