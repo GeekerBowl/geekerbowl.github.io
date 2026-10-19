@@ -784,7 +784,24 @@ async function updateSidebarVisibility(user) {
   }
 
   if (revision !== sidebarVisibilityRevision || localStorage.getItem('token') !== token) return;
-  pageVisibility.cardmaker = !!pageVisibility.allnet && Number(user?.is_ogknet) === 1;
+  let ongekiActivated = Number(user?.is_ogknet) === 1;
+  // /api/user restores the session without is_ogknet; absence is not an inactive account.
+  if (token && user && pageVisibility.allnet && user.is_ogknet == null) {
+    try {
+      const response = await fetch('https://api.am-all.com.cn/api/allnet/status', {
+        headers: { 'Authorization': `Bearer ${token}` },
+        cache: 'no-store'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        ongekiActivated = data.success === true && data.user?.activated?.ongeki === true;
+      }
+    } catch (e) {
+      console.warn('检查 ONGEKI 激活状态失败:', e);
+    }
+  }
+  if (revision !== sidebarVisibilityRevision || localStorage.getItem('token') !== token) return;
+  pageVisibility.cardmaker = !!token && !!user && !!pageVisibility.allnet && ongekiActivated;
   const nav = document.querySelector('.sidebar-nav');
   if (nav) {
     const links = nav.querySelectorAll('a[data-page]');
@@ -844,6 +861,7 @@ async function updateSidebarVisibility(user) {
   }
 
   setTimeout(() => {
+	if (revision !== sidebarVisibilityRevision || localStorage.getItem('token') !== token) return;
 	const functionTitle = document.querySelector('.sidebar-section-title');
 	const functionNav = functionTitle ? functionTitle.nextElementSibling : null;
 
