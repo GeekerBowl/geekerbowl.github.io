@@ -8,8 +8,8 @@ var redirectAfterLogin = null;
 
 const PROTECTED_PAGES = [
   'download','tools','dllpatcher','fortune','user-settings',
-  'ccb','exchange','announcement-admin','site-admin','download-admin','order-entry','user-manager',
-  'point-shop', 'points-shop-admin', 'point2-shop-admin',
+  'ccb','exchange','announcement-admin','site-admin','download-admin','user-manager',
+  'point-shop', 'points-shop-admin',
   'credit-shop-admin', 'redemption-code-admin', 'emoji-admin', 'forum', 'forum-admin',
   'minigame', 'user-verification', 'verification-admin',
   'emoney', 'allnet', 'cardmaker'
@@ -165,7 +165,7 @@ function handleLoginWithAnimation() {
     
     if (data.token && data.user) {
       localStorage.setItem('token', data.token);
-      currentUser = data.user;
+      currentUser = {...currentUser,...data.user};
       localStorage.setItem('userInfo', JSON.stringify(data.user));
 
       showSuccessAnimation(
@@ -742,8 +742,8 @@ async function updateSidebarVisibility(user) {
 
 	const allPages = [
 	  'home', 'download', 'tools', 'dllpatcher', 'settings', 'help', 'fortune', 'user-settings',
-	  'ccb', 'exchange', 'announcement-admin', 'site-admin', 'download-admin', 'user-manager', 'order-entry',
-	  'point-shop', 'points-shop-admin', 'point2-shop-admin',
+	  'ccb', 'exchange', 'announcement-admin', 'site-admin', 'download-admin', 'user-manager',
+	  'point-shop', 'points-shop-admin',
 	  'credit-shop-admin', 'redemption-code-admin', 'emoji-admin',
 	  'forum', 'forum-admin',
 	  'minigame', 'user-verification', 'verification-admin',
@@ -829,10 +829,8 @@ async function updateSidebarVisibility(user) {
     'sidebar-site-admin': 'site-admin',
     'sidebar-download-admin': 'download-admin',
     'sidebar-user-manager': 'user-manager',
-    'sidebar-order-entry': 'order-entry',
     'sidebar-point-shop': 'point-shop',
     'sidebar-points-shop-admin': 'points-shop-admin',
-    'sidebar-point2-shop-admin': 'point2-shop-admin',
     'sidebar-credit-shop-admin': 'credit-shop-admin',
     'sidebar-redemption-code-admin': 'redemption-code-admin',
     'sidebar-emoji-admin': 'emoji-admin',
@@ -885,8 +883,8 @@ async function updateSidebarVisibility(user) {
 		setDisplay(adminTitle, false);
 		setDisplay(adminNav, false);
 	  } else {
-		const adminPages = ['announcement-admin', 'site-admin', 'download-admin', 'user-manager', 
-						   'order-entry', 'points-shop-admin', 'point2-shop-admin', 
+		const adminPages = ['announcement-admin', 'site-admin', 'download-admin', 'user-manager',
+						    'points-shop-admin',
 						   'credit-shop-admin', 'redemption-code-admin', 'forum-admin', 
 						   'verification-admin'];
 		const hasVisibleAdmin = adminPages.some(p => pageVisibility[p]);
@@ -1104,7 +1102,7 @@ function updateUserInfo(user) {
   const settingsEmail = document.getElementById('settings-email');
   const settingsUid = document.getElementById('settings-uid');
   const settingsPoints = document.getElementById('settings-points');
-  const settingsPoint2 = document.getElementById('settings-point2');
+
   const settingsTotalPoints = document.getElementById('settings-total-points');
   const nicknameInput = document.getElementById('settings-nickname');
   const sidebarUserArea = document.querySelector('.sidebar-user-area');
@@ -1207,7 +1205,7 @@ if (userAvatarPc) {
   }
 
   if (dropdownPoints) {
-    const totalPoints = (user.points || 0) + (user.point2 || 0);
+    const totalPoints = (user.points || 0);
     dropdownPoints.innerHTML = `<i class="fas fa-coins me-2"></i>积分: ${totalPoints}`;
   }
 
@@ -1288,7 +1286,7 @@ if (userAvatarMobile) {
     userUidMobile.textContent = `UID: ${user.uid}`;
   }
   if (userPointsMobile) {
-    const totalPoints = (user.points || 0) + (user.point2 || 0);
+    const totalPoints = (user.points || 0);
     userPointsMobile.textContent = `积分: ${totalPoints}`;
   }
   if (userEmailMobile) {
@@ -1340,11 +1338,8 @@ if (settingsUsername) {
   if (settingsPoints) {
     settingsPoints.textContent = user.points || 0;
   }
-  if (settingsPoint2) {
-    settingsPoint2.textContent = user.point2 || 0;
-  }
   if (settingsTotalPoints) {
-    const totalPoints = (user.points || 0) + (user.point2 || 0);
+    const totalPoints = (user.points || 0);
     settingsTotalPoints.textContent = totalPoints;
   }
   
@@ -1624,7 +1619,7 @@ function handleLogin() {
     if (data.token && data.user) {
       console.log('登录成功:', data);
       localStorage.setItem('token', data.token);
-      currentUser = data.user;
+      currentUser = {...currentUser,...data.user};
       localStorage.setItem('userInfo', JSON.stringify(data.user));
 
       showSuccessAnimation(
@@ -1754,7 +1749,7 @@ function showTwoFactorPrompt(tempToken) {
       if (!resp.ok) throw new Error(data.error || '验证失败');
       localStorage.setItem('token', data.token);
       if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
-      currentUser = data.user;
+      currentUser = {...currentUser,...data.user};
       localStorage.setItem('userInfo', JSON.stringify(data.user));
       updateUserInfo(data.user);
       showUserInfo();
@@ -1946,7 +1941,7 @@ window.proceedWithRegistration = function(encodedUsername, encodedNickname, enco
   .then(data => {
     if (data.success) {
       localStorage.setItem('token', data.token);
-      currentUser = data.user;
+      currentUser = {...currentUser,...data.user};
       localStorage.setItem('userInfo', JSON.stringify(data.user));
 
       showSuccessAnimation(
@@ -2142,7 +2137,6 @@ function showLoginRequired(pageId) {
     'dllpatcher': '补丁工具',
     'fortune': '每日签到',
     'user-settings': '用户设置',
-    'order-entry': '订单录入',
     'exchange': '积分兑换',
     'announcement-admin': '公告管理',
     'download': '下载中心',
@@ -2257,7 +2251,6 @@ function showPermissionDenied(pageId) {
     'announcement-admin': '公告管理',
     'site-admin': '网站管理',
     'download-admin': '下载管理',
-    'order-entry': '订单录入',
     'user-manager': '用户管理'
   };
   
@@ -2406,15 +2399,13 @@ setTimeout(() => {
 	  updateActiveMenuItem(pageId);
 	  return;
 	}
-	if (pageId === 'point-shop' || pageId === 'points-shop-admin' || pageId === 'point2-shop-admin') {
+	if (pageId === 'point-shop' || pageId === 'points-shop-admin') {
 	  contentContainer.innerHTML = '<div class="section"><div class="loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div></div>';
 	  
 	  if (pageId === 'point-shop' && typeof initPointShop === 'function') {
 		initPointShop();
 	  } else if (pageId === 'points-shop-admin' && typeof initShopAdmin === 'function') {
 		initShopAdmin('points');
-	  } else if (pageId === 'point2-shop-admin' && typeof initShopAdmin === 'function') {
-		initShopAdmin('point2');
 	  }
 	  
 	  document.body.classList.remove('spa-loading');
@@ -3267,17 +3258,9 @@ function initCursorSettingsManually() {
 		updateActiveMenuItem(pageId);
 		return;
 	  }
-
-      if (pageId === 'order-entry') {
-        initOrderEntryPage();
-      }
       
 	if (pageId === 'exchange') {
-	  document.getElementById('redeem-order-btn').addEventListener('click', handleRedeemOrder);
 	  document.getElementById('redeem-code-btn').addEventListener('click', handleRedeemCode);
-	  document.getElementById('view-order-history-btn')?.addEventListener('click', () => {
-		showRedemptionHistory('order');
-	  });
 	  document.getElementById('view-code-history-btn')?.addEventListener('click', () => {
 		showRedemptionHistory('code');
 	  });
@@ -3307,7 +3290,7 @@ function initCursorSettingsManually() {
 		  resultDiv.innerHTML = `<div class="success">兑换成功：${data.message}</div>`;
 
 		  if (data.user) {
-			currentUser = data.user;
+			currentUser = {...currentUser,...data.user};
 			updateUserInfo(currentUser);
 		  }
 		  
@@ -3530,615 +3513,30 @@ function updateActiveMenuItem(activePage) {
   } catch (e) { console.warn('[updateActiveMenuItem] error:', e); }
 }
 
-function initOrderEntryPage() {
-  loadOrders();
 
-  const searchBtn = document.getElementById('order-search-btn');
-  const searchInput = document.getElementById('order-search-input');
-  
-  if (searchBtn) {
-    searchBtn.addEventListener('click', function() {
-      currentPage = 1;
-      loadOrders();
-    });
-  }
-  
-  if (searchInput) {
-    searchInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        currentPage = 1;
-        loadOrders();
-      }
-    });
 
-    searchInput.addEventListener('input', function(e) {
-      if (e.target.value === '') {
-        currentPage = 1;
-        loadOrders();
-      }
-    });
-  }
 
-  const addBtn = document.getElementById('add-order-btn');
-  if (addBtn) {
-    addBtn.addEventListener('click', function() {
-      showOrderModal();
-    });
-  }
 
-  const orderForm = document.getElementById('order-form');
-  if (orderForm) {
-    orderForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      saveOrder();
-    });
-  }
 
-  const closeBtn = document.querySelector('#order-modal .close');
-  if (closeBtn) {
-    closeBtn.addEventListener('click', function() {
-      closeOrderModal();
-    });
-  }
 
-  const modal = document.getElementById('order-modal');
-  if (modal) {
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        closeOrderModal();
-      }
-    });
-  }
 
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      const modal = document.getElementById('order-modal');
-      if (modal && modal.classList.contains('show')) {
-        closeOrderModal();
-      }
-    }
-  });
-}
 
-async function loadOrders() {
-  try {
-    const search = document.getElementById('order-search-input').value;
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      showLoginRequired('order-entry');
-      return;
-    }
-    
-    const response = await fetch(`https://api.am-all.com.cn/api/orders?page=${currentPage}&limit=${ordersPerPage}&search=${encodeURIComponent(search)}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    
-    if (!response.ok) {
-      throw new Error('获取订单失败');
-    }
-    
-    const data = await response.json();
-    
-    currentOrders = data.orders.map(function(order){
-      return Object.assign({}, order, {
-        price: (typeof order.price === 'string') ? parseFloat(order.price) : order.price
-      });
-    });
-    
-    renderOrders(currentOrders);
-    renderPagination(data.pagination);
-    
-  } catch (error) {
-    console.error('加载订单错误:', error);
-    showErrorMessage('加载订单失败: ' + error.message);
-  }
-}
 
-function renderOrders(orders) {
-  const tbody = document.getElementById('orders-body');
-  if (!tbody) return;
-  
-  tbody.innerHTML = '';
-  
-  if (orders.length === 0) {
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="8">
-          <div class="empty-state">
-            <i class="fas fa-inbox"></i>
-            <p>暂无订单数据</p>
-          </div>
-        </td>
-      </tr>`;
-    return;
-  }
-  
-  const sortedOrders = [...orders].sort((a, b) => a.id - b.id);
-  
-  sortedOrders.forEach((order, index) => {
-    const tr = document.createElement('tr');
-    const price = typeof order.price === 'number' ? order.price : parseFloat(order.price || 0);
-    const formattedPrice = isNaN(price) ? '0.00' : price.toFixed(2);
-    const redemptionRate = order.redemption_rate || 100;
-    const calculatedPoints = Math.floor(price * redemptionRate / 100);
-    const isRedeemed = order.redeemed === true || order.redeemed === 1 || order.redeemed === '1';
-    
-    tr.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${order.taobao_id || '-'}</td>
-      <td title="${order.product_name || '-'}">${order.product_name || '-'}</td>
-      <td>${order.order_number || '-'}</td>
-      <td>¥${formattedPrice}</td>
-      <td>
-        <span class="rate-badge">${redemptionRate}%</span>
-        <span class="points-badge">${calculatedPoints}积分</span>
-      </td>
-      <td>
-        ${isRedeemed ? 
-          '<span class="status-badge redeemed"><i class="fas fa-check-circle"></i>已兑换</span>' : 
-          '<span class="status-badge pending"><i class="fas fa-clock"></i>未兑换</span>'}
-      </td>
-      <td>
-        <button class="btn btn-sm btn-outline-primary me-2" onclick="editOrder(${order.id})" title="编辑订单">
-          <i class="fas fa-edit"></i>
-        </button>
-        <button class="btn btn-sm btn-outline-danger" onclick="deleteOrder(${order.id})" title="删除订单">
-          <i class="fas fa-trash-alt"></i>
-        </button>
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
 
-function editOrder(orderId) {
-  const order = currentOrders.find(o => o.id === orderId);
-  if (order) {
-    showOrderModal(order);
-  } else {
-    showErrorMessage('订单不存在');
-  }
-}
 
-function deleteOrder(orderId) {
-  const order = currentOrders.find(o => o.id === orderId);
-  if (!order) {
-    showErrorMessage('订单不存在');
-    return;
-  }
-  
-  if (confirm(`确定要删除订单 "${order.order_number}" 吗？\n此操作不可撤销！`)) {
-    deleteOrderById(orderId);
-  }
-}
 
-async function deleteOrderById(id) {
-  try {
-    const token = localStorage.getItem('token');
-    
-    const response = await fetch(`https://api.am-all.com.cn/api/orders/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    
-    if (!response.ok) {
-      throw new Error('删除订单失败');
-    }
 
-    await loadOrders();
 
-    if (typeof showSuccessAnimation === 'function') {
-      showSuccessAnimation(
-        '删除成功',
-        '订单已删除',
-        2000
-      );
-    } else {
-      showSuccessMessage('订单删除成功');
-    }
-  } catch (error) {
-    console.error('删除订单错误:', error);
-    showErrorMessage('删除订单失败: ' + error.message);
-  }
-}
 
-window.editOrder = editOrder;
-window.deleteOrder = deleteOrder;
 
-function renderPagination(pagination) {
-  const container = document.getElementById('pagination-controls');
-  if (!container) return;
-  
-  container.innerHTML = '';
-  
-  if (pagination.totalPages <= 1) return;
-  
-  const ul = document.createElement('ul');
-  ul.className = 'pagination';
-  
-  const prevLi = document.createElement('li');
-  prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
-  prevLi.innerHTML = `<a class="page-link" href="#">&laquo;</a>`;
-  prevLi.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (currentPage > 1) {
-      currentPage--;
-      loadOrders();
-    }
-  });
-  ul.appendChild(prevLi);
-  
-  const startPage = Math.max(1, currentPage - 2);
-  const endPage = Math.min(pagination.totalPages, currentPage + 2);
-  
-  if (startPage > 1) {
-    const li = document.createElement('li');
-    li.className = 'page-item';
-    li.innerHTML = `<a class="page-link" href="#">1</a>`;
-    li.addEventListener('click', (e) => {
-      e.preventDefault();
-      currentPage = 1;
-      loadOrders();
-    });
-    ul.appendChild(li);
-    
-    if (startPage > 2) {
-      const dotLi = document.createElement('li');
-      dotLi.className = 'page-item disabled';
-      dotLi.innerHTML = `<span class="page-link">...</span>`;
-      ul.appendChild(dotLi);
-    }
-  }
-  
-  for (let i = startPage; i <= endPage; i++) {
-    const li = document.createElement('li');
-    li.className = `page-item ${i === currentPage ? 'active' : ''}`;
-    li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-    li.addEventListener('click', (e) => {
-      e.preventDefault();
-      currentPage = i;
-      loadOrders();
-    });
-    
-    ul.appendChild(li);
-  }
-  
-  if (endPage < pagination.totalPages) {
-    if (endPage < pagination.totalPages - 1) {
-      const dotLi = document.createElement('li');
-      dotLi.className = 'page-item disabled';
-      dotLi.innerHTML = `<span class="page-link">...</span>`;
-      ul.appendChild(dotLi);
-    }
-    
-    const li = document.createElement('li');
-    li.className = 'page-item';
-    li.innerHTML = `<a class="page-link" href="#">${pagination.totalPages}</a>`;
-    li.addEventListener('click', (e) => {
-      e.preventDefault();
-      currentPage = pagination.totalPages;
-      loadOrders();
-    });
-    ul.appendChild(li);
-  }
-  
-  const nextLi = document.createElement('li');
-  nextLi.className = `page-item ${currentPage === pagination.totalPages ? 'disabled' : ''}`;
-  nextLi.innerHTML = `<a class="page-link" href="#">&raquo;</a>`;
-  nextLi.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (currentPage < pagination.totalPages) {
-      currentPage++;
-      loadOrders();
-    }
-  });
-  ul.appendChild(nextLi);
-  
-  const jumpDiv = document.createElement('div');
-  jumpDiv.className = 'pagination-jump';
-  jumpDiv.innerHTML = `
-    <span>跳转到</span>
-    <input type="number" min="1" max="${pagination.totalPages}" value="${currentPage}" id="page-jump-input">
-    <span>页</span>
-    <button class="btn btn-sm btn-outline-primary" id="page-jump-btn">跳转</button>
-  `;
-  
-  const jumpBtn = document.getElementById('page-jump-btn');
-  if (jumpBtn) {
-    jumpBtn.addEventListener('click', () => {
-      const pageInput = document.getElementById('page-jump-input');
-      if (pageInput) {
-        const page = parseInt(pageInput.value);
-        if (page >= 1 && page <= pagination.totalPages) {
-          currentPage = page;
-          loadOrders();
-        }
-      }
-    });
-    
-    const pageInput = document.getElementById('page-jump-input');
-    if (pageInput) {
-      pageInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          const page = parseInt(pageInput.value);
-          if (page >= 1 && page <= pagination.totalPages) {
-            currentPage = page;
-            loadOrders();
-          }
-        }
-      });
-    }
-  }
-  
-  container.appendChild(ul);
-}
 
-function showOrderModal(order = null) {
-  const modal = document.getElementById('order-modal');
-  const form = document.getElementById('order-form');
-  const title = document.getElementById('modal-title');
-  
-  if (!modal || !form || !title) return;
 
-  let redemptionRateGroup = document.getElementById('redemption-rate-group');
-  if (!redemptionRateGroup) {
-    const priceGroup = document.querySelector('#order-form .form-group:has(#price)');
-    if (priceGroup) {
-      const rateGroupHtml = `
-        <div class="form-group" id="redemption-rate-group">
-          <label for="redemption-rate">
-            还原率 (%)
-            <span class="text-muted" style="font-size: 12px; font-weight: normal;">
-              - 1%-100%，积分 = 价格 × 还原率，取整数
-            </span>
-          </label>
-          <input 
-            type="number" 
-            id="redemption-rate" 
-            class="form-control" 
-            min="1" 
-            max="100" 
-            step="1" 
-            value="100"
-            placeholder="输入还原率 (1-100)"
-            required
-          >
-          <small class="form-text text-muted" id="points-preview" style="margin-top: 8px; display: block; color: #667eea; font-weight: 500;">
-            预计积分: 0
-          </small>
-        </div>
-      `;
-      priceGroup.insertAdjacentHTML('afterend', rateGroupHtml);
 
-      const priceInput = document.getElementById('price');
-      const rateInput = document.getElementById('redemption-rate');
-      const previewEl = document.getElementById('points-preview');
-      
-      function updatePointsPreview() {
-        const price = parseFloat(priceInput.value) || 0;
-        const rate = parseFloat(rateInput.value) || 100;
-        const points = Math.floor(price * rate / 100);
-        previewEl.textContent = `预计积分: ${points}`;
-      }
-      
-      priceInput.addEventListener('input', updatePointsPreview);
-      rateInput.addEventListener('input', updatePointsPreview);
-    }
-  }
-  
-  if (order) {
-    title.innerHTML = '<i class="fas fa-edit me-2"></i>编辑订单';
-    document.getElementById('order-id').value = order.id;
-    document.getElementById('taobao-id').value = order.taobao_id || '';
-    document.getElementById('product-name').value = order.product_name || '';
-    document.getElementById('order-number').value = order.order_number || '';
-    document.getElementById('price').value = order.price || '';
 
-    const rateInput = document.getElementById('redemption-rate');
-    if (rateInput) {
-      rateInput.value = order.redemption_rate || 100;
-    }
-    
-    const redeemedSelect = document.getElementById('redeemed');
-    const isRedeemed = order.redeemed === true || order.redeemed === 1 || order.redeemed === '1';
-    redeemedSelect.value = isRedeemed ? 'true' : 'false';
 
-    const previewEl = document.getElementById('points-preview');
-    if (previewEl) {
-      const price = parseFloat(order.price) || 0;
-      const rate = parseFloat(order.redemption_rate || 100);
-      const points = Math.floor(price * rate / 100);
-      previewEl.textContent = `预计积分: ${points}`;
-    }
-  } else {
-    title.innerHTML = '<i class="fas fa-plus-circle me-2"></i>添加订单';
-    form.reset();
-    document.getElementById('order-id').value = '';
-    document.getElementById('redeemed').value = 'false';
 
-    const rateInput = document.getElementById('redemption-rate');
-    if (rateInput) {
-      rateInput.value = 100;
-    }
 
-    const previewEl = document.getElementById('points-preview');
-    if (previewEl) {
-      previewEl.textContent = '预计积分: 0';
-    }
-  }
-  
-  modal.classList.add('show');
-}
 
-function closeOrderModal() {
-  const modal = document.getElementById('order-modal');
-  if (modal) {
-    modal.classList.remove('show');
-    const form = document.getElementById('order-form');
-    if (form) {
-      form.reset();
-      document.getElementById('order-id').value = '';
-    }
-  }
-}
-
-async function saveOrder() {
-  try {
-    const form = document.getElementById('order-form');
-    if (!form) return;
-    
-    const orderId = document.getElementById('order-id').value;
-    const taobaoId = document.getElementById('taobao-id').value.trim();
-    const productName = document.getElementById('product-name').value.trim();
-    const orderNumber = document.getElementById('order-number').value.trim();
-    const price = parseFloat(document.getElementById('price').value);
-    const redemptionRateInput = document.getElementById('redemption-rate');
-    let redemptionRate = redemptionRateInput ? parseFloat(redemptionRateInput.value) : 100;
-
-    if (isNaN(redemptionRate) || redemptionRate < 1 || redemptionRate > 100) {
-      showErrorMessage('还原率必须在 1% 到 100% 之间');
-      return;
-    }
-
-    redemptionRate = Math.floor(redemptionRate);
-    
-    const redeemedValue = document.getElementById('redeemed').value;
-    const redeemed = redeemedValue === 'true' || redeemedValue === '1';
-    const token = localStorage.getItem('token');
-
-    if (!taobaoId || !productName || !orderNumber || isNaN(price)) {
-      showErrorMessage('请填写所有必填字段');
-      return;
-    }
-
-    if (price < 0) {
-      showErrorMessage('价格不能为负数');
-      return;
-    }
-    
-    let url, method;
-    
-    if (orderId) {
-      url = `https://api.am-all.com.cn/api/orders/${orderId}`;
-      method = 'PUT';
-    } else {
-      url = 'https://api.am-all.com.cn/api/orders';
-      method = 'POST';
-    }
-    
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        taobao_id: taobaoId,
-        product_name: productName,
-        order_number: orderNumber,
-        price: price,
-        redemption_rate: redemptionRate,
-        redeemed: redeemed
-      })
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || '保存订单失败');
-    }
-    
-    closeOrderModal();
-    await loadOrders();
-    const actualPoints = Math.floor(price * redemptionRate / 100);
-    
-    if (typeof showSuccessAnimation === 'function') {
-      showSuccessAnimation(
-        `订单${orderId ? '更新' : '添加'}成功`,
-        `订单号: ${orderNumber}\n还原率: ${redemptionRate}%\n预计积分: ${actualPoints}`,
-        2500
-      );
-    } else {
-      showSuccessMessage(`订单${orderId ? '更新' : '添加'}成功，预计积分: ${actualPoints}`);
-    }
-  } catch (error) {
-    console.error('保存订单错误:', error);
-    showErrorMessage(`保存订单失败: ${error.message}`);
-  }
-}
-
-async function handleRedeemOrder() {
-  const orderNumber = document.getElementById('order-number-input').value;
-  const resultDiv = document.getElementById('order-exchange-result');
-  
-  if (!orderNumber) {
-    resultDiv.className = 'exchange-result show error';
-    resultDiv.textContent = '请输入订单号';
-    return;
-  }
-  
-  try {
-    const token = localStorage.getItem('token');
-    
-    const response = await fetch('https://api.am-all.com.cn/api/redeem-order', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ order_number: orderNumber })
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || '兑换失败');
-    }
-    
-    const data = await response.json();
-    
-    let pointsEarned = 0;
-    
-    if (data.pointsEarned !== undefined) {
-      pointsEarned = data.pointsEarned;
-    } else if (data.point2 !== undefined && currentUser?.point2 !== undefined) {
-      pointsEarned = data.point2 - currentUser.point2;
-    } else if (data.deltaPoints !== undefined) {
-      pointsEarned = data.deltaPoints;
-    } else if (data.points !== undefined) {
-      pointsEarned = data.points;
-    }
-
-    if (currentUser) {
-      if (data.point2 !== undefined) {
-        currentUser.point2 = data.point2;
-      } else if (pointsEarned > 0) {
-        currentUser.point2 = (currentUser.point2 || 0) + pointsEarned;
-      }
-      updateUserInfo(currentUser);
-    }
-
-    const totalPoints = (currentUser.points || 0) + (currentUser.point2 || 0);
-
-    resultDiv.className = 'exchange-result show success';
-    resultDiv.textContent = `兑换成功！获得 ${pointsEarned} 鸽屋积分，当前总积分: ${totalPoints}`;
-    
-    document.getElementById('order-number-input').value = '';
-
-    setTimeout(() => {
-      resultDiv.className = 'exchange-result';
-      resultDiv.style.display = 'none';
-    }, 5000);
-    
-  } catch (error) {
-    console.error('兑换错误:', error);
-    resultDiv.className = 'exchange-result show error';
-    resultDiv.textContent = error.message;
-  }
-}
 
 function saveSettings() {
   const languageSelect = document.getElementById('language-select');

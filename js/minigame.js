@@ -55,7 +55,7 @@ async function renderMinigamePage() {
             <div class="minigame-card" data-game-id="${game.id}">
               <div class="minigame-card-icon">
                 <img src="${game.icon}" alt="${game.name}" style="width: 64px; height: 64px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span style="display: none; font-size: 4rem;">🎮</span>
+                <span style="display: none; font-size: 4rem;"><i class="fas fa-gamepad" aria-hidden="true"></i></span>
               </div>
               <div class="minigame-card-content">
                 <h3 class="minigame-card-title">${game.name}</h3>
@@ -74,11 +74,11 @@ async function renderMinigamePage() {
             <i class="fas fa-info-circle"></i> 排行榜规则
           </div>
           <div class="rules-content">
-            <p><strong>🏆 奖励规则：</strong>每月1日0点系统将自动清空排行榜并按排名发放奖励</p>
+            <p><strong><i class="fas fa-trophy" aria-hidden="true"></i> 奖励规则：</strong>每月1日0点系统将自动清空排行榜并按排名发放奖励</p>
             <ul class="rules-list">
-              <li><span class="rank-badge-mini gold">🥇 1位</span><strong>10 CREDIT</strong></li>
-              <li><span class="rank-badge-mini silver">🥈 2位</span><strong>100 积分</strong></li>
-              <li><span class="rank-badge-mini bronze">🥉 3位</span><strong>50 积分</strong></li>
+              <li><span class="rank-badge-mini gold"><i class="fas fa-medal" aria-hidden="true"></i> 1位</span><strong>10 CREDIT</strong></li>
+              <li><span class="rank-badge-mini silver"><i class="fas fa-medal" aria-hidden="true"></i> 2位</span><strong>100 积分</strong></li>
+              <li><span class="rank-badge-mini bronze"><i class="fas fa-medal" aria-hidden="true"></i> 3位</span><strong>50 积分</strong></li>
               <li><span class="rank-badge-mini top10">4-10位</span><strong>25 积分</strong></li>
               <li><span class="rank-badge-mini top50">11-50位</span><strong>10 积分</strong></li>
               <li><span class="rank-badge-mini participant">51位~</span><strong>5 积分</strong></li>

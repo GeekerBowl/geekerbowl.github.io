@@ -327,17 +327,7 @@ window.skipShippingBinding = function() {
               </div>
             </div>
             
-            <div class="shop-card" onclick="openPointShop('point2')">
-              <div class="shop-card-icon">
-                <i class="fas fa-dove"></i>
-              </div>
-              <h3>鸽屋积分商店</h3>
-              <p>使用鸽屋积分兑换商品</p>
-              <div class="shop-card-points">
-                当前积分：<span class="points-value">${currentUser.point2 || 0}</span>
-              </div>
-            </div>
-            
+
 			<div class="shop-card" onclick="initCreditShop()">
 			  <div class="shop-card-icon">
 				<i class="fas fa-gem"></i>
@@ -356,6 +346,7 @@ window.skipShippingBinding = function() {
   
   // 打开积分商店
   window.openPointShop = async function(shopType) {
+    if(shopType!=='points'){showErrorMessage('该商店已停用');return;}
     currentShopType = shopType;
     renderShopPage(shopType);
   };
@@ -363,9 +354,9 @@ window.skipShippingBinding = function() {
   // 渲染商店页面
   async function renderShopPage(shopType) {
     const content = document.getElementById('content-container');
-    const shopName = shopType === 'points' ? '普通积分商店' : '鸽屋积分商店';
-    const pointsName = shopType === 'points' ? '普通积分' : '鸽屋积分';
-    const userPoints = shopType === 'points' ? currentUser.points : currentUser.point2;
+    const shopName = '普通积分商店';
+    const pointsName = '普通积分';
+    const userPoints = currentUser.points;
     
     content.innerHTML = `
       <div class="section">
@@ -411,7 +402,7 @@ window.skipShippingBinding = function() {
   // ========== 显示用户兑换记录函数 ==========
   window.showMyOrders = async function(shopType) {
     const content = document.getElementById('content-container');
-    const shopName = shopType === 'points' ? '普通积分商店' : '鸽屋积分商店';
+    const shopName = '普通积分商店';
     
     content.innerHTML = `
       <div class="section">
@@ -571,7 +562,7 @@ window.skipShippingBinding = function() {
           <img src="${item.item_image ? BASE_URL + item.item_image : '/images/default-item.png'}" alt="${item.item_name}">
         </div>
         <div class="item-name">${item.item_name}</div>
-        <div class="item-price">${item.price} ${currentShopType === 'points' ? '积分' : '鸽屋积分'}</div>
+        <div class="item-price">${item.price} ${'积分'}</div>
         <div class="item-stock">库存: ${item.stock === -1 ? '无限' : (item.stock > 0 ? item.stock : '等待补货')}</div>
       </div>
     `).join('');
@@ -617,7 +608,7 @@ window.showItemDetail = async function(itemId) {
           </div>
           <div class="detail-info">
             <div class="detail-desc">${item.item_description || '暂无介绍'}</div>
-            <div class="detail-price">价格：${item.price} ${currentShopType === 'points' ? '积分' : '鸽屋积分'}</div>
+            <div class="detail-price">价格：${item.price} ${'积分'}</div>
             <div class="detail-stock">库存：${item.stock === -1 ? '无限' : item.stock}</div>
           </div>
         </div>
@@ -689,7 +680,7 @@ window.redeemItem = async function(itemId) {
       const pointsElement = document.getElementById('current-points');
       if (pointsElement) {
         pointsElement.textContent = 
-          currentShopType === 'points' ? redeemRes.user.points : redeemRes.user.point2;
+          redeemRes.user.points;
       }
     } else {
       // 如果响应中没有用户信息，重新获取
@@ -702,7 +693,7 @@ window.redeemItem = async function(itemId) {
           const pointsElement = document.getElementById('current-points');
           if (pointsElement) {
             pointsElement.textContent = 
-              currentShopType === 'points' ? userRes.points : userRes.point2;
+              userRes.points;
           }
         }
       } catch (e) {
@@ -746,9 +737,10 @@ function getUserRankName(rank) {
   
   // 商品管理页面
   window.initShopAdmin = async function(shopType) {
+    if(shopType!=='points'){showErrorMessage('该商店已停用');return;}
     const content = document.getElementById('content-container');
     const isPointShop = shopType === 'points';
-    const pageTitle = isPointShop ? '积分商品管理' : '鸽屋积分商品管理';
+    const pageTitle = '积分商品管理';
     
     content.innerHTML = `
       <div class="section">
@@ -1196,7 +1188,7 @@ function getUserRankName(rank) {
   // ========== 显示管理员兑换记录 ==========
   window.showAdminOrders = async function(shopType) {
     const content = document.getElementById('content-container');
-    const shopName = shopType === 'points' ? '普通积分商店' : '鸽屋积分商店';
+    const shopName = '普通积分商店';
     
     content.innerHTML = `
       <div class="section">
@@ -1454,7 +1446,7 @@ function getUserRankName(rank) {
       
       if (res.success) {
         showSuccessMessage('批量删除成功');
-        const shopType = window.location.hash.includes('point2') ? 'point2' : 'points';
+        const shopType = 'points';
         loadAdminItems(shopType);
       }
     } catch (error) {

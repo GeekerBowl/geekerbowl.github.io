@@ -29,26 +29,6 @@
             <div class="exchange-result" id="code-exchange-result"></div>
           </div>
           
-          <div class="exchange-divider">
-            <span>或</span>
-          </div>
-          
-          <div class="exchange-card">
-            <div class="card-header-with-btn">
-              <h3><i class="fas fa-coins me-2"></i>鸽屋积分兑换</h3>
-              <button class="btn-info" onclick="showUserRedemptionHistory('points')">
-                <i class="fas fa-history"></i> 兑换记录
-              </button>
-            </div>
-            <p>请输入淘宝订单号兑换积分</p>
-            <div class="input-group">
-              <input type="text" class="form-control" id="order-number-input" placeholder="请输入淘宝订单号">
-              <button class="btn btn-primary" id="redeem-order-btn" onclick="redeemOrder()">
-                <i class="fas fa-exchange-alt me-2"></i>兑换
-              </button>
-            </div>
-            <div class="exchange-result" id="order-exchange-result"></div>
-          </div>
         </div>
       </div>
     `;
@@ -98,7 +78,8 @@ window.redeemCode = async function() {
       codeInput.value = '';
       
       if (res.user) {
-        localStorage.setItem('userInfo', JSON.stringify(res.user));
+        const previous=JSON.parse(localStorage.getItem('userInfo')||'{}');
+        localStorage.setItem('userInfo', JSON.stringify({...previous,...res.user}));
         if (typeof window.updateNavUserInfo === 'function') {
           window.updateNavUserInfo();
         }
@@ -129,76 +110,7 @@ function getUserRankName(rank) {
   return rankNames[rank] || '未知等级';
 }
 
-  window.redeemOrder = async function() {
-    const redeemBtn = document.getElementById('redeem-order-btn');
-    const orderInput = document.getElementById('order-number-input');
-    const resultDiv = document.getElementById('order-exchange-result');
-
-    if (!orderInput || !redeemBtn || !resultDiv) {
-      console.error('Required elements not found');
-      return;
-    }
-
-    if (redeemBtn.disabled) return;
-    
-    const orderNumber = orderInput.value.trim();
-
-    resultDiv.className = 'exchange-result';
-    resultDiv.style.display = 'none';
-    resultDiv.innerHTML = '';
-    
-    if (!orderNumber) {
-      showExchangeResult('order-exchange-result', '请输入淘宝订单号', 'error');
-      return;
-    }
-
-    if (!/^\d+$/.test(orderNumber)) {
-      showExchangeResult('order-exchange-result', '请输入正确的订单号格式', 'error');
-      return;
-    }
-
-    redeemBtn.disabled = true;
-    const originalBtnContent = redeemBtn.innerHTML;
-    redeemBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>兑换中...';
-    
-    try {
-      const res = await secureFetch('https://api.am-all.com.cn/api/redeem-order', {
-        method: 'POST',
-        body: JSON.stringify({ order_number: orderNumber })
-      });
-      
-      if (res.success) {
-        const message = res.message || (res.points ? 
-          `兑换成功！获得 ${res.points} 鸽屋积分` : 
-          '兑换成功！');
-        showExchangeResult('order-exchange-result', message, 'success');
-        orderInput.value = '';
-
-        if (res.points !== undefined || res.point2 !== undefined) {
-          const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
-          if (res.points !== undefined) userInfo.points = res.points;
-          if (res.point2 !== undefined) userInfo.point2 = res.point2;
-          localStorage.setItem('userInfo', JSON.stringify(userInfo));
-          
-          if (typeof window.updateNavUserInfo === 'function') {
-            window.updateNavUserInfo();
-          }
-        } else {
-          await updateUserInfo();
-        }
-      } else {
-        showExchangeResult('order-exchange-result', res.error || res.message || '兑换失败', 'error');
-      }
-    } catch (error) {
-      console.error('订单兑换错误:', error);
-      showExchangeResult('order-exchange-result', error.message || '网络错误，请稍后重试', 'error');
-    } finally {
-      redeemBtn.disabled = false;
-      redeemBtn.innerHTML = originalBtnContent;
-    }
-  };
-
-  function showExchangeResult(elementId, message, type) {
+    function showExchangeResult(elementId, message, type) {
     const resultDiv = document.getElementById(elementId);
     if (!resultDiv) return;
     
@@ -228,6 +140,7 @@ function getUserRankName(rank) {
   }
 
   window.showUserRedemptionHistory = async function(type) {
+    type = 'code';
     const modal = document.createElement('div');
     modal.className = 'modal show';
     modal.innerHTML = `
@@ -298,9 +211,9 @@ function getUserRankName(rank) {
     
     tbody.innerHTML = history.map(record => {
       const dateStr = new Date(record.created_at).toLocaleString('zh-CN');
-      const projectName = record.project_name || '-';
-      const code = record.redemption_code || record.order_number || '-';
-      const result = record.coupon_code || (record.points_used ? `+${record.points_used}` : '-');
+      const projectName = escapeHtml(record.project_name || '-');
+      const code = escapeHtml(record.redemption_code || '-');
+      const result = escapeHtml(record.coupon_code || '-');
       
       return `
         <tr>

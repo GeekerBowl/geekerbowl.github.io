@@ -194,7 +194,6 @@ renderUsers() {
         <th>特殊等级</th>
         <th>账户认证</th>
         <th>积分</th>
-        <th>鸽屋积分</th>
         <th>游戏服务器</th>
         <th>Keychip</th>
         <th>GUID</th>
@@ -254,7 +253,6 @@ getUserRowHTML(user, isEditing) {
           <option value="2" ${user.account_auth==2?'selected':''}>官方认证</option>
         </select>` : (authMap[user.account_auth] || '无')}</td>
     <td>${isEditing ? `<input type="number" class="edit-mode-input" value="${user.points || 0}" data-field="points" min="0">` : (user.points || 0)}</td>
-    <td>${isEditing ? `<input type="number" class="edit-mode-input" value="${user.point2 || 0}" data-field="point2" min="0">` : (user.point2 || 0)}</td>
     <td>${isEditing ? `<input type="text" class="edit-mode-input" value="${user.game_server || ''}" data-field="game_server">` : (user.game_server || '未绑定')}</td>
     <td>${isEditing ? `<input type="text" class="edit-mode-input" value="${user.keychip || ''}" data-field="keychip">` : (user.keychip || '未绑定')}</td>
     <td>${isEditing ? `<input type="text" class="edit-mode-input" value="${user.guid || ''}" data-field="guid">` : (user.guid || '未绑定')}</td>
@@ -395,7 +393,6 @@ async saveUserChanges(userId) {
       rankSp: row.querySelector('[data-field="rankSp"]')?.value,
       account_auth: row.querySelector('[data-field="account_auth"]')?.value,
       points: row.querySelector('[data-field="points"]')?.value,
-      point2: row.querySelector('[data-field="point2"]')?.value,
       game_server: row.querySelector('[data-field="game_server"]')?.value,
       keychip: row.querySelector('[data-field="keychip"]')?.value,
       guid: row.querySelector('[data-field="guid"]')?.value,
@@ -529,9 +526,7 @@ async saveUserChanges(userId) {
       { id: 'site-admin', name: '网站管理' },
       { id: 'download-admin', name: '下载管理' },
       { id: 'user-manager', name: '用户管理' },
-      { id: 'order-entry', name: '订单录入' },
       { id: 'points-shop-admin', name: '积分商品管理' },
-      { id: 'point2-shop-admin', name: '鸽屋积分商品管理' },
       { id: 'forum-admin', name: '论坛管理' },
       { id: 'verification-admin', name: '认证申请管理' }
     ];

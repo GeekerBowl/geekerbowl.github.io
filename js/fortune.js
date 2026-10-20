@@ -159,7 +159,7 @@ async function checkFortuneStatus() {
 
         if (fortuneHint) {
           if (data.lastFortune.points_earned && window.currentUser) {
-            const totalPoints = (window.currentUser.points || 0) + (window.currentUser.point2 || 0);
+            const totalPoints = (window.currentUser.points || 0);
             fortuneHint.textContent = `昨日获得 ${data.lastFortune.points_earned} 积分，当前积分: ${totalPoints}`;
             fortuneHint.style.color = '#7f8c8d';
           } else {
@@ -466,7 +466,7 @@ async function checkFortuneStatus() {
         if (data.pointsEarned) {
           const fortuneHint = document.getElementById('fortune-hint');
           if (fortuneHint) {
-            const totalPoints = data.points + (data.point2 || 0);
+            const totalPoints = data.points;
             fortuneHint.textContent = `恭喜获得 ${data.pointsEarned} 积分！当前积分: ${totalPoints}`;
             fortuneHint.style.color = '#27ae60';
           }
@@ -480,7 +480,6 @@ async function checkFortuneStatus() {
 
         if (window.currentUser && typeof window.updateUserInfo === 'function') {
           window.currentUser.points = data.points;
-          window.currentUser.point2 = data.point2;
           window.updateUserInfo(window.currentUser);
         }
       } else {

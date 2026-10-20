@@ -101,7 +101,6 @@ const pages = {
             <th data-i18n="userManager.userGroup">用户组</th>
             <th data-i18n="userManager.specialGroup">特殊用户组</th>
             <th data-i18n="userManager.points">积分</th>
-            <th data-i18n="userManager.point2">鸽屋积分</th>
             <th data-i18n="userManager.gameServer">游戏服务器</th>
             <th>Keychip</th>
             <th>GUID</th>
@@ -483,154 +482,7 @@ download: `
   `,
 
 // 订单录入页面
-'order-entry': `
-  <div class="order-entry-container">
-    <div class="section">
-      <h1 class="page-title">
-        <i class="fas fa-clipboard-list me-2"></i>
-        <span data-i18n="orderEntry.title">订单录入管理</span>
-      </h1>
-      <button class="back-button" data-page="home">
-        <i class="fas fa-arrow-left me-2"></i>
-        <span data-i18n="orderEntry.back">返回首页</span>
-      </button>
-      
-      <!-- 搜索框 -->
-      <div class="order-search-box">
-        <div class="input-group">
-          <input type="text" 
-                 id="order-search-input" 
-                 class="form-control" 
-                 data-i18n="orderEntry.searchPlaceholder"
-                 placeholder="输入淘宝ID、商品名称或订单号搜索...">
-          <button class="btn btn-primary" id="order-search-btn">
-            <i class="fas fa-search"></i>
-            <span data-i18n="orderEntry.search">搜索</span>
-          </button>
-        </div>
-      </div>
-      
-      <!-- 操作按钮 -->
-      <div class="order-actions">
-        <button class="btn btn-success" id="add-order-btn">
-          <i class="fas fa-plus-circle"></i>
-          <span data-i18n="orderEntry.add">添加订单</span>
-        </button>
-      </div>
-      
-      <!-- 表格容器 -->
-      <div class="table-container">
-        <div class="table-responsive">
-          <table class="table" id="orders-table">
-            <thead>
-              <tr>
-                <th style="width: 60px;" data-i18n="orderEntry.serialNumber">序号</th>
-                <th data-i18n="orderEntry.taobaoId">淘宝ID</th>
-                <th data-i18n="orderEntry.productName">商品名称</th>
-                <th data-i18n="orderEntry.orderNumber">订单号 (或其他单据号)</th>
-                <th style="width: 100px;" data-i18n="orderEntry.price">价格(元)</th>
-                <th style="width: 120px;" data-i18n="orderEntry.status">兑换状态</th>
-                <th style="width: 140px;" data-i18n="orderEntry.actions">操作</th>
-              </tr>
-            </thead>
-            <tbody id="orders-body">
-              <!-- 订单数据将通过JavaScript动态填充 -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-      
-      <!-- 分页控件 -->
-      <div class="pagination-container">
-        <div id="pagination-controls"></div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- 订单编辑模态框 -->
-  <div id="order-modal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="modal-title" data-i18n="orderEntry.modalAdd">添加订单</h2>
-        <span class="close">&times;</span>
-      </div>
-      <div class="modal-body">
-        <form id="order-form">
-          <input type="hidden" id="order-id">
-          
-          <div class="form-group">
-            <label for="taobao-id">
-              <i class="fas fa-user me-1"></i>
-              <span data-i18n="orderEntry.taobaoId">淘宝ID</span>
-            </label>
-            <input type="text" 
-                   id="taobao-id" 
-                   class="form-control" 
-                   data-i18n="orderEntry.taobaoIdPlaceholder"
-                   placeholder="请输入淘宝用户ID" 
-                   required>
-          </div>
-          
-          <div class="form-group">
-            <label for="product-name">
-              <i class="fas fa-box me-1"></i>
-              <span data-i18n="orderEntry.productName">商品名称</span>
-            </label>
-            <input type="text" 
-                   id="product-name" 
-                   class="form-control" 
-                   data-i18n="orderEntry.productNamePlaceholder"
-                   placeholder="请输入商品名称" 
-                   required>
-          </div>
-          
-          <div class="form-group">
-            <label for="order-number">
-              <i class="fas fa-hashtag me-1"></i>
-              <span data-i18n="orderEntry.orderNumber">订单号</span>
-            </label>
-            <input type="text" 
-                   id="order-number" 
-                   class="form-control" 
-                   data-i18n="orderEntry.orderNumberPlaceholder"
-                   placeholder="请输入订单或其他单据号" 
-                   required>
-          </div>
-          
-          <div class="form-group">
-            <label for="price">
-              <i class="fas fa-yen-sign me-1"></i>
-              <span data-i18n="orderEntry.price">价格(元)</span>
-            </label>
-            <input type="number" 
-                   id="price" 
-                   class="form-control" 
-                   step="0.01" 
-                   min="0" 
-                   placeholder="0.00" 
-                   required>
-          </div>
-          
-          <div class="form-group">
-            <label for="redeemed">
-              <i class="fas fa-exchange-alt me-1"></i>
-              <span data-i18n="orderEntry.status">兑换状态</span>
-            </label>
-            <select id="redeemed" class="form-control">
-              <option value="false" data-i18n="orderEntry.unredeemed">未兑换</option>
-              <option value="true" data-i18n="orderEntry.redeemed">已兑换</option>
-            </select>
-          </div>
-          
-          <button type="submit" class="btn btn-primary">
-            <i class="fas fa-save me-2"></i>
-            <span data-i18n="orderEntry.saveOrder">保存订单</span>
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-`,
+
 
 // 兑换页面
 	'exchange': `
@@ -659,26 +511,6 @@ download: `
 			<div class="exchange-result" id="code-exchange-result"></div>
 		  </div>
 		  
-		  <div class="exchange-divider">
-			<span data-i18n="exchange.or">或</span>
-		  </div>
-		  
-		  <div class="exchange-card">
-			<div class="card-header-with-btn">
-			  <h3><i class="fas fa-coins me-2"></i><span data-i18n="exchange.points">鸽屋积分兑换</span></h3>
-			  <button class="btn-info" onclick="showUserRedemptionHistory('points')">
-				<i class="fas fa-history"></i> <span data-i18n="exchange.redemptionHistory">兑换记录</span>
-			  </button>
-			</div>
-			<p data-i18n="exchange.pointsDescription">请输入淘宝订单号兑换积分</p>
-			<div class="input-group">
-			  <input type="text" class="form-control" id="order-number-input" data-i18n="exchange.orderPlaceholder" placeholder="请输入淘宝订单号">
-			  <button class="btn btn-primary" id="redeem-order-btn" onclick="redeemOrder()">
-				<i class="fas fa-exchange-alt me-2"></i><span data-i18n="exchange.redeem">兑换</span>
-			  </button>
-			</div>
-			<div class="exchange-result" id="order-exchange-result"></div>
-		  </div>
 		</div>
 	  </div>
 	`,
@@ -935,15 +767,6 @@ download: `
                   <div class="points-info">
                     <div class="points-label" data-i18n="userSettings.normalPoints">普通积分</div>
                     <div class="points-value" id="settings-points">0</div>
-                  </div>
-                </div>
-                <div class="points-item">
-                  <div class="points-icon">
-                    <i class="fas fa-dove"></i>
-                  </div>
-                  <div class="points-info">
-                    <div class="points-label" data-i18n="userSettings.point2">鸽屋积分</div>
-                    <div class="points-value" id="settings-point2">0</div>
                   </div>
                 </div>
                 <div class="points-item">
