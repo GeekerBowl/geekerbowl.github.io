@@ -1076,51 +1076,8 @@ download: `
               <h3><i class="fas fa-user-shield"></i> <span data-i18n="userSettings.privacySettings">隐私设置</span></h3>
             </div>
             <div class="card-body">
-              <div class="privacy-option">
-                <div class="privacy-option-title">
-                  <i class="fas fa-search"></i>
-                  <span data-i18n="userSettings.searchBy">允许通过以下方式被搜索</span>
-                </div>
-                <div class="privacy-checkboxes">
-                  <div class="privacy-checkbox">
-                    <input type="checkbox" id="search-by-uid" value="uid" checked>
-                    <label for="search-by-uid">UID</label>
-                  </div>
-                  <div class="privacy-checkbox">
-                    <input type="checkbox" id="search-by-username" value="username" checked>
-                    <label for="search-by-username" data-i18n="userSettings.username">用户名</label>
-                  </div>
-                  <div class="privacy-checkbox">
-                    <input type="checkbox" id="search-by-nickname" value="nickname" checked>
-                    <label for="search-by-nickname" data-i18n="auth.nickname">昵称</label>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="privacy-option">
-                <div class="privacy-option-title">
-                  <i class="fas fa-envelope"></i>
-                  <span data-i18n="userSettings.messageReceive">消息接收设置</span>
-                </div>
-                <div class="privacy-radio-group">
-                  <div class="privacy-radio">
-                    <input type="radio" id="msg-all" name="message-privacy" value="all" checked>
-                    <label for="msg-all" data-i18n="userSettings.receiveAll">接收所有人的消息</label>
-                  </div>
-                  <div class="privacy-radio">
-                    <input type="radio" id="msg-friends" name="message-privacy" value="friends">
-                    <label for="msg-friends" data-i18n="userSettings.receiveFriendsOnly">仅接收好友的消息</label>
-                  </div>
-                  <div class="privacy-radio">
-                    <input type="radio" id="msg-none" name="message-privacy" value="none">
-                    <label for="msg-none" data-i18n="userSettings.receiveNone">不接收任何消息</label>
-                  </div>
-                </div>
-              </div>
-              
-              <button id="save-privacy-btn" class="btn-primary btn-block">
-                <i class="fas fa-save"></i> <span data-i18n="userSettings.savePrivacy">保存隐私设置</span>
-              </button>
+              <p>聊天与好友功能已迁至新站，消息接收及搜索隐私设置请在新站聊天窗口中管理。</p>
+              <a class="btn-primary" href="https://crew.am-all.com.cn/">前往新站</a>
             </div>
           </div>
         </div>
