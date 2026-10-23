@@ -2294,7 +2294,7 @@ async function loadPage(pageId) {
     }
     
     try {
-      const response = await fetch(`https://api.am-all.com.cn/api/check-permission?page=${pageId==='cardmaker'?'allnet':pageId}`, {
+      const response = await fetch(`https://api.am-all.com.cn/api/check-permission?page=${pageId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

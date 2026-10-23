@@ -542,6 +542,7 @@
         // banState 1/2 → 入口已隐藏，双保险
         if (u.banState === 1 || u.banState === 2) { renderDenied(container); return; }
         const activated = u.activated || {};
+        if(![activated.ongeki,activated.chunithm,activated.maimai].some(x=>x===true)){CURRENT=null;renderDenied(container);return;}
 
         // 0 卡也进 panel：3 个空槽直接提供绑定表单
         renderPanel(container, d);
